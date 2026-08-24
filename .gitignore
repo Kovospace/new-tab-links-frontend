@@ -28,3 +28,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
+# Claude local, machine-specific settings
+.claude/settings.local.json
