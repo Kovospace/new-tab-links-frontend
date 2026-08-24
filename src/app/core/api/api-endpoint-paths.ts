@@ -1,6 +1,6 @@
 /**
  * Every backend path this website calls, relative to
- * {@link APPLICATION_CONFIGURATION.backendBaseUrl}.
+ * the runtime configuration's {@code backendBaseUrl}.
  *
  * <p>Collected here so that a backend rename is a one-file change, and so that a reader can see
  * the whole surface this website depends on without opening the backend. Paths not listed here

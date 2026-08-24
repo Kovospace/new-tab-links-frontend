@@ -1,0 +1,51 @@
+name: Build, push & deploy docker image
+
+# Thin caller. The pipeline itself lives in Kovospace/kovostack-github-workflows
+# and is shared by every project, so nothing about how images are built or
+# deployed is duplicated here.
+#
+# What the shared pipeline does:
+#   1. builds this repository's Dockerfile and pushes it to
+#      registry.matejkovac.sk/apps/new-tab-links-frontend
+#      as sha-<short sha> and latest
+#   2. commits `imageTag: sha-<short sha>` into
+#      versions/new-tab-links-frontend.yaml in Kovospace/kovostack-infra-gitops
+#
+# Deployment is GitOps: the cluster's controller rolls the new tag out from the
+# infra repository. CI never talks to the cluster.
+#
+# Credentials (REGISTRY_USER, REGISTRY_PASSWORD, GITOPS_DEPLOY_KEY) are
+# organization-level secrets and reach the pipeline through `secrets: inherit`;
+# nothing secret is configured in this repository.
+#
+# The pipeline only builds and deploys from this repository's default branch.
+#
+# This image is environment-agnostic: the backend URL and the download links are
+# read from the container's environment at start-up, not baked in at build time,
+# so one build is promoted through every environment. The variables it
+# understands are listed in the Dockerfile and in the deployment-pipeline skill.
+
+on:
+  workflow_dispatch:
+    inputs:
+      build:
+        description: 'Build and push the image'
+        type: boolean
+        default: true
+      deploy:
+        description: 'Commit the image tag to the GitOps repository'
+        type: boolean
+        default: true
+
+jobs:
+  pipeline:
+    # Pinned to an immutable tag so this project's pipeline cannot change underneath it.
+    # The tags carry no `v` prefix, and the template repo's own `main` still holds the
+    # older VPS/docker-compose pipeline - `@main` would be a different workflow entirely.
+    uses: Kovospace/kovostack-github-workflows/.github/workflows/build-deploy.yml@2.0.2
+    with:
+      image_name: new-tab-links-frontend
+      app_namespace: new-tab-links-frontend
+      build: ${{ inputs.build }}
+      deploy: ${{ inputs.deploy }}
+    secrets: inherit

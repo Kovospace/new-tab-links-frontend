@@ -26,6 +26,9 @@ and project state. Then load the skill that fits the work:
 - **`angular-code-standards`** — before writing or reviewing any TypeScript, template or SCSS.
 - **`authentication-flows`** — before touching `core/auth/`, any sign-in page, or the devices
   page. It carries the decisions about Google, the pairing code and the pinned route paths.
+- **`deployment-pipeline`** — before touching the `Dockerfile`, `docker/`,
+  `.github/workflows/` or `core/config/`. It carries how environment variables reach a static
+  bundle, and what the deployment has to set.
 - **`cross-project-contracts`** — before answering a question that crosses into the backend or
   the extension.
 
@@ -92,6 +95,9 @@ memory. The non-negotiables:
   or layout uninvited is unwanted work, not a bonus.
 - **Every user-visible string goes in `public/i18n/en.json` and `public/i18n/sk.json`**, with
   matching key sets. No literal text in a template or a class.
+- **Never bake an environment-dependent value into the bundle.** Anything that differs between a
+  developer's machine and a deployment goes through `RUNTIME_CONFIGURATION`, which is resolved
+  from `config.json` at container start. One image is promoted through every environment.
 - **MVVM, strictly.** Templates bind presentation-ready values only — no transformation, no
   formatting, no conditional-building logic in a template. That work belongs in the view-model.
 - SOLID. Short methods, small classes; split into reusable services or util classes rather than

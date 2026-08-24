@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext, HttpContextToken, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { APPLICATION_CONFIGURATION } from '../config/application-configuration';
+import { RUNTIME_CONFIGURATION } from '../config/runtime-configuration';
 
 /**
  * Marks a request that must not carry an {@code Authorization} header.
@@ -25,6 +25,7 @@ const DEVICE_NAME_HEADER = 'X-Device-Name';
 @Injectable({ providedIn: 'root' })
 export class BackendApiClient {
   private readonly httpClient = inject(HttpClient);
+  private readonly runtimeConfiguration = inject(RUNTIME_CONFIGURATION);
 
   /**
    * Sends a GET request.
@@ -89,7 +90,7 @@ export class BackendApiClient {
    * @returns the absolute URL
    */
   buildAbsoluteUrl(path: string): string {
-    return `${APPLICATION_CONFIGURATION.backendBaseUrl}${path}`;
+    return `${this.runtimeConfiguration.backendBaseUrl}${path}`;
   }
 
   /**
@@ -101,7 +102,7 @@ export class BackendApiClient {
   private buildHeaders(options: BackendRequestOptions): HttpHeaders | undefined {
     return options.identifyThisDevice
       ? new HttpHeaders({
-          [DEVICE_NAME_HEADER]: APPLICATION_CONFIGURATION.webClientDeviceName,
+          [DEVICE_NAME_HEADER]: this.runtimeConfiguration.webClientDeviceName,
         })
       : undefined;
   }

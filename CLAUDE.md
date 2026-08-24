@@ -10,11 +10,12 @@ Angular web application for **NewTabLinks** — the presentation site and portal
 It also hosts the functionality deliberately kept **out** of the extension, for design and
 maintainability reasons. It is a consumer of the backend API, never a second source of truth.
 
-**Status: the public site and the signed-in area exist and build.** Home, download, register,
-login, activation, password reset, the Google OAuth callback, the device list with the extension
-pairing code, the account page, the compliance pages and a sitemap are all implemented against
-the real backend contract, in English and Slovak. Verified 2026-08-24: `ng build` clean, 41 unit
-and integration tests passing.
+**Status: the site is built and shippable.** Home, download, register, login, activation,
+password reset, the Google OAuth callback, the device list with the extension pairing code, the
+account page, the compliance pages and a sitemap are all implemented against the real backend
+contract, in English and Slovak. It ships as a container built by the shared pipeline. Verified
+2026-08-24: `ng build` clean, 50 tests passing, and the image built and exercised in a running
+container.
 
 **The site is deliberately unstyled.** Every component ships its class selectors as empty SCSS
 rules; the visual identity is the owner's to write by hand. Do not add styling unless asked.
@@ -79,11 +80,21 @@ npm start                  # dev server on http://localhost:5173
 npm run build              # production build into dist/
 npx ng test --watch=false  # one-shot test run
 ./.claude/hooks/enforce-branch-policy.test.sh   # check the git hook still judges correctly
+
+# the shipped artefact, as the pipeline builds it
+docker build -t new-tab-links-frontend:verify .
+docker run --rm -p 8099:8080 \
+  -e NEWTABLINKS_BACKEND_BASE_URL="https://api.newtablinks.example" \
+  new-tab-links-frontend:verify
 ```
 
 ## Layout
 
 ```
+Dockerfile                     multi-stage: node builds, unprivileged nginx serves
+docker/nginx/                  server config: SPA fallback, caching, security headers
+docker/entrypoint/             writes config.json from the container's environment
+.github/workflows/             thin caller into the shared Kovospace pipeline
 public/i18n/{en,sk}.json        every user-visible string; identical key sets
 src/app/
 ├── app.ts | app.html | app.scss    the shell: header, router outlet, footer
@@ -107,6 +118,21 @@ src/app/
     legal (shared text page + sitemap) · not-found
 ```
 
+## Configuration is resolved at container start
+
+The bundle is static JavaScript, so it cannot read the container's environment — by the time it
+runs it is in someone else's browser. One image is therefore built once and promoted through
+every environment, and what differs arrives as environment variables that the entrypoint writes
+into `config.json`, which `main.ts` fetches **before** Angular bootstraps.
+
+Consume it by injecting `RUNTIME_CONFIGURATION` (`core/config/runtime-configuration.ts`). Never
+add an environment-dependent value as a compiled-in constant.
+
+Adding one means touching three files that must agree: the interface and defaults in
+`runtime-configuration.ts`, the heredoc in `docker/entrypoint/40-write-runtime-config.sh`, and
+the `ENV` block in the `Dockerfile`. Details, and what the GitOps values file must set, are in
+the **`deployment-pipeline`** skill.
+
 ## Code standards
 
 Full rules live in the **`angular-code-standards`** skill — load it before writing or reviewing
@@ -126,6 +152,16 @@ the devices page, token storage, refresh-on-401, and the three route paths the b
 all in the **`authentication-flows`** skill. Load it before touching `core/auth/`, any sign-in
 page, or the devices page.
 
+## Deployment
+
+The Dockerfile, the nginx runtime, how environment variables reach the bundle, the shared
+pipeline and what the GitOps values file must set: all in the **`deployment-pipeline`** skill.
+Load it before touching `Dockerfile`, `docker/`, `.github/workflows/`, or `core/config/`.
+
+Two things the deployment must get right: `healthPath: /healthz`, because the Helm chart renders
+probes only when it is set, and `NEWTABLINKS_BACKEND_BASE_URL` pointing at the backend's
+*public* address, because the visitor's browser is what resolves it.
+
 ## Git rules
 
 - **Branches may only be created under `feature/**` or `bugfix/**`**, and a push may only target
@@ -144,6 +180,7 @@ page, or the devices page.
 ├── agents/developer.md                    the frontend developer agent
 ├── skills/angular-code-standards/         coding rules
 ├── skills/authentication-flows/           identity, sessions, the pairing code
+├── skills/deployment-pipeline/            image, nginx, runtime config, CI/CD
 ├── skills/cross-project-contracts/        cross-repo knowledge
 ├── hooks/enforce-branch-policy.sh         PreToolUse guard on branch creation and push
 ├── hooks/enforce-branch-policy.test.sh    its own test suite

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { APPLICATION_CONFIGURATION } from '../../core/config/application-configuration';
+import { Injectable, inject } from '@angular/core';
+import { RUNTIME_CONFIGURATION } from '../../core/config/runtime-configuration';
 
 /**
  * One way to get the extension, ready to render.
@@ -30,6 +30,8 @@ export interface DownloadOption {
  */
 @Injectable()
 export class DownloadPageViewModel {
+  private readonly extensionDownload = inject(RUNTIME_CONFIGURATION).extensionDownload;
+
   /** The ways to install, in the order they are offered. */
   readonly downloadOptions: readonly DownloadOption[] = [
     buildDownloadOption(
@@ -37,7 +39,7 @@ export class DownloadPageViewModel {
       'download.webStoreText',
       'download.webStoreAction',
       'download.webStoreUnavailable',
-      APPLICATION_CONFIGURATION.extensionDownload.chromeWebStoreUrl,
+      this.extensionDownload.chromeWebStoreUrl,
       true,
     ),
     buildDownloadOption(
@@ -45,7 +47,7 @@ export class DownloadPageViewModel {
       'download.crxText',
       'download.crxAction',
       'download.crxUnavailable',
-      APPLICATION_CONFIGURATION.extensionDownload.selfHostedCrxPath,
+      this.extensionDownload.selfHostedCrxPath,
       false,
     ),
   ];

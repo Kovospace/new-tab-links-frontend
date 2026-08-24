@@ -1,0 +1,24 @@
+# Everything the image build has no use for. Keeping the context small keeps the
+# build fast and stops local state - node_modules, a previous dist, .env - from
+# leaking into a layer.
+
+.git
+.gitignore
+.idea
+.vscode
+.claude
+
+node_modules
+dist
+.angular
+coverage
+out-tsc
+
+*.log
+.env
+.env.*
+
+# Docs and editor config: they change often and would needlessly bust the cache.
+README.md
+CLAUDE.md
+*.md

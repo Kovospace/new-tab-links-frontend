@@ -120,6 +120,10 @@ where the reason belongs — see `ExtensionConnectPanelViewModel` for the shape 
   backend configuration.
 - Backend calls go through `core/api/backend-api.client.ts`, never `HttpClient` directly, so the
   base URL, the device header and the "unauthenticated" marker stay in one place.
+- **Environment-dependent values are injected, never compiled in.** Inject
+  `RUNTIME_CONFIGURATION` (`core/config/runtime-configuration.ts`); it is resolved from
+  `config.json` at container start so one image serves every environment. See the
+  `deployment-pipeline` skill before adding a value to it.
 - Backend DTOs are mirrored as interfaces in `core/api/models/`, one file per concern, each
   naming the backend record it mirrors. Field names must not drift.
 - `strict` TypeScript stays on. No `any`; use `unknown` and narrow.
