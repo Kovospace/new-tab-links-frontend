@@ -6,9 +6,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/block-push-to-main.sh\"",
+            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/enforce-branch-policy.sh\"",
             "timeout": 10,
-            "statusMessage": "Checking push target..."
+            "statusMessage": "Checking branch policy..."
           }
         ]
       }

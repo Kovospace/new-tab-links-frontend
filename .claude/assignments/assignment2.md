@@ -57,4 +57,4 @@ page for mamaging user account, at lest what backend permits and is possible
 
 ## Updates to sssignment1
 
-- restrict agent to create and push only branches ```feature/**``` or ```bugfix```
+- restrict agent to create and push only branches ```feature/**``` or ```bugfix/**```

@@ -1,0 +1,34 @@
+<section class="extension-connect-panel">
+  <h2 class="extension-connect-panel__heading">{{ 'devices.connectHeading' | translate }}</h2>
+  <p class="extension-connect-panel__lead">{{ 'devices.connectLead' | translate }}</p>
+
+  <button
+    class="extension-connect-panel__generate"
+    type="button"
+    [disabled]="viewModel.isGeneratingCode()"
+    (click)="viewModel.generateConnectCode()"
+  >
+    @if (viewModel.isGeneratingCode()) {
+      {{ 'form.submitting' | translate }}
+    } @else {
+      {{ 'devices.connectAction' | translate }}
+    }
+  </button>
+
+  @if (viewModel.hasConnectCode()) {
+    <div class="extension-connect-panel__code-block">
+      <span class="extension-connect-panel__code-label">{{
+        'devices.connectCodeLabel' | translate
+      }}</span>
+      <output class="extension-connect-panel__code">{{ viewModel.connectCode() }}</output>
+      <small class="extension-connect-panel__code-expiry">{{ viewModel.expiryNotice() }}</small>
+      <small class="extension-connect-panel__code-hint">{{
+        'devices.connectCodeHint' | translate
+      }}</small>
+    </div>
+  }
+
+  @if (viewModel.mintFailure()) {
+    <p class="extension-connect-panel__failure" role="alert">{{ viewModel.mintFailure() }}</p>
+  }
+</section>

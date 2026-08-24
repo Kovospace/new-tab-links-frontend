@@ -1,0 +1,50 @@
+<article class="account-page">
+  <h1 class="account-page__heading">{{ 'account.heading' | translate }}</h1>
+  <p class="account-page__lead">{{ 'account.leadParagraph' | translate }}</p>
+
+  @if (viewModel.loadFailure()) {
+    <p class="account-page__failure" role="alert">{{ viewModel.loadFailure() }}</p>
+  }
+
+  @if (viewModel.isLoading()) {
+    <p class="account-page__loading" role="status">{{ 'form.submitting' | translate }}</p>
+  }
+
+  @if (viewModel.presentedDetails(); as accountDetails) {
+    <dl class="account-page__details">
+      <dt class="account-page__detail-term">{{ 'account.usernameLabel' | translate }}</dt>
+      <dd class="account-page__detail-value">
+        {{ accountDetails.username }}
+        <small class="account-page__detail-note">{{
+          'account.usernameImmutable' | translate
+        }}</small>
+      </dd>
+
+      <dt class="account-page__detail-term">{{ 'account.emailLabel' | translate }}</dt>
+      <dd class="account-page__detail-value">
+        {{ accountDetails.email }}
+        <small class="account-page__detail-note">{{ 'account.emailImmutable' | translate }}</small>
+      </dd>
+
+      <dt class="account-page__detail-term">{{ 'account.statusLabel' | translate }}</dt>
+      <dd class="account-page__detail-value">{{ accountDetails.statusLabel }}</dd>
+
+      <dt class="account-page__detail-term">{{ 'account.createdAtLabel' | translate }}</dt>
+      <dd class="account-page__detail-value">{{ accountDetails.createdAtLabel }}</dd>
+    </dl>
+  }
+
+  @if (viewModel.hasAccount()) {
+    <app-profile-panel
+      class="account-page__profile-panel"
+      [currentDisplayName]="viewModel.currentDisplayName()"
+    />
+
+    <app-password-panel
+      class="account-page__password-panel"
+      [accountHasPassword]="viewModel.hasPassword()"
+    />
+
+    <app-delete-account-panel class="account-page__delete-panel" />
+  }
+</article>

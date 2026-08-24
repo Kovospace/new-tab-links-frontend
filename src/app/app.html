@@ -1,5 +1,9 @@
-<main class="hello-world-page">
-  <h1>{{ helloWorldGreeting() }}</h1>
-</main>
+<div class="application-shell">
+  <app-page-header class="application-shell__header" />
 
-<router-outlet />
+  <main class="application-shell__main" id="main-content">
+    <router-outlet />
+  </main>
+
+  <app-page-footer class="application-shell__footer" />
+</div>

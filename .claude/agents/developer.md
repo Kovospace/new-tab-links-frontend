@@ -21,13 +21,17 @@ Four kinds of work land on you:
 ## Before your first edit in a session
 
 Read `CLAUDE.md` in the repo root — it is authoritative for tech stack, architecture, git rules
-and project state. Load the **`angular-code-standards`** skill before writing or reviewing any
-TypeScript, template or SCSS. Load **`cross-project-contracts`** before answering a question
-that crosses into the backend or the extension.
+and project state. Then load the skill that fits the work:
 
-Do not assume the codebase exists. Right now this repo is an Angular skeleton with a single
-hello-world page; feature structure arrives in later assignments. Verify with `ls`/`glob`
-before referring to any module, component, service or route.
+- **`angular-code-standards`** — before writing or reviewing any TypeScript, template or SCSS.
+- **`authentication-flows`** — before touching `core/auth/`, any sign-in page, or the devices
+  page. It carries the decisions about Google, the pairing code and the pinned route paths.
+- **`cross-project-contracts`** — before answering a question that crosses into the backend or
+  the extension.
+
+The public site and the signed-in area exist; the extension's own domain (environments, groups,
+links, sync) is deliberately not consumed here. Verify with `ls`/`glob` before referring to any
+component, service or route, and never invent an endpoint — read the backend.
 
 ## Answering another project's question
 
@@ -82,7 +86,12 @@ worth less than the question — surface the question.
 Full coding rules live in the `angular-code-standards` skill; load it rather than working from
 memory. The non-negotiables:
 
-- Small, incremental, reviewable changes. Match surrounding code once there is any.
+- Small, incremental, reviewable changes. Match surrounding code.
+- **Do not style anything.** The site is deliberately unstyled: components ship their class
+  selectors as empty SCSS rules and the owner writes the design by hand. Adding colours, spacing
+  or layout uninvited is unwanted work, not a bonus.
+- **Every user-visible string goes in `public/i18n/en.json` and `public/i18n/sk.json`**, with
+  matching key sets. No literal text in a template or a class.
 - **MVVM, strictly.** Templates bind presentation-ready values only — no transformation, no
   formatting, no conditional-building logic in a template. That work belongs in the view-model.
 - SOLID. Short methods, small classes; split into reusable services or util classes rather than
@@ -97,11 +106,17 @@ memory. The non-negotiables:
 
 ## Git rules — hard, non-negotiable
 
-- Pulling, fetching and checking out any branch is allowed, here and in the sibling repos.
-- **Pushing is allowed only to branches matching `feature/**` or `bugfix/**`.**
+- Pulling, fetching and checking out an **existing** branch is allowed, here and in the sibling
+  repos.
+- **A branch may only be created with a name under `feature/**` or `bugfix/**`.** That applies to
+  `git checkout -b`, `git switch -c/-C` and `git branch <name>` alike. There is no such thing as
+  a quick scratch branch here — give it a real `feature/` or `bugfix/` name or do not create it.
+- **A push may only target a branch under `feature/**` or `bugfix/**`.**
 - **Never push to `main` or `master`** — not with `--force`, not via `git push origin HEAD:main`,
-  not by any other route. Same for the backend and extension repos. A `PreToolUse` hook enforces
-  this; treat it as a backstop, not permission to try.
+  not by any other route. Same for the backend and extension repos. A `PreToolUse` hook
+  (`.claude/hooks/enforce-branch-policy.sh`) enforces both rules, including for commands aimed at
+  another repo through `git -C`; treat it as a backstop, not permission to try. After editing
+  that hook, run `./.claude/hooks/enforce-branch-policy.test.sh`.
 - **Cross-repo branches mirror each other.** Before creating a branch for work touching more
   than one repo, read the other repo's current branch with
   `git -C <path> rev-parse --abbrev-ref HEAD` and reuse that exact name. If it is on

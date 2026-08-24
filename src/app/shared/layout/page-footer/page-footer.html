@@ -1,0 +1,32 @@
+<footer class="page-footer">
+  <nav class="page-footer__links" [attr.aria-label]="'legal.sitemapHeading' | translate">
+    <ul class="page-footer__links-list">
+      <li class="page-footer__links-item">
+        <a class="page-footer__link" [routerLink]="routeLinks.privacy">{{
+          'footer.gdpr' | translate
+        }}</a>
+      </li>
+      <li class="page-footer__links-item">
+        <a class="page-footer__link" [routerLink]="routeLinks.cookies">{{
+          'footer.cookies' | translate
+        }}</a>
+      </li>
+      <li class="page-footer__links-item">
+        <a class="page-footer__link" [routerLink]="routeLinks.sitemap">{{
+          'footer.sitemap' | translate
+        }}</a>
+      </li>
+    </ul>
+  </nav>
+
+  <p class="page-footer__authorship">
+    <span class="page-footer__copyright">{{ viewModel.copyrightNotice() }}</span>
+    <a
+      class="page-footer__author-link"
+      [href]="viewModel.authorWebsiteUrl"
+      rel="noopener noreferrer"
+      target="_blank"
+      >{{ viewModel.authorWebsiteLabel() }}</a
+    >
+  </p>
+</footer>

@@ -1,6 +1,6 @@
 ---
 name: angular-code-standards
-description: Coding standards for this Angular frontend - MVVM layering, SOLID, TSDoc, naming, component/service structure, templates, styling and testing rules. Load before writing, reviewing or refactoring any TypeScript, HTML template or SCSS in this repo.
+description: Coding standards for this Angular frontend - the MVVM view-model pattern actually used here, SOLID, TSDoc, naming, the i18n rule, the deliberately unstyled SCSS convention, Angular specifics (signals, standalone, OnPush, lazy routes) and testing rules. Load before writing, reviewing or refactoring any TypeScript, HTML template or SCSS in this repo.
 ---
 
 # Angular code standards — NewTabLinks frontend
@@ -11,78 +11,135 @@ whatever a generator emits.
 ## MVVM — the rule that matters most
 
 ```
-template (view)  →  view-model  →  service  →  HTTP / storage
+template (view)  →  view-model  →  service  →  HTTP client  →  backend
 ```
 
-- **Templates contain zero data transformation.** No `slice`, no arithmetic, no string building,
-  no date/number formatting, no `a ? b : c` that computes a *value* rather than picking a branch
-  of markup. Everything a template binds is already presentation-ready.
-- Anything the template needs in a shape different from what the service returns is mapped in
-  the **view-model**, exposed as a signal or a plain readonly field.
-- **Components are thin.** A component wires a view-model to a template and handles user events
-  by delegating. It does not fetch, does not map, does not decide business rules.
-- **Services own data access and domain logic.** They return domain models, never view models.
-- Mapping lives in a dedicated mapper/util, not inline, once it is more than a couple of lines.
+**Every page and every panel is a component plus a view-model beside it**, named
+`thing-page.ts` / `thing-page.view-model.ts`. The view-model is `@Injectable()` — no
+`providedIn` — and listed in the component's own `providers`, so it lives and dies with the
+component and each instance gets its own.
 
-Structural directives (`@if`, `@for`, `@switch`) choosing *which markup* to render are fine —
-that is view logic, not data transformation.
+The component is thin to the point of dullness: it injects the view-model as `protected readonly
+viewModel`, and does nothing else beyond an `ngOnInit` that asks the view-model to load, or a
+DOM-event narrowing too small to belong anywhere else.
+
+**Templates contain zero data transformation.** No arithmetic, no string building, no date or
+number formatting, no `a ? b : c` computing a *value*, no reaching into a form control. Whatever
+a template binds is already finished text. Structural directives (`@if`, `@for`, `@switch`)
+picking *which markup* to render are fine — that is view logic, not data transformation.
+
+Worked examples already in the repo:
+
+- `features/devices/devices-page.view-model.ts` — `presentedDevices` turns backend rows into
+  `PresentedDevice`, every timestamp formatted and every state worded.
+- `shared/layout/page-footer/page-footer.view-model.ts` — the copyright line is assembled from a
+  translated sentence, the author's name and the current year *before* it reaches the template.
+- `features/download/download-page.view-model.ts` — whether a download link can be offered at all
+  is decided in the view-model; the template only picks between two blocks of markup.
+
+Shared behaviour lives in `shared/forms/abstract-form.view-model.ts`: submission in flight,
+failure wording, success wording, the backend's per-field complaints. Extend it rather than
+re-declaring those four signals.
+
+## The one sanctioned transformation in a template
+
+`{{ 'nav.home' | translate }}`. A translation key is not data — it *is* the label — and routing
+every static word through a view-model would add a member per word and gain nothing.
+
+The line is: **static labels use the pipe; anything derived from loaded data is worded in the
+view-model.** A device's state, a formatted date, a backend error, the copyright line: all
+translated in the view-model and bound as finished strings.
+
+**`TranslatePipe` is deliberately impure, and this is not negotiable.** Its input never changes
+(`'nav.home'` is the same string forever), and Angular caches a *pure* pipe's result against its
+arguments — so a pure pipe evaluates once, never reads the translation signal again, and the page
+stays in whatever language loaded first. There is a test for this
+(`core/i18n/translate.pipe.spec.ts`, "re-renders an already rendered template"); it is not
+decoration. The pipe also holds an `effect` that calls `markForCheck()` when the language changes,
+because under zoneless change detection impurity alone never gets the view re-checked.
+
+## Strings live in JSON, never in code
+
+Every user-visible word is a key in `public/i18n/en.json` and `public/i18n/sk.json`. The two files
+must have **exactly the same key set** — check it before finishing:
+
+```bash
+python3 -c "
+import json
+def keys(d,p=''):
+    out=set()
+    for k,v in d.items(): out |= keys(v,p+k+'.') if isinstance(v,dict) else {p+k}
+    return out
+en=keys(json.load(open('public/i18n/en.json'))); sk=keys(json.load(open('public/i18n/sk.json')))
+print('en-only:',sorted(en-sk)); print('sk-only:',sorted(sk-en))"
+```
+
+Adding a third language means adding a file and one entry in
+`core/i18n/supported-language.ts` — nothing else enumerates languages.
+
+An unknown key renders as the key itself, on purpose: a missing translation should be visible on
+the page, not an empty element.
+
+## Styling — deliberately absent
+
+**The page is unstyled by the owner's decision.** Every component ships a `.scss` holding its
+class selectors as *empty rules*, so the design can be written against ready-made hooks once the
+visual identity is decided. Do not add colours, spacing, fonts or layout unless asked to.
+
+Class names are BEM-ish and scoped to the component (`.devices-page__cell`), which is what makes
+those hooks findable. Only genuinely global rules go in `src/styles.scss`.
 
 ## SOLID, size and naming
 
-- One reason to change per class. A component that grew a second responsibility gets split.
-- **Short methods.** If a method needs a comment to explain its middle, extract that middle into
-  a named method. Prefer a second service or a util class over a long class.
-- **Long, descriptive names are wanted.** A reader must guess what something does from the name
-  alone: `loadEnvironmentsForSignedInUser()` over `load()`,
-  `formattedInstallCountLabel` over `count`. Do not abbreviate to save characters.
-- Files follow Angular v20+ conventions: `feature-name.ts`, `feature-name.html`,
-  `feature-name.scss`, `feature-name.spec.ts`, class `FeatureName`.
+- One reason to change per class. The account page is three panels with three view-models rather
+  than one class doing four unrelated things — follow that when a page grows.
+- **Short methods.** If a method needs a comment to explain its middle, extract that middle.
+  Prefer a second service or a free function in `shared/` over a long class.
+- **Long, descriptive names are wanted.** `loadEnvironmentsForSignedInUser()` over `load()`,
+  `presentedDevices` over `items`. Do not abbreviate to save characters.
+- Files follow Angular v20+ conventions: `feature-name.ts`, `.html`, `.scss`, `.spec.ts`, class
+  `FeatureName`. View-models add `.view-model.ts`.
 
 ## TSDoc — everywhere
 
-Javadoc-equivalent on **every** class, method and non-trivial field, in Javadoc-ish TSDoc:
-
-```ts
-/**
- * Loads the link groups shown on the public showcase page.
- *
- * <p>Groups arrive from the backend already ordered; this view-model only maps them into the
- * presentation shape the template binds, so the template stays transformation-free.</p>
- *
- * @param environmentIdentifier id of the environment whose groups are shown
- * @returns presentation-ready groups, empty when the environment has none
- */
-```
-
-Say *why*, not just *what*. A comment restating the signature is noise.
+Javadoc-equivalent on **every** class, method and non-trivial field, in Javadoc-ish TSDoc with
+`<p>` paragraphs, `@param` and `@returns`. Say *why*, not just *what*; a comment restating the
+signature is noise. Where a decision could reasonably have gone the other way, the doc comment is
+where the reason belongs — see `ExtensionConnectPanelViewModel` for the shape of that.
 
 ## Angular specifics for this repo
 
-- **Standalone components only** — no `NgModule`. Declare deps in `imports`.
-- **Signals** for component/view-model state; `computed()` for derived state (that is where
-  derivation belongs, not the template). RxJS only where a stream is genuinely a stream (HTTP,
-  router events, websockets) — convert to signals at the view-model edge.
-- `inject()` over constructor parameter injection.
-- `ChangeDetectionStrategy.OnPush` on every component.
-- Routes are lazy (`loadComponent` / `loadChildren`) unless the route is on the initial page.
-- `strict` TypeScript stays on. No `any` — if a type is genuinely unknown, use `unknown` and
-  narrow it.
-- Never touch the DOM directly; no `document.querySelector` inside components.
-
-## Styling
-
-- SCSS. Component styles stay in the component's own `.scss`; only true globals go in
-  `src/styles.scss`.
-- Watch the `anyComponentStyle` budget in `angular.json` (4 kB warn / 8 kB error).
+- **Standalone components only**, no `NgModule`. Dependencies in `imports`.
+- **Signals** for all component and view-model state; `computed()` for anything derived — that is
+  where derivation belongs, not in the template. RxJS only where something genuinely is a stream
+  (HTTP, router events); convert at the view-model edge.
+- `inject()` over constructor parameters, everywhere.
+- `ChangeDetectionStrategy.OnPush` on every component. The application is **zoneless**.
+- **Every route is lazy** (`loadComponent`). Route paths live in
+  `core/routing/application-route-paths.ts`, never as literals — three of them are pinned by
+  backend configuration.
+- Backend calls go through `core/api/backend-api.client.ts`, never `HttpClient` directly, so the
+  base URL, the device header and the "unauthenticated" marker stay in one place.
+- Backend DTOs are mirrored as interfaces in `core/api/models/`, one file per concern, each
+  naming the backend record it mirrors. Field names must not drift.
+- `strict` TypeScript stays on. No `any`; use `unknown` and narrow.
+- Never touch the DOM directly from a component.
 
 ## Tests
 
-- `vitest` via `ng test`. Every view-model with real mapping logic gets a spec — mapping is the
-  part worth testing, and MVVM makes it testable without the DOM.
-- Component specs assert rendered output, not internals.
-- Do not report a change as done without running `ng build` and `ng test --watch=false`.
+`vitest` via `ng test`. What is worth testing here:
+
+- **Every view-model with real mapping logic** — that is the part MVVM makes testable without a
+  DOM, and the part that breaks.
+- **Anything where a framework assumption is load-bearing**, such as the impure-pipe behaviour
+  above. Those tests are why the assumption is known to hold.
+- **The interceptor's refresh-and-replay**, with `HttpTestingController`.
+- Component specs assert rendered output through class hooks, never internals.
+
+Run `npx ng build` and `npx ng test --watch=false` before reporting anything as done, and report
+what they actually said.
 
 ## Before you add a dependency
 
-Say out loud why the platform or Angular itself cannot do it, and what the bundle cost is.
-Bundle budgets are enforced by the production build.
+Say why the platform or Angular itself cannot do it, and what it costs in bundle size. Production
+builds enforce the budgets in `angular.json`.

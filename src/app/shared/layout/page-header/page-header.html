@@ -1,0 +1,31 @@
+<header class="page-header">
+  <a class="page-header__skip-link" href="#main-content">{{ 'nav.skipToContent' | translate }}</a>
+
+  <a class="page-header__title" [routerLink]="homeLink">{{ 'site.title' | translate }}</a>
+
+  <nav class="page-header__navigation" [attr.aria-label]="'site.title' | translate">
+    <ul class="page-header__navigation-list">
+      @for (navigationEntry of viewModel.navigationEntries(); track navigationEntry.routerLink) {
+        <li class="page-header__navigation-item">
+          <a
+            class="page-header__navigation-link"
+            [routerLink]="navigationEntry.routerLink"
+            routerLinkActive="page-header__navigation-link--active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >{{ navigationEntry.labelTranslationKey | translate }}</a
+          >
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <div class="page-header__session">
+    @if (viewModel.isSignedIn()) {
+      <span class="page-header__user-label">{{ viewModel.signedInUserLabel() }}</span>
+      <button class="page-header__logout" type="button" (click)="viewModel.signOut()">
+        {{ 'nav.logout' | translate }}
+      </button>
+    }
+    <app-language-switcher class="page-header__language-switcher" />
+  </div>
+</header>

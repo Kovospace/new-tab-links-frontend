@@ -1,28 +1,19 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { PageFooter } from './shared/layout/page-footer/page-footer';
+import { PageHeader } from './shared/layout/page-header/page-header';
 
 /**
- * Root component of the NewTabLinks frontend.
+ * The application shell: the frame every page is rendered inside.
  *
- * <p>At this stage it only renders the hello-world placeholder page that proves the Angular
- * build, the dev server and the routing setup are wired correctly. The real presentation
- * pages are added by later assignments and will be reached through {@link RouterOutlet}.</p>
- *
- * <p>Per the project's MVVM rule the template contains no data transformation: every value it
- * binds is already presentation-ready when it leaves this class.</p>
+ * <p>Holds the top bar, the region the router fills, and the footer — and nothing else. Pages
+ * bring their own content and their own view-models; the shell only decides where they go.</p>
  */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, PageHeader, PageFooter],
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {
-  /**
-   * Greeting shown on the placeholder page, presentation-ready as-is.
-   *
-   * <p>Held in a signal so the template stays reactive once this text is replaced by
-   * view-model supplied content.</p>
-   */
-  protected readonly helloWorldGreeting = signal('Hello World');
-}
+export class App {}

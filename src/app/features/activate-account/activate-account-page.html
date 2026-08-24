@@ -1,0 +1,75 @@
+<article class="activate-account-page">
+  <h1 class="activate-account-page__heading">{{ 'activate.heading' | translate }}</h1>
+
+  @switch (viewModel.outcome()) {
+    @case ('pending') {
+      <p class="activate-account-page__status" role="status">
+        {{ 'activate.pending' | translate }}
+      </p>
+    }
+    @case ('succeeded') {
+      <p class="activate-account-page__status" role="status">
+        {{ 'activate.success' | translate }}
+      </p>
+      <a class="activate-account-page__login-link" [routerLink]="loginLink">{{
+        'activate.loginAction' | translate
+      }}</a>
+    }
+    @case ('missing-token') {
+      <p class="activate-account-page__status" role="alert">
+        {{ 'activate.missingToken' | translate }}
+      </p>
+    }
+    @case ('failed') {
+      <p class="activate-account-page__status" role="alert">{{ viewModel.activationFailure() }}</p>
+    }
+  }
+
+  @if (viewModel.isResendOffered()) {
+    <section class="activate-account-page__resend">
+      <h2 class="activate-account-page__resend-heading">
+        {{ 'activate.resendHeading' | translate }}
+      </h2>
+
+      <form
+        class="activate-account-page__resend-form"
+        [formGroup]="viewModel.resendForm"
+        (ngSubmit)="viewModel.submitResendRequest()"
+      >
+        <label class="activate-account-page__field">
+          <span class="activate-account-page__field-label">{{
+            'activate.resendEmailLabel' | translate
+          }}</span>
+          <input
+            class="activate-account-page__field-input"
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+          />
+          @if (viewModel.fieldValidationMessages()['email']; as validationMessage) {
+            <small class="activate-account-page__field-error">{{ validationMessage }}</small>
+          }
+        </label>
+
+        <button
+          class="activate-account-page__submit"
+          type="submit"
+          [disabled]="viewModel.isSubmitting()"
+        >
+          @if (viewModel.isSubmitting()) {
+            {{ 'form.submitting' | translate }}
+          } @else {
+            {{ 'activate.resendAction' | translate }}
+          }
+        </button>
+
+        <app-form-feedback
+          class="activate-account-page__feedback"
+          [failureMessage]="viewModel.submissionFailure()"
+          [successMessage]="viewModel.submissionSuccess()"
+          [validationMessages]="viewModel.backendValidationMessages()"
+        />
+      </form>
+    </section>
+  }
+</article>

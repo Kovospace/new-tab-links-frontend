@@ -1,0 +1,99 @@
+<article class="register-page">
+  <h1 class="register-page__heading">{{ 'register.heading' | translate }}</h1>
+  <p class="register-page__lead">{{ 'register.leadParagraph' | translate }}</p>
+
+  <form
+    class="register-page__form"
+    [formGroup]="viewModel.registrationForm"
+    (ngSubmit)="viewModel.submitRegistration()"
+  >
+    <label class="register-page__field">
+      <span class="register-page__field-label">{{ 'register.usernameLabel' | translate }}</span>
+      <input
+        class="register-page__field-input"
+        type="text"
+        formControlName="username"
+        autocomplete="username"
+      />
+      <small class="register-page__field-hint">{{ 'register.usernameHint' | translate }}</small>
+      @if (viewModel.fieldValidationMessages()['username']; as validationMessage) {
+        <small class="register-page__field-error">{{ validationMessage }}</small>
+      }
+    </label>
+
+    <label class="register-page__field">
+      <span class="register-page__field-label">{{ 'register.emailLabel' | translate }}</span>
+      <input
+        class="register-page__field-input"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+      />
+      <small class="register-page__field-hint">{{ 'register.emailHint' | translate }}</small>
+      @if (viewModel.fieldValidationMessages()['email']; as validationMessage) {
+        <small class="register-page__field-error">{{ validationMessage }}</small>
+      }
+    </label>
+
+    <label class="register-page__field">
+      <span class="register-page__field-label">{{ 'register.displayNameLabel' | translate }}</span>
+      <input
+        class="register-page__field-input"
+        type="text"
+        formControlName="displayName"
+        autocomplete="name"
+      />
+      <small class="register-page__field-hint">{{ 'register.displayNameHint' | translate }}</small>
+      @if (viewModel.fieldValidationMessages()['displayName']; as validationMessage) {
+        <small class="register-page__field-error">{{ validationMessage }}</small>
+      }
+    </label>
+
+    <label class="register-page__field">
+      <span class="register-page__field-label">{{ 'register.passwordLabel' | translate }}</span>
+      <input
+        class="register-page__field-input"
+        type="password"
+        formControlName="password"
+        autocomplete="new-password"
+      />
+      <small class="register-page__field-hint">{{ 'register.passwordHint' | translate }}</small>
+      @if (viewModel.fieldValidationMessages()['password']; as validationMessage) {
+        <small class="register-page__field-error">{{ validationMessage }}</small>
+      }
+    </label>
+
+    <button class="register-page__submit" type="submit" [disabled]="viewModel.isSubmitting()">
+      @if (viewModel.isSubmitting()) {
+        {{ 'form.submitting' | translate }}
+      } @else {
+        {{ 'register.submitAction' | translate }}
+      }
+    </button>
+
+    <app-form-feedback
+      class="register-page__feedback"
+      [failureMessage]="viewModel.submissionFailure()"
+      [successMessage]="viewModel.submissionSuccess()"
+      [validationMessages]="viewModel.backendValidationMessages()"
+    />
+  </form>
+
+  <section class="register-page__google">
+    <p class="register-page__google-text">{{ 'register.googleAlternative' | translate }}</p>
+    <button
+      class="register-page__google-button"
+      type="button"
+      (click)="viewModel.registerWithGoogle()"
+    >
+      {{ 'register.googleAction' | translate }}
+    </button>
+  </section>
+
+  <p class="register-page__login-hint">
+    {{ 'register.alreadyHaveAccount' | translate }}
+    <a class="register-page__login-link" [routerLink]="loginLink">{{
+      'register.loginLink' | translate
+    }}</a>
+  </p>
+</article>

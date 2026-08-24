@@ -1,7 +1,12 @@
-.hello-world-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+// Styling is deliberately left to be written by hand; these are the hooks to write it against.
+.application-shell {
+}
+
+.application-shell__header {
+}
+
+.application-shell__main {
+}
+
+.application-shell__footer {
 }

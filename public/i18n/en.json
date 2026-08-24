@@ -1,0 +1,200 @@
+{
+  "language": {
+    "en": "English",
+    "sk": "Slovak",
+    "switchLabel": "Language"
+  },
+  "site": {
+    "title": "NewTabLinks",
+    "tagline": "Your links, on every new tab, on every machine."
+  },
+  "nav": {
+    "home": "Home",
+    "download": "Download",
+    "register": "Register",
+    "login": "Login",
+    "devices": "My Devices",
+    "account": "Account",
+    "logout": "Log out",
+    "skipToContent": "Skip to content"
+  },
+  "footer": {
+    "gdpr": "GDPR compliance",
+    "cookies": "Cookies compliance",
+    "sitemap": "Sitemap",
+    "authorName": "Matej Kovacs",
+    "authorSiteLabel": "kovo.space",
+    "copyrightNotice": "© {year} {author}"
+  },
+  "home": {
+    "heading": "A new tab that finally does something useful",
+    "leadParagraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. NewTabGroupedLinks replaces the empty new tab page with the links you actually open, arranged in groups you decide.",
+    "featuresHeading": "What it does",
+    "features": {
+      "groupsTitle": "Grouped links",
+      "groupsText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+      "workspacesTitle": "Separate workspaces",
+      "workspacesText": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+      "syncTitle": "Synchronised everywhere",
+      "syncText": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    "callToAction": "Get the extension"
+  },
+  "download": {
+    "heading": "Download",
+    "leadParagraph": "Install the extension from the Chrome Web Store, or download the packaged extension and load it yourself.",
+    "webStoreHeading": "Chrome Web Store",
+    "webStoreText": "The recommended way to install. Updates arrive automatically.",
+    "webStoreAction": "Open in Chrome Web Store",
+    "webStoreUnavailable": "The store listing is not published yet.",
+    "crxHeading": "Packaged extension (.crx)",
+    "crxText": "Hosted here. Load it through chrome://extensions with Developer Mode enabled.",
+    "crxAction": "Download the .crx file",
+    "crxUnavailable": "The packaged download is not available yet."
+  },
+  "register": {
+    "heading": "Create an account",
+    "leadParagraph": "An account keeps your links in sync across every browser you sign in from.",
+    "usernameLabel": "Username",
+    "usernameHint": "3 to 60 characters: letters, digits, dot, underscore and hyphen.",
+    "emailLabel": "Email address",
+    "emailHint": "The activation link is sent here.",
+    "displayNameLabel": "Display name",
+    "displayNameHint": "How you are addressed in the interface.",
+    "passwordLabel": "Password",
+    "passwordHint": "At least 10 characters. A long passphrase is best.",
+    "submitAction": "Create account",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginLink": "Log in",
+    "googleAlternative": "Or create an account with Google, which skips the password entirely.",
+    "googleAction": "Continue with Google"
+  },
+  "login": {
+    "heading": "Log in",
+    "leadParagraph": "Sign in to manage your account and the browsers connected to it.",
+    "usernameOrEmailLabel": "Username or email address",
+    "passwordLabel": "Password",
+    "submitAction": "Log in",
+    "forgotPassword": "Forgotten your password?",
+    "noAccount": "No account yet?",
+    "registerLink": "Create one",
+    "googleSeparator": "or",
+    "googleAction": "Continue with Google",
+    "googleHint": "Signing in with Google creates the account the first time you use it."
+  },
+  "activate": {
+    "heading": "Account activation",
+    "pending": "Activating your account…",
+    "success": "Your account is active. You can log in now.",
+    "loginAction": "Go to login",
+    "missingToken": "This activation link carries no token. Open the link from your email exactly as it was sent.",
+    "resendHeading": "Need a fresh link?",
+    "resendEmailLabel": "Email address",
+    "resendAction": "Send a new activation link"
+  },
+  "passwordReset": {
+    "requestHeading": "Reset your password",
+    "requestLead": "Enter the address your account uses and we will send a reset link.",
+    "emailLabel": "Email address",
+    "requestAction": "Send reset link",
+    "confirmHeading": "Choose a new password",
+    "confirmLead": "This signs every device out, so you will need to sign in again everywhere.",
+    "newPasswordLabel": "New password",
+    "newPasswordHint": "At least 10 characters.",
+    "confirmAction": "Set new password",
+    "confirmSuccess": "Your password is set. You can log in now.",
+    "loginAction": "Go to login",
+    "backToLogin": "Back to login"
+  },
+  "authCallback": {
+    "heading": "Finishing sign-in",
+    "pending": "Completing your Google sign-in…",
+    "missingCode": "This page was opened without a sign-in code. Start again from the login page.",
+    "loginAction": "Back to login"
+  },
+  "devices": {
+    "heading": "My devices",
+    "leadParagraph": "Every browser your account has been used from. This is a history, not a list of live sessions: a browser stays listed after it is signed out.",
+    "emptyState": "No browser has used this account yet.",
+    "columnDevice": "Device",
+    "columnBrowser": "Browser",
+    "columnFirstSeen": "First used",
+    "columnLastUsed": "Last used",
+    "columnState": "State",
+    "columnActions": "Actions",
+    "stateSignedIn": "Signed in",
+    "stateSignedOut": "Signed out",
+    "signOutAction": "Sign this device out",
+    "signOutSuccess": "That device was signed out.",
+    "connectHeading": "Connect a browser extension",
+    "connectLead": "Generate a code and type it into the extension to sign it in. This is also how an account created with Google connects the extension, since such an account has no password.",
+    "connectAction": "Generate a connect code",
+    "connectCodeLabel": "Your connect code",
+    "connectCodeExpiry": "Valid until {expiresAt}",
+    "connectCodeHint": "Punctuation and letter case are ignored when you type it."
+  },
+  "account": {
+    "heading": "Account",
+    "leadParagraph": "Everything the service knows about your account, and what you can change.",
+    "profileHeading": "Profile",
+    "usernameLabel": "Username",
+    "usernameImmutable": "A username cannot be changed.",
+    "emailLabel": "Email address",
+    "emailImmutable": "Moving an account to another address is not offered.",
+    "statusLabel": "Account status",
+    "createdAtLabel": "Registered",
+    "displayNameLabel": "Display name",
+    "saveProfileAction": "Save display name",
+    "saveProfileSuccess": "Your display name was saved.",
+    "passwordHeading": "Password",
+    "passwordSetLead": "Your account has no password yet, because it was created through Google. Setting one lets you sign in without Google.",
+    "passwordChangeLead": "Changing your password signs every device out.",
+    "currentPasswordLabel": "Current password",
+    "newPasswordLabel": "New password",
+    "newPasswordHint": "At least 10 characters.",
+    "setPasswordAction": "Set password",
+    "changePasswordAction": "Change password",
+    "passwordSuccess": "Your password was set. Every device has been signed out.",
+    "dangerHeading": "Delete account",
+    "dangerLead": "This deletes your account and every link, group and workspace it owns. It cannot be undone.",
+    "deleteAction": "Delete my account",
+    "deleteConfirmPrompt": "Deleting is permanent. Confirm to continue.",
+    "deleteConfirmAction": "Yes, delete everything",
+    "deleteCancelAction": "Cancel",
+    "status": {
+      "PENDING_ACTIVATION": "Awaiting activation",
+      "ACTIVE": "Active",
+      "DISABLED": "Disabled"
+    }
+  },
+  "legal": {
+    "gdprHeading": "GDPR compliance",
+    "gdprBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. This page will carry the privacy statement: what is stored, why, for how long, and how to have it erased.",
+    "cookiesHeading": "Cookies compliance",
+    "cookiesBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. This page will describe every cookie and browser storage entry this site uses, and what each one is for.",
+    "sitemapHeading": "Sitemap",
+    "sitemapLead": "Every page of this site."
+  },
+  "notFound": {
+    "heading": "Page not found",
+    "body": "There is nothing at this address.",
+    "homeAction": "Back to the home page"
+  },
+  "form": {
+    "submitting": "Working…",
+    "requiredField": "This field is required.",
+    "invalidEmail": "Enter a valid email address.",
+    "tooShort": "This needs at least {min} characters.",
+    "tooLong": "This may be at most {max} characters.",
+    "usernamePattern": "Only letters, digits, dot, underscore and hyphen are allowed."
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "The service could not be reached. Check your connection and try again.",
+    "unauthorized": "Your session has ended. Please log in again.",
+    "invalidCredentials": "Those credentials were refused.",
+    "usernameTaken": "That username is already taken.",
+    "notFound": "That was not found.",
+    "validation": "Please correct the highlighted fields."
+  }
+}

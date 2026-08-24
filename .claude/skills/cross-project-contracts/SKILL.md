@@ -31,6 +31,15 @@ Read access is granted through `permissions.additionalDirectories` in the gitign
   `environments`, `groups`, `subgroups`, `links` (`src/backend/entity/AppStateEntity.ts`).
   They carry `createdAt` and ordering fields but **no `updatedAt`, no revision, no delete
   tombstones** — that gap is the product's central sync design problem. Do not assume it away.
+- **This repo consumes only the identity half of the backend so far**: `auth/*`, `auth/password/*`,
+  `users/me` and `users/me/devices`. The domain CRUD (environments, groups, subgroups, links) and
+  `sync/snapshot` belong to the extension and are deliberately not called here — say "no consumer
+  exists yet" when asked about them, because that is the truth. The full list this site depends on
+  is `src/app/core/api/api-endpoint-paths.ts`; read it before answering.
+- **Two pieces of backend configuration pin this frontend** and cannot be changed one-sidedly:
+  the three `newtablinks.web.*` paths that fix the `activate`, `reset-password` and `auth/callback`
+  routes, and `http://localhost:5173`, which appears as both the allowed CORS origin and the
+  website base URL. Details in the `authentication-flows` skill.
 - **This repo owns the web presentation** and any feature moved out of the extension for
   maintainability. It is a *consumer* of the backend, never a second source of truth.
 

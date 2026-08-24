@@ -1,0 +1,19 @@
+<label class="language-switcher">
+  <span class="language-switcher__label">{{ viewModel.switcherLabel() }}</span>
+
+  <select
+    class="language-switcher__select"
+    [value]="viewModel.activeLanguageCode()"
+    (change)="onLanguageSelected($event)"
+  >
+    @for (languageOption of viewModel.languageOptions(); track languageOption.languageCode) {
+      <option
+        class="language-switcher__option"
+        [value]="languageOption.languageCode"
+        [selected]="languageOption.isActive"
+      >
+        {{ languageOption.languageName }}
+      </option>
+    }
+  </select>
+</label>

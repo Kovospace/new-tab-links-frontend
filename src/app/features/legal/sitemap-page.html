@@ -1,0 +1,14 @@
+<article class="sitemap-page">
+  <h1 class="sitemap-page__heading">{{ 'legal.sitemapHeading' | translate }}</h1>
+  <p class="sitemap-page__lead">{{ 'legal.sitemapLead' | translate }}</p>
+
+  <ul class="sitemap-page__list">
+    @for (sitemapEntry of viewModel.sitemapEntries(); track sitemapEntry.routerLink) {
+      <li class="sitemap-page__item">
+        <a class="sitemap-page__link" [routerLink]="sitemapEntry.routerLink">{{
+          sitemapEntry.labelTranslationKey | translate
+        }}</a>
+      </li>
+    }
+  </ul>
+</article>

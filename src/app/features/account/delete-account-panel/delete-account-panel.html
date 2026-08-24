@@ -1,0 +1,43 @@
+<section class="delete-account-panel">
+  <h2 class="delete-account-panel__heading">{{ 'account.dangerHeading' | translate }}</h2>
+  <p class="delete-account-panel__lead">{{ 'account.dangerLead' | translate }}</p>
+
+  @if (viewModel.isConfirmationRequested()) {
+    <p class="delete-account-panel__confirm-prompt" role="alert">
+      {{ 'account.deleteConfirmPrompt' | translate }}
+    </p>
+
+    <button
+      class="delete-account-panel__confirm"
+      type="button"
+      [disabled]="viewModel.isDeletionInFlight()"
+      (click)="viewModel.confirmDeletion()"
+    >
+      @if (viewModel.isDeletionInFlight()) {
+        {{ 'form.submitting' | translate }}
+      } @else {
+        {{ 'account.deleteConfirmAction' | translate }}
+      }
+    </button>
+
+    <button
+      class="delete-account-panel__cancel"
+      type="button"
+      (click)="viewModel.cancelConfirmation()"
+    >
+      {{ 'account.deleteCancelAction' | translate }}
+    </button>
+  } @else {
+    <button
+      class="delete-account-panel__request"
+      type="button"
+      (click)="viewModel.requestConfirmation()"
+    >
+      {{ 'account.deleteAction' | translate }}
+    </button>
+  }
+
+  @if (viewModel.deleteFailure()) {
+    <p class="delete-account-panel__failure" role="alert">{{ viewModel.deleteFailure() }}</p>
+  }
+</section>

@@ -1,0 +1,68 @@
+<article class="devices-page">
+  <h1 class="devices-page__heading">{{ 'devices.heading' | translate }}</h1>
+  <p class="devices-page__lead">{{ 'devices.leadParagraph' | translate }}</p>
+
+  @if (viewModel.signOutConfirmation()) {
+    <p class="devices-page__confirmation" role="status">{{ viewModel.signOutConfirmation() }}</p>
+  }
+
+  @if (viewModel.loadFailure()) {
+    <p class="devices-page__failure" role="alert">{{ viewModel.loadFailure() }}</p>
+  }
+
+  @if (viewModel.isLoading()) {
+    <p class="devices-page__loading" role="status">{{ 'form.submitting' | translate }}</p>
+  } @else if (viewModel.isDeviceListEmpty()) {
+    <p class="devices-page__empty">{{ 'devices.emptyState' | translate }}</p>
+  } @else {
+    <table class="devices-page__table">
+      <thead class="devices-page__table-head">
+        <tr class="devices-page__row">
+          <th class="devices-page__column-header" scope="col">
+            {{ 'devices.columnDevice' | translate }}
+          </th>
+          <th class="devices-page__column-header" scope="col">
+            {{ 'devices.columnBrowser' | translate }}
+          </th>
+          <th class="devices-page__column-header" scope="col">
+            {{ 'devices.columnFirstSeen' | translate }}
+          </th>
+          <th class="devices-page__column-header" scope="col">
+            {{ 'devices.columnLastUsed' | translate }}
+          </th>
+          <th class="devices-page__column-header" scope="col">
+            {{ 'devices.columnState' | translate }}
+          </th>
+          <th class="devices-page__column-header" scope="col">
+            {{ 'devices.columnActions' | translate }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="devices-page__table-body">
+        @for (presentedDevice of viewModel.presentedDevices(); track presentedDevice.deviceId) {
+          <tr class="devices-page__row">
+            <td class="devices-page__cell">{{ presentedDevice.deviceName }}</td>
+            <td class="devices-page__cell">{{ presentedDevice.browserName }}</td>
+            <td class="devices-page__cell">{{ presentedDevice.firstSeenLabel }}</td>
+            <td class="devices-page__cell">{{ presentedDevice.lastUsedLabel }}</td>
+            <td class="devices-page__cell">{{ presentedDevice.stateLabel }}</td>
+            <td class="devices-page__cell">
+              @if (presentedDevice.isSignOutOffered) {
+                <button
+                  class="devices-page__sign-out"
+                  type="button"
+                  (click)="viewModel.signOutDevice(presentedDevice.deviceId)"
+                >
+                  {{ 'devices.signOutAction' | translate }}
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <app-extension-connect-panel class="devices-page__connect-panel" />
+</article>

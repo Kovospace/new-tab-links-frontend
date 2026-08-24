@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+// Global styles.
+//
+// Only what genuinely belongs to the whole document goes here; everything else lives in the
+// component that owns it. The page is deliberately unstyled — the selectors below and the ones
+// in each component's own .scss are the hooks to write the design against once it is decided.
+
+html {
+}
+
+body {
+}

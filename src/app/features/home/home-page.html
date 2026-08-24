@@ -1,0 +1,30 @@
+<article class="home-page">
+  <section class="home-page__introduction">
+    <h1 class="home-page__heading">{{ 'home.heading' | translate }}</h1>
+    <p class="home-page__tagline">{{ 'site.tagline' | translate }}</p>
+    <p class="home-page__lead">{{ 'home.leadParagraph' | translate }}</p>
+    <a class="home-page__call-to-action" [routerLink]="downloadLink">{{
+      'home.callToAction' | translate
+    }}</a>
+  </section>
+
+  <section class="home-page__features">
+    <h2 class="home-page__features-heading">{{ 'home.featuresHeading' | translate }}</h2>
+
+    <ul class="home-page__features-list">
+      @for (
+        presentedFeature of viewModel.presentedFeatures;
+        track presentedFeature.titleTranslationKey
+      ) {
+        <li class="home-page__feature">
+          <h3 class="home-page__feature-title">
+            {{ presentedFeature.titleTranslationKey | translate }}
+          </h3>
+          <p class="home-page__feature-text">
+            {{ presentedFeature.textTranslationKey | translate }}
+          </p>
+        </li>
+      }
+    </ul>
+  </section>
+</article>

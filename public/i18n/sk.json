@@ -1,0 +1,200 @@
+{
+  "language": {
+    "en": "Angličtina",
+    "sk": "Slovenčina",
+    "switchLabel": "Jazyk"
+  },
+  "site": {
+    "title": "NewTabLinks",
+    "tagline": "Vaše odkazy na každej novej karte, na každom počítači."
+  },
+  "nav": {
+    "home": "Domov",
+    "download": "Stiahnuť",
+    "register": "Registrácia",
+    "login": "Prihlásenie",
+    "devices": "Moje zariadenia",
+    "account": "Účet",
+    "logout": "Odhlásiť sa",
+    "skipToContent": "Preskočiť na obsah"
+  },
+  "footer": {
+    "gdpr": "Ochrana osobných údajov (GDPR)",
+    "cookies": "Zásady používania cookies",
+    "sitemap": "Mapa stránky",
+    "authorName": "Matej Kovacs",
+    "authorSiteLabel": "kovo.space",
+    "copyrightNotice": "© {year} {author}"
+  },
+  "home": {
+    "heading": "Nová karta, ktorá konečne k niečomu je",
+    "leadParagraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. NewTabGroupedLinks nahradí prázdnu novú kartu odkazmi, ktoré naozaj otvárate, usporiadanými do skupín podľa vás.",
+    "featuresHeading": "Čo to vie",
+    "features": {
+      "groupsTitle": "Zoskupené odkazy",
+      "groupsText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+      "workspacesTitle": "Oddelené pracovné priestory",
+      "workspacesText": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+      "syncTitle": "Synchronizované všade",
+      "syncText": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    "callToAction": "Získať rozšírenie"
+  },
+  "download": {
+    "heading": "Stiahnuť",
+    "leadParagraph": "Nainštalujte rozšírenie z Chrome Web Store alebo si stiahnite zabalené rozšírenie a načítajte ho ručne.",
+    "webStoreHeading": "Chrome Web Store",
+    "webStoreText": "Odporúčaný spôsob inštalácie. Aktualizácie prichádzajú automaticky.",
+    "webStoreAction": "Otvoriť v Chrome Web Store",
+    "webStoreUnavailable": "Záznam v obchode zatiaľ nie je zverejnený.",
+    "crxHeading": "Zabalené rozšírenie (.crx)",
+    "crxText": "Hosťované tu. Načítajte ho cez chrome://extensions so zapnutým režimom pre vývojárov.",
+    "crxAction": "Stiahnuť súbor .crx",
+    "crxUnavailable": "Zabalené rozšírenie zatiaľ nie je k dispozícii."
+  },
+  "register": {
+    "heading": "Vytvoriť účet",
+    "leadParagraph": "Účet udrží vaše odkazy zosynchronizované vo všetkých prehliadačoch, kde sa prihlásite.",
+    "usernameLabel": "Používateľské meno",
+    "usernameHint": "3 až 60 znakov: písmená, číslice, bodka, podčiarkovník a pomlčka.",
+    "emailLabel": "E-mailová adresa",
+    "emailHint": "Na túto adresu pošleme aktivačný odkaz.",
+    "displayNameLabel": "Zobrazované meno",
+    "displayNameHint": "Ako vás bude oslovovať rozhranie.",
+    "passwordLabel": "Heslo",
+    "passwordHint": "Aspoň 10 znakov. Najlepšia je dlhá fráza.",
+    "submitAction": "Vytvoriť účet",
+    "alreadyHaveAccount": "Už máte účet?",
+    "loginLink": "Prihlásiť sa",
+    "googleAlternative": "Alebo si vytvorte účet cez Google, čím sa heslu úplne vyhnete.",
+    "googleAction": "Pokračovať cez Google"
+  },
+  "login": {
+    "heading": "Prihlásenie",
+    "leadParagraph": "Prihláste sa a spravujte svoj účet aj prehliadače, ktoré sú k nemu pripojené.",
+    "usernameOrEmailLabel": "Používateľské meno alebo e-mail",
+    "passwordLabel": "Heslo",
+    "submitAction": "Prihlásiť sa",
+    "forgotPassword": "Zabudli ste heslo?",
+    "noAccount": "Ešte nemáte účet?",
+    "registerLink": "Vytvorte si ho",
+    "googleSeparator": "alebo",
+    "googleAction": "Pokračovať cez Google",
+    "googleHint": "Prihlásenie cez Google vytvorí účet pri prvom použití."
+  },
+  "activate": {
+    "heading": "Aktivácia účtu",
+    "pending": "Aktivujeme váš účet…",
+    "success": "Váš účet je aktívny. Môžete sa prihlásiť.",
+    "loginAction": "Prejsť na prihlásenie",
+    "missingToken": "Tento aktivačný odkaz neobsahuje token. Otvorte odkaz z e-mailu presne tak, ako bol poslaný.",
+    "resendHeading": "Potrebujete nový odkaz?",
+    "resendEmailLabel": "E-mailová adresa",
+    "resendAction": "Poslať nový aktivačný odkaz"
+  },
+  "passwordReset": {
+    "requestHeading": "Obnovenie hesla",
+    "requestLead": "Zadajte adresu, ktorú používa váš účet, a pošleme vám odkaz na obnovenie.",
+    "emailLabel": "E-mailová adresa",
+    "requestAction": "Poslať odkaz na obnovenie",
+    "confirmHeading": "Zvoľte nové heslo",
+    "confirmLead": "Týmto sa odhlásia všetky zariadenia, takže sa budete musieť všade prihlásiť znova.",
+    "newPasswordLabel": "Nové heslo",
+    "newPasswordHint": "Aspoň 10 znakov.",
+    "confirmAction": "Nastaviť nové heslo",
+    "confirmSuccess": "Heslo je nastavené. Môžete sa prihlásiť.",
+    "loginAction": "Prejsť na prihlásenie",
+    "backToLogin": "Späť na prihlásenie"
+  },
+  "authCallback": {
+    "heading": "Dokončujeme prihlásenie",
+    "pending": "Dokončujeme vaše prihlásenie cez Google…",
+    "missingCode": "Táto stránka bola otvorená bez prihlasovacieho kódu. Začnite znova zo stránky prihlásenia.",
+    "loginAction": "Späť na prihlásenie"
+  },
+  "devices": {
+    "heading": "Moje zariadenia",
+    "leadParagraph": "Každý prehliadač, z ktorého bol váš účet použitý. Je to história, nie zoznam živých relácií: prehliadač zostane v zozname aj po odhlásení.",
+    "emptyState": "Tento účet zatiaľ nepoužil žiadny prehliadač.",
+    "columnDevice": "Zariadenie",
+    "columnBrowser": "Prehliadač",
+    "columnFirstSeen": "Prvé použitie",
+    "columnLastUsed": "Posledné použitie",
+    "columnState": "Stav",
+    "columnActions": "Akcie",
+    "stateSignedIn": "Prihlásené",
+    "stateSignedOut": "Odhlásené",
+    "signOutAction": "Odhlásiť toto zariadenie",
+    "signOutSuccess": "Zariadenie bolo odhlásené.",
+    "connectHeading": "Pripojiť rozšírenie prehliadača",
+    "connectLead": "Vygenerujte kód a napíšte ho do rozšírenia, čím ho prihlásite. Takto pripojí rozšírenie aj účet vytvorený cez Google, keďže taký účet nemá heslo.",
+    "connectAction": "Vygenerovať pripojovací kód",
+    "connectCodeLabel": "Váš pripojovací kód",
+    "connectCodeExpiry": "Platný do {expiresAt}",
+    "connectCodeHint": "Na interpunkcii ani veľkosti písmen nezáleží."
+  },
+  "account": {
+    "heading": "Účet",
+    "leadParagraph": "Všetko, čo služba o vašom účte vie, a čo môžete zmeniť.",
+    "profileHeading": "Profil",
+    "usernameLabel": "Používateľské meno",
+    "usernameImmutable": "Používateľské meno sa nedá zmeniť.",
+    "emailLabel": "E-mailová adresa",
+    "emailImmutable": "Presun účtu na inú adresu nie je ponúkaný.",
+    "statusLabel": "Stav účtu",
+    "createdAtLabel": "Registrovaný",
+    "displayNameLabel": "Zobrazované meno",
+    "saveProfileAction": "Uložiť zobrazované meno",
+    "saveProfileSuccess": "Zobrazované meno bolo uložené.",
+    "passwordHeading": "Heslo",
+    "passwordSetLead": "Váš účet zatiaľ nemá heslo, pretože vznikol cez Google. Nastavením hesla sa budete môcť prihlásiť aj bez Googlu.",
+    "passwordChangeLead": "Zmena hesla odhlási všetky zariadenia.",
+    "currentPasswordLabel": "Súčasné heslo",
+    "newPasswordLabel": "Nové heslo",
+    "newPasswordHint": "Aspoň 10 znakov.",
+    "setPasswordAction": "Nastaviť heslo",
+    "changePasswordAction": "Zmeniť heslo",
+    "passwordSuccess": "Heslo bolo nastavené. Všetky zariadenia boli odhlásené.",
+    "dangerHeading": "Zmazanie účtu",
+    "dangerLead": "Zmaže váš účet a všetky odkazy, skupiny a pracovné priestory, ktoré vlastní. Nedá sa to vrátiť.",
+    "deleteAction": "Zmazať môj účet",
+    "deleteConfirmPrompt": "Zmazanie je nezvratné. Potvrďte, ak chcete pokračovať.",
+    "deleteConfirmAction": "Áno, zmazať všetko",
+    "deleteCancelAction": "Zrušiť",
+    "status": {
+      "PENDING_ACTIVATION": "Čaká na aktiváciu",
+      "ACTIVE": "Aktívny",
+      "DISABLED": "Zakázaný"
+    }
+  },
+  "legal": {
+    "gdprHeading": "Ochrana osobných údajov (GDPR)",
+    "gdprBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Táto stránka ponesie vyhlásenie o ochrane súkromia: čo sa ukladá, prečo, na ako dlho a ako to dať vymazať.",
+    "cookiesHeading": "Zásady používania cookies",
+    "cookiesBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Táto stránka popíše každú cookie a položku úložiska prehliadača, ktorú stránka používa, a načo slúži.",
+    "sitemapHeading": "Mapa stránky",
+    "sitemapLead": "Všetky stránky tohto webu."
+  },
+  "notFound": {
+    "heading": "Stránka sa nenašla",
+    "body": "Na tejto adrese nič nie je.",
+    "homeAction": "Späť na úvodnú stránku"
+  },
+  "form": {
+    "submitting": "Pracujeme…",
+    "requiredField": "Toto pole je povinné.",
+    "invalidEmail": "Zadajte platnú e-mailovú adresu.",
+    "tooShort": "Vyžaduje sa aspoň {min} znakov.",
+    "tooLong": "Najviac {max} znakov.",
+    "usernamePattern": "Povolené sú len písmená, číslice, bodka, podčiarkovník a pomlčka."
+  },
+  "errors": {
+    "generic": "Niečo sa pokazilo. Skúste to znova.",
+    "network": "Službu sa nepodarilo kontaktovať. Skontrolujte pripojenie a skúste to znova.",
+    "unauthorized": "Vaša relácia sa skončila. Prihláste sa znova.",
+    "invalidCredentials": "Tieto prihlasovacie údaje boli odmietnuté.",
+    "usernameTaken": "Toto používateľské meno je už obsadené.",
+    "notFound": "Nenašlo sa.",
+    "validation": "Opravte prosím zvýraznené polia."
+  }
+}
