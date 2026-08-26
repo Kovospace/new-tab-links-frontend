@@ -1,0 +1,205 @@
+// Complete reset — the browser's own styling, taken away.
+//
+// Every rule in this file removes something a browser adds on its own. Nothing here decides how
+// the site looks: that is the owner's to write by hand, and this is the blank sheet it gets
+// written on. Afterwards a heading, a button and a paragraph all arrive looking identical, so no
+// part of the design has to be spent undoing a default nobody chose.
+//
+// Loaded before `src/styles.scss` — see the `styles` array in `angular.json`. Order is what makes
+// it work: anything written there, or in a component's own `.scss`, then wins without needing a
+// stronger selector to fight this file.
+//
+// Author rules beat the browser's regardless of specificity, because the author stylesheet is a
+// higher-priority origin than the user-agent one. That is why a bare `*` below is enough to
+// override a UA rule as specific as `abbr[title]`, and why this file needs no `!important`.
+//
+// ## Why not `all: unset`
+//
+// It is the obvious one-liner and it is worse. `all` includes `display`, so every element turns
+// inline and the document collapses until each one is put back with `display: revert` — and it
+// discards properties a control needs to keep working. Removing named properties is longer but it
+// is legible, predictable, and easy to partly undo.
+//
+// ## What this costs
+//
+// A total reset is not free. These consequences are intended, not oversights:
+//
+//   * **Text inputs, selects and buttons become invisible.** They keep working — still focusable,
+//     still reachable by keyboard, still announced correctly — but with no border, no background
+//     and no platform chrome they are indistinguishable from the page until the design gives them
+//     one. Every control in this repo already carries a class hook for exactly that
+//     (`.login-page__field-input`, `.login-page__submit`, and so on).
+//   * **Headings, `<strong>`, `<em>`, `<small>` and `<code>` render exactly like body text.** Only
+//     the markup still says what they are — which is what assistive technology reads, and the
+//     reason the markup must stay correct even while it all looks the same.
+//   * Lists lose bullets and numbers, links lose colour and underline, tables lose their spacing.
+//
+// Deliberately **not** included, because each is a design decision rather than a removal:
+// `img { max-width: 100% }`, any typographic scale, and any `line-height` other than the
+// browser's own.
+//
+// One thing this file cannot remove: Chrome paints its own background and text colour over
+// autofilled inputs (`:-webkit-autofill`), and overriding that needs an actual colour — which
+// makes it part of the design, not part of the reset.
+
+// ---------------------------------------------------------------------------------------------
+// Everything, everywhere
+//
+// The universal selector is what makes this reset complete rather than a list that slowly falls
+// behind: it covers elements this project does not use yet and elements the web has not shipped
+// yet. `::before` and `::after` are named too, since they are generated boxes the selector alone
+// does not reach.
+// ---------------------------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+  // Spacing and framing the browser supplies: <body>'s 8px, the gaps around <p> and headings,
+  // <ul>'s indent, <fieldset>'s frame, <button>'s bevel.
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  // Typography, in one declaration. `font` is a shorthand, so this hands over family, size,
+  // weight, style, variant, stretch and line-height together — flattening h1–h6, <strong>,
+  // <em>, <small>, <code> and every form control onto whatever the document inherits.
+  font: inherit;
+
+  // Colour the browser chose: link blue, <mark>'s yellow, the platform colours on form controls.
+  color: inherit;
+  background: transparent;
+
+  // Link underlines, and the lines through <del> and under <ins>, <u> and <abbr title>.
+  text-decoration: none;
+
+  // <th> centres itself, and <caption> too. Inheriting instead defers the decision to the design.
+  text-align: inherit;
+
+  // The offsets that lift <sup>, drop <sub>, and sit <img> and form controls off the text baseline.
+  vertical-align: baseline;
+
+  // Bullets, numbers and their indent. Inherited, so setting it here reaches every nested list.
+  list-style: none;
+}
+
+// ---------------------------------------------------------------------------------------------
+// What the universal rule cannot reach
+//
+// These properties either do not apply to `*` meaningfully, or live on pseudo-elements the
+// universal selector never matches.
+// ---------------------------------------------------------------------------------------------
+
+// Tables keep their own spacing model, which is not a border and so survives `border: 0`.
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+// Browsers insert real quotation marks around <q>, and are entitled to insert them around
+// <blockquote>. Both declarations are needed: the empty string satisfies engines that ignore
+// `none`, and `none` suppresses the box entirely on the engines that honour it.
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+  content: '';
+  content: none;
+}
+
+// Form controls are drawn by the operating system rather than by CSS, and `appearance` is the
+// only property that stops it. Everything above already removed their box; this removes the
+// painted chrome inside it — the select arrow, the button bevel, the input's inset well.
+//
+// `border-radius` is listed because iOS rounds text inputs and buttons through a route that
+// `border: 0` does not touch.
+button,
+input,
+optgroup,
+select,
+textarea {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+// Placeholder text is greyed and, in some engines, made translucent.
+::placeholder {
+  color: inherit;
+  opacity: 1;
+}
+
+// WebKit and Blink hang extra widgets inside certain inputs: the clear button in a search field,
+// the up/down arrows on a number field, and the button that fronts a file picker.
+::-webkit-search-decoration,
+::-webkit-search-cancel-button,
+::-webkit-search-results-button,
+::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+  -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+  font: inherit;
+  -webkit-appearance: none;
+}
+
+// The disclosure triangle on <details>. `list-style: none` above removes the standard marker;
+// this removes WebKit's older, separate one.
+summary::-webkit-details-marker {
+  display: none;
+}
+
+// The layer a modal <dialog> paints behind itself, which browsers tint by default.
+::backdrop {
+  background: transparent;
+}
+
+// Native picker affordances on date, time and colour inputs are deliberately left alone. They are
+// the only way to operate those controls, and hiding them would break the input rather than
+// unstyle it. None is used in this project yet; when one is, the design decides what to do here.
+
+// ---------------------------------------------------------------------------------------------
+// Deliberately kept
+//
+// The only rules in this file that add rather than remove. Each is here for a reason that is not
+// about how the site looks, and each is safe to delete once that reason is understood.
+// ---------------------------------------------------------------------------------------------
+
+// A layout model, not a look. With `content-box`, adding padding or a border to an element in the
+// design silently widens it, which is a bug factory rather than a stylistic preference. Declared
+// separately from the removals above so that the distinction stays visible.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  // Safari on iOS enlarges text when the device is turned to landscape unless told not to. That
+  // is the browser overriding the design, so refusing it belongs with the reset.
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+// The `hidden` attribute means "not rendered", which is a statement about the document rather
+// than about styling. `!important` because any `display` the design later gives these elements
+// would otherwise bring them back.
+[hidden] {
+  display: none !important;
+}
+
+// The focus ring is **not** reset. It is how a keyboard user knows where they are, the browser's
+// own is better than anything invented here, and `:focus-visible` already shows it only when it
+// is wanted. Replace it in the design if you like; do not simply remove it.
+//
+// `::selection` and the pointer cursor over links are left alone for the same reason: they are
+// affordances that tell someone what is happening, not decoration.

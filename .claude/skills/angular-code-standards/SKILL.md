@@ -89,6 +89,12 @@ visual identity is decided. Do not add colours, spacing, fonts or layout unless 
 Class names are BEM-ish and scoped to the component (`.devices-page__cell`), which is what makes
 those hooks findable. Only genuinely global rules go in `src/styles.scss`.
 
+`src/reset.scss` loads ahead of it and removes **every** browser default — spacing, typography,
+list markers, link colour, table spacing, and the platform chrome on form controls. So a heading,
+a button and a paragraph all start out looking identical, and inputs and buttons are invisible
+until the design gives them a look. That is intended: read the file's header before adding to it,
+and put anything that decides how something *looks* in the owning component instead.
+
 ## SOLID, size and naming
 
 - One reason to change per class. The account page is three panels with three view-models rather

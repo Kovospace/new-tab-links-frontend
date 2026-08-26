@@ -3,6 +3,10 @@
 // Only what genuinely belongs to the whole document goes here; everything else lives in the
 // component that owns it. The page is deliberately unstyled — the selectors below and the ones
 // in each component's own .scss are the hooks to write the design against once it is decided.
+//
+// src/reset.scss is loaded before this file (see `styles` in angular.json) and has already
+// stripped every browser default, so nothing written here has to undo one. Read its header
+// before adding a rule: it explains what was removed and the few things it deliberately kept.
 
 html {
 }
