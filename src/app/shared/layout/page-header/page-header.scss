@@ -221,6 +221,10 @@ $menu-toggle-bar-travel: math.div($menu-toggle-content-height - $menu-toggle-bar
     overflow: hidden;
   }
 
+  .page-header__navigation {
+    padding-bottom: 0.5em;
+  }
+
   // One entry per line, each filling the width so the whole row is a usable target rather than
   // just the few characters of the label.
   .page-header__navigation-list {

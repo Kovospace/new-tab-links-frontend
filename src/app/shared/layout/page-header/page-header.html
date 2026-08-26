@@ -70,14 +70,15 @@
         </ul>
       </nav>
 
-      <div class="page-header__session">
-        @if (viewModel.isSignedIn()) {
-          <span class="page-header__user-label">{{ viewModel.signedInUserLabel() }}</span>
-          <button class="page-header__logout" type="button" (click)="viewModel.signOut()">
-            {{ 'nav.logout' | translate }}
-          </button>
-        }
-      </div>
+      @if (viewModel.isSignedIn()) {
+        <div class="page-header__session">
+            <span class="page-header__user-label">{{ viewModel.signedInUserLabel() }}</span>
+            <button class="page-header__logout" type="button" (click)="viewModel.signOut()">
+              {{ 'nav.logout' | translate }}
+            </button>
+        </div>
+      }
+
     </div>
   </div>
 </header>
