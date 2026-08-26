@@ -1,12 +1,23 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
 .application-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  overflow-y: scroll;
 }
 
 .application-shell__header {
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
 .application-shell__main {
+  padding: 1em;
+  flex-grow: 1;
+  flex-shrink: 0;
 }
 
 .application-shell__footer {
+  flex-shrink: 0;
+  flex-grow: 0;
 }

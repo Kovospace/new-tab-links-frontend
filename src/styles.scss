@@ -26,11 +26,15 @@ html {
   // canvas painted before this stylesheet arrives (no white flash on load), and the default
   // rendering of any form control not styled by hand.
   color-scheme: dark;
-
   color: var(--color-text);
   background-color: var(--color-background);
   font-family: var(--font-family);
+
+  min-height: 100%;
+  height: 100%;
 }
 
 body {
+  min-height: 100%;
+  height: 100%;
 }

@@ -1,5 +1,7 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
 .page-footer {
+  background-color: var(--color-panel);
+  padding: 1em;
 }
 
 .page-footer__links {
@@ -9,16 +11,26 @@
 }
 
 .page-footer__links-item {
+  margin: 0.25em 0;
 }
 
 .page-footer__link {
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .page-footer__authorship {
+  margin-top: 0.5em;
 }
 
 .page-footer__copyright {
 }
 
 .page-footer__author-link {
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
