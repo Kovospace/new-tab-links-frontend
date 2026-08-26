@@ -1,0 +1,211 @@
+### ---------------------------------------------------------------------------
+### NewTabLinks - local development stack for the frontend.
+###
+### Brings up everything this website talks to, so that developing it needs no
+### backend checkout, no local Java and no local PostgreSQL:
+###
+###   postgres   the database, on a named volume so data survives a restart
+###   backend    the published backend image, pulled from the private registry
+###   frontend   OPTIONAL (profile "web") - this repository's own image, serving
+###              the production bundle exactly as the cluster does
+###
+### The normal loop is the dev server, not the frontend container:
+###
+###   docker compose up -d        # postgres + backend on http://localhost:8080
+###   npm start                   # this site, with reload, on http://localhost:5173
+###
+### That works with no configuration at all because `ng serve` has no config.json
+### and falls back to DEFAULT_RUNTIME_CONFIGURATION, whose backendBaseUrl is
+### http://localhost:8080 - which is exactly where this file publishes the
+### backend. See src/app/core/config/runtime-configuration.ts.
+###
+### 5173 is not a preference, it is the contract: the backend's default allowed
+### CORS origin and the base URL of every link it mails both point there. Serving
+### this site anywhere else means changing NEWTABLINKS_WEB_BASE_URL and
+### NEWTABLINKS_SECURITY_ALLOWED_CORS_ORIGINS below to match.
+###
+### Values worth changing per machine can be overridden without editing this file:
+### compose reads a gitignored .env beside it for every ${...} below.
+### ---------------------------------------------------------------------------
+
+name: new-tab-links-local
+
+services:
+  ### ---------- database ----------
+  #
+  # 17-alpine matches what the backend's own README tells developers to run, so a
+  # database created by either route behaves identically.
+  #
+  # The credentials are development-only and deliberately boring: they are the
+  # defaults the backend already ships, which is what lets the backend service
+  # below name them without inventing anything.
+  #
+  postgres:
+    image: postgres:17-alpine
+    container_name: newtablinks-postgres
+    environment:
+      POSTGRES_DB: newtablinks
+      POSTGRES_USER: newtablinks
+      POSTGRES_PASSWORD: newtablinks
+    ports:
+      # Published only so a client on the host can inspect the data. Nothing in
+      # this stack needs it - the backend reaches the database over the compose
+      # network. Set POSTGRES_PORT in .env if 5432 is already taken on this
+      # machine, which it will be if the backend README's ntl-postgres container
+      # is still running.
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      # The backend waits on this. Without it the backend starts while PostgreSQL
+      # is still initialising the data directory, fails to connect and exits.
+      test: ['CMD-SHELL', 'pg_isready -U newtablinks -d newtablinks']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  ### ---------- backend ----------
+  #
+  # The image published by the backend's pipeline, consumed as a black box. This
+  # repository never builds it; `docker compose pull backend` picks up a newer
+  # one, and BACKEND_IMAGE_TAG in .env pins an older one when a regression needs
+  # bisecting.
+  #
+  backend:
+    image: registry.matejkovac.sk/apps/new-tab-links-backend:${BACKEND_IMAGE_TAG:-latest}
+    container_name: newtablinks-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      # 8080 on the host is what DEFAULT_RUNTIME_CONFIGURATION.backendBaseUrl
+      # points at, so changing it means setting NEWTABLINKS_BACKEND_BASE_URL for
+      # the frontend too - and the frontend service below reads BACKEND_PORT for
+      # exactly that reason.
+      - '${BACKEND_PORT:-8080}:8080'
+    environment:
+      ### The database, reached by service name over the compose network.
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/newtablinks
+      SPRING_DATASOURCE_USERNAME: newtablinks
+      SPRING_DATASOURCE_PASSWORD: newtablinks
+
+      ### Hibernate owns the schema here, because the Flyway migrations image the
+      ### deployment uses does not exist yet. A deployed environment must set
+      ### this to `validate` instead; see the backend's application.properties.
+      #
+      # Note what this costs locally: a schema Hibernate builds itself has no
+      # ON DELETE rules on its foreign keys, so deleting an account, environment
+      # or group fails on a constraint violation. That is a property of this
+      # stack, not a bug in the page that triggered it.
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+      ### Nothing proxies this container, so the forwarded-header handling the
+      ### cluster needs must be off. Trusting X-Forwarded-* on a directly
+      ### reachable application would let any caller forge its own scheme and
+      ### host.
+      SERVER_FORWARD_HEADERS_STRATEGY: NONE
+
+      ### Where this backend believes the website lives. It builds the links it
+      ### mails from this, so it must be the origin the browser actually loads -
+      ### the dev server, or the frontend container below, both on 5173.
+      NEWTABLINKS_WEB_BASE_URL: http://localhost:${FRONTEND_PORT:-5173}
+      NEWTABLINKS_SECURITY_ALLOWED_CORS_ORIGINS: http://localhost:${FRONTEND_PORT:-5173},chrome-extension://*
+
+      ### Tokens. The signing secret is the backend's own development
+      ### placeholder: it is published in its properties file, is worthless
+      ### outside a laptop, and only has to clear the 32-byte minimum below which
+      ### the application refuses to start.
+      NEWTABLINKS_AUTH_JWT_ISSUER: http://localhost:${BACKEND_PORT:-8080}
+      NEWTABLINKS_AUTH_JWT_SIGNING_SECRET: development-only-signing-secret-not-for-any-deployment
+
+      ### No SMTP relay on a developer's machine. Disabled, the backend logs each
+      ### message in full - activation link, reset link and all - which is what
+      ### makes register, activate and reset-password testable here:
+      ###
+      ###   docker compose logs -f backend | grep -A6 "Mail sending is disabled"
+      NEWTABLINKS_MAIL_ENABLED: 'false'
+
+      ### Quieter than the default for everything except this application.
+      LOGGING_LEVEL_APPLICATION: ${BACKEND_LOG_LEVEL:-INFO}
+
+    ### Anything else the backend understands - above all the three Google
+    ### OAuth variables, without which the sign-in button has no provider behind
+    ### it. Optional: the stack starts without the file.
+    #
+    # Google's client id may NOT simply be declared empty here; Spring Boot
+    # validates client registrations on startup and refuses to boot when a
+    # declared one is blank. Keeping them in a file that may be absent entirely
+    # is what keeps both cases working.
+    #
+    # `environment:` above wins over this file, so put only variables that are
+    # not already listed there in it. See README.md.
+    env_file:
+      - path: ./.env.backend.local
+        required: false
+
+    healthcheck:
+      # The image carries no curl and no wget, so the probe is bash talking to
+      # the actuator over /dev/tcp. `CMD` rather than `CMD-SHELL` because the
+      # container's /bin/sh is dash, which has no /dev/tcp at all.
+      test:
+        - CMD
+        - bash
+        - -c
+        - >-
+          exec 3<>/dev/tcp/127.0.0.1/8080
+          && printf 'GET /actuator/health HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3
+          && grep -q '"status":"UP"' <&3
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      # Generous: a cold JVM against a cold database is slow, and a container
+      # marked unhealthy while it is legitimately still booting only misleads.
+      start_period: 60s
+
+  ### ---------- this website, as the cluster serves it ----------
+  #
+  # Not started by default - `npm start` is the development loop, and this
+  # container has no reload. It exists for the questions the dev server cannot
+  # answer: whether the production build works, whether config.json is written
+  # correctly, whether nginx's SPA fallback catches /activate?token=... and
+  # whether the caching and security headers are right.
+  #
+  #   docker compose --profile web up -d --build frontend
+  #
+  # It publishes the same 5173 as the dev server, so the two are alternatives:
+  # both are origins the backend already trusts, and neither needs the backend
+  # reconfigured. Stop `npm start` before starting this.
+  #
+  frontend:
+    profiles: ['web']
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: new-tab-links-frontend:local
+    container_name: newtablinks-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - '${FRONTEND_PORT:-5173}:8080'
+    environment:
+      # `localhost`, emphatically not `backend`. This value is written into
+      # config.json and fetched by the browser, which resolves it on the host -
+      # a compose service name means nothing there. Same reason a cluster
+      # deployment must use the backend's public address, never its Service.
+      NEWTABLINKS_BACKEND_BASE_URL: http://localhost:${BACKEND_PORT:-8080}
+      NEWTABLINKS_WEB_CLIENT_DEVICE_NAME: ${WEB_CLIENT_DEVICE_NAME:-NewTabLinks website (local container)}
+      NEWTABLINKS_CHROME_WEB_STORE_URL: ''
+      NEWTABLINKS_SELF_HOSTED_CRX_PATH: /downloads/newtablinks.crx
+    healthcheck:
+      # nginx serves /healthz for exactly this; the Helm chart probes it too.
+      test: ['CMD-SHELL', 'wget -q -O /dev/null http://127.0.0.1:8080/healthz']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  ### Named, so `docker compose down` keeps the accounts you registered and only
+  ### `docker compose down -v` throws them away.
+  postgres-data:
