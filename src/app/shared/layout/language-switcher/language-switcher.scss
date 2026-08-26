@@ -2,6 +2,8 @@
 // The few rules that are here are the ones that make a flag round and mark which one is chosen —
 // without them the switcher is not readable at all, since `reset.scss` leaves buttons invisible.
 
+$mobile-menu-breakpoint: 533px;
+
 .language-switcher {
   display: flex;
   align-items: center;
@@ -27,10 +29,6 @@
 
 .language-switcher__option--active {
   border-color: var(--color-accent);
-
-  .language-switcher__flag {
-    opacity: 1;
-  }
 }
 
 // Round. The artwork is square already, so the circle crops nothing; `object-fit` is kept only so
@@ -47,5 +45,11 @@
   width: 2.5em;
   height: 2.5em;
   object-fit: cover;
-  //opacity: 0.5;
+}
+
+@media (max-width: $mobile-menu-breakpoint) {
+
+  .language-switcher__option--active {
+    border-color: var(--color-accent-selected);
+  }
 }
