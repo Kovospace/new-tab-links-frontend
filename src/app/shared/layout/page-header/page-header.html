@@ -1,8 +1,14 @@
 <header class="page-header">
-  <a class="page-header__skip-link" href="#main-content">{{ 'nav.skipToContent' | translate }}</a>
 
   <div class="page-header__bar">
-    <a class="page-header__title" [routerLink]="homeLink">{{ 'site.title' | translate }}</a>
+
+    <div>
+      <a class="page-header__title" [routerLink]="homeLink">{{ 'site.title' | translate }}</a>
+      <br>
+      <span class="page-header__motto">{{ 'site.motto' | translate }}</span>
+      <span class="page-header__motto">{{ 'site.motto2' | translate }}</span>
+      <app-language-switcher class="page-header__language-switcher" />
+    </div>
 
     <!--
       Shown only on a narrow screen; the stylesheet hides it otherwise. `aria-expanded` and
@@ -71,7 +77,6 @@
             {{ 'nav.logout' | translate }}
           </button>
         }
-        <app-language-switcher class="page-header__language-switcher" />
       </div>
     </div>
   </div>

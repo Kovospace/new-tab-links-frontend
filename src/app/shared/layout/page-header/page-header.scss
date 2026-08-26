@@ -18,6 +18,12 @@ $mobile-menu-breakpoint: 533px;
 // Title and menu button. Left alone on a wide screen, where the button is not rendered and this
 // is an ordinary block containing one link, exactly as the title was before it had a wrapper.
 .page-header__bar {
+  padding: 1em;
+
+  .page-header__motto {
+    display: block;
+    margin: 0.25em 0;
+  }
 }
 
 .page-header__title {
@@ -170,11 +176,14 @@ $menu-toggle-bar-travel: math.div($menu-toggle-content-height - $menu-toggle-bar
     align-items: center;
     justify-content: space-between;
     padding: 0.5em;
+    gap: 0.5em;
     background-color: var(--color-accent);
   }
 
   .page-header__menu-toggle {
     display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
   }
 
   // Closed is the default, and it is animated open rather than switched on.
