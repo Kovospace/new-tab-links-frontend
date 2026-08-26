@@ -1,26 +1,146 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
+
+@use 'sass:math';
+
+// The width at or below which the top bar collapses behind one button.
+//
+// A Sass variable rather than a custom property, and it has to be: `@media (max-width: var(--x))`
+// is invalid CSS and fails silently — the query simply never matches and nothing is logged. This
+// is resolved at build time instead.
+$mobile-menu-breakpoint: 533px;
+
 .page-header {
 }
 
 .page-header__skip-link {
 }
 
+// Title and menu button. Left alone on a wide screen, where the button is not rendered and this
+// is an ordinary block containing one link, exactly as the title was before it had a wrapper.
+.page-header__bar {
+}
+
 .page-header__title {
+  font-weight: bold;
+  font-size: 2em;
+}
+
+// Geometry of the button, named because the cross below is derived from it. Change any of these
+// and the two arms still meet exactly in the middle; nothing has to be re-measured by hand.
+$menu-toggle-width: 3em;
+$menu-toggle-height: 3em;
+$menu-toggle-bar-height: 0.25em;
+$menu-toggle-button-padding: 0.5em;
+$menu-toggle-border-width: 0.125em;
+
+// The box the three bars are actually laid out in, which is *not* the button's height.
+//
+// `reset.scss` sets `box-sizing: border-box` on everything, so the height above is the whole
+// button — padding and border included — and the content box left for the bars is what remains
+// once both are taken off, twice each. Padding therefore makes the hamburger smaller rather than
+// the button bigger, and any travel measured from the full height overshoots the centre by
+// exactly the padding and border it forgot.
+$menu-toggle-content-height: $menu-toggle-height - 2 * $menu-toggle-button-padding - 2 *
+  $menu-toggle-border-width;
+
+// How far the outer bars travel to reach the centre: from the middle of the top bar to the middle
+// of the content box. `space-between` puts the outer bars flush against its edges, so this is half
+// of what is left once one bar's own height is taken off.
+$menu-toggle-bar-travel: math.div($menu-toggle-content-height - $menu-toggle-bar-height, 2);
+
+// Three lines and nothing else — the accessible name comes from `aria-label` in the template.
+// Hidden until the viewport is narrow enough for a menu to exist at all.
+.page-header__menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: $menu-toggle-width;
+  height: $menu-toggle-height;
+  cursor: pointer;
+  padding: $menu-toggle-button-padding;
+  border: $menu-toggle-border-width solid var(--color-text);
+  border-radius: 0.5em;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.page-header__menu-toggle:hover {
+  background-color: var(--color-accent-hover);
+}
+
+// `reset.scss` removed every border and background, so each bar is drawn from scratch.
+//
+// Both properties are transitioned on every bar, in both directions, which is what makes the
+// close animation the exact reverse of the open one without a second rule saying so.
+.page-header__menu-toggle-bar {
+  display: block;
+  width: 100%;
+  height: $menu-toggle-bar-height;
+  background-color: var(--color-text);
+  transition:
+    transform var(--duration-fast) var(--easing-standard),
+    opacity var(--duration-fast) var(--easing-standard);
+}
+
+// Open: the middle bar fades out and the outer two meet in the centre and cross.
+//
+// Order matters in the transform — `translateY` is applied first, then `rotate`, so each bar
+// slides to the middle of the button and turns about that point. Rotating first would swing it
+// about its resting place at the edge and the arms would not meet.
+
+.page-header__menu-toggle--open {
+
+  &:hover {
+    background-color: var(--color-accent-danger-hover);
+  }
+
+  .page-header__menu-toggle-bar--top {
+    transform: translateY($menu-toggle-bar-travel) rotate(45deg);
+  }
+
+  .page-header__menu-toggle-bar--middle {
+    opacity: 0;
+  }
+
+  .page-header__menu-toggle-bar--bottom {
+    transform: translateY(-$menu-toggle-bar-travel) rotate(-45deg);
+  }
+}
+
+// Everything the button reveals. `display: contents` takes both elements out of the layout tree on
+// a wide screen, so the navigation and the session block below position themselves against the
+// header exactly as they did before these wrappers were introduced.
+.page-header__collapsible,
+.page-header__collapsible-content {
+  display: contents;
 }
 
 .page-header__navigation {
+  padding: 0 0.5em;
+  font-size: 1.5em;
+  background-color: var(--color-accent);
 }
 
 .page-header__navigation-list {
+  margin: 0 auto;
+  display: table;
 }
 
 .page-header__navigation-item {
+  display: inline-block;
+  padding: 0.5em;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.page-header__navigation-item:hover {
+  background-color: var(--color-accent-hover);
 }
 
 .page-header__navigation-link {
 }
 
 .page-header__navigation-link--active {
+  text-decoration: underline;
+  font-weight: bold;
 }
 
 .page-header__session {
@@ -33,4 +153,90 @@
 }
 
 .page-header__language-switcher {
+}
+
+// ---------------------------------------------------------------------------------------------
+// Narrow screens
+//
+// The same markup, laid out as a menu behind one button. Nothing above is overridden that does
+// not have to be: the navigation keeps its colour, its hover and its transition, and only the
+// things that cannot work in a narrow column — the centred table, the side-by-side items — are
+// replaced.
+// ---------------------------------------------------------------------------------------------
+@media (max-width: $mobile-menu-breakpoint) {
+  // Title on one side, button on the other.
+  .page-header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5em;
+    background-color: var(--color-accent);
+  }
+
+  .page-header__menu-toggle {
+    display: flex;
+  }
+
+  // Closed is the default, and it is animated open rather than switched on.
+  //
+  // `height: auto` cannot be transitioned — there is no number for the browser to interpolate
+  // towards — and `display: none` cannot be either. The way round both is a one-row grid whose
+  // track goes from `0fr` to `1fr`: those *are* interpolatable, and `1fr` resolves to exactly the
+  // content's natural height, so the menu animates to whatever size it happens to need. No
+  // guessed `max-height`, and no height measured in TypeScript.
+  //
+  // `visibility` is what keeps this honest. Collapsing to zero height would otherwise leave every
+  // link inside still focusable by tab and still read out by a screen reader — visible to
+  // everyone except the person looking at the page. `visibility: hidden` removes it from both,
+  // exactly as `display: none` did, and unlike `display` it can be transitioned: going hidden it
+  // waits until the collapse has finished, going visible it applies at once. So the animation is
+  // seen in full in both directions and nothing is reachable while it is closed.
+  .page-header__collapsible {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+      grid-template-rows var(--duration-fast) var(--easing-standard),
+      visibility var(--duration-fast) var(--easing-standard);
+  }
+
+  .page-header__collapsible--open {
+    grid-template-rows: 1fr;
+    visibility: visible;
+  }
+
+  // The grid item. `overflow: hidden` is what lets the track be smaller than the content, and so
+  // is what makes the collapse look like a wipe rather than the content squashing.
+  .page-header__collapsible-content {
+    display: block;
+    overflow: hidden;
+  }
+
+  // One entry per line, each filling the width so the whole row is a usable target rather than
+  // just the few characters of the label.
+  .page-header__navigation-list {
+    display: block;
+    margin: 0;
+  }
+
+  .page-header__navigation-item {
+    display: block;
+    border-radius: 0.5em;
+  }
+
+  .page-header__navigation-link {
+    display: block;
+  }
+
+  // The session block and the language switcher stack under the navigation instead of sitting
+  // beside it.
+  .page-header__session {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+    padding: 0.75em;
+    padding-bottom: 1em;
+    background-color: var(--color-accent);
+  }
 }

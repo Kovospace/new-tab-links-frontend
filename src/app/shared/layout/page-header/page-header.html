@@ -1,31 +1,78 @@
 <header class="page-header">
   <a class="page-header__skip-link" href="#main-content">{{ 'nav.skipToContent' | translate }}</a>
 
-  <a class="page-header__title" [routerLink]="homeLink">{{ 'site.title' | translate }}</a>
+  <div class="page-header__bar">
+    <a class="page-header__title" [routerLink]="homeLink">{{ 'site.title' | translate }}</a>
 
-  <nav class="page-header__navigation" [attr.aria-label]="'site.title' | translate">
-    <ul class="page-header__navigation-list">
-      @for (navigationEntry of viewModel.navigationEntries(); track navigationEntry.routerLink) {
-        <li class="page-header__navigation-item">
-          <a
-            class="page-header__navigation-link"
-            [routerLink]="navigationEntry.routerLink"
-            routerLinkActive="page-header__navigation-link--active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >{{ navigationEntry.labelTranslationKey | translate }}</a
-          >
-        </li>
-      }
-    </ul>
-  </nav>
+    <!--
+      Shown only on a narrow screen; the stylesheet hides it otherwise. `aria-expanded` and
+      `aria-controls` are what turn three decorative lines into a control a screen reader can
+      describe, and the label comes from the view-model because it changes with the state.
+    -->
+    <button
+      class="page-header__menu-toggle"
+      [class.page-header__menu-toggle--open]="viewModel.isMobileMenuOpen()"
+      type="button"
+      [attr.aria-label]="viewModel.mobileMenuToggleLabel()"
+      [attr.aria-expanded]="viewModel.isMobileMenuOpen()"
+      aria-controls="page-header-menu"
+      (click)="viewModel.toggleMobileMenu()"
+    >
+      <span
+        class="page-header__menu-toggle-bar page-header__menu-toggle-bar--top"
+        aria-hidden="true"
+      ></span>
+      <span
+        class="page-header__menu-toggle-bar page-header__menu-toggle-bar--middle"
+        aria-hidden="true"
+      ></span>
+      <span
+        class="page-header__menu-toggle-bar page-header__menu-toggle-bar--bottom"
+        aria-hidden="true"
+      ></span>
+    </button>
+  </div>
 
-  <div class="page-header__session">
-    @if (viewModel.isSignedIn()) {
-      <span class="page-header__user-label">{{ viewModel.signedInUserLabel() }}</span>
-      <button class="page-header__logout" type="button" (click)="viewModel.signOut()">
-        {{ 'nav.logout' | translate }}
-      </button>
-    }
-    <app-language-switcher class="page-header__language-switcher" />
+  <!--
+    Everything the menu button reveals. Two nested elements rather than one, because animating an
+    element to its natural height needs a grid track to animate and a separate child to clip the
+    overflow while it does — see the stylesheet. On a wide screen both are removed from the layout
+    entirely (`display: contents`), so what is inside lays itself out as if neither existed.
+  -->
+  <div
+    class="page-header__collapsible"
+    [class.page-header__collapsible--open]="viewModel.isMobileMenuOpen()"
+    id="page-header-menu"
+  >
+    <div class="page-header__collapsible-content">
+      <nav class="page-header__navigation" [attr.aria-label]="'site.title' | translate">
+        <ul class="page-header__navigation-list">
+          @for (
+            navigationEntry of viewModel.navigationEntries();
+            track navigationEntry.routerLink
+          ) {
+            <li class="page-header__navigation-item">
+              <a
+                class="page-header__navigation-link"
+                [routerLink]="navigationEntry.routerLink"
+                routerLinkActive="page-header__navigation-link--active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >{{ navigationEntry.labelTranslationKey | translate }}</a
+              >
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="page-header__session">
+        @if (viewModel.isSignedIn()) {
+          <span class="page-header__user-label">{{ viewModel.signedInUserLabel() }}</span>
+          <button class="page-header__logout" type="button" (click)="viewModel.signOut()">
+            {{ 'nav.logout' | translate }}
+          </button>
+        }
+        <app-language-switcher class="page-header__language-switcher" />
+      </div>
+    </div>
   </div>
 </header>

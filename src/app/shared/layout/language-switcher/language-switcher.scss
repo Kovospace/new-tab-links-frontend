@@ -1,12 +1,51 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
+// The few rules that are here are the ones that make a flag round and mark which one is chosen —
+// without them the switcher is not readable at all, since `reset.scss` leaves buttons invisible.
+
 .language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  padding: 0 0.75em;
 }
 
-.language-switcher__label {
-}
-
-.language-switcher__select {
-}
-
+// Each language is a button with nothing in it but its flag.
 .language-switcher__option {
+  display: block;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 0.25em solid var(--color-background);
+  background-color: var(--color-background);
+  overflow: hidden;
+  transition: transform var(--duration-fast) var(--easing-standard);
+}
+
+.language-switcher__option:hover,
+.language-switcher__option:focus-visible {
+  transform: scale(1.2);
+}
+
+.language-switcher__option--active {
+  border-color: var(--color-accent-selected);
+
+  .language-switcher__flag {
+    opacity: 1;
+  }
+}
+
+// Round. The artwork is square already, so the circle crops nothing; `object-fit` is kept only so
+// a flag that is ever not square fills the circle instead of being stretched into it.
+//
+// 3rem is 48px, and it is `rem` rather than `em` on purpose: 48px is exactly the width of the 1x
+// image, so at any other size the browser would be rescaling every density and the point of
+// shipping three of them would be lost. `em` would be measured against whatever font-size an
+// ancestor happens to have — moving this switcher inside the 1.5em navigation would silently
+// make it 72px and upscale every flag. Changing the size means changing
+// FLAG_IMAGE_WIDTH_IN_PIXELS in the view-model and re-rasterising, not just this line.
+.language-switcher__flag {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+  opacity: 0.5;
 }

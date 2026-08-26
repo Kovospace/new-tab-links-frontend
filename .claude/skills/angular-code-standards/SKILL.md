@@ -89,7 +89,31 @@ visual identity is decided. Do not add colours, spacing, fonts or layout unless 
 Class names are BEM-ish and scoped to the component (`.devices-page__cell`), which is what makes
 those hooks findable. Only genuinely global rules go in `src/styles.scss`.
 
-`src/reset.scss` loads ahead of it and removes **every** browser default — spacing, typography,
+`src/design-tokens.scss` holds every global value as a custom property on `:root` — colour,
+spacing, type, layout, borders, elevation, motion, stacking. Some are decided (the dark palette,
+the body font, the transition timings); the rest are still **inert**, set to a value that does
+nothing (`currentColor`, `0`, `inherit`, `none`) so the name exists while the decision waits.
+Never write a literal colour, size or duration in a component — add or fill a token instead.
+
+Use `var(--space-3)` from any component's own `.scss`: custom properties inherit through Angular's
+emulated encapsulation, so no import is needed and SCSS `$variables` are the wrong tool.
+
+**Colour tokens are spelled `--color-`, American, even though the prose here is British.** They sit
+against the CSS properties that consume them (`color`, `background-color`, `currentColor`), and the
+penalty for typing the other spelling is silent — see below.
+
+Three traps, all of which have already cost time once:
+
+- A `var()` naming a token that does not exist, with no fallback, makes the **whole declaration**
+  compute to `unset` — it does not fall back to the previous value, and nothing is logged. A
+  mistyped token name therefore looks exactly like "my styles are being ignored".
+- Custom properties are invalid in media queries, so breakpoints stay SCSS variables or literals.
+- The document's colour, background and font belong on `html`, not on `*`. `reset.scss` already
+  sets `color: inherit` and `font: inherit` on every element, so one declaration inherits
+  everywhere, and a `background-color` on `*` gives every element an opaque backdrop that makes
+  later layering impossible.
+
+`src/reset.scss` loads ahead of both and removes **every** browser default — spacing, typography,
 list markers, link colour, table spacing, and the platform chrome on form controls. So a heading,
 a button and a paragraph all start out looking identical, and inputs and buttons are invisible
 until the design gives them a look. That is intended: read the file's header before adding to it,

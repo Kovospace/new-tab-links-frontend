@@ -16,7 +16,9 @@
     "devices": "Moje zariadenia",
     "account": "Účet",
     "logout": "Odhlásiť sa",
-    "skipToContent": "Preskočiť na obsah"
+    "skipToContent": "Preskočiť na obsah",
+    "openMenu": "Otvoriť ponuku",
+    "closeMenu": "Zavrieť ponuku"
   },
   "footer": {
     "gdpr": "Ochrana osobných údajov (GDPR)",

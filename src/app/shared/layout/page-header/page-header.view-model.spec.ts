@@ -1,7 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
+import { Component } from '@angular/core';
 import { AuthenticationSessionStore } from '../../../core/auth/authentication-session.store';
 import { TokenPair } from '../../../core/api/models/token-pair.model';
 import { PageHeaderViewModel } from './page-header.view-model';
@@ -15,6 +16,10 @@ const ISSUED_TOKEN_PAIR: TokenPair = {
   username: 'kovo',
 };
 
+/** Somewhere for the router to actually navigate to, so a real NavigationEnd is emitted. */
+@Component({ template: '' })
+class ArbitraryRoutedPage {}
+
 describe('PageHeaderViewModel', () => {
   let viewModel: PageHeaderViewModel;
   let sessionStore: AuthenticationSessionStore;
@@ -26,7 +31,7 @@ describe('PageHeaderViewModel', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideRouter([]),
+        provideRouter([{ path: 'somewhere-else', component: ArbitraryRoutedPage }]),
         PageHeaderViewModel,
       ],
     });
@@ -65,5 +70,34 @@ describe('PageHeaderViewModel', () => {
     });
 
     expect(viewModel.signedInUserLabel()).toBe('Matej');
+  });
+
+  it('starts with the narrow-screen menu closed', () => {
+    expect(viewModel.isMobileMenuOpen()).toBe(false);
+  });
+
+  it('opens and closes the narrow-screen menu on each press of the button', () => {
+    viewModel.toggleMobileMenu();
+    expect(viewModel.isMobileMenuOpen()).toBe(true);
+
+    viewModel.toggleMobileMenu();
+    expect(viewModel.isMobileMenuOpen()).toBe(false);
+  });
+
+  it('names the button after what pressing it will do', () => {
+    expect(viewModel.mobileMenuToggleLabel()).toBe('nav.openMenu');
+
+    viewModel.toggleMobileMenu();
+
+    expect(viewModel.mobileMenuToggleLabel()).toBe('nav.closeMenu');
+  });
+
+  it('closes the menu once a navigation completes, so it cannot cover the new page', async () => {
+    viewModel.toggleMobileMenu();
+    expect(viewModel.isMobileMenuOpen()).toBe(true);
+
+    await TestBed.inject(Router).navigate(['/somewhere-else']);
+
+    expect(viewModel.isMobileMenuOpen()).toBe(false);
   });
 });

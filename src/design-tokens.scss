@@ -1,0 +1,226 @@
+// Design tokens — every global value the site is built from.
+//
+// Each value the design needs has a name here, and this is the only place any of them is written
+// down. Some are now decided — the dark palette, the body font, the transition timings. The rest
+// are still **inert**: set to a value that does nothing (`currentColor`, `0`, `inherit`, `none`),
+// so the name exists and can be referenced today while the decision waits.
+//
+// Filling one in is how that part of the design starts. Nothing else has to change: because these
+// are inherited custom properties, every rule already referencing the token picks up the new value
+// at once.
+//
+// ## Spelling: `--color-`, not `--colour-`
+//
+// American, deliberately, even though this project's prose is British. These names sit directly
+// against the CSS properties they feed — `color`, `background-color`, `currentColor` — and a token
+// that is spelled differently from its own property is a name nobody types correctly first time.
+// The failure is silent when they get it wrong (see trap 2), which is what makes it worth being
+// strict about.
+//
+// ## Why custom properties, and not SCSS variables
+//
+// This is the reason the file exists in this form rather than as `$variables`:
+//
+// A SCSS `$variable` is resolved by the compiler and then gone. It exists only inside the files
+// that `@use` it, so a component's own `.scss` cannot see one declared here without importing it,
+// and nothing can change it after the build.
+//
+// A custom property is a real, inherited CSS value that lives in the browser. Declared on
+// `:root` it is inherited by every element in the document, which means it is visible inside
+// every component's stylesheet **even though Angular scopes those styles**. Emulated view
+// encapsulation rewrites selectors so they cannot leak sideways; it does not stop inheritance
+// coming down. So this works, from any component, with no import:
+//
+//   .login-page__submit {
+//     background: var(--color-accent);
+//     padding: var(--space-3);
+//   }
+//
+// It also means the values are readable and writable at runtime, which is what makes a theme
+// switch possible later:
+//
+//   getComputedStyle(document.documentElement).getPropertyValue('--color-accent')
+//   document.documentElement.style.setProperty('--color-accent', '#06c')
+//
+// ## Three traps
+//
+// 1. **Custom properties do not work in media queries.** `@media (min-width: var(--breakpoint))`
+//    is invalid and is silently ignored — the query never matches, so the rules inside never
+//    apply and nothing reports an error. Breakpoints therefore cannot live in this file; they
+//    have to be SCSS variables or literals. That is a limitation of CSS, not a choice made here.
+//
+// 2. **A substitution that produces nonsense poisons the whole declaration.** `var()` is replaced
+//    textually before the property is parsed, so if the result is not valid the declaration does
+//    not fall back to the previous value — it computes to `unset`, which for an inherited
+//    property means "inherit" and for the rest means "initial". That is why the colour tokens
+//    below are `currentColor` and `transparent` rather than `inherit`: both are valid wherever a
+//    colour is expected, so they stay harmless in `border`, `box-shadow` and `background`
+//    shorthands too, while `inherit` would break all three.
+//
+// 3. **`var()` has its own fallback, and it is only for the missing case.**
+//    `var(--color-accent, #06c)` uses `#06c` when `--color-accent` is not defined at all. It
+//    does *not* rescue trap 2.
+//
+// ## Naming
+//
+// `--<category>-<role>` , with `<role>` spelled out in full. Long names over short ones, as
+// everywhere else in this project: `--color-text-muted`, never `--c-txt-2`. Numbered steps
+// (`--space-1` … `--space-6`) are ordered smallest to largest and carry no unit in the name, so
+// the scale can be re-tuned without renaming anything that uses it.
+//
+// ## Overriding
+//
+// Because they inherit, any subtree can redefine one for itself — a panel can set
+// `--color-accent` on its own root and every descendant picks it up, with no extra selector.
+// The same mechanism is how a theme is added later, by re-declaring a handful on a variant of
+// the root:
+//
+//   :root[data-theme='dark'] { --color-background: #111; --color-text: #eee; }
+//
+// Loaded after `reset.scss` and before `styles.scss` — see the `styles` array in `angular.json`.
+// Clear the slate, state the vocabulary, then write the design.
+
+:root {
+  // -------------------------------------------------------------------------------------------
+  // Colour
+  //
+  // `currentColor` is the inert colour: it resolves to whatever colour the element already
+  // inherits, so using one of these changes nothing until it is given a real value. It is also a
+  // valid colour everywhere, which `inherit` is not — see trap 2 above.
+  // -------------------------------------------------------------------------------------------
+  --color-text: #fff;
+  --color-text-muted: #bbb;
+  --color-background: #000;
+  --color-surface: transparent;
+  --color-border: currentColor;
+
+  // The one colour the site is recognised by, and its readable counterpart for text placed on it.
+  --color-accent: #004fff;
+  --color-accent-hover: #4a82ff;
+  --color-accent-selected: #fff;
+  --color-accent-danger-hover: #ff4a4e;
+  --color-on-accent: currentColor;
+
+  // State. Kept apart from the accent because they carry meaning rather than identity, and
+  // because a design may want them louder than anything else on the page.
+  --color-success: currentColor;
+  --color-warning: currentColor;
+  --color-danger: currentColor;
+
+  // Drawn only when someone is navigating by keyboard. `reset.scss` deliberately leaves the
+  // browser's own focus ring alone; this exists for the day the design replaces it.
+  --color-focus-ring: currentColor;
+
+  // -------------------------------------------------------------------------------------------
+  // Typography
+  //
+  // `inherit` is the inert value here, and unlike the colours there is no better one — no font
+  // family or size means "whatever is already in force". Note that these are safe in the
+  // longhand properties (`font-family`, `font-size`) but not inside the `font` shorthand, where
+  // `inherit` cannot appear as one part of a larger value.
+  // -------------------------------------------------------------------------------------------
+  // The document's font. Everything inherits it, because `reset.scss` sets `font: inherit` on
+  // every element, so this one declaration reaches the whole site.
+  --font-family: Arial, Helvetica, sans-serif;
+
+  // Departures from it, still undecided. `inherit` here means "same as the body font".
+  --font-family-heading: inherit;
+  --font-family-monospace: inherit;
+
+  --font-size-small: inherit;
+  --font-size-body: inherit;
+  --font-size-heading-3: inherit;
+  --font-size-heading-2: inherit;
+  --font-size-heading-1: inherit;
+
+  --font-weight-regular: inherit;
+  --font-weight-bold: inherit;
+
+  --line-height-body: inherit;
+  --line-height-heading: inherit;
+  --letter-spacing-body: inherit;
+
+  // -------------------------------------------------------------------------------------------
+  // Spacing
+  //
+  // One scale for every gap, margin and padding in the site. Zero is inert because `reset.scss`
+  // has already removed all spacing, so a component can be written against these now and start
+  // spacing itself the moment the scale is filled in.
+  // -------------------------------------------------------------------------------------------
+  --space-1: 0;
+  --space-2: 0;
+  --space-3: 0;
+  --space-4: 0;
+  --space-5: 0;
+  --space-6: 0;
+
+  // -------------------------------------------------------------------------------------------
+  // Layout
+  //
+  // `none` is the initial value of `max-width`, so the content width is unconstrained until a
+  // real one is chosen. Only meaningful in `max-width`; `width: none` is not valid CSS.
+  // -------------------------------------------------------------------------------------------
+  --layout-content-width: none;
+  --layout-text-width: none;
+  --layout-gutter: 0;
+
+  // -------------------------------------------------------------------------------------------
+  // Borders
+  // -------------------------------------------------------------------------------------------
+  --border-width: 0;
+  --border-width-thick: 0;
+  --border-radius-small: 0;
+  --border-radius-large: 0;
+  --border-radius-round: 0;
+
+  // -------------------------------------------------------------------------------------------
+  // Elevation
+  //
+  // `none` is both the initial value of `box-shadow` and a valid one, so these are inert and
+  // safe to reference immediately.
+  // -------------------------------------------------------------------------------------------
+  --shadow-raised: none;
+  --shadow-overlay: none;
+
+  // -------------------------------------------------------------------------------------------
+  // Motion
+  //
+  // Every transition in the site is timed from these, so they are the one place its pace is set.
+  // That is also what makes the `prefers-reduced-motion` block at the foot of this file work:
+  // overriding the two durations there reaches every animation at once, and no component has to
+  // remember to ask.
+  // -------------------------------------------------------------------------------------------
+  --duration-fast: 0.25s;
+  --duration-slow: 0.5s;
+  --easing-standard: linear;
+  --easing-emphasised: linear;
+
+  // -------------------------------------------------------------------------------------------
+  // Stacking order
+  //
+  // `auto` is the initial value of `z-index`, so nothing is lifted out of document order yet.
+  // These exist so that stacking is decided in one place rather than by whoever most recently
+  // needed to be on top; give them ordered integers when the first overlay is built.
+  // -------------------------------------------------------------------------------------------
+  --layer-raised: auto;
+  --layer-sticky: auto;
+  --layer-overlay: auto;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Reduced motion
+//
+// Some people are made ill by movement on screen, and say so through an operating-system setting
+// the browser passes on. Honouring it is not optional.
+//
+// It is done by zeroing the durations rather than by disabling animation, so every transition
+// still *runs* — it simply completes instantly. Nothing else has to change: no `animation: none`
+// scattered through the components, and no rule that can be forgotten in the next one written.
+// Anything that reaches for `var(--duration-fast)` is covered the moment it does.
+// ---------------------------------------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0s;
+    --duration-slow: 0s;
+  }
+}

@@ -16,7 +16,9 @@
     "devices": "My Devices",
     "account": "Account",
     "logout": "Log out",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "footer": {
     "gdpr": "GDPR compliance",

@@ -1,19 +1,36 @@
-<label class="language-switcher">
-  <span class="language-switcher__label">{{ viewModel.switcherLabel() }}</span>
+<!--
+  One button per language rather than a <select>.
+  An <option> cannot carry an image in any way that works across browsers, so a flag switcher
+  cannot be a dropdown. With two languages a row of buttons is also fewer actions: one press
+  instead of open-choose-close.
+-->
+<div class="language-switcher" role="group" [attr.aria-label]="viewModel.switcherLabel()">
+  @for (languageOption of viewModel.languageOptions(); track languageOption.languageCode) {
+    <button
+      class="language-switcher__option"
+      [class.language-switcher__option--active]="languageOption.isActive"
+      type="button"
+      [attr.aria-label]="languageOption.languageName"
+      [attr.aria-pressed]="languageOption.isActive"
+      [attr.title]="languageOption.languageName"
+      (click)="viewModel.changeLanguage(languageOption.languageCode)"
+    >
+      <!--
+        Empty alt on purpose. The flag is decoration: the button is already named by aria-label,
+        and a screen reader announcing "Slovak, image, Slovak" would say everything twice.
 
-  <select
-    class="language-switcher__select"
-    [value]="viewModel.activeLanguageCode()"
-    (change)="onLanguageSelected($event)"
-  >
-    @for (languageOption of viewModel.languageOptions(); track languageOption.languageCode) {
-      <option
-        class="language-switcher__option"
-        [value]="languageOption.languageCode"
-        [selected]="languageOption.isActive"
-      >
-        {{ languageOption.languageName }}
-      </option>
-    }
-  </select>
-</label>
+        `srcset` offers the same flag at 1x, 2x and 3x; the browser downloads exactly one, the
+        one its screen can actually show. `src` is what a browser too old to understand srcset
+        falls back to. The width and height attributes reserve the space before it arrives.
+      -->
+      <img
+        class="language-switcher__flag"
+        [src]="languageOption.flagImageUrl"
+        [srcset]="languageOption.flagImageSourceSet"
+        [width]="viewModel.flagImageWidthInPixels"
+        [height]="viewModel.flagImageWidthInPixels"
+        alt=""
+      />
+    </button>
+  }
+</div>

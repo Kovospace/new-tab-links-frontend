@@ -4,11 +4,32 @@
 // component that owns it. The page is deliberately unstyled — the selectors below and the ones
 // in each component's own .scss are the hooks to write the design against once it is decided.
 //
-// src/reset.scss is loaded before this file (see `styles` in angular.json) and has already
-// stripped every browser default, so nothing written here has to undo one. Read its header
-// before adding a rule: it explains what was removed and the few things it deliberately kept.
+// Two files load before this one — see `styles` in angular.json:
+//
+//   src/reset.scss          strips every browser default, so nothing written here has to undo
+//                           one. Its header explains what went and the few things it kept.
+//   src/design-tokens.scss  names every global value on `:root`. Because custom properties
+//                           inherit, `var(--space-3)` works in any component's own .scss with no
+//                           import — which SCSS `$variables` cannot do. Put a value there rather
+//                           than repeating a literal here.
 
+// The document's own look. Declared once, on the root element, and inherited from there.
+//
+// It belongs on `html` rather than on `*` for two reasons. `reset.scss` already sets
+// `color: inherit` and `font: inherit` on every element, so one declaration here reaches all of
+// them — repeating it on `*` gains nothing. And `background-color` on `*` would give every
+// element in the site its own opaque backdrop, which makes anything layered over anything else
+// impossible later; the root element's background is painted across the whole viewport by the
+// browser, so once is enough.
 html {
+  // Tells the browser the page is dark, so the things CSS does not own follow: scrollbars, the
+  // canvas painted before this stylesheet arrives (no white flash on load), and the default
+  // rendering of any form control not styled by hand.
+  color-scheme: dark;
+
+  color: var(--color-text);
+  background-color: var(--color-background);
+  font-family: var(--font-family);
 }
 
 body {

@@ -32,6 +32,7 @@
             ],
             "styles": [
               "src/reset.scss",
+              "src/design-tokens.scss",
               "src/styles.scss"
             ]
           },
