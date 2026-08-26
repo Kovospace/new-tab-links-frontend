@@ -16,6 +16,96 @@ Requires Node `^22.12.0` (Angular 21 LTS).
 The dev server runs on **5173**, not Angular's usual 4200, because the backend expects the
 website there by default — both as an allowed CORS origin and as the base of the links it mails.
 
+## Local development stack
+
+`docker-compose.yml` runs everything this site talks to — PostgreSQL and the published backend
+image — so developing the frontend needs no backend checkout, no Java and no local database.
+
+```bash
+docker compose up -d   # postgres + backend on http://localhost:8080
+npm start              # this site, with reload, on http://localhost:5173
+```
+
+That is the whole setup. It needs no configuration because `ng serve` has no `config.json` and
+falls back to the defaults, whose `backendBaseUrl` is `http://localhost:8080` — exactly where the
+stack publishes the backend. The backend, in turn, already trusts `http://localhost:5173` as a
+CORS origin and mails its links there.
+
+The backend image comes from the private registry and is pulled, never built here:
+
+```bash
+docker compose pull backend       # take a newer backend
+docker compose logs -f backend    # follow it
+docker compose down               # stop; registered accounts survive
+docker compose down -v            # stop and discard the database
+```
+
+### Registering, activating and resetting a password
+
+There is no SMTP relay on a developer's machine, so the backend logs each message in full instead
+of sending it, activation link included. That is what makes those three flows testable locally:
+
+```bash
+docker compose logs backend | grep -o 'http://localhost:5173/[a-z-]*?token=[A-Za-z0-9._-]*'
+```
+
+Paste the link into the browser. It already points at the dev server.
+
+### Serving the production bundle instead
+
+The `web` profile runs *this repository's* image — the real production build behind nginx — in
+place of the dev server. Use it to check what the dev server cannot show: that the build works,
+that `config.json` is written correctly, that nginx's SPA fallback catches `/activate?token=…`,
+and that the caching and security headers are right.
+
+```bash
+docker compose --profile web up -d --build frontend
+```
+
+It publishes the same port **5173** as `npm start`, so the two are alternatives — stop the dev
+server first. Both are origins the backend already trusts, so neither needs it reconfigured.
+
+### Changing the defaults
+
+Everything worth varying per machine is read from a gitignored `.env` beside the compose file:
+
+| Variable | Default | What it does |
+| --- | --- | --- |
+| `BACKEND_IMAGE_TAG` | `latest` | Pins an older backend image when bisecting a regression |
+| `BACKEND_PORT` | `8080` | Host port for the backend |
+| `FRONTEND_PORT` | `5173` | Host port for the dev server *and* the `web` profile |
+| `POSTGRES_PORT` | `5432` | Host port for the database. Change it if something already holds 5432 |
+| `BACKEND_LOG_LEVEL` | `INFO` | `DEBUG` on the backend's own packages |
+
+To run a backend you built yourself — an unreleased fix the registry does not have yet — tag it
+under the registry's name and point `BACKEND_IMAGE_TAG` at it:
+
+```bash
+docker build -t registry.matejkovac.sk/apps/new-tab-links-backend:my-fix ../new-tab-links-backend
+BACKEND_IMAGE_TAG=my-fix docker compose up -d backend
+```
+
+Changing `FRONTEND_PORT` also changes what the backend trusts and where it mails links, because
+both are derived from it — but `npm start` has its own port in `angular.json`, so the two must be
+changed together.
+
+Backend variables that are **not** listed in the compose file go in an optional
+`.env.backend.local`, which is gitignored. That is where the Google sign-in credentials belong,
+without which the Google button has no provider behind it:
+
+```dotenv
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_ID=…
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_SECRET=…
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_SCOPE=openid,email,profile
+```
+
+Register `http://localhost:8080/login/oauth2/code/google` as the redirect URI in the Google
+console. These three cannot simply be declared empty in the compose file: Spring Boot refuses to
+start when a declared client id is blank, which is why they live in a file that may be absent.
+
+The `environment:` block in `docker-compose.yml` wins over `.env.backend.local`, so that file can
+only add variables, not override the ones already set there.
+
 ## Running the container
 
 ```bash

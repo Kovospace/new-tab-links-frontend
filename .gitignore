@@ -30,3 +30,6 @@ yarn-error.log*
 .idea
 # Claude local, machine-specific settings
 .claude/settings.local.json
+
+# Local compose overrides (machine-specific, may hold Google OAuth secrets)
+/.env.backend.local

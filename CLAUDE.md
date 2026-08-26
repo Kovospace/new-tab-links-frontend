@@ -36,6 +36,12 @@ risk/impact analysis and effort estimates — and it is the counterpart the **ba
 **extension** agents query about how their changes land here. It answers from the code, with
 `path:line`, or says "no consumer exists yet".
 
+Its counterpart is **`backend-developer`** — the backend repo's own `developer` agent, registered
+user-level in `~/.claude/agents/backend-developer.md` because a sibling repo's project-scoped
+agents are invisible from here. Send it anything that has to change in the backend; it resolves
+that checkout itself and never edits this one. A newly added agent file is only picked up by a
+**new** session.
+
 ## Sibling repositories
 
 | Repo | Local path | Remote |
@@ -76,10 +82,14 @@ changing the other.
 
 ```bash
 npm install                # install dependencies
+docker compose up -d       # postgres + the published backend image on :8080 (see README)
 npm start                  # dev server on http://localhost:5173
 npm run build              # production build into dist/
 npx ng test --watch=false  # one-shot test run
 ./.claude/hooks/enforce-branch-policy.test.sh   # check the git hook still judges correctly
+
+# the production bundle behind nginx instead of the dev server, same port
+docker compose --profile web up -d --build frontend
 
 # the shipped artefact, as the pipeline builds it
 docker build -t new-tab-links-frontend:verify .

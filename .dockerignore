@@ -22,3 +22,6 @@ out-tsc
 README.md
 CLAUDE.md
 *.md
+
+# The local development stack: no use inside the image.
+docker-compose.yml

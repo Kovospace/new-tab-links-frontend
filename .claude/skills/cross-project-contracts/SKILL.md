@@ -59,7 +59,10 @@ extension's `backend-sync`). When answering:
 
 ## Raising a question outward
 
-- API/contract/sync/auth questions → the backend's `developer` agent.
+- API/contract/sync/auth questions → the **`backend-developer`** agent. That is the backend
+  repo's own `.claude/agents/developer.md`, registered user-level in
+  `~/.claude/agents/backend-developer.md` so it is reachable from this project — a sibling repo's
+  project-scoped agents are not. It resolves the backend checkout itself and edits only there.
 - Extension behaviour, storage or data-model questions → the extension's `backend-sync` agent.
 - Cross-repo work uses **the same branch name in every repo it touches**. Read the other repo's
   current branch first (`git -C <path> rev-parse --abbrev-ref HEAD`) and reuse it; if that repo
