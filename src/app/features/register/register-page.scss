@@ -9,21 +9,36 @@
 }
 
 .register-page__form {
+  margin: 1em 0;
 }
 
 .register-page__field {
+  display: block;
+  margin: 2em 0;
 }
 
 .register-page__field-label {
+  display: block;
+  margin: 0.25em 0;
+  font-weight: bold;
+  font-size: 1.25em;
 }
 
 .register-page__field-input {
+
 }
 
 .register-page__field-hint {
+  display: block;
+  margin: 0.375em 0;
 }
 
 .register-page__field-error {
+  display: inline-block;
+  background-color: var(--color-panel-danger);
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  margin: 0.25em 0;
 }
 
 .register-page__submit {

@@ -203,3 +203,7 @@ html {
 //
 // `::selection` and the pointer cursor over links are left alone for the same reason: they are
 // affordances that tell someone what is happening, not decoration.
+
+*:focus-visible {
+  outline: none;
+}

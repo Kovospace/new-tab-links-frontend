@@ -60,7 +60,7 @@
     "heading": "Vytvoriť účet",
     "leadParagraph": "Účet udrží vaše odkazy zosynchronizované vo všetkých prehliadačoch, kde sa prihlásite.",
     "usernameLabel": "Používateľské meno",
-    "usernameHint": "3 až 60 znakov: písmená, číslice, bodka, podčiarkovník a pomlčka.",
+    "usernameHint": "3 až 60 znakov, povolené sú písmená, číslice, bodka (.), podčiarkovník (_) a pomlčka (-).",
     "emailLabel": "E-mailová adresa",
     "emailHint": "Na túto adresu pošleme aktivačný odkaz.",
     "displayNameLabel": "Zobrazované meno",
@@ -190,7 +190,7 @@
     "invalidEmail": "Zadajte platnú e-mailovú adresu.",
     "tooShort": "Vyžaduje sa aspoň {min} znakov.",
     "tooLong": "Najviac {max} znakov.",
-    "usernamePattern": "Povolené sú len písmená, číslice, bodka, podčiarkovník a pomlčka."
+    "usernamePattern": "Nepovolené znaky"
   },
   "errors": {
     "generic": "Niečo sa pokazilo. Skúste to znova.",

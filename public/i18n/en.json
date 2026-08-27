@@ -60,7 +60,7 @@
     "heading": "Create an account",
     "leadParagraph": "An account keeps your links in sync across every browser you sign in from.",
     "usernameLabel": "Username",
-    "usernameHint": "3 to 60 characters: letters, digits, dot, underscore and hyphen.",
+    "usernameHint": "3 to 60 characters, allowed are: letters, digits, dot (.), underscore (_) and hyphen (-).",
     "emailLabel": "Email address",
     "emailHint": "The activation link is sent here.",
     "displayNameLabel": "Display name",
@@ -190,7 +190,7 @@
     "invalidEmail": "Enter a valid email address.",
     "tooShort": "This needs at least {min} characters.",
     "tooLong": "This may be at most {max} characters.",
-    "usernamePattern": "Only letters, digits, dot, underscore and hyphen are allowed."
+    "usernamePattern": "Not allowed characters used"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

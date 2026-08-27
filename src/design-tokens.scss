@@ -101,19 +101,21 @@
   // color for structures like panel, menu backgrounds and other wrapping containers
   // which itself are the passive feature of UI
   --color-panel: #111;
+  --color-panel-danger: #FF2D32;
 
   // for use with "live" ui elements like buttons, forms, menu items
   --color-ui-element: #333;
+  --color-ui-element-selected: #004fff;
+  --color-ui-element-danger: #FF2D32;
 
   // State. Kept apart from the accent because they carry meaning rather than identity, and
   // because a design may want them louder than anything else on the page.
-  --color-success: currentColor;
-  --color-warning: currentColor;
   --color-danger: currentColor;
 
-  // Drawn only when someone is navigating by keyboard. `reset.scss` deliberately leaves the
-  // browser's own focus ring alone; this exists for the day the design replaces it.
-  --color-focus-ring: currentColor;
+  // The ring drawn around a focused control. `reset.scss` leaves the browser's own ring in place;
+  // wherever a component opts out of it, it draws this one instead. Lighter than `--color-accent`
+  // so it stays legible both against the page and against a border already carrying the accent.
+  --color-focus-ring: #4a82ff;
 
   // -------------------------------------------------------------------------------------------
   // Typography

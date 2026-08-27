@@ -38,3 +38,24 @@ body {
   min-height: 100%;
   height: 100%;
 }
+
+input {
+  border: 0.25em solid var(--color-ui-element);
+  background-color: var(--color-panel);
+  border-radius: 0.5em;
+  padding: 0.25em 0.5em;
+  font-size: 1.25em;
+  transition: border-color var(--duration-fast) var(--easing-standard);
+
+  &:active, &:focus {
+    border-color: var(--color-ui-element-selected);
+  }
+
+  // Angular puts `ng-invalid` on a control the moment the form is built, so this is gated on
+  // `ng-touched` too — the same condition `shared/forms/form-validation-messages.ts:54` uses to
+  // decide whether to show the message, so the border and the wording appear together. Two
+  // classes also outweigh `:focus` above, which keeps an invalid field red while it has focus.
+  &.ng-invalid.ng-touched {
+    border-color: var(--color-ui-element-danger);
+  }
+}
