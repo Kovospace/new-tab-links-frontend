@@ -16,6 +16,17 @@ export const SKIP_AUTHORIZATION_HEADER = new HttpContextToken<boolean>(() => fal
 const DEVICE_NAME_HEADER = 'X-Device-Name';
 
 /**
+ * Header carrying the shared key that admits this website to the backend's public
+ * username-existence endpoint.
+ *
+ * <p>Must match the backend's expected header name exactly, and the backend's CORS
+ * configuration has to list it: {@code ALLOWED_CORS_REQUEST_HEADERS} there is an explicit list
+ * rather than a wildcard, so a header missing from it fails the browser's preflight and the
+ * request never leaves the browser at all.</p>
+ */
+const FRONTEND_API_KEY_HEADER = 'X-Frontend-Api-Key';
+
+/**
  * The one place that knows where the backend lives and how to address it.
  *
  * <p>Feature services call this rather than {@link HttpClient} directly, so that the base URL,
@@ -30,16 +41,20 @@ export class BackendApiClient {
   /**
    * Sends a GET request.
    *
-   * @param path backend path, starting with a slash
+   * @param path            backend path, starting with a slash
    * @param queryParameters optional query string values
+   * @param options         whether to omit the bearer token and which extra headers to send
    * @returns the parsed response body
    */
   get<TResponse>(
     path: string,
     queryParameters?: Readonly<Record<string, string>>,
+    options: BackendRequestOptions = {},
   ): Observable<TResponse> {
     return this.httpClient.get<TResponse>(this.buildAbsoluteUrl(path), {
       params: queryParameters,
+      headers: this.buildHeaders(options),
+      context: this.buildContext(options),
     });
   }
 
@@ -96,14 +111,25 @@ export class BackendApiClient {
   /**
    * Builds the headers a request needs beyond the defaults.
    *
+   * <p>Returns undefined rather than an empty {@link HttpHeaders} when nothing was asked for,
+   * so that a request which wants no extra headers is indistinguishable from one sent before
+   * this method existed.</p>
+   *
    * @param options what the caller asked for
    * @returns the headers, or undefined when none are needed
    */
   private buildHeaders(options: BackendRequestOptions): HttpHeaders | undefined {
-    return options.identifyThisDevice
-      ? new HttpHeaders({
-          [DEVICE_NAME_HEADER]: this.runtimeConfiguration.webClientDeviceName,
-        })
+    const headerValuesByName: Record<string, string> = {};
+
+    if (options.identifyThisDevice) {
+      headerValuesByName[DEVICE_NAME_HEADER] = this.runtimeConfiguration.webClientDeviceName;
+    }
+    if (options.withFrontendApiKey && this.runtimeConfiguration.frontendApiKey) {
+      headerValuesByName[FRONTEND_API_KEY_HEADER] = this.runtimeConfiguration.frontendApiKey;
+    }
+
+    return Object.keys(headerValuesByName).length > 0
+      ? new HttpHeaders(headerValuesByName)
       : undefined;
   }
 
@@ -139,4 +165,13 @@ export interface BackendRequestOptions {
    * which device a session belongs to.</p>
    */
   readonly identifyThisDevice?: boolean;
+
+  /**
+   * Sends the shared frontend API key.
+   *
+   * <p>Only the username-existence endpoint asks for it. The header is omitted entirely when no
+   * key is configured, rather than sent empty: the backend denies that endpoint by default, and
+   * an absent header describes the situation more honestly than a blank one.</p>
+   */
+  readonly withFrontendApiKey?: boolean;
 }

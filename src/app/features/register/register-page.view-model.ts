@@ -1,7 +1,19 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
+import {
+  Observable,
+  catchError,
+  concat,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 import { REGISTRATION_FIELD_CONSTRAINTS } from '../../core/api/models/registration.model';
 import { AuthenticationService } from '../../core/auth/authentication.service';
+import { UsernameExistenceService } from '../../core/auth/username-existence.service';
 import { AbstractFormViewModel } from '../../shared/forms/abstract-form.view-model';
 import { createFormValidationMessagesSignal } from '../../shared/forms/form-validation-messages.signal';
 
@@ -9,6 +21,23 @@ import { createFormValidationMessagesSignal } from '../../shared/forms/form-vali
 const REGISTRATION_FAILURE_WORDING = {
   409: 'errors.usernameTaken',
 } as const;
+
+/**
+ * How long typing has to stop before the username is looked up.
+ *
+ * <p>250ms: long enough that a word typed at speed costs one request rather than one per letter,
+ * short enough that the answer arrives while the field still has the user's attention.</p>
+ */
+const USERNAME_EXISTENCE_CHECK_DEBOUNCE_MILLISECONDS = 250;
+
+/**
+ * What is currently known about the typed username.
+ *
+ * <p>{@code unchecked} covers every reason there is nothing to say — nothing typed yet, what is
+ * typed cannot be a username anyway, no API key configured, or the lookup failed. They are one
+ * state on purpose: each of them means the same thing to the person looking at the form.</p>
+ */
+type UsernameExistenceState = 'unchecked' | 'checking' | 'available' | 'taken';
 
 /**
  * State and behaviour behind the registration form.
@@ -26,6 +55,7 @@ const REGISTRATION_FAILURE_WORDING = {
 export class RegisterPageViewModel extends AbstractFormViewModel {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authenticationService = inject(AuthenticationService);
+  private readonly usernameExistenceService = inject(UsernameExistenceService);
 
   /** The registration form, with the backend's constraints restated as validators. */
   readonly registrationForm = this.formBuilder.nonNullable.group({
@@ -70,6 +100,47 @@ export class RegisterPageViewModel extends AbstractFormViewModel {
   );
 
   /**
+   * What the backend last said about the typed username.
+   *
+   * <p>Driven by the control's own value stream rather than by a signal effect, because the
+   * whole point is the pause between keystrokes and debouncing is what a stream does well.</p>
+   */
+  private readonly usernameExistenceState = toSignal(
+    this.registrationForm.controls.username.valueChanges.pipe(
+      debounceTime(USERNAME_EXISTENCE_CHECK_DEBOUNCE_MILLISECONDS),
+      map((typedUsername) => typedUsername.trim()),
+      distinctUntilChanged(),
+      switchMap((typedUsername) => this.lookUpUsername(typedUsername)),
+    ),
+    { initialValue: 'unchecked' as UsernameExistenceState },
+  );
+
+  /** Whether the backend is being asked about the typed username right now. */
+  readonly isCheckingUsernameExistence = computed(
+    () => this.usernameExistenceState() === 'checking',
+  );
+
+  /**
+   * Finished text saying the typed username is already registered, empty when it is not.
+   *
+   * <p>Separate from {@link usernameAvailableMessage} rather than one message with a flag beside
+   * it, so that the template picks between two blocks of markup and each gets its own class to
+   * be styled against — a warning and a reassurance do not look alike.</p>
+   */
+  readonly usernameTakenMessage = computed(() =>
+    this.usernameExistenceState() === 'taken'
+      ? this.translationService.translate('register.usernameTaken')
+      : '',
+  );
+
+  /** Finished text saying the typed username is still free, empty when it is not. */
+  readonly usernameAvailableMessage = computed(() =>
+    this.usernameExistenceState() === 'available'
+      ? this.translationService.translate('register.usernameAvailable')
+      : '',
+  );
+
+  /**
    * Submits the form.
    *
    * <p>An invalid form is marked touched instead of sent, which is what makes the per-field
@@ -90,6 +161,36 @@ export class RegisterPageViewModel extends AbstractFormViewModel {
       },
       error: (failure: unknown) => this.failSubmission(failure, REGISTRATION_FAILURE_WORDING),
     });
+  }
+
+  /**
+   * Looks one username up, or decides there is nothing worth asking.
+   *
+   * <p>Emits {@code checking} before the request so the wait is visible, then the answer. A
+   * failure — a rejected API key, an unreachable backend, a deployment with no key configured —
+   * resolves to {@code unchecked} and is otherwise ignored: this check is a convenience, and it
+   * must never be able to stop someone registering. The backend still refuses a duplicate
+   * username at submission time, which is the answer that actually counts.</p>
+   *
+   * @param typedUsername the trimmed value currently in the field
+   * @returns the states to report for this value, in order
+   */
+  private lookUpUsername(typedUsername: string): Observable<UsernameExistenceState> {
+    if (
+      typedUsername.length === 0 ||
+      this.registrationForm.controls.username.invalid ||
+      !this.usernameExistenceService.isUsernameExistenceCheckAvailable()
+    ) {
+      return of<UsernameExistenceState>('unchecked');
+    }
+
+    return concat(
+      of<UsernameExistenceState>('checking'),
+      this.usernameExistenceService.checkWhetherUsernameExists(typedUsername).pipe(
+        map((exists): UsernameExistenceState => (exists ? 'taken' : 'available')),
+        catchError(() => of<UsernameExistenceState>('unchecked')),
+      ),
+    );
   }
 
   /**

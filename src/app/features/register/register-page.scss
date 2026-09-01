@@ -25,7 +25,6 @@
 }
 
 .register-page__field-input {
-
 }
 
 .register-page__field-hint {
@@ -38,6 +37,25 @@
   background-color: var(--color-panel-danger);
   padding: 0.25em 0.5em;
   border-radius: 0.25em;
+  margin: 0.25em 0;
+}
+
+// The username-existence check, which reports while the visitor is still typing.
+.register-page__field-checking {
+  display: block;
+  margin: 0.25em 0;
+}
+
+.register-page__field-taken {
+  display: inline-block;
+  background-color: var(--color-panel-danger);
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  margin: 0.25em 0;
+}
+
+.register-page__field-available {
+  display: block;
   margin: 0.25em 0;
 }
 

@@ -111,6 +111,13 @@ services:
       NEWTABLINKS_WEB_BASE_URL: http://localhost:${FRONTEND_PORT:-5173}
       NEWTABLINKS_SECURITY_ALLOWED_CORS_ORIGINS: http://localhost:${FRONTEND_PORT:-5173},chrome-extension://*
 
+      ### Admits the website to the username-existence check the registration
+      ### form makes while someone is typing. The backend denies that endpoint
+      ### when this is unset, so both sides read the same variable here and the
+      ### two can never drift apart locally. Not a secret: the frontend puts it
+      ### in config.json, which any visitor can fetch.
+      FRONTEND_API_KEY: ${FRONTEND_API_KEY:-local-development-frontend-key}
+
       ### Tokens. The signing secret is the backend's own development
       ### placeholder: it is published in its properties file, is worthless
       ### outside a laptop, and only has to clear the 32-byte minimum below which
@@ -195,6 +202,9 @@ services:
       # deployment must use the backend's public address, never its Service.
       NEWTABLINKS_BACKEND_BASE_URL: http://localhost:${BACKEND_PORT:-8080}
       NEWTABLINKS_WEB_CLIENT_DEVICE_NAME: ${WEB_CLIENT_DEVICE_NAME:-NewTabLinks website (local container)}
+      # The same default as the backend's FRONTEND_API_KEY above, on purpose:
+      # they have to be identical or the username check is refused.
+      NEWTABLINKS_FRONTEND_API_KEY: ${FRONTEND_API_KEY:-local-development-frontend-key}
       NEWTABLINKS_CHROME_WEB_STORE_URL: ''
       NEWTABLINKS_SELF_HOSTED_CRX_PATH: /downloads/newtablinks.crx
     healthcheck:

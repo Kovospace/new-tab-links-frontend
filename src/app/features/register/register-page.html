@@ -19,6 +19,19 @@
       @if (viewModel.fieldValidationMessages()['username']; as validationMessage) {
         <small class="register-page__field-error">{{ validationMessage }}</small>
       }
+      @if (viewModel.isCheckingUsernameExistence()) {
+        <small class="register-page__field-checking" role="status">{{
+          'register.usernameChecking' | translate
+        }}</small>
+      }
+      @if (viewModel.usernameTakenMessage(); as usernameTakenMessage) {
+        <small class="register-page__field-taken" role="status">{{ usernameTakenMessage }}</small>
+      }
+      @if (viewModel.usernameAvailableMessage(); as usernameAvailableMessage) {
+        <small class="register-page__field-available" role="status">{{
+          usernameAvailableMessage
+        }}</small>
+      }
     </label>
 
     <label class="register-page__field">

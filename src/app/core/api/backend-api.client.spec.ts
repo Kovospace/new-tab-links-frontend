@@ -8,6 +8,7 @@ import { BackendApiClient } from './backend-api.client';
 const DEPLOYED_CONFIGURATION = {
   backendBaseUrl: 'https://api.newtablinks.example',
   webClientDeviceName: 'NewTabLinks (production)',
+  frontendApiKey: 'the-shared-frontend-key',
   extensionDownload: { chromeWebStoreUrl: '', selfHostedCrxPath: '/downloads/newtablinks.crx' },
 };
 
@@ -15,18 +16,26 @@ describe('BackendApiClient', () => {
   let backendApiClient: BackendApiClient;
   let httpTestingController: HttpTestingController;
 
-  beforeEach(() => {
+  /**
+   * Builds the client against a given deployment configuration.
+   *
+   * @param runtimeConfiguration what config.json would have supplied
+   */
+  function configureWith(runtimeConfiguration: unknown): void {
+    TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: RUNTIME_CONFIGURATION, useValue: DEPLOYED_CONFIGURATION },
+        { provide: RUNTIME_CONFIGURATION, useValue: runtimeConfiguration },
       ],
     });
 
     backendApiClient = TestBed.inject(BackendApiClient);
     httpTestingController = TestBed.inject(HttpTestingController);
-  });
+  }
+
+  beforeEach(() => configureWith(DEPLOYED_CONFIGURATION));
 
   afterEach(() => httpTestingController.verify());
 
@@ -44,6 +53,32 @@ describe('BackendApiClient', () => {
     );
     expect(sentRequest.request.headers.get('X-Device-Name')).toBe('NewTabLinks (production)');
     sentRequest.flush({});
+  });
+
+  it('sends the frontend API key on the requests that ask for it', () => {
+    backendApiClient
+      .get('/api/v1/auth/username-existence', { username: 'alice' }, { withFrontendApiKey: true })
+      .subscribe();
+
+    const sentRequest = httpTestingController.expectOne((request) =>
+      request.url.endsWith('/api/v1/auth/username-existence'),
+    );
+    expect(sentRequest.request.headers.get('X-Frontend-Api-Key')).toBe('the-shared-frontend-key');
+    sentRequest.flush({ exists: false });
+  });
+
+  it('omits the frontend API key header entirely when the deployment configured none', () => {
+    configureWith({ ...DEPLOYED_CONFIGURATION, frontendApiKey: '' });
+
+    backendApiClient
+      .get('/api/v1/auth/username-existence', { username: 'alice' }, { withFrontendApiKey: true })
+      .subscribe();
+
+    const sentRequest = httpTestingController.expectOne((request) =>
+      request.url.endsWith('/api/v1/auth/username-existence'),
+    );
+    expect(sentRequest.request.headers.has('X-Frontend-Api-Key')).toBe(false);
+    sentRequest.flush({ exists: false });
   });
 
   it('sends no device name when the caller did not ask to be identified', () => {

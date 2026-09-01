@@ -61,6 +61,7 @@ docker run -e NEWTABLINKS_BACKEND_BASE_URL=https://api.example
 |---|---|---|
 | `NEWTABLINKS_BACKEND_BASE_URL` | `backendBaseUrl` | `http://localhost:8080` |
 | `NEWTABLINKS_WEB_CLIENT_DEVICE_NAME` | `webClientDeviceName` | `NewTabLinks website` |
+| `NEWTABLINKS_FRONTEND_API_KEY` | `frontendApiKey` | empty (username check never runs) |
 | `NEWTABLINKS_CHROME_WEB_STORE_URL` | `extensionDownload.chromeWebStoreUrl` | empty (offer hidden) |
 | `NEWTABLINKS_SELF_HOSTED_CRX_PATH` | `extensionDownload.selfHostedCrxPath` | `/downloads/newtablinks.crx` |
 
@@ -75,6 +76,10 @@ Rules that hold this together:
 - **`config.json` must never be cached.** It is the one file whose contents differ between
   deployments of the same image; a stale copy points the browser at the wrong backend.
 - **Nothing secret may go in here.** Every value is served to the visitor's browser in plain text.
+  `frontendApiKey` is not an exception to that rule — it is a public value that happens to be
+  called a key. It must equal the backend's `FRONTEND_API_KEY`, which the GitOps values file has
+  to set on both workloads; an empty one silently disables the registration form's
+  username-existence check rather than breaking anything.
 - **`backendBaseUrl` is resolved by the visitor's browser**, not by the pod — a cluster-internal
   service name will not work.
 - A missing or unparseable `config.json` falls back to the defaults rather than failing to start.
