@@ -186,7 +186,8 @@ probes only when it is set, and `NEWTABLINKS_BACKEND_BASE_URL` pointing at the b
   `./.claude/hooks/enforce-branch-policy.test.sh` checks it after any edit.
 - Cross-repo work uses the **same branch name in every repo it touches**.
 - Commit only when the user asks; confirm the current branch first.
-- `gh` is not installed — hand the user a GitHub compare URL instead of opening a PR directly.
+- `gh` is installed and authenticated as **K0V0** over SSH, so a PR can be opened directly.
+  Opening one is still the user's call to make, like any push.
 
 ## Claude config in this repo
 
