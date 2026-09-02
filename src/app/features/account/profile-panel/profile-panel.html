@@ -15,7 +15,7 @@
         autocomplete="name"
       />
       @if (viewModel.fieldValidationMessages()['displayName']; as validationMessage) {
-        <small class="profile-panel__field-error">{{ validationMessage }}</small>
+        <em class="profile-panel__field-error">{{ validationMessage }}</em>
       }
     </label>
 

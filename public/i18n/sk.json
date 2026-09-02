@@ -83,9 +83,10 @@
     "passwordLabel": "Heslo",
     "submitAction": "Prihlásiť sa",
     "forgotPassword": "Zabudli ste heslo?",
+    "forgotPasswordAction": "Reset",
     "noAccount": "Ešte nemáte účet?",
     "registerLink": "Vytvorte si ho",
-    "googleSeparator": "alebo",
+    "googleSeparator": "...alebo",
     "googleAction": "Pokračovať cez Google",
     "googleHint": "Prihlásenie cez Google vytvorí účet pri prvom použití."
   },

@@ -82,3 +82,37 @@ h1 {
   font-weight: bold;
   margin: 0.5em 0;
 }
+
+// typical form layout
+form {
+  margin: 1em 0;
+
+  // "line" wrapping element
+  label {
+    display: block;
+    margin: 2em 0;
+
+    // actual label
+    & > span {
+      display: block;
+      margin: 0.25em 0;
+      font-weight: bold;
+      font-size: 1.25em;
+    }
+
+    small {
+      display: block;
+      margin: 0.375em 0;
+      color: var(--color-text-muted);
+    }
+
+    // error holding element
+    em {
+      display: inline-block;
+      background-color: var(--color-panel-danger);
+      padding: 0.25em 0.5em;
+      border-radius: 0.25em;
+      margin: 0.375em 0;
+    }
+  }
+}

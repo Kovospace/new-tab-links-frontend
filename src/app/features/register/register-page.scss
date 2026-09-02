@@ -1,44 +1,8 @@
-// Styling is deliberately left to be written by hand; these are the hooks to write it against.
-.register-page {
-}
-
-.register-page__heading {
-}
-
-.register-page__lead {
-}
-
-.register-page__form {
-  margin: 1em 0;
-}
-
-.register-page__field {
-  display: block;
-  margin: 2em 0;
-}
-
-.register-page__field-label {
-  display: block;
-  margin: 0.25em 0;
-  font-weight: bold;
-  font-size: 1.25em;
-}
-
-.register-page__field-input {
-}
-
-.register-page__field-hint {
-  display: block;
-  margin: 0.375em 0;
-  color: var(--color-text-muted);
-}
-
+// Only what is actually styled has a rule here. A class exists in the template when this file
+// gives it something; adding a style means adding both, and removing the last declaration
+// means removing the class too. Empty placeholder rules are not kept.
 .register-page__field-error {
-  display: inline-block;
-  background-color: var(--color-panel-danger);
-  padding: 0.25em 0.5em;
-  border-radius: 0.25em;
-  margin: 0.25em 0;
+  margin: 0.125em 0;
 }
 
 // The username-existence check, which reports while the visitor is still typing.
@@ -60,33 +24,10 @@
   margin: 0.25em 0;
 }
 
-.register-page__submit {
-}
-
-.register-page__feedback {
-}
-
 .register-page__google {
   margin-top: 3em;
 }
 
-.register-page__heading_google {
-
-}
-
-.register-page__google-text {
-}
-
-.register-page__google-button {
-}
-
-.register-page__heading_already_have {
-
-}
-
 .register-page__login-hint {
   margin-top: 3em;
-}
-
-.register-page__login-link {
 }

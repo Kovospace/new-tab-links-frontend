@@ -47,7 +47,7 @@
             autocomplete="email"
           />
           @if (viewModel.fieldValidationMessages()['email']; as validationMessage) {
-            <small class="activate-account-page__field-error">{{ validationMessage }}</small>
+            <em class="activate-account-page__field-error">{{ validationMessage }}</em>
           }
         </label>
 

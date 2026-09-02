@@ -82,9 +82,10 @@
     "passwordLabel": "Password",
     "submitAction": "Log in",
     "forgotPassword": "Forgotten your password?",
+    "forgotPasswordAction": "Reset",
     "noAccount": "No account yet?",
     "registerLink": "Create one",
-    "googleSeparator": "or",
+    "googleSeparator": "...or",
     "googleAction": "Continue with Google",
     "googleHint": "Signing in with Google creates the account the first time you use it."
   },

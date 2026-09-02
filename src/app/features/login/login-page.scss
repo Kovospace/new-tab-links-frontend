@@ -1,54 +1,19 @@
-// Styling is deliberately left to be written by hand; these are the hooks to write it against.
-.login-page {
-}
-
-.login-page__heading {
-}
-
-.login-page__lead {
-}
-
-.login-page__form {
-}
-
-.login-page__field {
-}
-
-.login-page__field-label {
-}
-
-.login-page__field-input {
-}
-
-.login-page__field-error {
-}
-
-.login-page__submit {
-}
-
-.login-page__feedback {
-}
-
+// Only what is actually styled has a rule here. A class exists in the template when this file
+// gives it something; adding a style means adding both, and removing the last declaration
+// means removing the class too. Empty placeholder rules are not kept.
 .login-page__google {
-}
-
-.login-page__google-separator {
-}
-
-.login-page__google-button {
+  margin-top: 3em;
 }
 
 .login-page__google-hint {
-}
-
-.login-page__alternatives {
+  color: var(--color-text-muted);
+  margin-top: 0.5em;
 }
 
 .login-page__forgot-password {
+  margin-top: 3em;
 }
 
-.login-page__register-hint {
-}
-
-.login-page__register-link {
+.login-page__register {
+  margin-top: 3em;
 }
