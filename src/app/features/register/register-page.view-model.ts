@@ -1,6 +1,6 @@
 import { Injectable, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, Validators } from '@angular/forms';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import {
   Observable,
   catchError,
@@ -23,6 +23,28 @@ const REGISTRATION_FAILURE_WORDING = {
   409: 'errors.usernameTaken',
   429: 'errors.tooManyRequests',
 } as const;
+
+/**
+ * Fails the control it is put on unless it holds exactly what the password field holds.
+ *
+ * <p>Written as a validator on the confirmation field rather than on the form, so that the
+ * message appears under the field the user has to fix — the per-field machinery every other form
+ * on this site uses only looks at controls.</p>
+ *
+ * <p>It reads its sibling through {@code parent}, which is null until the control is added to
+ * the group; that first call is treated as "nothing to compare yet" rather than as a failure.</p>
+ *
+ * @param confirmationControl the repeat-password control being validated
+ * @returns a {@code passwordMismatch} error, or null when the two agree
+ */
+function matchesTheChosenPassword(confirmationControl: AbstractControl): ValidationErrors | null {
+  const chosenPassword = confirmationControl.parent?.get('password')?.value as string | undefined;
+
+  if (chosenPassword === undefined || chosenPassword === confirmationControl.value) {
+    return null;
+  }
+  return { passwordMismatch: true };
+}
 
 /**
  * What is currently known about the typed username.
@@ -97,7 +119,22 @@ export class RegisterPageViewModel extends AbstractFormViewModel {
         Validators.maxLength(REGISTRATION_FIELD_CONSTRAINTS.passwordMaximumLength),
       ],
     ],
+    passwordConfirmation: ['', [Validators.required, matchesTheChosenPassword]],
   });
+
+  /**
+   * Re-judges the repeat field whenever the password above it changes.
+   *
+   * <p>Angular validates a control when <em>that</em> control changes, so without this the two
+   * fields would agree, then the user would correct the password above and the repeat field
+   * would go on claiming they match. Editing either one has to re-ask the same question.</p>
+   */
+  private readonly recheckConfirmationWhenPasswordChanges =
+    this.registrationForm.controls.password.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(() =>
+        this.registrationForm.controls.passwordConfirmation.updateValueAndValidity(),
+      );
 
   /** One finished validation message per field, empty where the field is fine or untouched. */
   readonly fieldValidationMessages = createFormValidationMessagesSignal(

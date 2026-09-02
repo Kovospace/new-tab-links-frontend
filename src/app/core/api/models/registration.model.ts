@@ -12,6 +12,14 @@ export interface RegistrationRequest {
   readonly email: string;
   /** Chosen password. */
   readonly password: string;
+  /**
+   * The same password typed a second time.
+   *
+   * <p>Sent, not merely checked here: the backend validates the pair itself, because a client is
+   * not a place to enforce a rule and that endpoint is open to any client that ever registers a
+   * user.</p>
+   */
+  readonly passwordConfirmation: string;
   /** Name shown in the interface. */
   readonly displayName: string;
 }

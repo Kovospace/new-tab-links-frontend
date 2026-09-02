@@ -51,6 +51,15 @@
       }
     </label>
 
+    <label>
+      <span>{{ 'register.passwordConfirmationLabel' | translate }}</span>
+      <input type="password" formControlName="passwordConfirmation" autocomplete="new-password" />
+      <small>{{ 'register.passwordConfirmationHint' | translate }}</small>
+      @if (viewModel.fieldValidationMessages()['passwordConfirmation']; as validationMessage) {
+        <em class="register-page__field-error">{{ validationMessage }}</em>
+      }
+    </label>
+
     <button type="submit" [disabled]="viewModel.isSubmitting()">
       @if (viewModel.isSubmitting()) {
         {{ 'form.submitting' | translate }}
