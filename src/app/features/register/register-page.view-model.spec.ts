@@ -111,6 +111,47 @@ describe('RegisterPageViewModel username existence check', () => {
     sentRequest.flush({ exists: false });
   });
 
+  it('refuses a repeated password that does not match the chosen one', () => {
+    const viewModel = createViewModel(CONFIGURATION_WITH_API_KEY);
+    const { password, passwordConfirmation } = viewModel.registrationForm.controls;
+
+    password.setValue('a long passphrase');
+    passwordConfirmation.setValue('a long passphrasf');
+    passwordConfirmation.markAsTouched();
+
+    expect(passwordConfirmation.hasError('passwordMismatch')).toBe(true);
+    expect(viewModel.fieldValidationMessages()['passwordConfirmation']).not.toBe('');
+    expect(viewModel.registrationForm.valid).toBe(false);
+  });
+
+  it('accepts a repeated password that matches', () => {
+    const viewModel = createViewModel(CONFIGURATION_WITH_API_KEY);
+    const { password, passwordConfirmation } = viewModel.registrationForm.controls;
+
+    password.setValue('a long passphrase');
+    passwordConfirmation.setValue('a long passphrase');
+    passwordConfirmation.markAsTouched();
+
+    expect(passwordConfirmation.valid).toBe(true);
+    expect(viewModel.fieldValidationMessages()['passwordConfirmation']).toBe('');
+  });
+
+  it('re-judges the repeat field when the password above it is edited afterwards', () => {
+    const viewModel = createViewModel(CONFIGURATION_WITH_API_KEY);
+    const { password, passwordConfirmation } = viewModel.registrationForm.controls;
+
+    password.setValue('a long passphrase');
+    passwordConfirmation.setValue('a long passphrase');
+    passwordConfirmation.markAsTouched();
+    expect(passwordConfirmation.valid).toBe(true);
+
+    // Angular only re-validates the control that changed, so without the view-model's own
+    // subscription the repeat field would go on claiming the two still agree.
+    password.setValue('a different passphrase');
+
+    expect(passwordConfirmation.hasError('passwordMismatch')).toBe(true);
+  });
+
   it('warns that a username is taken, and says nothing about it being free', () => {
     const viewModel = createViewModel(CONFIGURATION_WITH_API_KEY);
 

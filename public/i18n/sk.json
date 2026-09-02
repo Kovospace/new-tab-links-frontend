@@ -91,6 +91,8 @@
     "displayNameHint": "Ako vás bude oslovovať rozhranie.",
     "passwordLabel": "Heslo",
     "passwordHint": "Aspoň 10 znakov. Najlepšia je dlhá fráza.",
+    "passwordConfirmationLabel": "Zopakujte heslo",
+    "passwordConfirmationHint": "Napíšte rovnaké heslo ešte raz. Napísané heslo nevidíte, takže toto je to, čo odhalí preklep.",
     "submitAction": "Vytvoriť účet",
     "alreadyHaveAccount": "Už máte účet?",
     "loginLink": "Prihlásiť sa",
@@ -215,7 +217,8 @@
     "invalidEmail": "Zadajte platnú e-mailovú adresu.",
     "tooShort": "Vyžaduje sa aspoň {min} znakov.",
     "tooLong": "Najviac {max} znakov.",
-    "usernamePattern": "Nepovolené znaky"
+    "usernamePattern": "Nepovolené znaky",
+    "passwordMismatch": "Heslá sa nezhodujú."
   },
   "errors": {
     "generic": "Niečo sa pokazilo. Skúste to znova.",

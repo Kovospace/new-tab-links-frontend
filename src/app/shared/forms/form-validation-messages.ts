@@ -76,6 +76,9 @@ function describeControlErrors(
   if (validationErrors['pattern']) {
     return translationService.translate('form.usernamePattern');
   }
+  if (validationErrors['passwordMismatch']) {
+    return translationService.translate('form.passwordMismatch');
+  }
 
   return translationService.translate('errors.validation');
 }

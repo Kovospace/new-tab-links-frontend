@@ -91,6 +91,8 @@
     "displayNameHint": "How you are addressed in the interface.",
     "passwordLabel": "Password",
     "passwordHint": "At least 10 characters. A long passphrase is best.",
+    "passwordConfirmationLabel": "Repeat password",
+    "passwordConfirmationHint": "Type the same password again. You cannot see what you typed, so this is what catches a slip.",
     "submitAction": "Create account",
     "alreadyHaveAccount": "Already have an account?",
     "loginLink": "Log in",
@@ -215,7 +217,8 @@
     "invalidEmail": "Enter a valid email address.",
     "tooShort": "This needs at least {min} characters.",
     "tooLong": "This may be at most {max} characters.",
-    "usernamePattern": "Not allowed characters used"
+    "usernamePattern": "Not allowed characters used",
+    "passwordMismatch": "The two passwords do not match."
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
