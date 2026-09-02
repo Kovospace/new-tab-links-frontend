@@ -248,6 +248,9 @@ export class RegisterPageViewModel extends AbstractFormViewModel {
     this.authenticationService.register(submittedRegistration).subscribe({
       next: (acknowledgement) => {
         this.addressTheActivationLinkWasSentTo.set(submittedRegistration.email);
+        // Compared against false rather than tested for truth on purpose: the field arrives as
+        // null from every endpoint that does not report delivery, and as nothing at all from a
+        // backend older than it. See RegistrationAccepted.emailDelivered.
         this.wasTheMessageUndelivered.set(acknowledgement.emailDelivered === false);
         this.completeSubmission(acknowledgement.message);
         this.registrationForm.reset();

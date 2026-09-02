@@ -94,7 +94,7 @@
     "passwordConfirmationLabel": "Zopakujte heslo",
     "passwordConfirmationHint": "Napíšte rovnaké heslo ešte raz. Napísané heslo nevidíte, takže toto je to, čo odhalí preklep.",
     "submitAction": "Vytvoriť účet",
-    "emailNotDelivered": "Správu sa teraz nepodarilo odoslať — naša e-mailová služba ju neprijala. Počkajte pár minút a nižšie si vyžiadajte nový aktivačný odkaz.",
+    "emailNotDelivered": "Správa nebola odoslaná — chyba je na našej strane. Nižšie si môžete vyžiadať nový aktivačný odkaz, ale ak zlyhá aj ten, napraviť to vieme len my.",
     "resendHeading": "Nič neprišlo?",
     "resendHint": "E-mail môže chvíľu trvať. Ak nič nedorazí, vyžiadajte si nový aktivačný odkaz — pošleme ho na adresu, ktorú ste práve zadali.",
     "resendAction": "Poslať nový aktivačný odkaz",

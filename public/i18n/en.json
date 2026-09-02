@@ -94,7 +94,7 @@
     "passwordConfirmationLabel": "Repeat password",
     "passwordConfirmationHint": "Type the same password again. You cannot see what you typed, so this is what catches a slip.",
     "submitAction": "Create account",
-    "emailNotDelivered": "The message could not be sent just now — our mail service did not accept it. Give it a few minutes, then ask for a new activation link below.",
+    "emailNotDelivered": "The message was not sent — the fault is on our side. You can ask for a new activation link below, but if that fails too, only we can fix it.",
     "resendHeading": "Nothing arrived?",
     "resendHint": "Email can take a minute or two. If nothing turns up, ask for another activation link — it goes to the address you just entered.",
     "resendAction": "Send a new activation link",

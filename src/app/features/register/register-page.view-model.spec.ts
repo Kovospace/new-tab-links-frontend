@@ -335,6 +335,20 @@ describe('RegisterPageViewModel activation email resend', () => {
     expect(viewModel.emailDeliveryWarning()).toBe('');
   });
 
+  it('reports nothing about delivery when the backend sends the field as null', () => {
+    const viewModel = createViewModel(CONFIGURATION_WITHOUT_API_KEY);
+
+    // How every endpoint that does not report delivery answers: the backend field is a nullable
+    // Boolean and no nulls are omitted, so the key is present and empty rather than missing. A
+    // truthiness check instead of `=== false` would raise a false alarm on all of them.
+    registerAndAnswerWith(viewModel, {
+      ...AN_ACKNOWLEDGEMENT_WITHOUT_DELIVERY_NEWS,
+      emailDelivered: null,
+    });
+
+    expect(viewModel.emailDeliveryWarning()).toBe('');
+  });
+
   it('warns when the backend says the message never reached the mail relay', () => {
     const viewModel = createViewModel(CONFIGURATION_WITHOUT_API_KEY);
 

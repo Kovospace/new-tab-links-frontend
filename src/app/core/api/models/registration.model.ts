@@ -38,21 +38,28 @@ export interface RegistrationAccepted {
   /**
    * Whether the message actually reached the mail relay, where the backend says so.
    *
-   * <p>Optional because it is additive: a backend that predates the field, or any response shape
-   * without it, leaves it undefined, and that has to read as "nothing to report" rather than as
-   * a failure. Only an explicit {@code false} means the message never got out — a blocked
-   * outbound SMTP port, a relay refusing it — which is worth saying, because the alternative is
+   * <p>Only an explicit {@code false} means anything: the message never got out, because the
+   * relay was unreachable or refused it. That is worth saying, because the alternative is
    * someone waiting for an email that was never sent.</p>
    *
-   * <p>It says nothing about whose address it is, and must never be made to. Both branches of
-   * registration — an account created, an address already registered — send a message, so the
-   * value is the same either way; inferring anything else from it would undo the very uniformity
-   * {@link message} exists to preserve.</p>
+   * <p><strong>Test it with {@code === false}, never with {@code !emailDelivered}.</strong> Three
+   * shapes all mean "nothing to report", and all three have to keep meaning it: {@code true},
+   * {@code null}, and absent. Null is the ordinary one — the backend field is a nullable Boolean
+   * and that service omits no nulls, so every endpoint sharing this type without reporting
+   * delivery, resending an activation link included, serializes {@code "emailDelivered": null}
+   * outright. Absent means only a backend older than the field. A truthiness check would turn
+   * both of those into a false alarm on every resend.</p>
    *
-   * <p>Carried by the registration response only. Resending an activation link answers with this
-   * same type but does not report delivery, so there it is always undefined.</p>
+   * <p>It says nothing about whose address it is, and must never be made to — nor about whether
+   * the address can receive mail at all, since a mailbox that does not exist fails as a bounce
+   * long after this response has gone out. Both branches of registration — an account created,
+   * an address already registered — send a message, so the value is the same either way;
+   * inferring anything else from it would undo the very uniformity {@link message} exists to
+   * preserve.</p>
+   *
+   * <p>Reported by the registration response only.</p>
    */
-  readonly emailDelivered?: boolean;
+  readonly emailDelivered?: boolean | null;
 }
 
 /**
