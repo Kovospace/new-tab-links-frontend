@@ -129,10 +129,16 @@ values into `config.json` at start-up, and the application fetches that file bef
 between them. None of them is a secret — every value is served to the visitor's browser in plain
 text, so nothing sensitive may be put here.
 
+That includes `NEWTABLINKS_FRONTEND_API_KEY`, despite the name. It is written into `config.json`,
+which any visitor can fetch, and it travels on a request their browser makes, so anyone who looks
+can read it and call the endpoint themselves. It raises the cost of casually scripted username
+enumeration; it does not prevent it, and nothing that matters may be gated on it.
+
 | Variable                             | Default                      | What it does                                                                                                                                                                               |
 | ------------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `NEWTABLINKS_BACKEND_BASE_URL`       | `http://localhost:8080`      | Origin of the NewTabLinks backend, no trailing slash. **The visitor's browser resolves this**, so it must be a publicly reachable address — a cluster-internal service name will not work. |
 | `NEWTABLINKS_WEB_CLIENT_DEVICE_NAME` | `NewTabLinks website`        | Label this site reports as the device name when it obtains tokens. Sent as `X-Device-Name`; the backend never trusts it and only uses it to name a row in the user's device list.          |
+| `NEWTABLINKS_FRONTEND_API_KEY`       | _(empty)_                    | Shared key admitting this site to the backend's username-existence check, which the registration form makes while someone types. Must equal the backend's `FRONTEND_API_KEY` exactly; empty means the check never runs. Readable by anyone — see below.       |
 | `NEWTABLINKS_CHROME_WEB_STORE_URL`   | _(empty)_                    | Chrome Web Store listing linked from the download page. Empty shows "not published yet" instead of a dead link.                                                                            |
 | `NEWTABLINKS_SELF_HOSTED_CRX_PATH`   | `/downloads/newtablinks.crx` | Path to the packaged extension this site hosts itself. Empty hides that offer.                                                                                                             |
 

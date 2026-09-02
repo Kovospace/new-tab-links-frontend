@@ -18,6 +18,16 @@ export const API_ENDPOINT_PATHS = {
     logout: '/api/v1/auth/logout',
     sessionHandoff: '/api/v1/auth/session-handoff',
     mintExtensionConnectCode: '/api/v1/auth/extension-connect-codes',
+
+    /**
+     * Whether a username is already registered.
+     *
+     * <p>Public, but gated on the shared frontend API key rather than on a token — see
+     * {@code BackendRequestOptions.withFrontendApiKey}. Unlike {@code register}, this endpoint
+     * discloses by design whether an account exists; that is what lets the registration form
+     * warn while someone is still typing.</p>
+     */
+    usernameExistence: '/api/v1/auth/username-existence',
   },
 
   /** Setting, changing and resetting a password. */

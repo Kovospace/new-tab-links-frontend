@@ -23,6 +23,7 @@ CONFIGURATION_FILE="/var/www/runtime-config/config.json"
 ### started with no environment at all behaves exactly like `ng serve`.
 NEWTABLINKS_BACKEND_BASE_URL="${NEWTABLINKS_BACKEND_BASE_URL:-http://localhost:8080}"
 NEWTABLINKS_WEB_CLIENT_DEVICE_NAME="${NEWTABLINKS_WEB_CLIENT_DEVICE_NAME:-NewTabLinks website}"
+NEWTABLINKS_FRONTEND_API_KEY="${NEWTABLINKS_FRONTEND_API_KEY:-}"
 NEWTABLINKS_CHROME_WEB_STORE_URL="${NEWTABLINKS_CHROME_WEB_STORE_URL:-}"
 NEWTABLINKS_SELF_HOSTED_CRX_PATH="${NEWTABLINKS_SELF_HOSTED_CRX_PATH:-/downloads/newtablinks.crx}"
 
@@ -38,6 +39,7 @@ cat > "$CONFIGURATION_FILE" <<EOF
 {
   "backendBaseUrl": "$(escape_for_json "$NEWTABLINKS_BACKEND_BASE_URL")",
   "webClientDeviceName": "$(escape_for_json "$NEWTABLINKS_WEB_CLIENT_DEVICE_NAME")",
+  "frontendApiKey": "$(escape_for_json "$NEWTABLINKS_FRONTEND_API_KEY")",
   "extensionDownload": {
     "chromeWebStoreUrl": "$(escape_for_json "$NEWTABLINKS_CHROME_WEB_STORE_URL")",
     "selfHostedCrxPath": "$(escape_for_json "$NEWTABLINKS_SELF_HOSTED_CRX_PATH")"
@@ -45,7 +47,19 @@ cat > "$CONFIGURATION_FILE" <<EOF
 }
 EOF
 
-### Logged so that a misconfigured deployment is visible in the pod's first lines
-### of output rather than only as a browser talking to the wrong host. None of
-### these values is a secret - they all reach the visitor's browser anyway.
-echo "runtime-config: backend=${NEWTABLINKS_BACKEND_BASE_URL} device=${NEWTABLINKS_WEB_CLIENT_DEVICE_NAME}"
+### Reported so that a misconfigured deployment is visible in the pod's first
+### lines of output rather than only as a browser talking to the wrong host.
+###
+### The frontend API key is reported as set/unset rather than by value. Not
+### because it is confidential - it is written into config.json and any visitor
+### can read it - but because its value tells an operator nothing, while whether
+### it is set at all is the whole diagnosis: the backend denies the
+### username-existence check by default, so an unset key looks to a user exactly
+### like a check that silently never happens.
+if [ -n "$NEWTABLINKS_FRONTEND_API_KEY" ]; then
+    FRONTEND_API_KEY_STATE="set"
+else
+    FRONTEND_API_KEY_STATE="unset"
+fi
+
+echo "runtime-config: backend=${NEWTABLINKS_BACKEND_BASE_URL} device=${NEWTABLINKS_WEB_CLIENT_DEVICE_NAME} frontend-api-key=${FRONTEND_API_KEY_STATE}"

@@ -25,6 +25,22 @@ export interface RuntimeConfiguration {
    */
   readonly webClientDeviceName: string;
 
+  /**
+   * Shared key that admits this website to the backend's username-existence endpoint.
+   *
+   * <p>Set from {@code NEWTABLINKS_FRONTEND_API_KEY}, and must be byte-for-byte the backend's
+   * own {@code FRONTEND_API_KEY} or that endpoint refuses every call.</p>
+   *
+   * <p><strong>This is not a secret and must never be used as one.</strong> It is written into
+   * {@code config.json}, which any visitor can fetch, and it travels on a request their browser
+   * makes — so it is readable by anyone who looks. It raises the cost of casually scripted
+   * username enumeration; it does not prevent it. Nothing that matters may be gated on it.</p>
+   *
+   * <p>Empty means the registration form simply never runs the check, which is the correct
+   * behaviour for {@code ng serve} and for a deployment that has not configured a key.</p>
+   */
+  readonly frontendApiKey: string;
+
   /** Where the extension can be installed from. */
   readonly extensionDownload: {
     /**
@@ -55,6 +71,7 @@ export interface RuntimeConfiguration {
 export const DEFAULT_RUNTIME_CONFIGURATION: RuntimeConfiguration = {
   backendBaseUrl: 'http://localhost:8080',
   webClientDeviceName: 'NewTabLinks website',
+  frontendApiKey: '',
   extensionDownload: {
     chromeWebStoreUrl: '',
     selfHostedCrxPath: '/downloads/newtablinks.crx',
