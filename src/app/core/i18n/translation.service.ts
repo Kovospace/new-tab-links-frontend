@@ -10,6 +10,7 @@ import {
 import {
   FlatTranslationDictionary,
   NestedTranslationFile,
+  TranslatedValue,
   fillPlaceholders,
   flattenTranslationFile,
 } from './translation-dictionary';
@@ -91,6 +92,11 @@ export class TranslationService {
    * <p>An unknown key returns the key itself. That makes a missing translation obvious on the
    * page instead of silently rendering an empty element.</p>
    *
+   * <p>A value authored as several paragraphs is joined into one string here, rather than
+   * refused. A binding written before a translator split that text into two paragraphs keeps
+   * working and keeps reading correctly; use {@link translateToParagraphs} where the paragraphs
+   * are supposed to render as separate elements.</p>
+   *
    * @param translationKey    dotted path into the translation file, for example {@code nav.home}
    * @param placeholderValues values for any {@code {placeholder}} markers in the string
    * @returns the translated text, or the key when it is not translated
@@ -99,11 +105,37 @@ export class TranslationService {
     translationKey: string,
     placeholderValues?: Readonly<Record<string, string | number>>,
   ): string {
-    const translatedText = this.activeTranslations().get(translationKey);
+    return this.translateToParagraphs(translationKey, placeholderValues).join(' ');
+  }
 
-    return translatedText === undefined
-      ? translationKey
-      : fillPlaceholders(translatedText, placeholderValues);
+  /**
+   * Looks a translated value up and returns it as the paragraphs it should render as.
+   *
+   * <p>A translation file may author a value as an array of strings when the text runs to more
+   * than one paragraph — which happens when a language needs more words than another to say the
+   * same thing. This is how a template gets at them without knowing which form was used: a plain
+   * string comes back as one paragraph, an array as its own entries, and an unknown key as the
+   * key itself, so a missing translation is as visible here as it is in {@link translate}.</p>
+   *
+   * @param translationKey    dotted path into the translation file
+   * @param placeholderValues values for any {@code {placeholder}} markers, applied per paragraph
+   * @returns one entry per paragraph, never empty
+   */
+  translateToParagraphs(
+    translationKey: string,
+    placeholderValues?: Readonly<Record<string, string | number>>,
+  ): readonly string[] {
+    const translatedValue: TranslatedValue | undefined =
+      this.activeTranslations().get(translationKey);
+
+    if (translatedValue === undefined) {
+      return [translationKey];
+    }
+
+    const paragraphs =
+      typeof translatedValue === 'string' ? [translatedValue] : [...translatedValue];
+
+    return paragraphs.map((paragraph) => fillPlaceholders(paragraph, placeholderValues));
   }
 
   /**

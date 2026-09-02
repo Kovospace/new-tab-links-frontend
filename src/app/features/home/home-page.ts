@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslateParagraphsPipe } from '../../core/i18n/translate-paragraphs.pipe';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-paths';
 import { HomePageViewModel } from './home-page.view-model';
@@ -9,7 +10,7 @@ import { HomePageViewModel } from './home-page.view-model';
  */
 @Component({
   selector: 'app-home-page',
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink, TranslatePipe, TranslateParagraphsPipe],
   providers: [HomePageViewModel],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',

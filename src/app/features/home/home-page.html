@@ -1,30 +1,88 @@
 <article class="home-page">
+
   <section class="home-page__introduction">
     <h1 class="home-page__heading">{{ 'home.heading' | translate }}</h1>
     <p class="home-page__tagline">{{ 'site.tagline' | translate }}</p>
     <p class="home-page__lead">{{ 'home.leadParagraph' | translate }}</p>
-    <a class="home-page__call-to-action" [routerLink]="downloadLink">{{
-      'home.callToAction' | translate
-    }}</a>
+<!--    <a class="home-page__call-to-action button" [routerLink]="downloadLink">{{-->
+<!--      'home.callToAction' | translate-->
+<!--    }}</a>-->
   </section>
 
   <section class="home-page__features">
-    <h2 class="home-page__features-heading">{{ 'home.featuresHeading' | translate }}</h2>
-
     <ul class="home-page__features-list">
       @for (
         presentedFeature of viewModel.presentedFeatures;
         track presentedFeature.titleTranslationKey
       ) {
         <li class="home-page__feature">
-          <h3 class="home-page__feature-title">
+          <h2 class="home-page__feature-title">
             {{ presentedFeature.titleTranslationKey | translate }}
-          </h3>
-          <p class="home-page__feature-text">
-            {{ presentedFeature.textTranslationKey | translate }}
-          </p>
+          </h2>
+
+          @for (
+            featureParagraph of presentedFeature.textTranslationKey | translateParagraphs;
+            track featureParagraph
+          ) {
+            <p class="home-page__feature-text">{{ featureParagraph }}</p>
+          }
         </li>
       }
     </ul>
   </section>
+
+  <section class="home-page__downloads">
+
+    <div class="home-page__downloads-free">
+
+      <h3>{{ 'home.downloads.free.title' | translate }}</h3>
+
+      <h4>{{ 'home.downloads.linksCount' | translate }}</h4>
+      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+
+      <h4>{{ 'home.downloads.devicesCount' | translate }}</h4>
+      <p>10</p>
+
+      <h4>{{ 'home.downloads.workspacesCount' | translate }}</h4>
+      <p>2</p>
+
+      <h4>{{ 'home.downloads.profilesCount' | translate }}</h4>
+      <p>1</p>
+
+      <h4>{{ 'home.downloads.ads' | translate }}</h4>
+      <p>{{ 'home.downloads.no' | translate }}</p>
+
+      <a class="home-page__call-to-action" [routerLink]="downloadLink">{{
+        'home.callToAction' | translate
+      }}</a>
+
+    </div>
+
+    <div class="home-page__downloads-paid">
+
+      <h3>{{ 'home.downloads.paid.title' | translate }}</h3>
+
+      <h4>{{ 'home.downloads.linksCount' | translate }}</h4>
+      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+
+      <h4>{{ 'home.downloads.devicesCount' | translate }}</h4>
+      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+
+      <h4>{{ 'home.downloads.workspacesCount' | translate }}</h4>
+      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+
+      <h4>{{ 'home.downloads.profilesCount' | translate }}</h4>
+      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+
+      <h4>{{ 'home.downloads.ads' | translate }}</h4>
+      <p>{{ 'home.downloads.yes' | translate }}</p>
+
+      <a class="home-page__call-to-action" [routerLink]="downloadLink">{{
+        'home.callToAction' | translate
+      }}</a>
+
+    </div>
+
+  </section>
+
 </article>

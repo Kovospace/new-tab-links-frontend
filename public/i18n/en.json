@@ -32,17 +32,38 @@
   },
   "home": {
     "heading": "A new tab that finally does something useful",
-    "leadParagraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. NewTabGroupedLinks replaces the empty new tab page with the links you actually open, arranged in groups you decide.",
+    "leadParagraph": "NewTabGroupedLinks replaces the empty new tab page with the links you actually open, arranged into groups of your own, alongside your history, your most-opened links and other configurable widgets and mini-apps.",
     "featuresHeading": "What it does",
     "features": {
-      "groupsTitle": "Grouped links",
-      "groupsText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-      "workspacesTitle": "Separate workspaces",
-      "workspacesText": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+      "groupsTitle": "Link groups and subgroups",
+      "groupsText": "Columns you lay out yourself — groups holding links, and subgroups of links within them where you want them.",
+      "subgroupsTitle": "Opening several links at once",
+      "subgroupsText": "Open every link in a subgroup one by one, all at once, or all at once gathered into a tab group with a name and a colour of your choosing.",
+      "workspacesTitle": "Workspaces and profiles",
+      "workspacesText": [
+        "One user can have several workspaces, each with its own groups of links.",
+        "The same goes for profiles — switch profile and you have another space for another set of workspaces and their link groups."
+      ],
       "syncTitle": "Synchronised everywhere",
-      "syncText": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      "syncText": "However many devices you have, as long as they are online your profiles, workspaces, groups and links stay in step."
     },
-    "callToAction": "Get the extension"
+    "callToAction": "Get the extension",
+    "downloads": {
+      "free": {
+        "title": "FREE"
+      },
+      "paid": {
+        "title": "€0.39 / month"
+      },
+      "unlimitedAmount": "UNLIMITED",
+      "yes": "YES",
+      "no": "NO",
+      "linksCount": "Number of links",
+      "workspacesCount": "Workspaces",
+      "profilesCount": "Profiles",
+      "devicesCount": "Synchronised installations",
+      "ads": "NO ad banner"
+    }
   },
   "download": {
     "heading": "Download",
@@ -73,6 +94,7 @@
     "submitAction": "Create account",
     "alreadyHaveAccount": "Already have an account?",
     "loginLink": "Log in",
+    "googleAlternative": "Or create your account with Google and skip having a password altogether.",
     "googleAction": "Continue with Google"
   },
   "login": {

@@ -20,6 +20,25 @@ describe('flattenTranslationFile', () => {
     expect(flattened.get('home.features.groupsTitle')).toBe('Grouped links');
   });
 
+  it('keeps an array leaf whole instead of recursing into its indices', () => {
+    const flattened = flattenTranslationFile({
+      home: { features: { workspacesText: ['First paragraph.', 'Second paragraph.'] } },
+    });
+
+    expect(flattened.get('home.features.workspacesText')).toEqual([
+      'First paragraph.',
+      'Second paragraph.',
+    ]);
+    expect(flattened.has('home.features.workspacesText.0')).toBe(false);
+  });
+
+  it('lets one language answer a key with an array and another with a string', () => {
+    const english = flattenTranslationFile({ feature: { text: 'One sentence is enough.' } });
+    const slovak = flattenTranslationFile({ feature: { text: ['Prvý odsek.', 'Druhý odsek.'] } });
+
+    expect([...english.keys()]).toEqual([...slovak.keys()]);
+  });
+
   it('keeps top level keys unprefixed', () => {
     expect(flattenTranslationFile({ standalone: 'value' }).get('standalone')).toBe('value');
   });

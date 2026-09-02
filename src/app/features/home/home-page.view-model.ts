@@ -26,6 +26,10 @@ export class HomePageViewModel {
       textTranslationKey: 'home.features.groupsText',
     },
     {
+      titleTranslationKey: 'home.features.subgroupsTitle',
+      textTranslationKey: 'home.features.subgroupsText',
+    },
+    {
       titleTranslationKey: 'home.features.workspacesTitle',
       textTranslationKey: 'home.features.workspacesText',
     },

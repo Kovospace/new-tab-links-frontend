@@ -1,14 +1,29 @@
 /**
- * A translation file as it is authored: nested objects, string leaves.
+ * A translation file as it is authored: nested objects, with string or string-array leaves.
+ *
+ * <p>An array leaf is one piece of text that runs to several paragraphs. It exists because a
+ * translation is not always the same length in every language — the English blurb that fits in a
+ * sentence may need two in Slovak — and splitting it in the translation file lets a translator
+ * make that call without anybody touching a template.</p>
  */
 export interface NestedTranslationFile {
-  readonly [key: string]: string | NestedTranslationFile;
+  readonly [key: string]: string | readonly string[] | NestedTranslationFile;
 }
 
 /**
- * A translation file as it is used: one flat map from dotted key to text.
+ * What one translation key resolves to.
+ *
+ * <p>A value is a single string or, for a translation authored as several paragraphs, the array
+ * of them. The array is kept as one value rather than split into {@code key.0}, {@code key.1}
+ * entries so that a key means the same thing in every language: the two files' key sets still
+ * match when one of them says the same thing in two paragraphs and the other in one.</p>
  */
-export type FlatTranslationDictionary = ReadonlyMap<string, string>;
+export type TranslatedValue = string | readonly string[];
+
+/**
+ * A translation file as it is used: one flat map from dotted key to its value.
+ */
+export type FlatTranslationDictionary = ReadonlyMap<string, TranslatedValue>;
 
 /** Separator between the segments of a translation key. */
 const TRANSLATION_KEY_SEGMENT_SEPARATOR = '.';
@@ -30,19 +45,24 @@ export function flattenTranslationFile(
   nestedTranslations: NestedTranslationFile,
   keyPrefix = '',
 ): FlatTranslationDictionary {
-  const flattenedTranslations = new Map<string, string>();
+  const flattenedTranslations = new Map<string, TranslatedValue>();
 
   for (const [keySegment, valueOrSubtree] of Object.entries(nestedTranslations)) {
     const fullKey = keyPrefix
       ? `${keyPrefix}${TRANSLATION_KEY_SEGMENT_SEPARATOR}${keySegment}`
       : keySegment;
 
-    if (typeof valueOrSubtree === 'string') {
+    // An array is a leaf, not a subtree. Recursing into one would produce `key.0` and `key.1`
+    // and no `key` at all, which is exactly what the page would then render.
+    if (typeof valueOrSubtree === 'string' || Array.isArray(valueOrSubtree)) {
       flattenedTranslations.set(fullKey, valueOrSubtree);
       continue;
     }
 
-    for (const [nestedKey, nestedValue] of flattenTranslationFile(valueOrSubtree, fullKey)) {
+    for (const [nestedKey, nestedValue] of flattenTranslationFile(
+      valueOrSubtree as NestedTranslationFile,
+      fullKey,
+    )) {
       flattenedTranslations.set(nestedKey, nestedValue);
     }
   }
