@@ -82,7 +82,9 @@
   @if (viewModel.isResendOffered()) {
     <section class="register-page__resend">
       <h1>{{ 'register.resendHeading' | translate }}</h1>
-      <p>{{ 'register.resendHint' | translate }}</p>
+      @if (viewModel.isResendHintShown()) {
+        <p>{{ 'register.resendHint' | translate }}</p>
+      }
       <button
         type="button"
         [disabled]="viewModel.isSubmitting()"

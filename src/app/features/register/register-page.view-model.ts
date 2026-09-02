@@ -227,6 +227,18 @@ export class RegisterPageViewModel extends AbstractFormViewModel {
   );
 
   /**
+   * Whether to show the general hint about mail taking a minute to arrive.
+   *
+   * <p>Suppressed while {@link emailDeliveryWarning} is up. The hint tells someone to wait for a
+   * message, which is good advice in the ordinary case but contradicts a warning that says the
+   * message was never sent - and the warning is the more certain of the two, so it wins. The
+   * resend control itself stays offered in both states.</p>
+   */
+  readonly isResendHintShown = computed<boolean>(
+    () => this.isResendOffered() && this.emailDeliveryWarning().length === 0,
+  );
+
+  /**
    * Submits the form.
    *
    * <p>An invalid form is marked touched instead of sent, which is what makes the per-field

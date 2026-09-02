@@ -349,6 +349,31 @@ describe('RegisterPageViewModel activation email resend', () => {
     expect(viewModel.emailDeliveryWarning()).toBe('');
   });
 
+  it('hides the wait-for-it hint while warning that the message was never sent', () => {
+    const viewModel = createViewModel(CONFIGURATION_WITHOUT_API_KEY);
+
+    registerAndAnswerWith(viewModel, {
+      ...AN_ACKNOWLEDGEMENT_WITHOUT_DELIVERY_NEWS,
+      emailDelivered: false,
+    });
+
+    // Telling someone to wait for a message we know was never sent is worse than saying nothing.
+    expect(viewModel.isResendHintShown()).toBe(false);
+    // The resend control itself is exactly what they need here, so it stays.
+    expect(viewModel.isResendOffered()).toBe(true);
+  });
+
+  it('keeps the wait-for-it hint when delivery is not in question', () => {
+    const viewModel = createViewModel(CONFIGURATION_WITHOUT_API_KEY);
+
+    registerAndAnswerWith(viewModel, {
+      ...AN_ACKNOWLEDGEMENT_WITHOUT_DELIVERY_NEWS,
+      emailDelivered: true,
+    });
+
+    expect(viewModel.isResendHintShown()).toBe(true);
+  });
+
   it('warns when the backend says the message never reached the mail relay', () => {
     const viewModel = createViewModel(CONFIGURATION_WITHOUT_API_KEY);
 
