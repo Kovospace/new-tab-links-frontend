@@ -62,6 +62,7 @@ docker run -e NEWTABLINKS_BACKEND_BASE_URL=https://api.example
 | `NEWTABLINKS_BACKEND_BASE_URL` | `backendBaseUrl` | `http://localhost:8080` |
 | `NEWTABLINKS_WEB_CLIENT_DEVICE_NAME` | `webClientDeviceName` | `NewTabLinks website` |
 | `NEWTABLINKS_FRONTEND_API_KEY` | `frontendApiKey` | empty (username check never runs) |
+| `NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS` | `usernameCheckDebounceMilliseconds` | `250` |
 | `NEWTABLINKS_CHROME_WEB_STORE_URL` | `extensionDownload.chromeWebStoreUrl` | empty (offer hidden) |
 | `NEWTABLINKS_SELF_HOSTED_CRX_PATH` | `extensionDownload.selfHostedCrxPath` | `/downloads/newtablinks.crx` |
 
@@ -73,6 +74,12 @@ Rules that hold this together:
 - **Defaults are duplicated on purpose** — once in TypeScript, once in the shell script. They must
   match. The TypeScript ones make `ng serve` and the unit tests work with no file at all; the
   shell ones make a container started with no environment behave the same way.
+- **`usernameCheckDebounceMilliseconds` is written into `config.json` as a JSON number**, not a
+  string, so a non-numeric value would produce a file the browser cannot parse — and the loader
+  answers unparseable JSON by falling back to *every* default, backend URL included. The
+  entrypoint therefore refuses anything that is not a run of digits and warns instead. It also has
+  to stay above the backend's `VISITOR_TOKEN_MINIMUM_REQUEST_INTERVAL`, or real typing is answered
+  with 429; see the `authentication-flows` skill.
 - **`config.json` must never be cached.** It is the one file whose contents differ between
   deployments of the same image; a stale copy points the browser at the wrong backend.
 - **Nothing secret may go in here.** Every value is served to the visitor's browser in plain text.

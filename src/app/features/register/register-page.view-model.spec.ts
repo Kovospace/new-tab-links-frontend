@@ -7,11 +7,24 @@ import { RegisterPageViewModel } from './register-page.view-model';
 /** How long the view-model waits for typing to stop before it asks the backend. */
 const DEBOUNCE_MILLISECONDS = 250;
 
+/** How long the backend says a freshly issued pass must be held before its first use. */
+const FIRST_USE_DELAY_MILLISECONDS = 500;
+
+/** A pass, as the backend issues it. */
+const AN_ISSUED_VISITOR_TOKEN = {
+  token: 'a-visitor-token',
+  expiresAt: new Date(Date.now() + 3_600_000).toISOString(),
+  minimumFirstUseDelayMilliseconds: FIRST_USE_DELAY_MILLISECONDS,
+  minimumRequestIntervalMilliseconds: 200,
+  maximumUses: 250,
+};
+
 /** A deployment that configured a frontend API key, so the check is available. */
 const CONFIGURATION_WITH_API_KEY = {
   backendBaseUrl: 'https://api.newtablinks.example',
   webClientDeviceName: 'NewTabLinks (production)',
   frontendApiKey: 'the-shared-frontend-key',
+  usernameCheckDebounceMilliseconds: DEBOUNCE_MILLISECONDS,
   extensionDownload: { chromeWebStoreUrl: '', selfHostedCrxPath: '' },
 };
 
@@ -41,9 +54,23 @@ describe('RegisterPageViewModel username existence check', () => {
     return TestBed.inject(RegisterPageViewModel);
   }
 
-  /** Matches the one request this feature makes, whatever its query string. */
+  /** Matches the lookup this feature makes, whatever its query string. */
   const isUsernameExistenceRequest = (url: string): boolean =>
     url.endsWith('/api/v1/auth/username-existence');
+
+  /**
+   * Answers the request for a metered pass, then waits out the delay before its first use.
+   *
+   * <p>Every lookup now begins with this: the endpoint is metered, so the site obtains a pass
+   * and holds it for the interval the backend asked for before spending it. Serving the wait
+   * here rather than being refused for it is deliberate — see {@code VisitorTokenService}.</p>
+   */
+  function issueTheVisitorTokenAndWaitForItsTurn(): void {
+    httpTestingController
+      .expectOne((request) => request.url.endsWith('/api/v1/auth/visitor-token'))
+      .flush(AN_ISSUED_VISITOR_TOKEN);
+    vi.advanceTimersByTime(FIRST_USE_DELAY_MILLISECONDS);
+  }
 
   beforeEach(() => vi.useFakeTimers());
 
@@ -60,6 +87,7 @@ describe('RegisterPageViewModel username existence check', () => {
       vi.advanceTimersByTime(DEBOUNCE_MILLISECONDS - 50);
     }
     vi.advanceTimersByTime(DEBOUNCE_MILLISECONDS);
+    issueTheVisitorTokenAndWaitForItsTurn();
 
     const sentRequest = httpTestingController.expectOne((request) =>
       isUsernameExistenceRequest(request.url),
@@ -73,11 +101,13 @@ describe('RegisterPageViewModel username existence check', () => {
 
     viewModel.registrationForm.controls.username.setValue('alice');
     vi.advanceTimersByTime(DEBOUNCE_MILLISECONDS);
+    issueTheVisitorTokenAndWaitForItsTurn();
 
     const sentRequest = httpTestingController.expectOne((request) =>
       isUsernameExistenceRequest(request.url),
     );
     expect(sentRequest.request.headers.get('X-Frontend-Api-Key')).toBe('the-shared-frontend-key');
+    expect(sentRequest.request.headers.get('X-Visitor-Token')).toBe(AN_ISSUED_VISITOR_TOKEN.token);
     sentRequest.flush({ exists: false });
   });
 
@@ -86,6 +116,7 @@ describe('RegisterPageViewModel username existence check', () => {
 
     viewModel.registrationForm.controls.username.setValue('alice');
     vi.advanceTimersByTime(DEBOUNCE_MILLISECONDS);
+    issueTheVisitorTokenAndWaitForItsTurn();
     httpTestingController
       .expectOne((request) => isUsernameExistenceRequest(request.url))
       .flush({ exists: true });
@@ -100,6 +131,7 @@ describe('RegisterPageViewModel username existence check', () => {
 
     viewModel.registrationForm.controls.username.setValue('alice');
     vi.advanceTimersByTime(DEBOUNCE_MILLISECONDS);
+    issueTheVisitorTokenAndWaitForItsTurn();
     httpTestingController
       .expectOne((request) => isUsernameExistenceRequest(request.url))
       .flush({ exists: false });
@@ -116,6 +148,7 @@ describe('RegisterPageViewModel username existence check', () => {
 
     expect(viewModel.isCheckingUsernameExistence()).toBe(true);
 
+    issueTheVisitorTokenAndWaitForItsTurn();
     httpTestingController
       .expectOne((request) => isUsernameExistenceRequest(request.url))
       .flush({ exists: false });
@@ -144,6 +177,7 @@ describe('RegisterPageViewModel username existence check', () => {
 
     viewModel.registrationForm.controls.username.setValue('alice');
     vi.advanceTimersByTime(DEBOUNCE_MILLISECONDS);
+    issueTheVisitorTokenAndWaitForItsTurn();
     httpTestingController
       .expectOne((request) => isUsernameExistenceRequest(request.url))
       .flush({ message: 'Forbidden' }, { status: 403, statusText: 'Forbidden' });

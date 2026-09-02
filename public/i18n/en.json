@@ -201,6 +201,7 @@
     "unauthorized": "Your session has ended. Please log in again.",
     "invalidCredentials": "Those credentials were refused.",
     "usernameTaken": "That username is already taken.",
+    "tooManyRequests": "You are going a little too fast. Wait a moment and try again.",
     "notFound": "That was not found.",
     "validation": "Please correct the highlighted fields."
   }

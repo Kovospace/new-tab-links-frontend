@@ -24,8 +24,19 @@ CONFIGURATION_FILE="/var/www/runtime-config/config.json"
 NEWTABLINKS_BACKEND_BASE_URL="${NEWTABLINKS_BACKEND_BASE_URL:-http://localhost:8080}"
 NEWTABLINKS_WEB_CLIENT_DEVICE_NAME="${NEWTABLINKS_WEB_CLIENT_DEVICE_NAME:-NewTabLinks website}"
 NEWTABLINKS_FRONTEND_API_KEY="${NEWTABLINKS_FRONTEND_API_KEY:-}"
+NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS="${NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS:-250}"
 NEWTABLINKS_CHROME_WEB_STORE_URL="${NEWTABLINKS_CHROME_WEB_STORE_URL:-}"
 NEWTABLINKS_SELF_HOSTED_CRX_PATH="${NEWTABLINKS_SELF_HOSTED_CRX_PATH:-/downloads/newtablinks.crx}"
+
+### The debounce is written into config.json as a JSON *number*, unquoted, so an
+### unset or non-numeric value would produce a file the browser cannot parse -
+### and the loader answers unparseable JSON by falling back to every default,
+### backend URL included. One mistyped variable would therefore point the site at
+### localhost. Anything that is not a run of digits is refused here instead.
+if ! printf '%s' "$NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS" | grep -Eq '^[0-9]+$'; then
+    echo "runtime-config: NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS is not a whole number of milliseconds ('${NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS}'); using 250" >&2
+    NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS=250
+fi
 
 ### Escapes a value for inclusion in a JSON string literal: backslashes first,
 ### then double quotes. Without this a value containing either would produce a
@@ -40,6 +51,7 @@ cat > "$CONFIGURATION_FILE" <<EOF
   "backendBaseUrl": "$(escape_for_json "$NEWTABLINKS_BACKEND_BASE_URL")",
   "webClientDeviceName": "$(escape_for_json "$NEWTABLINKS_WEB_CLIENT_DEVICE_NAME")",
   "frontendApiKey": "$(escape_for_json "$NEWTABLINKS_FRONTEND_API_KEY")",
+  "usernameCheckDebounceMilliseconds": ${NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS},
   "extensionDownload": {
     "chromeWebStoreUrl": "$(escape_for_json "$NEWTABLINKS_CHROME_WEB_STORE_URL")",
     "selfHostedCrxPath": "$(escape_for_json "$NEWTABLINKS_SELF_HOSTED_CRX_PATH")"

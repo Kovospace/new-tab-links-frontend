@@ -9,6 +9,7 @@ import {
 import { RegistrationAccepted, RegistrationRequest } from '../api/models/registration.model';
 import { TokenPair } from '../api/models/token-pair.model';
 import { AuthenticationSessionStore } from './authentication-session.store';
+import { VisitorTokenService } from './visitor-token.service';
 
 /**
  * Every way into and out of a session.
@@ -23,6 +24,7 @@ import { AuthenticationSessionStore } from './authentication-session.store';
 export class AuthenticationService {
   private readonly backendApiClient = inject(BackendApiClient);
   private readonly sessionStore = inject(AuthenticationSessionStore);
+  private readonly visitorTokenService = inject(VisitorTokenService);
 
   /**
    * Registers an account and asks the backend to mail an activation link.
@@ -31,14 +33,20 @@ export class AuthenticationService {
    * already taken, so its wording comes from the backend and must be shown as received rather
    * than replaced with a message of our own.</p>
    *
+   * <p>Carries a metered pass, because the one thing this endpoint does answer openly is a taken
+   * username, with a 409 — the same disclosure the username lookup makes, and metered the same
+   * way. See {@link VisitorTokenService}.</p>
+   *
    * @param registrationRequest the account to create
    * @returns the backend's uniform acknowledgement
    */
   register(registrationRequest: RegistrationRequest): Observable<RegistrationAccepted> {
-    return this.backendApiClient.post<RegistrationAccepted>(
-      API_ENDPOINT_PATHS.auth.register,
-      registrationRequest,
-      { withoutAuthorization: true },
+    return this.visitorTokenService.runWithVisitorToken((visitorToken) =>
+      this.backendApiClient.post<RegistrationAccepted>(
+        API_ENDPOINT_PATHS.auth.register,
+        registrationRequest,
+        { withoutAuthorization: true, visitorToken },
+      ),
     );
   }
 

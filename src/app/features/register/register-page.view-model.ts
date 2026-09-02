@@ -12,6 +12,7 @@ import {
   switchMap,
 } from 'rxjs';
 import { REGISTRATION_FIELD_CONSTRAINTS } from '../../core/api/models/registration.model';
+import { RUNTIME_CONFIGURATION } from '../../core/config/runtime-configuration';
 import { AuthenticationService } from '../../core/auth/authentication.service';
 import { UsernameExistenceService } from '../../core/auth/username-existence.service';
 import { AbstractFormViewModel } from '../../shared/forms/abstract-form.view-model';
@@ -20,15 +21,8 @@ import { createFormValidationMessagesSignal } from '../../shared/forms/form-vali
 /** Wording this page prefers over the default for a status the backend uses meaningfully here. */
 const REGISTRATION_FAILURE_WORDING = {
   409: 'errors.usernameTaken',
+  429: 'errors.tooManyRequests',
 } as const;
-
-/**
- * How long typing has to stop before the username is looked up.
- *
- * <p>250ms: long enough that a word typed at speed costs one request rather than one per letter,
- * short enough that the answer arrives while the field still has the user's attention.</p>
- */
-const USERNAME_EXISTENCE_CHECK_DEBOUNCE_MILLISECONDS = 250;
 
 /**
  * What is currently known about the typed username.
@@ -56,6 +50,18 @@ export class RegisterPageViewModel extends AbstractFormViewModel {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authenticationService = inject(AuthenticationService);
   private readonly usernameExistenceService = inject(UsernameExistenceService);
+
+  /**
+   * How long typing has to stop before the username is looked up.
+   *
+   * <p>250ms by default: long enough that a word typed at speed costs one request rather than
+   * one per letter, short enough that the answer arrives while the field still has the user's
+   * attention. Configurable because the backend refuses calls made closer together than its own
+   * minimum interval, and the two have to be adjustable together — see
+   * {@code usernameCheckDebounceMilliseconds}.</p>
+   */
+  private readonly usernameCheckDebounceMilliseconds =
+    inject(RUNTIME_CONFIGURATION).usernameCheckDebounceMilliseconds;
 
   /** The registration form, with the backend's constraints restated as validators. */
   readonly registrationForm = this.formBuilder.nonNullable.group({
@@ -107,7 +113,7 @@ export class RegisterPageViewModel extends AbstractFormViewModel {
    */
   private readonly usernameExistenceState = toSignal(
     this.registrationForm.controls.username.valueChanges.pipe(
-      debounceTime(USERNAME_EXISTENCE_CHECK_DEBOUNCE_MILLISECONDS),
+      debounceTime(this.usernameCheckDebounceMilliseconds),
       map((typedUsername) => typedUsername.trim()),
       distinctUntilChanged(),
       switchMap((typedUsername) => this.lookUpUsername(typedUsername)),

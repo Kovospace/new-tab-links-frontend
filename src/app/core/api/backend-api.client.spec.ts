@@ -9,6 +9,7 @@ const DEPLOYED_CONFIGURATION = {
   backendBaseUrl: 'https://api.newtablinks.example',
   webClientDeviceName: 'NewTabLinks (production)',
   frontendApiKey: 'the-shared-frontend-key',
+  usernameCheckDebounceMilliseconds: 250,
   extensionDownload: { chromeWebStoreUrl: '', selfHostedCrxPath: '/downloads/newtablinks.crx' },
 };
 
@@ -79,6 +80,28 @@ describe('BackendApiClient', () => {
     );
     expect(sentRequest.request.headers.has('X-Frontend-Api-Key')).toBe(false);
     sentRequest.flush({ exists: false });
+  });
+
+  it('sends the metered pass a caller obtained, on the requests that carry one', () => {
+    backendApiClient
+      .post('/api/v1/auth/register', {}, { visitorToken: 'a-visitor-token' })
+      .subscribe();
+
+    const sentRequest = httpTestingController.expectOne((request) =>
+      request.url.endsWith('/api/v1/auth/register'),
+    );
+    expect(sentRequest.request.headers.get('X-Visitor-Token')).toBe('a-visitor-token');
+    sentRequest.flush({});
+  });
+
+  it('omits the pass header entirely when there is no pass to send', () => {
+    backendApiClient.post('/api/v1/auth/register', {}, { visitorToken: undefined }).subscribe();
+
+    const sentRequest = httpTestingController.expectOne((request) =>
+      request.url.endsWith('/api/v1/auth/register'),
+    );
+    expect(sentRequest.request.headers.has('X-Visitor-Token')).toBe(false);
+    sentRequest.flush({});
   });
 
   it('sends no device name when the caller did not ask to be identified', () => {

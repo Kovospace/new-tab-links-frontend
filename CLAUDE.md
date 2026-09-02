@@ -158,9 +158,14 @@ any TypeScript, template or SCSS. The short version:
 ## Authentication
 
 Three sign-in paths, the Google redirect chain, the extension pairing code and why it lives on
-the devices page, token storage, refresh-on-401, and the three route paths the backend pins:
-all in the **`authentication-flows`** skill. Load it before touching `core/auth/`, any sign-in
-page, or the devices page.
+the devices page, token storage, refresh-on-401, the three route paths the backend pins, and the
+**visitor token** that meters registration and the username lookup: all in the
+**`authentication-flows`** skill. Load it before touching `core/auth/`, any sign-in page, or the
+devices page.
+
+One thing worth knowing before you read it: `frontendApiKey` bounds nothing — it is public. The
+visitor token is what limits username enumeration, and it is deliberately **not** per IP address,
+because carrier-grade NAT puts whole neighbourhoods behind one.
 
 ## Deployment
 

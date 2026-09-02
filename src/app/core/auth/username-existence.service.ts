@@ -4,6 +4,7 @@ import { API_ENDPOINT_PATHS } from '../api/api-endpoint-paths';
 import { BackendApiClient } from '../api/backend-api.client';
 import { UsernameExistence } from '../api/models/username-existence.model';
 import { RUNTIME_CONFIGURATION } from '../config/runtime-configuration';
+import { VisitorTokenService } from './visitor-token.service';
 
 /**
  * Asks the backend whether a username is already taken.
@@ -17,11 +18,15 @@ import { RUNTIME_CONFIGURATION } from '../config/runtime-configuration';
  * deliberately does not. The API key is what limits that disclosure to callers who bothered to
  * read this site's {@code config.json} — a low bar, and the reason nothing of consequence may be
  * built on this answer. It is a courtesy to someone filling in a form, not an authority.</p>
+ *
+ * <p>What actually bounds that disclosure is the metered pass from {@link VisitorTokenService},
+ * which limits how fast and how often anyone may ask. The key bounds nothing: it is public.</p>
  */
 @Injectable({ providedIn: 'root' })
 export class UsernameExistenceService {
   private readonly backendApiClient = inject(BackendApiClient);
   private readonly runtimeConfiguration = inject(RUNTIME_CONFIGURATION);
+  private readonly visitorTokenService = inject(VisitorTokenService);
 
   /**
    * Whether this deployment can run the check at all.
@@ -43,11 +48,13 @@ export class UsernameExistenceService {
    * @returns true when the name is taken, false when it is free
    */
   checkWhetherUsernameExists(username: string): Observable<boolean> {
-    return this.backendApiClient
-      .get<UsernameExistence>(
-        API_ENDPOINT_PATHS.auth.usernameExistence,
-        { username },
-        { withoutAuthorization: true, withFrontendApiKey: true },
+    return this.visitorTokenService
+      .runWithVisitorToken((visitorToken) =>
+        this.backendApiClient.get<UsernameExistence>(
+          API_ENDPOINT_PATHS.auth.usernameExistence,
+          { username },
+          { withoutAuthorization: true, withFrontendApiKey: true, visitorToken },
+        ),
       )
       .pipe(map((existence) => existence.exists));
   }

@@ -28,6 +28,15 @@ export const API_ENDPOINT_PATHS = {
      * warn while someone is still typing.</p>
      */
     usernameExistence: '/api/v1/auth/username-existence',
+
+    /**
+     * Issues the metered pass the two enumerable endpoints ask for.
+     *
+     * <p>Open and unauthenticated — it has to be, the caller is an anonymous visitor — and never
+     * metered itself, or a visitor with no pass could never obtain one. See
+     * {@code VisitorTokenService}.</p>
+     */
+    visitorToken: '/api/v1/auth/visitor-token',
   },
 
   /** Setting, changing and resetting a password. */

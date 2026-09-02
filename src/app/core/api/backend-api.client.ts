@@ -27,6 +27,16 @@ const DEVICE_NAME_HEADER = 'X-Device-Name';
 const FRONTEND_API_KEY_HEADER = 'X-Frontend-Api-Key';
 
 /**
+ * Header carrying the metered pass the backend issues to an anonymous visitor.
+ *
+ * <p>Demanded on registration and on the username-existence lookup, the two endpoints that
+ * disclose whether an account exists. Same CORS trap as the header above: the backend lists
+ * allowed request headers explicitly, so one missing from that list fails the preflight and the
+ * request never leaves the browser.</p>
+ */
+const VISITOR_TOKEN_HEADER = 'X-Visitor-Token';
+
+/**
  * The one place that knows where the backend lives and how to address it.
  *
  * <p>Feature services call this rather than {@link HttpClient} directly, so that the base URL,
@@ -127,6 +137,9 @@ export class BackendApiClient {
     if (options.withFrontendApiKey && this.runtimeConfiguration.frontendApiKey) {
       headerValuesByName[FRONTEND_API_KEY_HEADER] = this.runtimeConfiguration.frontendApiKey;
     }
+    if (options.visitorToken) {
+      headerValuesByName[VISITOR_TOKEN_HEADER] = options.visitorToken;
+    }
 
     return Object.keys(headerValuesByName).length > 0
       ? new HttpHeaders(headerValuesByName)
@@ -174,4 +187,15 @@ export interface BackendRequestOptions {
    * an absent header describes the situation more honestly than a blank one.</p>
    */
   readonly withFrontendApiKey?: boolean;
+
+  /**
+   * Sends a metered pass obtained from {@code VisitorTokenService}.
+   *
+   * <p>Unlike the options above this carries a value rather than a flag, because the pass is
+   * obtained at runtime rather than configured. Omitted entirely when undefined or empty: a
+   * deployment whose backend does not meter these endpoints, or one where the pass could not be
+   * obtained, is better served by an absent header than by a blank one that is guaranteed to be
+   * refused.</p>
+   */
+  readonly visitorToken?: string;
 }
