@@ -57,8 +57,8 @@
     "crxUnavailable": "The packaged download is not available yet."
   },
   "register": {
-    "heading": "Create an account",
-    "leadParagraph": "An account keeps your links in sync across every browser you sign in from.",
+    "heading": "Create an ordinary account",
+    "headingGoogle": "...Or register using Google",
     "usernameLabel": "Username",
     "usernameHint": "3 to 60 characters, allowed are: letters, digits, dot (.), underscore (_) and hyphen (-).",
     "usernameChecking": "Checking whether that username is free…",
@@ -73,7 +73,6 @@
     "submitAction": "Create account",
     "alreadyHaveAccount": "Already have an account?",
     "loginLink": "Log in",
-    "googleAlternative": "Or create an account with Google, which skips the password entirely.",
     "googleAction": "Continue with Google"
   },
   "login": {

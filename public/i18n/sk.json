@@ -57,8 +57,8 @@
     "crxUnavailable": "Zabalené rozšírenie zatiaľ nie je k dispozícii."
   },
   "register": {
-    "heading": "Vytvoriť účet",
-    "leadParagraph": "Účet udrží vaše odkazy zosynchronizované vo všetkých prehliadačoch, kde sa prihlásite.",
+    "heading": "Vytvoriť bežný účet",
+    "headingGoogle": "...Alebo zaregistrovať pomocou Google",
     "usernameLabel": "Používateľské meno",
     "usernameHint": "3 až 60 znakov, povolené sú písmená, číslice, bodka (.), podčiarkovník (_) a pomlčka (-).",
     "usernameChecking": "Overujeme, či je toto meno voľné…",

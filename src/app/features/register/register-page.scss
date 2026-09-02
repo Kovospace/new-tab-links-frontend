@@ -30,6 +30,7 @@
 .register-page__field-hint {
   display: block;
   margin: 0.375em 0;
+  color: var(--color-text-muted);
 }
 
 .register-page__field-error {
@@ -66,6 +67,11 @@
 }
 
 .register-page__google {
+  margin-top: 3em;
+}
+
+.register-page__heading_google {
+
 }
 
 .register-page__google-text {
@@ -74,7 +80,12 @@
 .register-page__google-button {
 }
 
+.register-page__heading_already_have {
+
+}
+
 .register-page__login-hint {
+  margin-top: 3em;
 }
 
 .register-page__login-link {

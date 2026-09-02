@@ -59,3 +59,26 @@ input {
     border-color: var(--color-ui-element-danger);
   }
 }
+
+button:not(.language-switcher__option),
+.button
+{
+  background-color: var(--color-ui-element-accented);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+  cursor: pointer;
+  font-size: 1.25em;
+  font-weight: bold;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+
+  &:hover {
+    background-color: var(--color-ui-element-accented-hover);
+  }
+}
+
+
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.5em 0;
+}

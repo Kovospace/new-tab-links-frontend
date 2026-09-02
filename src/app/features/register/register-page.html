@@ -1,6 +1,5 @@
 <article class="register-page">
   <h1 class="register-page__heading">{{ 'register.heading' | translate }}</h1>
-  <p class="register-page__lead">{{ 'register.leadParagraph' | translate }}</p>
 
   <form
     class="register-page__form"
@@ -93,7 +92,7 @@
   </form>
 
   <section class="register-page__google">
-    <p class="register-page__google-text">{{ 'register.googleAlternative' | translate }}</p>
+    <h1 class="register-page__heading_google">{{ 'register.headingGoogle' | translate }}</h1>
     <button
       class="register-page__google-button"
       type="button"
@@ -103,10 +102,10 @@
     </button>
   </section>
 
-  <p class="register-page__login-hint">
-    {{ 'register.alreadyHaveAccount' | translate }}
-    <a class="register-page__login-link" [routerLink]="loginLink">{{
-      'register.loginLink' | translate
-    }}</a>
-  </p>
+  <section class="register-page__login-hint">
+    <h1>{{ 'register.alreadyHaveAccount' | translate }}</h1>
+    <a class="register-page__login-link button" [routerLink]="loginLink">
+      {{'register.loginLink' | translate }}
+    </a>
+  </section>
 </article>
