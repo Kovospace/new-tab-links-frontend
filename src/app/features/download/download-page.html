@@ -1,37 +1,47 @@
 <article class="download-page">
+
   <h1 class="download-page__heading">{{ 'download.heading' | translate }}</h1>
-  <p class="download-page__lead">{{ 'download.leadParagraph' | translate }}</p>
 
   <ul class="download-page__options">
+
     @for (downloadOption of viewModel.downloadOptions; track downloadOption.headingTranslationKey) {
       <li class="download-page__option">
+
         <h2 class="download-page__option-heading">
           {{ downloadOption.headingTranslationKey | translate }}
         </h2>
-        <p class="download-page__option-text">
-          {{ downloadOption.textTranslationKey | translate }}
-        </p>
 
         @if (downloadOption.isAvailable) {
           @if (downloadOption.leavesThisSite) {
             <a
-              class="download-page__option-link"
+              class="download-page__option-link button"
               [href]="downloadOption.downloadUrl"
               rel="noopener noreferrer"
               target="_blank"
-              >{{ downloadOption.actionTranslationKey | translate }}</a
             >
+              {{ downloadOption.actionTranslationKey | translate }}
+            </a>
           } @else {
-            <a class="download-page__option-link" [href]="downloadOption.downloadUrl" download>{{
-              downloadOption.actionTranslationKey | translate
-            }}</a>
+            <a
+              class="download-page__option-link button"
+              [href]="downloadOption.downloadUrl"
+              download
+            >
+              {{ downloadOption.actionTranslationKey | translate }}
+            </a>
           }
         } @else {
           <p class="download-page__option-unavailable">
             {{ downloadOption.unavailableTranslationKey | translate }}
           </p>
         }
+
+        <p class="download-page__option-text">
+          {{ downloadOption.textTranslationKey | translate }}
+        </p>
+
       </li>
     }
+
   </ul>
 </article>

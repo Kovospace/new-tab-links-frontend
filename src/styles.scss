@@ -70,6 +70,7 @@ button:not(.language-switcher__option),
   font-weight: bold;
   padding: 0.25em 0.5em;
   border-radius: 0.25em;
+  display: inline-block;
 
   &:hover {
     background-color: var(--color-ui-element-accented-hover);
@@ -81,6 +82,12 @@ h1 {
   font-size: 2em;
   font-weight: bold;
   margin: 0.5em 0;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.75em 0;
 }
 
 // typical form layout
