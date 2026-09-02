@@ -41,6 +41,21 @@ export interface RuntimeConfiguration {
    */
   readonly frontendApiKey: string;
 
+  /**
+   * How long typing has to stop before the registration form looks a username up.
+   *
+   * <p>Set from {@code NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS}. Configurable because it is one
+   * half of a pair: the backend refuses two calls made closer together than
+   * {@code VISITOR_TOKEN_MINIMUM_REQUEST_INTERVAL}, and this must stay comfortably above that
+   * value or real typing is answered with 429. Whoever changes one has to be able to change the
+   * other without rebuilding an image.</p>
+   *
+   * <p>The site does not rely on it for correctness — {@code VisitorTokenService} paces itself
+   * against the interval the backend actually reports — but a debounce below the backend's floor
+   * turns every keystroke into a wait, which is slower than not debouncing at all.</p>
+   */
+  readonly usernameCheckDebounceMilliseconds: number;
+
   /** Where the extension can be installed from. */
   readonly extensionDownload: {
     /**
@@ -72,6 +87,7 @@ export const DEFAULT_RUNTIME_CONFIGURATION: RuntimeConfiguration = {
   backendBaseUrl: 'http://localhost:8080',
   webClientDeviceName: 'NewTabLinks website',
   frontendApiKey: '',
+  usernameCheckDebounceMilliseconds: 250,
   extensionDownload: {
     chromeWebStoreUrl: '',
     selfHostedCrxPath: '/downloads/newtablinks.crx',

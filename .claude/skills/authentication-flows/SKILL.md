@@ -43,6 +43,8 @@ site's only part in it is minting the code.
 | Bearer header + refresh-on-401 | `core/auth/authentication.interceptor.ts` |
 | Route protection | `core/auth/authentication.guards.ts` |
 | Minting the pairing code | `core/user/user-device.service.ts` |
+| Asking whether a username is taken | `core/auth/username-existence.service.ts` |
+| The metered pass those calls carry | `core/auth/visitor-token.service.ts` |
 
 ## Decisions already made — do not silently revisit
 
@@ -78,6 +80,33 @@ refreshing a refresh would recurse. Covered by `authentication.interceptor.spec.
 deliberately identical whether or not the address exists. Replacing that text with wording of our
 own would turn either form into a way of discovering who has an account.
 
+## The two enumerable endpoints, and what actually bounds them
+
+`POST /auth/register` refuses a taken username with **409**, and
+`GET /auth/username-existence` answers the same question directly. Both are account enumeration
+oracles and neither can be closed without losing a feature, so the backend **meters** them:
+
+- Every call carries `X-Visitor-Token`, a pass obtained from `POST /auth/visitor-token`.
+- A pass may not be spent immediately (default 500ms), no faster than one call every 200ms, and
+  no more than 250 times, and it expires after an hour. All six numbers are backend configuration
+  (`VISITOR_TOKEN_*`); the backend publishes them in the response that issues the pass.
+- `core/auth/visitor-token.service.ts` obtains one, **waits out the delays before the request**
+  rather than being refused for them, retries **once** on 401 with a fresh pass, and never retries
+  a 429. If a pass cannot be obtained at all it calls **without** the header — refusing to submit a
+  registration this site could have submitted is the worse failure.
+
+**`X-Frontend-Api-Key` is not this.** The key is public — it ships in `config.json` — so it bounds
+nothing; it only keeps these endpoints from being a convenient anonymous lookup service. Anything
+that claims to *limit* enumeration is the visitor token.
+
+**Not per IP address, deliberately.** Carrier-grade NAT puts whole neighbourhoods behind one
+address; counting by address would punish real users far more than anyone it aimed at. Any
+proposal to add IP-based limiting has to answer that first.
+
+**The debounce and the backend interval are a pair.** `usernameCheckDebounceMilliseconds` (250ms)
+must stay above the backend's `VISITOR_TOKEN_MINIMUM_REQUEST_INTERVAL` (200ms), or real typing is
+answered with 429. Both are configuration so they can be moved together.
+
 ## Three route paths the backend pins
 
 The backend builds the links it mails and the address it redirects to from its own configuration.
@@ -111,3 +140,6 @@ lands nowhere and every API call is refused by CORS.
   or account as "gone" in a way that leaks whether the id was real.
 - **The website labels its own sessions** through the optional `X-Device-Name` header, sent only
   on the endpoints that issue tokens.
+- **401 and 429 from the metered endpoints mean different things.** 401 says the pass must be
+  replaced; 429 says the caller was early and a new pass would not help. Treating them alike turns
+  a throttle into a retry storm.

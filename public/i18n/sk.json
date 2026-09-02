@@ -201,6 +201,7 @@
     "unauthorized": "Vaša relácia sa skončila. Prihláste sa znova.",
     "invalidCredentials": "Tieto prihlasovacie údaje boli odmietnuté.",
     "usernameTaken": "Toto používateľské meno je už obsadené.",
+    "tooManyRequests": "Idete trochu rýchlo. Chvíľu počkajte a skúste to znova.",
     "notFound": "Nenašlo sa.",
     "validation": "Opravte prosím zvýraznené polia."
   }

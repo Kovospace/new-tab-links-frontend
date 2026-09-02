@@ -134,11 +134,19 @@ which any visitor can fetch, and it travels on a request their browser makes, so
 can read it and call the endpoint themselves. It raises the cost of casually scripted username
 enumeration; it does not prevent it, and nothing that matters may be gated on it.
 
+What does bound that enumeration is the **visitor token**: the backend meters both endpoints that
+disclose whether a username is registered — the lookup and registration itself, whose 409 answers
+the same question — and this site obtains a pass on demand, paces itself against the limits the
+backend reports, and replaces a spent pass once. The limits live on the backend
+(`VISITOR_TOKEN_*`); nothing about them is configured here except the debounce above, which has to
+stay on the right side of the backend's minimum interval. See the `authentication-flows` skill.
+
 | Variable                             | Default                      | What it does                                                                                                                                                                               |
 | ------------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `NEWTABLINKS_BACKEND_BASE_URL`       | `http://localhost:8080`      | Origin of the NewTabLinks backend, no trailing slash. **The visitor's browser resolves this**, so it must be a publicly reachable address — a cluster-internal service name will not work. |
 | `NEWTABLINKS_WEB_CLIENT_DEVICE_NAME` | `NewTabLinks website`        | Label this site reports as the device name when it obtains tokens. Sent as `X-Device-Name`; the backend never trusts it and only uses it to name a row in the user's device list.          |
 | `NEWTABLINKS_FRONTEND_API_KEY`       | _(empty)_                    | Shared key admitting this site to the backend's username-existence check, which the registration form makes while someone types. Must equal the backend's `FRONTEND_API_KEY` exactly; empty means the check never runs. Readable by anyone — see below.       |
+| `NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS` | `250`                    | How long typing has to stop before the registration form looks a username up. Must stay **above** the backend's `VISITOR_TOKEN_MINIMUM_REQUEST_INTERVAL` (200ms), or real typing is answered with 429. Must be a whole number of milliseconds; anything else is refused at start-up and 250 is used. |
 | `NEWTABLINKS_CHROME_WEB_STORE_URL`   | _(empty)_                    | Chrome Web Store listing linked from the download page. Empty shows "not published yet" instead of a dead link.                                                                            |
 | `NEWTABLINKS_SELF_HOSTED_CRX_PATH`   | `/downloads/newtablinks.crx` | Path to the packaged extension this site hosts itself. Empty hides that offer.                                                                                                             |
 
