@@ -39,8 +39,9 @@ risk/impact analysis and effort estimates — and it is the counterpart the **ba
 Its counterpart is **`backend-developer`** — the backend repo's own `developer` agent, registered
 user-level in `~/.claude/agents/backend-developer.md` because a sibling repo's project-scoped
 agents are invisible from here. Send it anything that has to change in the backend; it resolves
-that checkout itself and never edits this one. A newly added agent file is only picked up by a
-**new** session.
+that checkout itself and never edits this one. **`devops-engineer`** is the same arrangement for
+the cluster and the GitOps repo. A newly added agent file is only picked up by a **new**
+session.
 
 ## Sibling repositories
 
@@ -48,11 +49,22 @@ that checkout itself and never edits this one. A newly added agent file is only 
 |---|---|---|
 | Backend (Spring Boot) | `/home/kovo/IdeaProjects/new-tab-links-backend` | `Kovospace/new-tab-links-backend` |
 | Chrome extension | `/home/kovo/IdeaProjects/NewTabGroupedLinks` | `K0V0/NewTabGroupedLinks` |
+| GitOps (cluster state) | `/home/kovo/IdeaProjects/kovostack-infra-gitops` | `Kovospace/kovostack-infra-gitops` |
 
 Details — ownership of each concern, the shared data model, how to ask and answer across repos —
 live in the **`cross-project-contracts`** skill. Read those repos with `git -C <path> <cmd>`;
 access is granted by `permissions.additionalDirectories` in the gitignored
 `.claude/settings.local.json`.
+
+**The GitOps repo is read-only from here.** `applications/new-tab-links-frontend/values.yaml` is
+what a human edits — `host`, `healthPath`, resources and the `env:` block that becomes
+`config.json` — while `versions/new-tab-links-frontend.yaml` carries the image tag CI writes.
+Reading them beats guessing what a deployment sets. Never write to it: Argo CD reconciles its
+`main` continuously with `prune` and `selfHeal`, so a push there is a production deployment with
+no approval gate. Changes to it belong to **`devops-engineer`** (`~/.claude/agents/`), which asks
+before every push to `main`. Hand it anything the cluster has to be told — a new environment
+variable that needs a value, an image tag, a probe path, an init-container version — and say what
+the value must be and why, because that agent knows Kubernetes, not this application.
 
 ## Tech stack
 

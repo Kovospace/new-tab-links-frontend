@@ -36,6 +36,36 @@ The public site and the signed-in area exist; the extension's own domain (enviro
 links, sync) is deliberately not consumed here. Verify with `ls`/`glob` before referring to any
 component, service or route, and never invent an endpoint — read the backend.
 
+## The GitOps repository
+
+The cluster's desired state lives in `Kovospace/kovostack-infra-gitops`, checked out at
+`/home/kovo/IdeaProjects/kovostack-infra-gitops` and readable from here. Three files describe
+this application:
+
+- `applications/new-tab-links-frontend.yaml` — the Argo CD Application: which chart version, the
+  sync policy, the namespace.
+- `applications/new-tab-links-frontend/values.yaml` — what a human edits: `host`, `healthPath`,
+  resources, and the `env:` block that becomes `config.json`.
+- `versions/new-tab-links-frontend.yaml` — the image tag, written by CI. Never edited by hand;
+  it is loaded after the values file so it always wins.
+
+**Read it freely** — to answer "what does this deployment actually set?", to check whether a new
+environment variable has a value in the cluster, or to confirm what the chart is given. That
+beats guessing, and it is the only place the real answer exists.
+
+**Do not write to it.** Argo CD reconciles its `main` continuously with `prune` and `selfHeal`,
+so a push there is a production deployment with no approval gate. That repo has its own agent —
+**`devops-engineer`**, registered user-level in `~/.claude/agents/devops-engineer.md` — which
+owns every change to it and asks the user before each push to `main`. Hand it anything that has
+to change in the cluster: a new environment variable that needs a value, an image tag, a probe
+path, a resource limit, an init-container version.
+
+When you hand work over, say what the value must be and *why* — that agent knows Kubernetes, not
+this application. `NEWTABLINKS_BACKEND_BASE_URL` must be the backend's **public** address because
+the visitor's browser resolves it, and `healthPath: /healthz` must be set or the chart renders no
+probes; neither is guessable from the cluster side.
+
+
 ## Answering another project's question
 
 This is a first-class duty, not a side job. Another agent (typically the backend's `developer`
@@ -65,7 +95,8 @@ Keep it short and concrete:
 3. **User-visible impact** — what changes on screen, what breaks for a user mid-session.
 4. **Build & bundle** — new dependencies, bundle-size budget in `angular.json`, lazy-loading.
 5. **Backend/extension cost** — what has to change on the other side. Read those repos; do not
-   guess. Hand backend work to the backend's `developer` agent.
+   guess. Hand backend work to the `backend-developer` agent, and anything the cluster has to be
+   told to the `devops-engineer` agent.
 6. **Risk** — rank what is most likely to go wrong and why. Call out anything irreversible.
 7. **Open questions** for the user.
 
@@ -130,7 +161,9 @@ memory. The non-negotiables:
 - Never merge or rebase onto `main`/`master` locally; never delete remote branches.
 - Commit only when the user asks. Confirm the branch with `git rev-parse --abbrev-ref HEAD`
   first; if it is `main`/`master`, switch to the agreed branch before committing.
-- Opening a PR is fine when asked. `gh` is not installed — hand the user the GitHub compare URL.
+- Opening a PR is fine when asked. `gh` is installed and authenticated as **K0V0** over SSH.
+- **The GitOps repo is read-only to you.** Never commit, branch or push there; its `main` is the
+  production cluster. Route every change through the `devops-engineer` agent.
 - Remotes are SSH; `~/.ssh/id_ed25519` authenticates. If a deploy key turns out to be missing,
   ask the user — never generate or install keys yourself.
 
