@@ -34,6 +34,25 @@ export interface RegistrationRequest {
 export interface RegistrationAccepted {
   /** Wording to show the user, supplied by the backend. */
   readonly message: string;
+
+  /**
+   * Whether the message actually reached the mail relay, where the backend says so.
+   *
+   * <p>Optional because it is additive: a backend that predates the field, or any response shape
+   * without it, leaves it undefined, and that has to read as "nothing to report" rather than as
+   * a failure. Only an explicit {@code false} means the message never got out — a blocked
+   * outbound SMTP port, a relay refusing it — which is worth saying, because the alternative is
+   * someone waiting for an email that was never sent.</p>
+   *
+   * <p>It says nothing about whose address it is, and must never be made to. Both branches of
+   * registration — an account created, an address already registered — send a message, so the
+   * value is the same either way; inferring anything else from it would undo the very uniformity
+   * {@link message} exists to preserve.</p>
+   *
+   * <p>Carried by the registration response only. Resending an activation link answers with this
+   * same type but does not report delivery, so there it is always undefined.</p>
+   */
+  readonly emailDelivered?: boolean;
 }
 
 /**

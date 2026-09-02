@@ -24,6 +24,21 @@
   margin: 0.25em 0;
 }
 
+// The backend saying the activation message never reached its mail relay. Marked the same way a
+// rejected field is, because it is the same kind of thing: something went wrong and the wording
+// beside it is the only place that says so.
+.register-page__delivery-warning {
+  display: inline-block;
+  background-color: var(--color-panel-danger);
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  margin: 0.25em 0;
+}
+
+.register-page__resend {
+  margin-top: 3em;
+}
+
 .register-page__google {
   margin-top: 3em;
 }
