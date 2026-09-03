@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { BackButton } from '../../shared/layout/back-button/back-button';
 import { SitemapPageViewModel } from './sitemap-page.view-model';
 
 /**
@@ -8,7 +9,7 @@ import { SitemapPageViewModel } from './sitemap-page.view-model';
  */
 @Component({
   selector: 'app-sitemap-page',
-  imports: [RouterLink, TranslatePipe],
+  imports: [BackButton, RouterLink, TranslatePipe],
   providers: [SitemapPageViewModel],
   templateUrl: './sitemap-page.html',
   styleUrl: './sitemap-page.scss',

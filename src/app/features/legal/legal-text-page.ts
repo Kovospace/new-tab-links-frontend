@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { BackButton } from '../../shared/layout/back-button/back-button';
 import { LegalTextPageViewModel } from './legal-text-page.view-model';
 
 /**
@@ -10,7 +11,7 @@ import { LegalTextPageViewModel } from './legal-text-page.view-model';
  */
 @Component({
   selector: 'app-legal-text-page',
-  imports: [TranslatePipe],
+  imports: [BackButton, TranslatePipe],
   providers: [LegalTextPageViewModel],
   templateUrl: './legal-text-page.html',
   styleUrl: './legal-text-page.scss',

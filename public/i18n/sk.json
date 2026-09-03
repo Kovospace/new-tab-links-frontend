@@ -18,6 +18,7 @@
     "devices": "Moje zariadenia",
     "account": "Účet",
     "logout": "Odhlásiť sa",
+    "back": "Späť",
     "skipToContent": "Preskočiť na obsah",
     "openMenu": "Otvoriť ponuku",
     "closeMenu": "Zavrieť ponuku"
@@ -166,7 +167,10 @@
     "connectAction": "Vygenerovať pripojovací kód",
     "connectCodeLabel": "Váš pripojovací kód",
     "connectCodeExpiry": "Platný 10 minút, teda do {expiresAt}",
-    "connectCodeHint": "Na interpunkcii ani veľkosti písmen nezáleží."
+    "connectCodeHint": "Na interpunkcii ani veľkosti písmen nezáleží.",
+    "copyCodeAction": "Skopírovať kód",
+    "copyCodeConfirmation": "Skopírované.",
+    "copyCodeFailure": "Kód sa nepodarilo skopírovať. Označte ho a skopírujte ručne."
   },
   "account": {
     "heading": "Účet",
