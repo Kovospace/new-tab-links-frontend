@@ -36,12 +36,19 @@ risk/impact analysis and effort estimates — and it is the counterpart the **ba
 **extension** agents query about how their changes land here. It answers from the code, with
 `path:line`, or says "no consumer exists yet".
 
-Its counterpart is **`backend-developer`** — the backend repo's own `developer` agent, registered
-user-level in `~/.claude/agents/backend-developer.md` because a sibling repo's project-scoped
-agents are invisible from here. Send it anything that has to change in the backend; it resolves
-that checkout itself and never edits this one. **`devops-engineer`** is the same arrangement for
-the cluster and the GitOps repo. A newly added agent file is only picked up by a **new**
-session.
+Every sibling repo is reached the same way — a user-level agent in `~/.claude/agents/` that
+points at that repo's own project-scoped agent file, because project-scoped agents are invisible
+from here:
+
+| Send it to | User-level agent | Points at |
+|---|---|---|
+| the backend | **`backend-developer`** | `new-tab-links-backend/.claude/agents/developer.md` |
+| the extension | **`extension-developer`** | `NewTabGroupedLinks/.claude/agents/backend-sync.md` |
+| the cluster | **`devops-engineer`** | `kovostack-infra-gitops/.claude/agents/devops-engineer.md` |
+
+This repo has one too — **`frontend-developer`** — which is how the other three reach *you*. Each
+resolves its own checkout and never edits the calling one. A newly added agent file is only
+picked up by a **new** session.
 
 ## Sibling repositories
 
@@ -65,6 +72,19 @@ no approval gate. Changes to it belong to **`devops-engineer`** (`~/.claude/agen
 before every push to `main`. Hand it anything the cluster has to be told — a new environment
 variable that needs a value, an image tag, a probe path, an init-container version — and say what
 the value must be and why, because that agent knows Kubernetes, not this application.
+
+## Developing against real backend data
+
+`docker-compose.yml` is the default loop and needs no secrets. When real data, real mail or the
+real Google client is needed, the backend is run under **mirrord** — it inherits the deployed
+Pod's Infisical environment, DNS and network — and this repo stays exactly as it is, pointing at
+`http://localhost:8080`.
+
+`.mirrord/steal.json` here is the one case that involves this repo: it serves `ng serve` at
+`https://new-tab-links.matejkovac.sk`, for real TLS, the real origin and testing from another
+device, at the cost of taking the deployed site offline while it runs. See `.mirrord/README.md`,
+and `kovostack-infra-gitops/docs/mirrord.md` for the one-time setup. Nothing is installed in the
+cluster and nothing about it is in the GitOps manifests.
 
 ## Tech stack
 

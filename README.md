@@ -106,6 +106,25 @@ start when a declared client id is blank, which is why they live in a file that 
 The `environment:` block in `docker-compose.yml` wins over `.env.backend.local`, so that file can
 only add variables, not override the ones already set there.
 
+## Developing against real backend data — mirrord
+
+The compose stack above gives a working backend with an empty database, mail disabled and no
+Google client. When you need the *deployed* backend's data, secrets and mail instead, run the
+backend under mirrord — **not this repository**:
+
+```bash
+cd ~/IdeaProjects/new-tab-links-backend && mirrord exec -- ./mvnw spring-boot:run
+npm start        # here, unchanged: the dev server still talks to localhost:8080
+```
+
+mirrord relocates a local *process* into the cluster, and the thing calling the API is the
+browser, so there is nothing for this repository to do — that is the point. The one case where
+it helps here is serving `ng serve` at `https://new-tab-links.matejkovac.sk` itself, for real
+TLS, the real origin and testing from another device: `.mirrord/steal.json`, documented in
+`.mirrord/README.md`. That one takes the deployed site offline while it runs.
+
+One-time setup is in `kovostack-infra-gitops/docs/mirrord.md`.
+
 ## Running the container
 
 ```bash
