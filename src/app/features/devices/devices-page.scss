@@ -3,6 +3,7 @@
 }
 
 .devices-page__heading {
+  margin: 0.125em 0;
 }
 
 .devices-page__lead {
@@ -21,6 +22,7 @@
 }
 
 .devices-page__table {
+  margin: 1.5em 0;
 }
 
 .devices-page__table-head {
@@ -30,9 +32,47 @@
 }
 
 .devices-page__row {
+  vertical-align: middle;
+
+  &:nth-child(even) {
+
+    td.devices-page__cell > div.devices-page__cell-content {
+      background-color: var(--color-panel);
+    }
+  }
 }
 
 .devices-page__column-header {
+}
+
+// The wrapper inside every cell — see the template for why the cells themselves are left alone.
+// Layout, alignment, minimum height, truncation and anything positioned belong here.
+.devices-page__column-header-content,
+.devices-page__cell-content
+{
+  min-height: 3em;
+  display: flex;
+  align-items: center;
+  margin: 0.25em 0;
+  //border: 0.25em solid var(--color-background);
+  padding: 0.25em 0.75em;
+
+  & > * {
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+}
+
+.devices-page__column-header-content {
+  font-weight: bold;
+  background-color: var(--color-panel);
+}
+
+.devices-page__cell-content {
+
+  button {
+    font-size: 1em;
+  }
 }
 
 .devices-page__cell {

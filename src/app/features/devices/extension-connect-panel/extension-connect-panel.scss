@@ -1,26 +1,36 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
 .extension-connect-panel {
+  margin-top: 3em;
 }
 
 .extension-connect-panel__heading {
+  margin: 0.25em 0;
 }
 
 .extension-connect-panel__lead {
+  margin-bottom: 1.5em;
 }
 
 .extension-connect-panel__generate {
 }
 
 .extension-connect-panel__code-block {
+  margin-top: 1.5em;
 }
 
 .extension-connect-panel__code-label {
+
 }
 
 .extension-connect-panel__code {
+  font-size: 3em;
+  margin: 0.25em 0;
+  display: inline-block;
 }
 
 .extension-connect-panel__code-expiry {
+  display: inline-block;
+  margin-bottom: 0.25em;
 }
 
 .extension-connect-panel__code-hint {

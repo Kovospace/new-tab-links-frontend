@@ -94,7 +94,6 @@ $menu-toggle-bar-travel: math.div($menu-toggle-content-height - $menu-toggle-bar
 // about its resting place at the edge and the arms would not meet.
 
 .page-header__menu-toggle--open {
-
   &:hover {
     background-color: var(--color-accent-danger-hover);
   }
@@ -150,9 +149,72 @@ $menu-toggle-bar-travel: math.div($menu-toggle-content-height - $menu-toggle-bar
 }
 
 .page-header__session {
+  margin: 1em;
+  text-align: right;
 }
 
+// Geometry of the silhouette that precedes the signed-in user's name. Every length is in `em`, so
+// the whole figure scales with the label's own font size and nothing has to be re-measured if that
+// changes.
+//
+// It is drawn rather than typed because every Unicode glyph of a person lives in the emoji blocks:
+// the emoji font paints those, in its own fixed colours, so they ignore `currentColor` and stay
+// the same shade whatever the surrounding text does. Two pseudo-elements cost nothing, obey the
+// colour, and — carrying no text — say nothing to a screen reader, which is right for decoration.
+$user-icon-width: 1em;
+$user-icon-gap: 0.35em;
+$user-icon-head-diameter: 0.4em;
+$user-icon-shoulders-width: 0.78em;
+$user-icon-shoulders-height: 0.36em;
+$user-icon-neck-gap: 0.06em;
+
+// How far the shoulders sit above the bottom of the inline box. That edge is the font's descender
+// rather than the baseline, so this inset is what lifts the figure back onto the baseline; it is
+// the one number to nudge if the silhouette rides high or low against the name.
+$user-icon-baseline-inset: 0.16em;
+
 .page-header__user-label {
+  position: relative;
+  font-weight: bold;
+  margin-right: 0.5em;
+  font-size: 1.25em;
+
+  // The room the silhouette is drawn into. It is padding rather than a margin on the shapes
+  // themselves because they are taken out of the flow — without it they would be painted over the
+  // first letters of the name.
+  padding-left: $user-icon-width + $user-icon-gap;
+
+  // Both halves are the same colour as the text and positioned against the label, and both are
+  // horizontally centred in that padding; only their size and their rounding differ.
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background-color: currentColor;
+  }
+
+  // The head: a circle, centred in the padding.
+  &::before {
+    left: math.div($user-icon-width - $user-icon-head-diameter, 2);
+    bottom: $user-icon-baseline-inset + $user-icon-shoulders-height + $user-icon-neck-gap;
+    width: $user-icon-head-diameter;
+    height: $user-icon-head-diameter;
+    border-radius: 50%;
+  }
+
+  // The shoulders: the top half of an ellipse, flat along the bottom.
+  //
+  // The slash form is what makes it an ellipse rather than a stadium — the horizontal radii come
+  // first, the vertical ones after, so each top corner is rounded by half the width across and the
+  // full height down, and the two curves meet in one arc at the top instead of running into a
+  // straight edge between them.
+  &::after {
+    left: math.div($user-icon-width - $user-icon-shoulders-width, 2);
+    bottom: $user-icon-baseline-inset;
+    width: $user-icon-shoulders-width;
+    height: $user-icon-shoulders-height;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
 }
 
 .page-header__logout {
