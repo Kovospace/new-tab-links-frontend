@@ -15,7 +15,7 @@
     [validationMessages]="viewModel.backendValidationMessages()"
   />
 
-  <form [formGroup]="viewModel.searchForm" (ngSubmit)="viewModel.applySearch()">
+  <form [formGroup]="viewModel.searchForm" (ngSubmit)="viewModel.applySearch()" class="admin-page__search-form">
     <label>
       <span>{{ 'admin.users.searchLabel' | translate }}</span>
       <input type="search" formControlName="query" autocomplete="off" />
@@ -70,39 +70,94 @@
   } @else if (viewModel.hasNoAccounts()) {
     <p>{{ 'admin.users.noAccounts' | translate }}</p>
   } @else {
+    <!--
+      Every cell holds one wrapper element, and every rule that positions anything is written
+      against that wrapper rather than the cell — the same arrangement as the devices table, for
+      the same reason.
+
+      A table cell is not an ordinary box. Its geometry is decided by the table layout algorithm
+      and not by the cell: `height` is a minimum the row may overrule, `width` is a suggestion the
+      column negotiates away, `overflow`, `transform` and `position: relative` are undefined on it,
+      and it cannot be a flex or grid container without `display` taking it out of the table and
+      breaking the column alignment that is the only reason to use a table at all. A plain `div`
+      inside it has none of those restrictions, so alignment, truncation, minimum heights and
+      anything positioned absolutely all become ordinary CSS again.
+    -->
     <table class="admin-page__table">
       <thead>
-        <tr>
-          <th>{{ 'admin.field.username' | translate }}</th>
-          <th>{{ 'admin.field.email' | translate }}</th>
-          <th>{{ 'admin.field.displayName' | translate }}</th>
-          <th>{{ 'admin.field.status' | translate }}</th>
-          <th>{{ 'admin.field.failedAttempts' | translate }}</th>
-          <th>{{ 'admin.field.createdAt' | translate }}</th>
-          <th>{{ 'admin.field.actions' | translate }}</th>
+        <tr class="admin-page__row">
+          <th scope="col">
+            <div class="admin-page__column-header-content">
+              {{ 'admin.field.username' | translate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="admin-page__column-header-content">
+              {{ 'admin.field.email' | translate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="admin-page__column-header-content">
+              {{ 'admin.field.displayName' | translate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="admin-page__column-header-content">
+              {{ 'admin.field.status' | translate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="admin-page__column-header-content">
+              {{ 'admin.field.failedAttempts' | translate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="admin-page__column-header-content">
+              {{ 'admin.field.createdAt' | translate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="admin-page__column-header-content">
+              {{ 'admin.field.actions' | translate }}
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody>
         @for (account of viewModel.accounts(); track account.id) {
-          <tr>
-            <td>{{ account.username }}</td>
-            <td>{{ account.email }}</td>
-            <td>{{ account.displayName }}</td>
-            <td>{{ account.statusLabel }}</td>
-            <td>{{ account.failedLoginAttempts }}</td>
-            <td>{{ account.createdAt }}</td>
+          <tr class="admin-page__row">
             <td>
-              <button type="button" (click)="viewModel.editAccount(account.id)">
-                {{ 'admin.users.editAction' | translate }}
-              </button>
-              @if (account.hasFailedAttempts) {
-                <button type="button" (click)="viewModel.unlockAccount(account.id)">
-                  {{ 'admin.users.unlockAction' | translate }}
+              <div class="admin-page__cell-content">{{ account.username }}</div>
+            </td>
+            <td>
+              <div class="admin-page__cell-content">{{ account.email }}</div>
+            </td>
+            <td>
+              <div class="admin-page__cell-content">{{ account.displayName }}</div>
+            </td>
+            <td>
+              <div class="admin-page__cell-content">{{ account.statusLabel }}</div>
+            </td>
+            <td>
+              <div class="admin-page__cell-content">{{ account.failedLoginAttempts }}</div>
+            </td>
+            <td>
+              <div class="admin-page__cell-content">{{ account.createdAt }}</div>
+            </td>
+            <td>
+              <div class="admin-page__cell-content">
+                <button type="button" (click)="viewModel.editAccount(account.id)">
+                  {{ 'admin.users.editAction' | translate }}
                 </button>
-              }
-              <button type="button" (click)="viewModel.requestDeletion(account.id)">
-                {{ 'admin.users.deleteAction' | translate }}
-              </button>
+                @if (account.hasFailedAttempts) {
+                  <button type="button" (click)="viewModel.unlockAccount(account.id)">
+                    {{ 'admin.users.unlockAction' | translate }}
+                  </button>
+                }
+                <button type="button" (click)="viewModel.requestDeletion(account.id)">
+                  {{ 'admin.users.deleteAction' | translate }}
+                </button>
+              </div>
             </td>
           </tr>
         }

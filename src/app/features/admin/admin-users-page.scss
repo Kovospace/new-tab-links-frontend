@@ -1,3 +1,73 @@
 // Only what is actually styled has a rule here. A class exists in the template when this file
 // gives it something; adding a style means adding both, and removing the last declaration
 // means removing the class too. Empty placeholder rules are not kept.
+
+.admin-page__search-form {
+  margin-top: 2em;
+
+  label {
+    margin: 0.5em 0;
+  }
+
+  button[type=submit] {
+    margin-right: 0.5em;
+  }
+}
+
+// The accounts table, arranged exactly like the devices table on the account pages: the cells
+// themselves are left as plain elements and every rule addresses the wrapper `div` inside them.
+// The template says why.
+.admin-page__table {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.admin-page__row {
+  vertical-align: middle;
+
+  // Striping is painted on the wrappers rather than on the row. The wrappers are inset by their
+  // own vertical margin, so the stripe stops short of the row's edges and reads as a band of
+  // separate cells rather than one full-bleed bar — and a background on a `tr` would in any case
+  // be covered wherever a cell had one of its own.
+  &:nth-child(even) .admin-page__cell-content {
+    background-color: var(--color-panel);
+  }
+}
+
+.admin-page__column-header-content,
+.admin-page__cell-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 3em;
+  margin: 0.25em 0;
+  padding: 0.25em 0.75em;
+
+  // Every cell holds finished text or a fixed set of buttons, so nothing in one may stretch to
+  // fill the width the column happens to negotiate, or be squeezed when it negotiates less.
+  & > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+
+.admin-page__column-header-content {
+  font-weight: bold;
+  background-color: var(--color-panel);
+}
+
+// The actions carry the table's own size rather than the browser's default for a control.
+.admin-page__cell-content button {
+  font-size: 1em;
+}
+
+.admin-page__pages {
+
+  button:first-child {
+    margin-right: 0.5em;
+  }
+
+  button:last-child {
+    margin-left: 0.5em;
+  }
+}

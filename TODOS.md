@@ -16,6 +16,9 @@ Things that comes to my mind during solving other shits and should be done
 ### Connection code copy to clipboard widget
 - small square with rounded corners icon next to the connection code with scissors logo
 
+### Back buttons
+- especially in sections like cookies & gdpr which are not in top menu, back button is more than expected
+
 
 ## Critical architecture steps, missing parts
 
