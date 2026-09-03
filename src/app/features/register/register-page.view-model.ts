@@ -1,4 +1,4 @@
-import { Injectable, computed, inject } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import {
@@ -66,6 +66,12 @@ type UsernameExistenceState = 'unchecked' | 'checking' | 'available' | 'taken';
  * can the account authenticate. The backend's own wording is shown as received, because it is
  * deliberately identical whether the account was created or the address was already taken —
  * replacing it would turn this form into a way of discovering who is registered.</p>
+ *
+ * <p>Which is why the acknowledgement alone used to be a dead end: told to check an inbox that
+ * an undelivered mail never reached, there was nothing on the page to do next. So the same
+ * resend the activation page offers is offered here too, and the backend's report of a mail it
+ * could not hand to its relay is shown beside it — see {@link submitResendRequest} and
+ * {@link emailDeliveryWarning}.</p>
  */
 @Injectable()
 export class RegisterPageViewModel extends AbstractFormViewModel {
@@ -184,10 +190,62 @@ export class RegisterPageViewModel extends AbstractFormViewModel {
   );
 
   /**
+   * The address the last accepted registration named, empty until there has been one.
+   *
+   * <p>Kept because the form is cleared on success and the address is needed afterwards, to ask
+   * for another activation link without making someone type it again. Holding it rather than
+   * leaving the field filled also keeps the two concerns apart: the form is for the next
+   * registration, this is a fact about the one that already happened.</p>
+   */
+  private readonly addressTheActivationLinkWasSentTo = signal('');
+
+  /** Whether the backend reported that it could not hand the message to its mail relay. */
+  private readonly wasTheMessageUndelivered = signal(false);
+
+  /**
+   * Whether to offer another activation link.
+   *
+   * <p>Offered from the moment a registration is accepted and not withdrawn afterwards: a
+   * resend that itself goes astray is exactly when a second attempt is wanted.</p>
+   */
+  readonly isResendOffered = computed<boolean>(
+    () => this.addressTheActivationLinkWasSentTo().length > 0,
+  );
+
+  /**
+   * Finished text saying the message could not be sent, empty when there is nothing to report.
+   *
+   * <p>An addition to the backend's acknowledgement rather than a replacement for it. The
+   * acknowledgement is uniform on purpose, and this warning is safe alongside it precisely
+   * because it is uniform too — a message is mailed whether the account was created or the
+   * address was already registered, so a delivery failure cannot tell the two apart.</p>
+   */
+  readonly emailDeliveryWarning = computed<string>(() =>
+    this.wasTheMessageUndelivered()
+      ? this.translationService.translate('register.emailNotDelivered')
+      : '',
+  );
+
+  /**
+   * Whether to show the general hint about mail taking a minute to arrive.
+   *
+   * <p>Suppressed while {@link emailDeliveryWarning} is up. The hint tells someone to wait for a
+   * message, which is good advice in the ordinary case but contradicts a warning that says the
+   * message was never sent - and the warning is the more certain of the two, so it wins. The
+   * resend control itself stays offered in both states.</p>
+   */
+  readonly isResendHintShown = computed<boolean>(
+    () => this.isResendOffered() && this.emailDeliveryWarning().length === 0,
+  );
+
+  /**
    * Submits the form.
    *
    * <p>An invalid form is marked touched instead of sent, which is what makes the per-field
    * messages appear for someone who pressed the button without filling anything in.</p>
+   *
+   * <p>The submitted values are taken once, up front, because the form is cleared as soon as the
+   * backend accepts them and the address is still needed after that.</p>
    */
   submitRegistration(): void {
     if (this.registrationForm.invalid) {
@@ -195,15 +253,60 @@ export class RegisterPageViewModel extends AbstractFormViewModel {
       return;
     }
 
+    const submittedRegistration = this.registrationForm.getRawValue();
+    this.forgetThePreviousRegistration();
     this.beginSubmission();
 
-    this.authenticationService.register(this.registrationForm.getRawValue()).subscribe({
+    this.authenticationService.register(submittedRegistration).subscribe({
       next: (acknowledgement) => {
+        this.addressTheActivationLinkWasSentTo.set(submittedRegistration.email);
+        // Compared against false rather than tested for truth on purpose: the field arrives as
+        // null from every endpoint that does not report delivery, and as nothing at all from a
+        // backend older than it. See RegistrationAccepted.emailDelivered.
+        this.wasTheMessageUndelivered.set(acknowledgement.emailDelivered === false);
         this.completeSubmission(acknowledgement.message);
         this.registrationForm.reset();
       },
       error: (failure: unknown) => this.failSubmission(failure, REGISTRATION_FAILURE_WORDING),
     });
+  }
+
+  /**
+   * Asks for another activation link for the address that was just registered.
+   *
+   * <p>Nothing is asked for again: the address was typed a moment ago, and re-typing it is the
+   * kind of ceremony the activation page only puts up with because someone arriving there from
+   * an email link has told this site nothing. The backend answers the same way whether or not
+   * anything was sent, and its wording is shown as received for the same reason it is above.</p>
+   *
+   * <p>Any standing delivery warning is dropped as the attempt starts, for the reason
+   * {@code beginSubmission} clears the rest of the feedback: what the previous attempt reported
+   * is not what this one did.</p>
+   */
+  submitResendRequest(): void {
+    const emailAddress = this.addressTheActivationLinkWasSentTo();
+    if (emailAddress.length === 0) {
+      return;
+    }
+
+    this.wasTheMessageUndelivered.set(false);
+    this.beginSubmission();
+
+    this.authenticationService.resendActivationLink(emailAddress).subscribe({
+      next: (acknowledgement) => this.completeSubmission(acknowledgement.message),
+      error: (failure: unknown) => this.failSubmission(failure),
+    });
+  }
+
+  /**
+   * Drops what the last accepted registration left behind.
+   *
+   * <p>Called as a new one starts, so that a failed second attempt cannot leave a resend button
+   * pointing at the address from the first.</p>
+   */
+  private forgetThePreviousRegistration(): void {
+    this.addressTheActivationLinkWasSentTo.set('');
+    this.wasTheMessageUndelivered.set(false);
   }
 
   /**

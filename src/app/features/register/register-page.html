@@ -73,7 +73,31 @@
       [successMessage]="viewModel.submissionSuccess()"
       [validationMessages]="viewModel.backendValidationMessages()"
     />
+
+    @if (viewModel.emailDeliveryWarning(); as emailDeliveryWarning) {
+      <p class="register-page__delivery-warning" role="alert">{{ emailDeliveryWarning }}</p>
+    }
   </form>
+
+  @if (viewModel.isResendOffered()) {
+    <section class="register-page__resend">
+      <h1>{{ 'register.resendHeading' | translate }}</h1>
+      @if (viewModel.isResendHintShown()) {
+        <p>{{ 'register.resendHint' | translate }}</p>
+      }
+      <button
+        type="button"
+        [disabled]="viewModel.isSubmitting()"
+        (click)="viewModel.submitResendRequest()"
+      >
+        @if (viewModel.isSubmitting()) {
+          {{ 'form.submitting' | translate }}
+        } @else {
+          {{ 'register.resendAction' | translate }}
+        }
+      </button>
+    </section>
+  }
 
   <section class="register-page__google">
     <h1>{{ 'register.headingGoogle' | translate }}</h1>
