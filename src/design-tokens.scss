@@ -209,13 +209,17 @@
   // -------------------------------------------------------------------------------------------
   // Stacking order
   //
-  // `auto` is the initial value of `z-index`, so nothing is lifted out of document order yet.
-  // These exist so that stacking is decided in one place rather than by whoever most recently
-  // needed to be on top; give them ordered integers when the first overlay is built.
+  // Stacking is decided here rather than by whoever most recently needed to be on top. The gaps
+  // between the three are deliberate: a component that has to stack something against a
+  // neighbour can do it locally, in the space above its own layer, without ever reaching the
+  // next one up.
+  //
+  // `--layer-overlay` was the first of these to need a real value, for the admin modals; the
+  // other two are numbered with it so the order is visible in one place rather than inferred.
   // -------------------------------------------------------------------------------------------
-  --layer-raised: auto;
-  --layer-sticky: auto;
-  --layer-overlay: auto;
+  --layer-raised: 10;
+  --layer-sticky: 100;
+  --layer-overlay: 1000;
 }
 
 // ---------------------------------------------------------------------------------------------

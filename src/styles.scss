@@ -39,7 +39,8 @@ body {
   height: 100%;
 }
 
-input {
+input,
+select {
   border: 0.25em solid var(--color-ui-element);
   background-color: var(--color-panel);
   border-radius: 0.5em;
@@ -47,7 +48,8 @@ input {
   font-size: 1.25em;
   transition: border-color var(--duration-fast) var(--easing-standard);
 
-  &:active, &:focus {
+  &:active,
+  &:focus {
     border-color: var(--color-ui-element-selected);
   }
 
@@ -60,9 +62,154 @@ input {
   }
 }
 
+// The closed control. Everything above it is shared with `input`; these are the differences.
+select {
+  // Removes the platform's own arrow, so the one drawn below is the only one on the control and
+  // it looks the same on every operating system.
+  appearance: none;
+  cursor: pointer;
+
+  // Tighter than the radius `input` is given above, so the control reads as something that is
+  // pressed rather than typed into — the same corner the buttons carry.
+  border-radius: 0.25em;
+
+  // Room for the marker. Right padding only, so the text of a long option never runs under it.
+  padding-right: 1.5em;
+}
+
+// An open list is the control still being used, so it goes on looking chosen for as long as the
+// list is up. `:focus` cannot say this: opening the list moves focus into it, and the control
+// would fall back to its resting border at the exact moment it is being operated.
+//
+// Its own rule rather than a third selector beside `:active` and `:focus`, because a browser that
+// does not know `:open` discards the whole selector list it appears in and would take those two
+// down with it.
+select:open {
+  border-color: var(--color-ui-element-selected);
+}
+
+// The wrapper a <select> is drawn in, and the reason it exists.
+//
+// The marker cannot go on the control itself. A <select> is a replaced element — the browser
+// draws its interior, not the document — and no browser renders `::before` or `::after` on one.
+// So the pseudo-element belongs to something wrapping it, and this is the smallest thing that
+// can be: an inline-block that shrinks to the control it holds, which is what makes `right`
+// measure from the control's own edge rather than from the width of the form.
+.select-field {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '\25BE'; // ▾ U+25BE, a text-presentation glyph, so it takes the colour below
+
+    position: absolute;
+    top: 45%;
+    right: 0.5em;
+    transform: translateY(-50%);
+
+    // Sized in the control's own font size, so the offset above is measured in the same em the
+    // control's padding is.
+    font-size: 1.5em;
+    color: var(--color-ui-element-accented);
+
+    // The marker sits over the control, so without this a click on it would land on the wrapper
+    // and the dropdown would not open.
+    pointer-events: none;
+  }
+}
+
+// The list, which is mostly not ours to style.
+//
+// An open dropdown is drawn by the operating system rather than by the page in every browser
+// that has not implemented the customisable select. Firefox and Chrome on Windows honour a
+// `background-color` on an option; the highlight under the pointer is the system's own in both,
+// and Chrome elsewhere and Safari ignore all of it. So this much is worth setting, and the hover
+// colour is only attempted where it can actually work.
+option {
+  background-color: var(--color-panel);
+  color: var(--color-text);
+}
+
+// Chrome 135 and later, where the dropdown became a real part of the document and can be styled.
+// `appearance: base-select` has to be set on both the control and its picker, and asking for it
+// in `@supports` is how a browser without it is left with the native list above.
+@supports (appearance: base-select) {
+  select,
+  select::picker(select) {
+    appearance: base-select;
+  }
+
+  // This mode draws an arrow of its own inside the control. Ours is on the wrapper and is what
+  // every other browser gets, so the built-in one goes rather than doubling up.
+  select::picker-icon {
+    display: none;
+  }
+
+  select::picker(select) {
+    background-color: var(--color-panel);
+    border: 0.25em solid var(--color-ui-element);
+    border-radius: 0.25em;
+    padding: 0.25em;
+
+    // Below the control, and above it only when there is genuinely no room.
+    //
+    // `position-area` is not what decides this. Its value here is already the browser's own
+    // default, and it is restated only so the intent survives a change to that default. What
+    // moves the list is the line after it.
+    //
+    // The default is `position-try-order: most-block-size`, which is not "keep it below unless it
+    // would be cut off" — it is "whichever side has more room, use that". A control in the lower
+    // half of the window therefore opens upwards even when the space below it was perfectly
+    // adequate, which is why the list kept appearing over the control instead of under it.
+    // `normal` restores the ordinary meaning: take the first position that fits, and only then
+    // consult the fallbacks.
+    //
+    // Neither line names the control, because a picker is anchored to its own select already.
+    // That is worth keeping: an explicit `anchor-name` would be the same name on every select in
+    // the document, and two open at once would resolve it to the wrong one. The width is left
+    // alone for the same reason — the browser already gives the list the control's width as a
+    // minimum.
+    position-area: block-end span-inline-end;
+    position-try-order: normal;
+    margin-block-start: 0.25em;
+
+    // The one case that is left: close to the bottom of the window the list will not fit below,
+    // and one that would be cut off opens upwards instead. The margin above flips with it.
+    position-try-fallbacks: flip-block;
+  }
+
+  option {
+    padding: 0.25em 0.5em;
+    border-radius: 0.25em;
+    cursor: pointer;
+
+    // Carries every background change below, including both directions across the selected row.
+    transition: background-color var(--duration-fast) var(--easing-standard);
+  }
+
+  // The tick this mode puts beside the chosen option. The background below already says which
+  // one it is.
+  option::checkmark {
+    display: none;
+  }
+
+  // The chosen option is stated first so the rule after it can be written against it. Both carry
+  // the same specificity, so it is their order that decides, and the pointer has to win: hovering
+  // the option that is already selected must still light up, or the one row under the pointer
+  // would be the only row that does not answer.
+  option:checked {
+    background-color: var(--color-ui-element-selected);
+  }
+
+  // What was asked for, and the one place it can be honoured. `:focus` is here with `:hover`
+  // because the list is navigated by keyboard as well, and the two must look the same.
+  option:hover {
+    background-color: var(--color-ui-element-accented-hover);
+  }
+}
+
 button:not(.language-switcher__option),
-.button
-{
+.button {
   background-color: var(--color-ui-element-accented);
   transition: background-color var(--duration-fast) var(--easing-standard);
   cursor: pointer;
@@ -72,8 +219,29 @@ button:not(.language-switcher__option),
   border-radius: 0.25em;
   display: inline-block;
 
+  // No outer margin at all. The space belongs *between* two buttons, so it is added where it is
+  // wanted rather than put on every side of every button and then unpicked at the ends.
+  //
+  // Unpicking it was what failed. `:first-child` asks whether the button is the container's first
+  // element, not whether it is the first button, so a button after a heading kept an indent it was
+  // never meant to have. `:first-of-type` would answer that much for `button` — "type" means the
+  // element name, so other elements around it are ignored — but there is no `:first-of-class` for
+  // `.button`, and neither selector can see a group that simply starts partway through a
+  // container. A rule that only ever adds a gap between two adjacent buttons has no ends to fix.
+  margin: 0;
+
   &:hover {
     background-color: var(--color-ui-element-accented-hover);
+  }
+
+  // `&` here is a two-part selector, so Sass expands this to all four pairings: button + button,
+  // button + .button, .button + button and .button + .button.
+  //
+  // Sibling combinators see elements only — text and comment nodes between two buttons are not
+  // siblings for this purpose — so the comment `@if` leaves behind when its condition is false
+  // does not break the pairing across it.
+  & + & {
+    margin-left: 0.5em;
   }
 }
 
@@ -103,8 +271,9 @@ form {
     display: block;
     margin: 2em 0;
 
-    // actual label
-    & > span {
+    // actual label. `.select-field` is the wrapper a <select> is drawn in, which is a span too
+    // and is not a caption.
+    & > span:not(.select-field) {
       display: block;
       margin: 0.25em 0;
       font-weight: bold;
