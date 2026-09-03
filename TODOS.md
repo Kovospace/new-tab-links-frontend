@@ -47,6 +47,18 @@ Things that comes to my mind during solving other shits and should be done
 - explore how to check if payment is still in charge - user will probably be paying monthly
 
 
+# Ideas
+
+## Rename app to MyLinks
+- user can share its links collections as readonly to outside world using webpage
+  - can make it absolutelly public
+  - or acessible only via link
+  - or via link and password
+  - have a profile picture and short description
+  - do not add other content or widgets, it is not going to be another social network
+  - the shared links = profile that was made public
+
+
 # DONE
 
 ### Connection code copy to clipboard widget
