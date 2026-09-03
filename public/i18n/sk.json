@@ -229,5 +229,70 @@
     "tooManyRequests": "Idete trochu rýchlo. Chvíľu počkajte a skúste to znova.",
     "notFound": "Nenašlo sa.",
     "validation": "Opravte prosím zvýraznené polia."
+  },
+  "admin": {
+    "signIn": {
+      "heading": "Prihlásenie správcu",
+      "lead": "Na opravu účtov. Všetko za touto stránkou je nezvratné.",
+      "usernameLabel": "Meno správcu",
+      "passwordLabel": "Heslo správcu",
+      "submitAction": "Prihlásiť sa",
+      "lockedOut": "Príliš veľa neúspešných pokusov. Prihlásenie je na niekoľko minút zamknuté — počkajte, neskúšajte ďalej."
+    },
+    "users": {
+      "heading": "Účty",
+      "sessionExpires": "Táto relácia vyprší o",
+      "signOutAction": "Odhlásiť sa",
+      "searchLabel": "Hľadať podľa mena, e-mailu alebo zobrazovaného mena",
+      "searchAction": "Hľadať",
+      "createAction": "Vytvoriť účet",
+      "loading": "Načítavame účty…",
+      "noAccounts": "Hľadaniu nezodpovedá žiadny účet.",
+      "editAction": "Upraviť",
+      "unlockAction": "Odomknúť",
+      "deleteAction": "Zmazať",
+      "previousPage": "Predchádzajúca",
+      "nextPage": "Ďalšia",
+      "pageSummary": "Strana {page} z {pages}, spolu {total} účtov",
+      "accountSaved": "Účet bol uložený.",
+      "passwordSaved": "Heslo bolo nastavené. Majiteľovi účtu sme to neoznámili.",
+      "accountUnlocked": "Počítadlo neúspešných prihlásení bolo vynulované.",
+      "accountDeleted": "Účet a všetko, čo mu patrilo, boli zmazané.",
+      "accountCreated": "Účet bol vytvorený."
+    },
+    "field": {
+      "username": "Používateľské meno",
+      "email": "E-mailová adresa",
+      "displayName": "Zobrazované meno",
+      "password": "Heslo",
+      "status": "Stav",
+      "failedAttempts": "Neúspešné prihlásenia",
+      "createdAt": "Vytvorený",
+      "actions": "Akcie"
+    },
+    "status": {
+      "PENDING_ACTIVATION": "Čaká na aktiváciu",
+      "ACTIVE": "Aktívny",
+      "DISABLED": "Zakázaný"
+    },
+    "create": {
+      "heading": "Vytvoriť účet",
+      "passwordHint": "Nepovinné. Bez hesla sa účet vie prihlásiť len cez Google.",
+      "submitAction": "Vytvoriť"
+    },
+    "edit": {
+      "heading": "Upravujeme {username}",
+      "emailHint": "Meniteľné len tu — používatelia si vlastnú adresu zmeniť nemôžu.",
+      "saveAction": "Uložiť zmeny",
+      "newPasswordLabel": "Nastaviť nové heslo",
+      "newPasswordHint": "Najprv skúste e-mail na obnovu hesla. Heslo dostane ten, kto oň požiadal, a majiteľovi účtu to neoznámime. Prázdne pole heslo úplne odstráni.",
+      "savePasswordAction": "Nastaviť heslo"
+    },
+    "delete": {
+      "heading": "Zmazať tento účet?",
+      "warning": "Zmazaním účtu {username} sa zmažú aj všetky jeho pracovné plochy, skupiny, podskupiny a odkazy. Toto sa nedá vrátiť. Ak ho chcete len pozastaviť, nastavte mu stav Zakázaný.",
+      "confirmAction": "Áno, zmazať natrvalo"
+    },
+    "cancelAction": "Zrušiť"
   }
 }

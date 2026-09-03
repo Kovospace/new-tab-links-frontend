@@ -229,5 +229,70 @@
     "tooManyRequests": "You are going a little too fast. Wait a moment and try again.",
     "notFound": "That was not found.",
     "validation": "Please correct the highlighted fields."
+  },
+  "admin": {
+    "signIn": {
+      "heading": "Administrator sign-in",
+      "lead": "For repairing accounts. Everything behind this page is irreversible.",
+      "usernameLabel": "Administrator name",
+      "passwordLabel": "Administrator password",
+      "submitAction": "Sign in",
+      "lockedOut": "Too many failed attempts. Sign-in is locked for a few minutes — wait rather than keep trying."
+    },
+    "users": {
+      "heading": "Accounts",
+      "sessionExpires": "This session expires at",
+      "signOutAction": "Sign out",
+      "searchLabel": "Search by username, email or display name",
+      "searchAction": "Search",
+      "createAction": "Create an account",
+      "loading": "Loading accounts…",
+      "noAccounts": "No account matches that search.",
+      "editAction": "Edit",
+      "unlockAction": "Unlock",
+      "deleteAction": "Delete",
+      "previousPage": "Previous",
+      "nextPage": "Next",
+      "pageSummary": "Page {page} of {pages}, {total} accounts in total",
+      "accountSaved": "The account was saved.",
+      "passwordSaved": "The password was set. Its owner has not been told.",
+      "accountUnlocked": "The failed sign-in counter was cleared.",
+      "accountDeleted": "The account and everything it owned were deleted.",
+      "accountCreated": "The account was created."
+    },
+    "field": {
+      "username": "Username",
+      "email": "Email address",
+      "displayName": "Display name",
+      "password": "Password",
+      "status": "Status",
+      "failedAttempts": "Failed sign-ins",
+      "createdAt": "Created",
+      "actions": "Actions"
+    },
+    "status": {
+      "PENDING_ACTIVATION": "Awaiting activation",
+      "ACTIVE": "Active",
+      "DISABLED": "Disabled"
+    },
+    "create": {
+      "heading": "Create an account",
+      "passwordHint": "Optional. Without one, the account can only sign in through Google.",
+      "submitAction": "Create"
+    },
+    "edit": {
+      "heading": "Editing {username}",
+      "emailHint": "Changeable here and nowhere else — users may not change their own address.",
+      "saveAction": "Save changes",
+      "newPasswordLabel": "Set a new password",
+      "newPasswordHint": "Try the reset email first. Whoever asked for this gets the password, and the account's owner is not told. Leave empty to remove the password entirely.",
+      "savePasswordAction": "Set password"
+    },
+    "delete": {
+      "heading": "Delete this account?",
+      "warning": "Deleting {username} also deletes every workspace, group, subgroup and link it owns. This cannot be undone. To suspend the account instead, set its status to Disabled.",
+      "confirmAction": "Yes, delete it permanently"
+    },
+    "cancelAction": "Cancel"
   }
 }

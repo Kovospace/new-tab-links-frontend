@@ -30,6 +30,16 @@ export const APPLICATION_ROUTE_PATHS = {
   privacy: 'privacy',
   cookies: 'cookies',
   sitemap: 'sitemap',
+  /**
+   * The operator's sign-in.
+   *
+   * <p>Linked from nowhere — not the header, not the footer, not the sitemap. That is not what
+   * protects it; the backend's credentials are. There is simply no reason to advertise a door
+   * one person is meant to use.</p>
+   */
+  admin: 'admin',
+  /** The operator's account list, behind {@code requiresAdminSession}. */
+  adminUsers: 'admin/users',
 } as const;
 
 /**
@@ -48,4 +58,6 @@ export const APPLICATION_ROUTE_LINKS = {
   privacy: `/${APPLICATION_ROUTE_PATHS.privacy}`,
   cookies: `/${APPLICATION_ROUTE_PATHS.cookies}`,
   sitemap: `/${APPLICATION_ROUTE_PATHS.sitemap}`,
+  admin: `/${APPLICATION_ROUTE_PATHS.admin}`,
+  adminUsers: `/${APPLICATION_ROUTE_PATHS.adminUsers}`,
 } as const;

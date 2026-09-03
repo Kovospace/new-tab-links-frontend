@@ -1,0 +1,36 @@
+<article>
+  <h1>{{ 'admin.signIn.heading' | translate }}</h1>
+  <p>{{ 'admin.signIn.lead' | translate }}</p>
+
+  <form [formGroup]="viewModel.signInForm" (ngSubmit)="viewModel.submitSignIn()">
+    <label>
+      <span>{{ 'admin.signIn.usernameLabel' | translate }}</span>
+      <input type="text" formControlName="username" autocomplete="off" />
+      @if (viewModel.fieldValidationMessages()['username']; as validationMessage) {
+        <em class="admin-page__field-error">{{ validationMessage }}</em>
+      }
+    </label>
+
+    <label>
+      <span>{{ 'admin.signIn.passwordLabel' | translate }}</span>
+      <input type="password" formControlName="password" autocomplete="off" />
+      @if (viewModel.fieldValidationMessages()['password']; as validationMessage) {
+        <em class="admin-page__field-error">{{ validationMessage }}</em>
+      }
+    </label>
+
+    <button type="submit" [disabled]="viewModel.isSubmitting()">
+      @if (viewModel.isSubmitting()) {
+        {{ 'form.submitting' | translate }}
+      } @else {
+        {{ 'admin.signIn.submitAction' | translate }}
+      }
+    </button>
+
+    <app-form-feedback
+      [failureMessage]="viewModel.submissionFailure()"
+      [successMessage]="viewModel.submissionSuccess()"
+      [validationMessages]="viewModel.backendValidationMessages()"
+    />
+  </form>
+</article>
