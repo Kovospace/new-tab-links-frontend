@@ -165,7 +165,7 @@
     "connectLead": "Vygenerujte kód a napíšte ho do rozšírenia, čím ho prihlásite. Takto pripojí rozšírenie aj účet vytvorený cez Google, keďže taký účet nemá heslo.",
     "connectAction": "Vygenerovať pripojovací kód",
     "connectCodeLabel": "Váš pripojovací kód",
-    "connectCodeExpiry": "Platný do {expiresAt}",
+    "connectCodeExpiry": "Platný 10 minút, teda do {expiresAt}",
     "connectCodeHint": "Na interpunkcii ani veľkosti písmen nezáleží."
   },
   "account": {

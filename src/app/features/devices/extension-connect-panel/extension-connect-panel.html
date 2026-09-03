@@ -19,9 +19,12 @@
     <div class="extension-connect-panel__code-block">
       <span class="extension-connect-panel__code-label">{{
         'devices.connectCodeLabel' | translate
-      }}</span>
+      }}:</span>
+      <br>
       <output class="extension-connect-panel__code">{{ viewModel.connectCode() }}</output>
+      <br>
       <small class="extension-connect-panel__code-expiry">{{ viewModel.expiryNotice() }}</small>
+      <br>
       <small class="extension-connect-panel__code-hint">{{
         'devices.connectCodeHint' | translate
       }}</small>

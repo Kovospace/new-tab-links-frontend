@@ -165,7 +165,7 @@
     "connectLead": "Generate a code and type it into the extension to sign it in. This is also how an account created with Google connects the extension, since such an account has no password.",
     "connectAction": "Generate a connect code",
     "connectCodeLabel": "Your connect code",
-    "connectCodeExpiry": "Valid until {expiresAt}",
+    "connectCodeExpiry": "Valid 10 minutes - until {expiresAt}",
     "connectCodeHint": "Punctuation and letter case are ignored when you type it."
   },
   "account": {
