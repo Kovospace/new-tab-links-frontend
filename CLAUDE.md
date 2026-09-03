@@ -17,8 +17,19 @@ contract, in English and Slovak. It ships as a container built by the shared pip
 2026-08-24: `ng build` clean, 50 tests passing, and the image built and exercised in a running
 container.
 
-**The site is deliberately unstyled.** Every component ships its class selectors as empty SCSS
-rules; the visual identity is the owner's to write by hand. Do not add styling unless asked.
+**The visual identity is the owner's, and it is being written by hand, page by page.** Some of the
+site is now styled — the header and its mobile menu, the tables, the form controls, the admin
+modals, `src/styles.scss` — and the rest is not. Style a component only when asked to.
+
+**A class exists when a rule uses it.** The site was built with every class shipped as an empty
+placeholder rule; those were removed on 2026-09-03, along with the class attributes that named
+them. So a component's `.scss` holds only rules that declare something, and a template carries
+only classes that are used — by a rule, by a spec, or by TypeScript. Adding a style means adding
+both the rule and the class; removing the last declaration means removing both again. Never
+re-introduce an empty rule as a hook for later.
+
+Every component still has its own `.scss` wired up through `styleUrl`, most now holding nothing
+but the file's header comment. That is deliberate: the file is there to write into.
 
 What is deliberately absent: anything that belongs to the extension rather than the portal —
 the environment/group/subgroup/link CRUD and the sync snapshot are not consumed here.
@@ -94,7 +105,7 @@ Decided (verified 2026-08-24):
 |---|---|
 | Framework | **Angular 21.2 LTS**, standalone components, signals, zoneless |
 | Language | **TypeScript 5.9**, `strict` on |
-| Styling | **SCSS**, deliberately empty (see above) |
+| Styling | **SCSS**, one file per component, hand-written and partial (see above) |
 | Routing | `@angular/router`, every route lazy |
 | HTTP | `provideHttpClient` with one functional interceptor |
 | i18n | Home-grown, JSON files in `public/i18n/`, English and Slovak |

@@ -1,6 +1,6 @@
 ---
 name: angular-code-standards
-description: Coding standards for this Angular frontend - the MVVM view-model pattern actually used here, SOLID, TSDoc, naming, the i18n rule, the deliberately unstyled SCSS convention, Angular specifics (signals, standalone, OnPush, lazy routes) and testing rules. Load before writing, reviewing or refactoring any TypeScript, HTML template or SCSS in this repo.
+description: Coding standards for this Angular frontend - the MVVM view-model pattern actually used here, SOLID, TSDoc, naming, the i18n rule, the SCSS convention that a class exists only where a rule uses it, Angular specifics (signals, standalone, OnPush, lazy routes) and testing rules. Load before writing, reviewing or refactoring any TypeScript, HTML template or SCSS in this repo.
 ---
 
 # Angular code standards — NewTabLinks frontend
@@ -80,14 +80,32 @@ Adding a third language means adding a file and one entry in
 An unknown key renders as the key itself, on purpose: a missing translation should be visible on
 the page, not an empty element.
 
-## Styling — deliberately absent
+## Styling — hand-written, and partial
 
-**The page is unstyled by the owner's decision.** Every component ships a `.scss` holding its
-class selectors as *empty rules*, so the design can be written against ready-made hooks once the
-visual identity is decided. Do not add colours, spacing, fonts or layout unless asked to.
+**The visual identity is the owner's and is being written by hand, page by page.** Parts of the
+site are styled — the header and its mobile menu, the tables, the form controls, the admin modals,
+`src/styles.scss` — and parts are not. Do not add colours, spacing, fonts or layout unless asked
+to.
 
-Class names are BEM-ish and scoped to the component (`.devices-page__cell`), which is what makes
-those hooks findable. Only genuinely global rules go in `src/styles.scss`.
+**A class exists when a rule uses it.** The site was built with every class shipped as an empty
+placeholder rule; those were removed on 2026-09-03, along with the class attributes that named
+them. What follows from that:
+
+- A component's `.scss` holds only rules that declare something. **Never add an empty rule as a
+  hook for later** — it will be deleted again.
+- A template carries only classes something uses: a rule, a spec, or TypeScript. Adding a style
+  means adding the rule *and* the class; removing the last declaration means removing both.
+- Before deleting a class from a template, check it is not a test hook. `app.spec.ts` queries
+  `.page-header__navigation-link`, `.page-footer__copyright` and others by name, and a class named
+  only in a compound selector elsewhere (`td.devices-page__cell > div.devices-page__cell-content`)
+  is in use too. A class kept solely as a test handle is doing a real job — but where a spec is
+  really asserting that a routed component rendered, prefer its element selector
+  (`app-home-page h1`) to a class, as `app.spec.ts` does for the home page.
+- Many components' `.scss` now holds nothing but its header comment. That is deliberate — the
+  file stays wired up through `styleUrl`, ready to write into.
+
+Class names are BEM-ish and scoped to the component (`.devices-page__cell-content`). Only
+genuinely global rules go in `src/styles.scss`.
 
 `src/design-tokens.scss` holds every global value as a custom property on `:root` — colour,
 spacing, type, layout, borders, elevation, motion, stacking. Some are decided (the dark palette,

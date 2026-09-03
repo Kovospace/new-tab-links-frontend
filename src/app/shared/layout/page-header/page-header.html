@@ -1,13 +1,11 @@
-<header class="page-header">
-
+<header>
   <div class="page-header__bar">
-
     <div>
       <a class="page-header__title" [routerLink]="homeLink">{{ 'site.title' | translate }}</a>
-      <br>
+      <br />
       <span class="page-header__motto">{{ 'site.motto' | translate }}</span>
-<!--      <span class="page-header__motto">{{ 'site.motto2' | translate }}</span>-->
-      <app-language-switcher class="page-header__language-switcher" />
+      <!--      <span class="page-header__motto">{{ 'site.motto2' | translate }}</span>-->
+      <app-language-switcher />
     </div>
 
     <!--
@@ -72,13 +70,12 @@
 
       @if (viewModel.isSignedIn()) {
         <div class="page-header__session">
-            <span class="page-header__user-label">{{ viewModel.signedInUserLabel() }}</span>
-            <button class="page-header__logout" type="button" (click)="viewModel.signOut()">
-              {{ 'nav.logout' | translate }}
-            </button>
+          <span class="page-header__user-label">{{ viewModel.signedInUserLabel() }}</span>
+          <button type="button" (click)="viewModel.signOut()">
+            {{ 'nav.logout' | translate }}
+          </button>
         </div>
       }
-
     </div>
   </div>
 </header>

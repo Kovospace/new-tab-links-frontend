@@ -1,28 +1,18 @@
-<section class="profile-panel">
-
+<section>
   <h1 class="profile-panel__heading">{{ 'account.profileHeading' | translate }}</h1>
   <i>{{ 'account.usernameImmutable' | translate }}</i>
   <i>{{ 'account.emailImmutable' | translate }}</i>
 
-  <form
-    class="profile-panel__form"
-    [formGroup]="viewModel.profileForm"
-    (ngSubmit)="viewModel.submitProfileChange()"
-  >
-    <label class="profile-panel__field">
-      <span class="profile-panel__field-label">{{ 'account.displayNameLabel' | translate }}</span>
-      <input
-        class="profile-panel__field-input"
-        type="text"
-        formControlName="displayName"
-        autocomplete="name"
-      />
+  <form [formGroup]="viewModel.profileForm" (ngSubmit)="viewModel.submitProfileChange()">
+    <label>
+      <span>{{ 'account.displayNameLabel' | translate }}</span>
+      <input type="text" formControlName="displayName" autocomplete="name" />
       @if (viewModel.fieldValidationMessages()['displayName']; as validationMessage) {
-        <em class="profile-panel__field-error">{{ validationMessage }}</em>
+        <em>{{ validationMessage }}</em>
       }
     </label>
 
-    <button class="profile-panel__submit" type="submit" [disabled]="viewModel.isSubmitting()">
+    <button type="submit" [disabled]="viewModel.isSubmitting()">
       @if (viewModel.isSubmitting()) {
         {{ 'form.submitting' | translate }}
       } @else {
@@ -31,7 +21,6 @@
     </button>
 
     <app-form-feedback
-      class="profile-panel__feedback"
       [failureMessage]="viewModel.submissionFailure()"
       [successMessage]="viewModel.submissionSuccess()"
       [validationMessages]="viewModel.backendValidationMessages()"

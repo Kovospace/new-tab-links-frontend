@@ -1,34 +1,11 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
-.devices-page {
-}
 
 .devices-page__heading {
   margin: 0.25em 0;
 }
 
-.devices-page__lead {
-}
-
-.devices-page__confirmation {
-}
-
-.devices-page__failure {
-}
-
-.devices-page__loading {
-}
-
-.devices-page__empty {
-}
-
 .devices-page__table {
   margin: 1.5em 0;
-}
-
-.devices-page__table-head {
-}
-
-.devices-page__table-body {
 }
 
 .devices-page__row {
@@ -40,9 +17,6 @@
       background-color: var(--color-panel);
     }
   }
-}
-
-.devices-page__column-header {
 }
 
 // The wrapper inside every cell — see the template for why the cells themselves are left alone.
@@ -73,13 +47,4 @@
   button {
     font-size: 1em;
   }
-}
-
-.devices-page__cell {
-}
-
-.devices-page__sign-out {
-}
-
-.devices-page__connect-panel {
 }

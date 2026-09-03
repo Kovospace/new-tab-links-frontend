@@ -1,20 +1,19 @@
-<article class="devices-page">
-
+<article>
   <h1 class="devices-page__heading">{{ 'devices.heading' | translate }}</h1>
-  <i class="devices-page__lead">{{ 'devices.leadParagraph' | translate }}</i>
+  <i>{{ 'devices.leadParagraph' | translate }}</i>
 
   @if (viewModel.signOutConfirmation()) {
-    <i class="devices-page__confirmation" role="status">{{ viewModel.signOutConfirmation() }}</i>
+    <i role="status">{{ viewModel.signOutConfirmation() }}</i>
   }
 
   @if (viewModel.loadFailure()) {
-    <u class="devices-page__failure" role="alert">{{ viewModel.loadFailure() }}</u>
+    <u role="alert">{{ viewModel.loadFailure() }}</u>
   }
 
   @if (viewModel.isLoading()) {
-    <i class="devices-page__loading" role="status">{{ 'form.submitting' | translate }}</i>
+    <i role="status">{{ 'form.submitting' | translate }}</i>
   } @else if (viewModel.isDeviceListEmpty()) {
-    <i class="devices-page__empty">{{ 'devices.emptyState' | translate }}</i>
+    <i>{{ 'devices.emptyState' | translate }}</i>
   } @else {
     <!--
       Every cell holds one wrapper element, and every rule that positions anything is written
@@ -29,34 +28,34 @@
       anything positioned absolutely all become ordinary CSS again.
     -->
     <table class="devices-page__table">
-      <thead class="devices-page__table-head">
+      <thead>
         <tr class="devices-page__row">
-          <th class="devices-page__column-header" scope="col">
+          <th scope="col">
             <div class="devices-page__column-header-content">
               {{ 'devices.columnDevice' | translate }}
             </div>
           </th>
-          <th class="devices-page__column-header" scope="col">
+          <th scope="col">
             <div class="devices-page__column-header-content">
               {{ 'devices.columnBrowser' | translate }}
             </div>
           </th>
-          <th class="devices-page__column-header" scope="col">
+          <th scope="col">
             <div class="devices-page__column-header-content">
               {{ 'devices.columnFirstSeen' | translate }}
             </div>
           </th>
-          <th class="devices-page__column-header" scope="col">
+          <th scope="col">
             <div class="devices-page__column-header-content">
               {{ 'devices.columnLastUsed' | translate }}
             </div>
           </th>
-          <th class="devices-page__column-header" scope="col">
+          <th scope="col">
             <div class="devices-page__column-header-content">
               {{ 'devices.columnState' | translate }}
             </div>
           </th>
-          <th class="devices-page__column-header" scope="col">
+          <th scope="col">
             <div class="devices-page__column-header-content">
               {{ 'devices.columnActions' | translate }}
             </div>
@@ -64,7 +63,7 @@
         </tr>
       </thead>
 
-      <tbody class="devices-page__table-body">
+      <tbody>
         @for (presentedDevice of viewModel.presentedDevices(); track presentedDevice.deviceId) {
           <tr class="devices-page__row">
             <td class="devices-page__cell">
@@ -85,11 +84,7 @@
             <td class="devices-page__cell">
               <div class="devices-page__cell-content">
                 @if (presentedDevice.isSignOutOffered) {
-                  <button
-                    class="devices-page__sign-out"
-                    type="button"
-                    (click)="viewModel.signOutDevice(presentedDevice.deviceId)"
-                  >
+                  <button type="button" (click)="viewModel.signOutDevice(presentedDevice.deviceId)">
                     {{ 'devices.signOutAction' | translate }}
                   </button>
                 }
@@ -101,6 +96,5 @@
     </table>
   }
 
-  <app-extension-connect-panel class="devices-page__connect-panel" />
-
+  <app-extension-connect-panel />
 </article>

@@ -82,7 +82,7 @@ describe('App shell', () => {
   });
 
   it('renders the routed home page inside the shell', () => {
-    expect(renderedPage().querySelector('.home-page__heading')?.textContent).toContain(
+    expect(renderedPage().querySelector('app-home-page h1')?.textContent).toContain(
       'A new tab that finally does something useful',
     );
   });

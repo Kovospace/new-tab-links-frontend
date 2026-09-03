@@ -1,10 +1,8 @@
 <section class="extension-connect-panel">
-
   <h1 class="extension-connect-panel__heading">{{ 'devices.connectHeading' | translate }}</h1>
   <i class="extension-connect-panel__lead">{{ 'devices.connectLead' | translate }}</i>
 
   <button
-    class="extension-connect-panel__generate"
     type="button"
     [disabled]="viewModel.isGeneratingCode()"
     (click)="viewModel.generateConnectCode()"
@@ -18,21 +16,17 @@
 
   @if (viewModel.hasConnectCode()) {
     <div class="extension-connect-panel__code-block">
-      <span class="extension-connect-panel__code-label">{{
-        'devices.connectCodeLabel' | translate
-      }}:</span>
-      <br>
+      <span>{{ 'devices.connectCodeLabel' | translate }}:</span>
+      <br />
       <output class="extension-connect-panel__code">{{ viewModel.connectCode() }}</output>
-      <br>
+      <br />
       <small class="extension-connect-panel__code-expiry">{{ viewModel.expiryNotice() }}</small>
-      <br>
-      <small class="extension-connect-panel__code-hint">{{
-        'devices.connectCodeHint' | translate
-      }}</small>
+      <br />
+      <small>{{ 'devices.connectCodeHint' | translate }}</small>
     </div>
   }
 
   @if (viewModel.mintFailure()) {
-    <p class="extension-connect-panel__failure" role="alert">{{ viewModel.mintFailure() }}</p>
+    <p role="alert">{{ viewModel.mintFailure() }}</p>
   }
 </section>

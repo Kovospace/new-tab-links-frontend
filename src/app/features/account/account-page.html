@@ -1,5 +1,4 @@
-<article class="account-page">
-
+<article>
   @if (viewModel.loadFailure()) {
     <u class="account-page__failure" role="alert">{{ viewModel.loadFailure() }}</u>
   }
@@ -9,18 +8,10 @@
   }
 
   @if (viewModel.hasAccount()) {
+    <app-profile-panel [currentDisplayName]="viewModel.currentDisplayName()" />
 
-    <app-profile-panel
-      class="account-page__profile-panel"
-      [currentDisplayName]="viewModel.currentDisplayName()"
-    />
+    <app-password-panel [accountHasPassword]="viewModel.hasPassword()" />
 
-    <app-password-panel
-      class="account-page__password-panel"
-      [accountHasPassword]="viewModel.hasPassword()"
-    />
-
-    <app-delete-account-panel class="account-page__delete-panel" />
-
+    <app-delete-account-panel />
   }
 </article>

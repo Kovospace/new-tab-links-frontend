@@ -1,15 +1,15 @@
 @if (failureMessage()) {
-  <p class="form-feedback form-feedback--failure" role="alert">{{ failureMessage() }}</p>
+  <p role="alert">{{ failureMessage() }}</p>
 }
 
 @if (successMessage()) {
-  <p class="form-feedback form-feedback--success" role="status">{{ successMessage() }}</p>
+  <p role="status">{{ successMessage() }}</p>
 }
 
 @if (validationMessages().length) {
-  <ul class="form-feedback form-feedback--validation" role="alert">
+  <ul role="alert">
     @for (validationMessage of validationMessages(); track validationMessage) {
-      <li class="form-feedback__validation-message">{{ validationMessage }}</li>
+      <li>{{ validationMessage }}</li>
     }
   </ul>
 }

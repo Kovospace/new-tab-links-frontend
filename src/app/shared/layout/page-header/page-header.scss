@@ -9,12 +9,6 @@
 // is resolved at build time instead.
 $mobile-menu-breakpoint: 533px;
 
-.page-header {
-}
-
-.page-header__skip-link {
-}
-
 // Title and menu button. Left alone on a wide screen, where the button is not rendered and this
 // is an ordinary block containing one link, exactly as the title was before it had a wrapper.
 .page-header__bar {
@@ -140,9 +134,6 @@ $menu-toggle-bar-travel: math.div($menu-toggle-content-height - $menu-toggle-bar
   background-color: var(--color-accent-hover);
 }
 
-.page-header__navigation-link {
-}
-
 .page-header__navigation-link--active {
   text-decoration: underline;
   font-weight: bold;
@@ -215,12 +206,6 @@ $user-icon-baseline-inset: 0.16em;
     height: $user-icon-shoulders-height;
     border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   }
-}
-
-.page-header__logout {
-}
-
-.page-header__language-switcher {
 }
 
 // ---------------------------------------------------------------------------------------------

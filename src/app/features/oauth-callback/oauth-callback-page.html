@@ -1,25 +1,21 @@
-<article class="oauth-callback-page">
-  <h1 class="oauth-callback-page__heading">{{ 'authCallback.heading' | translate }}</h1>
+<article>
+  <h1>{{ 'authCallback.heading' | translate }}</h1>
 
   @switch (viewModel.outcome()) {
     @case ('pending') {
-      <p class="oauth-callback-page__status" role="status">
+      <p role="status">
         {{ 'authCallback.pending' | translate }}
       </p>
     }
     @case ('missing-code') {
-      <p class="oauth-callback-page__status" role="alert">
+      <p role="alert">
         {{ 'authCallback.missingCode' | translate }}
       </p>
-      <a class="oauth-callback-page__login-link" [routerLink]="loginLink">{{
-        'authCallback.loginAction' | translate
-      }}</a>
+      <a [routerLink]="loginLink">{{ 'authCallback.loginAction' | translate }}</a>
     }
     @case ('failed') {
-      <p class="oauth-callback-page__status" role="alert">{{ viewModel.handoffFailure() }}</p>
-      <a class="oauth-callback-page__login-link" [routerLink]="loginLink">{{
-        'authCallback.loginAction' | translate
-      }}</a>
+      <p role="alert">{{ viewModel.handoffFailure() }}</p>
+      <a [routerLink]="loginLink">{{ 'authCallback.loginAction' | translate }}</a>
     }
   }
 </article>
