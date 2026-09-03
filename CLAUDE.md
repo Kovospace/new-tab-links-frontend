@@ -124,6 +124,7 @@ src/app/
 ├── app.routes.ts                   every route, all lazy
 ├── core/                           one instance of each, application-wide
 │   ├── api/         backend client, endpoint paths, DTO mirrors, failure wording
+│   ├── admin/       the operator's session, sign-in, account CRUD, route guard
 │   ├── auth/        session store, sign-in service, interceptor, guards, storage
 │   ├── i18n/        translation service, the impure translate pipe, dictionary helpers
 │   ├── user/        account and device services
@@ -137,7 +138,7 @@ src/app/
 └── features/                       one folder per page: component + view-model + template + scss
     home · download · register · login · activate-account · reset-password
     oauth-callback · devices (+ extension-connect-panel) · account (+ three panels)
-    legal (shared text page + sitemap) · not-found
+    legal (shared text page + sitemap) · not-found · admin (sign-in + account list)
 ```
 
 ## Configuration is resolved at container start
@@ -178,6 +179,13 @@ devices page.
 One thing worth knowing before you read it: `frontendApiKey` bounds nothing — it is public. The
 visitor token is what limits username enumeration, and it is deliberately **not** per IP address,
 because carrier-grade NAT puts whole neighbourhoods behind one.
+
+**The operator is a third identity, and shares nothing with the other two.** `/admin` signs in
+against `ADMIN_USERNAME` / `ADMIN_PASSWORD` on the backend and gets a short-lived admin token,
+held in `core/admin/admin-session.store.ts` — a separate store, in `sessionStorage` rather than
+`localStorage`, so it dies with the tab. Admin calls carry that token explicitly and tell the
+interceptor to keep out; a user's token can never authorise one, and an admin token cannot act as
+a user. `/admin` is linked from nowhere — not the header, not the sitemap — on purpose.
 
 ## Deployment
 

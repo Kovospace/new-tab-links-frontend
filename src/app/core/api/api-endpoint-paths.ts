@@ -60,6 +60,38 @@ export const API_ENDPOINT_PATHS = {
   },
 
   /**
+   * The operator's own endpoints: sign-in, and repairing accounts.
+   *
+   * <p>Everything below {@code /api/v1/admin} except the sign-in demands an admin token, which
+   * only that sign-in issues. A signed-in user's token cannot reach any of it.</p>
+   */
+  admin: {
+    signIn: '/api/v1/admin/login',
+    users: '/api/v1/admin/users',
+    /**
+     * Builds the path of one account.
+     *
+     * @param userId identifier of the account
+     * @returns the path of that account
+     */
+    user: (userId: string): string => `/api/v1/admin/users/${userId}`,
+    /**
+     * Builds the path that clears an account's failed sign-in counter.
+     *
+     * @param userId identifier of the account
+     * @returns the path of that account's unlock action
+     */
+    unlockUser: (userId: string): string => `/api/v1/admin/users/${userId}/unlock`,
+    /**
+     * Builds the path that sets an account's password.
+     *
+     * @param userId identifier of the account
+     * @returns the path of that account's password
+     */
+    userPassword: (userId: string): string => `/api/v1/admin/users/${userId}/password`,
+  },
+
+  /**
    * Where the browser is sent to start Google sign-in.
    *
    * <p>A full page navigation, never an {@code XMLHttpRequest}: the flow is a redirect chain

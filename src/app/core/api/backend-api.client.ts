@@ -92,20 +92,32 @@ export class BackendApiClient {
    *
    * @param path        backend path, starting with a slash
    * @param requestBody body to send
+   * @param options     whether to omit the bearer token and which extra headers to send
    * @returns the parsed response body
    */
-  put<TResponse>(path: string, requestBody: unknown): Observable<TResponse> {
-    return this.httpClient.put<TResponse>(this.buildAbsoluteUrl(path), requestBody);
+  put<TResponse>(
+    path: string,
+    requestBody: unknown,
+    options: BackendRequestOptions = {},
+  ): Observable<TResponse> {
+    return this.httpClient.put<TResponse>(this.buildAbsoluteUrl(path), requestBody, {
+      headers: this.buildHeaders(options),
+      context: this.buildContext(options),
+    });
   }
 
   /**
    * Sends a DELETE request.
    *
-   * @param path backend path, starting with a slash
+   * @param path    backend path, starting with a slash
+   * @param options whether to omit the bearer token and which extra headers to send
    * @returns the parsed response body, which these endpoints leave empty
    */
-  delete<TResponse>(path: string): Observable<TResponse> {
-    return this.httpClient.delete<TResponse>(this.buildAbsoluteUrl(path));
+  delete<TResponse>(path: string, options: BackendRequestOptions = {}): Observable<TResponse> {
+    return this.httpClient.delete<TResponse>(this.buildAbsoluteUrl(path), {
+      headers: this.buildHeaders(options),
+      context: this.buildContext(options),
+    });
   }
 
   /**
@@ -139,6 +151,9 @@ export class BackendApiClient {
     }
     if (options.visitorToken) {
       headerValuesByName[VISITOR_TOKEN_HEADER] = options.visitorToken;
+    }
+    if (options.bearerToken) {
+      headerValuesByName['Authorization'] = `Bearer ${options.bearerToken}`;
     }
 
     return Object.keys(headerValuesByName).length > 0
@@ -198,4 +213,14 @@ export interface BackendRequestOptions {
    * refused.</p>
    */
   readonly visitorToken?: string;
+
+  /**
+   * Sends an {@code Authorization} header built from a token the caller already holds.
+   *
+   * <p>For the operator's endpoints, whose token is not the signed-in user's and must not go
+   * through the interceptor — an admin session is a separate thing from a user session and the
+   * two are never interchangeable. Always pair it with {@code withoutAuthorization}, so the
+   * interceptor does not overwrite this header with the user's token or try to refresh it.</p>
+   */
+  readonly bearerToken?: string;
 }

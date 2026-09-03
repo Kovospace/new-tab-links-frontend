@@ -44,6 +44,7 @@ site's only part in it is minting the code.
 | Route protection | `core/auth/authentication.guards.ts` |
 | Minting the pairing code | `core/user/user-device.service.ts` |
 | Asking whether a username is taken | `core/auth/username-existence.service.ts` |
+| The operator's session and its guard | `core/admin/` |
 | The metered pass those calls carry | `core/auth/visitor-token.service.ts` |
 
 ## Decisions already made — do not silently revisit
@@ -106,6 +107,29 @@ proposal to add IP-based limiting has to answer that first.
 **The debounce and the backend interval are a pair.** `usernameCheckDebounceMilliseconds` (250ms)
 must stay above the backend's `VISITOR_TOKEN_MINIMUM_REQUEST_INTERVAL` (200ms), or real typing is
 answered with 429. Both are configuration so they can be moved together.
+
+## The operator, who is not a user
+
+A third identity, sharing nothing with the other two. `POST /api/v1/admin/login` checks
+`ADMIN_USERNAME` / `ADMIN_PASSWORD` — configuration, not an account — and returns a short-lived
+token carrying `scope: ADMIN`. Everything under `/api/v1/admin` demands the `SCOPE_ADMIN`
+authority that scope produces.
+
+- **The two token kinds cannot substitute for each other.** A user's token has no scope claim, so
+  it is refused by every admin endpoint. An admin token's subject is a username rather than a
+  UUID, and the backend's `AuthenticatedUserProvider` refuses it — so an operator can administer
+  accounts but never act *as* one.
+- **There is no refresh.** The token lives `ADMIN_TOKEN_LIFETIME` (30 min) and then the operator
+  signs in again. A long-lived credential for this identity is what should not exist.
+- **`AdminSessionStore` is separate from `AuthenticationSessionStore`**, and keeps its token in
+  `sessionStorage`, so it dies with the tab rather than sitting on disk beside the user session.
+- **Admin calls pass the token explicitly** (`bearerToken` plus `withoutAuthorization`), so the
+  interceptor never attaches the user's instead.
+- **Sign-in locks** after `ADMIN_USER_MAX_CONSECUTIVE_ATTEMPTS` failures for
+  `ADMIN_USER_BAD_ATTEMPTS_LOCK_TIME`, answering 429 with `Retry-After`. That counter lives in
+  the backend's memory, so it is **per replica**.
+- `/admin` is linked from nowhere. That is not the protection — the password is — but there is no
+  reason to advertise it.
 
 ## Three route paths the backend pins
 

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { requiresAdminSession } from './core/admin/admin.guard';
 import { requiresAnonymousVisitor, requiresSignedInUser } from './core/auth/authentication.guards';
 import { APPLICATION_ROUTE_PATHS } from './core/routing/application-route-paths';
 import { LegalTextRouteData } from './features/legal/legal-text-page.view-model';
@@ -84,6 +85,19 @@ export const routes: Routes = [
     } satisfies LegalTextRouteData,
     loadComponent: () =>
       import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
+  },
+  {
+    // The operator's own pages. Guarded here so an expired session meets the sign-in form rather
+    // than a page of failed requests; the backend is what actually refuses the calls.
+    path: APPLICATION_ROUTE_PATHS.admin,
+    loadComponent: () =>
+      import('./features/admin/admin-login-page').then((module) => module.AdminLoginPage),
+  },
+  {
+    path: APPLICATION_ROUTE_PATHS.adminUsers,
+    canActivate: [requiresAdminSession],
+    loadComponent: () =>
+      import('./features/admin/admin-users-page').then((module) => module.AdminUsersPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.sitemap,
