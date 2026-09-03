@@ -1,1 +1,15 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
+
+.form-feedback__validation_message {
+  display: inline-block;
+  background-color: var(--color-panel-danger);
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  margin: 0.375em 0;
+}
+
+.form-feedback__error,
+.form-feedback__success
+{
+  margin: 0.5em 0;
+}
