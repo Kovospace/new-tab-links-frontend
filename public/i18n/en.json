@@ -166,7 +166,10 @@
     "connectAction": "Generate a connect code",
     "connectCodeLabel": "Your connect code",
     "connectCodeExpiry": "Valid 10 minutes - until {expiresAt}",
-    "connectCodeHint": "Punctuation and letter case are ignored when you type it."
+    "connectCodeHint": "Punctuation and letter case are ignored when you type it.",
+    "copyCodeAction": "Copy the code",
+    "copyCodeConfirmation": "Copied.",
+    "copyCodeFailure": "The code could not be copied. Select it and copy it by hand."
   },
   "account": {
     "heading": "Account",

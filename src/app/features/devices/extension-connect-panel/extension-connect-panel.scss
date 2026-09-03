@@ -25,3 +25,30 @@
   display: inline-block;
   margin-bottom: 0.25em;
 }
+
+// The copy button: a square of accent beside the code, carrying a glyph and no words.
+//
+// It takes the site's button look from `styles.scss` and overrides only what a labelled control
+// assumes and an icon cannot use — the horizontal padding, and the inline-block that would leave
+// the glyph sitting on the text baseline instead of in the middle of the square.
+.extension-connect-panel__copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75em;
+  height: 1.75em;
+  padding: 0;
+  margin-left: 0.5em;
+  vertical-align: middle;
+
+  // U+2702 BLACK SCISSORS. Its default presentation is text rather than emoji, so it is drawn in
+  // the button's own colour instead of as a colour bitmap. The button has no text of its own; the
+  // accessible name comes from `aria-label` in the template, because a glyph is not a label.
+  &::before {
+    content: '\002702';
+  }
+}
+
+.extension-connect-panel__copy-outcome {
+  margin-top: 0.5em;
+}
