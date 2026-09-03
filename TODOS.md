@@ -33,9 +33,6 @@ Things that comes to my mind during solving other shits and should be done
   - will not be counted into free account limits
   - just inform user (after connection) that this device was once logged out (welcome back)
 
-### Back buttons
-- especially in sections like cookies & gdpr which are not in top menu, back button is more than expected
-
 ### Implement GDPR bullshit
 - TODO description
 
@@ -57,3 +54,9 @@ Things that comes to my mind during solving other shits and should be done
 - done: a square accent button carrying U+2702 sits beside the code and copies it with the
   Clipboard API; both outcomes are worded in the view-model and announced in a live region,
   because the API can refuse for reasons that have nothing to do with the page
+
+### Back buttons
+- especially in sections like cookies & gdpr which are not in top menu, back button is more than expected
+- done: a shared `app-back-button` on the gdpr, cookies and sitemap pages. It goes back through
+  the browser's own history, except when this page is the only entry in the tab — arrived at from
+  a bookmark or a search engine — where back would do nothing at all and it goes home instead
