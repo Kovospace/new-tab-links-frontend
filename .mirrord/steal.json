@@ -1,0 +1,28 @@
+{
+  "target": {
+    "path": "deployment/new-tab-links-frontend",
+    "namespace": "new-tab-links-frontend"
+  },
+  "agent": {
+    "namespace": "new-tab-links-frontend",
+    "ttl": 30
+  },
+  "operator": false,
+  "feature": {
+    "env": false,
+    "fs": {
+      "mode": "local"
+    },
+    "network": {
+      "incoming": {
+        "mode": "steal",
+        "port_mapping": [[5173, 8080]]
+      },
+      "outgoing": {
+        "tcp": false,
+        "udp": false
+      },
+      "dns": false
+    }
+  }
+}
