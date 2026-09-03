@@ -1,19 +1,20 @@
 <article class="devices-page">
+
   <h1 class="devices-page__heading">{{ 'devices.heading' | translate }}</h1>
-  <p class="devices-page__lead">{{ 'devices.leadParagraph' | translate }}</p>
+  <i class="devices-page__lead">{{ 'devices.leadParagraph' | translate }}</i>
 
   @if (viewModel.signOutConfirmation()) {
-    <p class="devices-page__confirmation" role="status">{{ viewModel.signOutConfirmation() }}</p>
+    <i class="devices-page__confirmation" role="status">{{ viewModel.signOutConfirmation() }}</i>
   }
 
   @if (viewModel.loadFailure()) {
-    <p class="devices-page__failure" role="alert">{{ viewModel.loadFailure() }}</p>
+    <u class="devices-page__failure" role="alert">{{ viewModel.loadFailure() }}</u>
   }
 
   @if (viewModel.isLoading()) {
-    <p class="devices-page__loading" role="status">{{ 'form.submitting' | translate }}</p>
+    <i class="devices-page__loading" role="status">{{ 'form.submitting' | translate }}</i>
   } @else if (viewModel.isDeviceListEmpty()) {
-    <p class="devices-page__empty">{{ 'devices.emptyState' | translate }}</p>
+    <i class="devices-page__empty">{{ 'devices.emptyState' | translate }}</i>
   } @else {
     <!--
       Every cell holds one wrapper element, and every rule that positions anything is written
@@ -101,4 +102,5 @@
   }
 
   <app-extension-connect-panel class="devices-page__connect-panel" />
+
 </article>

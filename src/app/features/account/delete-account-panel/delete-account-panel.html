@@ -1,6 +1,7 @@
 <section class="delete-account-panel">
-  <h2 class="delete-account-panel__heading">{{ 'account.dangerHeading' | translate }}</h2>
-  <p class="delete-account-panel__lead">{{ 'account.dangerLead' | translate }}</p>
+
+  <h1 class="delete-account-panel__heading">{{ 'account.dangerHeading' | translate }}</h1>
+  <u class="delete-account-panel__lead">{{ 'account.dangerLead' | translate }}</u>
 
   @if (viewModel.isConfirmationRequested()) {
     <p class="delete-account-panel__confirm-prompt" role="alert">
@@ -38,6 +39,6 @@
   }
 
   @if (viewModel.deleteFailure()) {
-    <p class="delete-account-panel__failure" role="alert">{{ viewModel.deleteFailure() }}</p>
+    <u class="delete-account-panel__failure" role="alert">{{ viewModel.deleteFailure() }}</u>
   }
 </section>

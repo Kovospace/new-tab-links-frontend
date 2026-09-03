@@ -18,9 +18,8 @@
 .download-page__option-heading {
 }
 
-.download-page__option-text {
+.download-page__option-text:first-of-type {
   margin-top: 1em;
-  font-style: italic;
 }
 
 .download-page__option-link {

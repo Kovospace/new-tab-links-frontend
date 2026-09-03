@@ -250,6 +250,56 @@ p {
   margin-bottom: 0.5em;
 }
 
+// i as information
+// u as "upozornenie"
+i,
+u
+{
+  position: relative;
+  padding: 0.25em 0.5em;
+  background-color: var(--color-accent2-darker);
+  border-radius: 0.25em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  margin: 0.25em 0;
+
+  &::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5em;
+    font-weight: bold;
+    font-size: 1em;
+    top:0;
+    bottom:0;
+    left: 0;
+    line-height: 100%;
+    aspect-ratio: 1 / 1;
+    width: 1.25em;
+    height: 1.25em;
+    border: 0.125em solid var(--color-text);
+    border-radius: 50%;
+  }
+}
+
+i {
+  background-color: var(--color-accent2-darker);
+
+  &::before {
+    content: 'i';
+  }
+}
+
+u {
+  background-color: var(--color-accent-danger);
+
+  &::before {
+    content: '!';
+  }
+}
+
 h1 {
   font-size: 2em;
   font-weight: bold;
@@ -269,7 +319,7 @@ form {
   // "line" wrapping element
   label {
     display: block;
-    margin: 2em 0;
+    margin: 1.5em 0;
 
     // actual label. `.select-field` is the wrapper a <select> is drawn in, which is a span too
     // and is not a caption.
@@ -295,4 +345,8 @@ form {
       margin: 0.375em 0;
     }
   }
+}
+
+section {
+  margin-top: 3em;
 }

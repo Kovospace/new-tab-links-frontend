@@ -31,14 +31,14 @@
             </a>
           }
         } @else {
-          <p class="download-page__option-unavailable">
+          <u class="download-page__option-unavailable">
             {{ downloadOption.unavailableTranslationKey | translate }}
-          </p>
+          </u>
         }
 
-        <p class="download-page__option-text">
+        <i class="download-page__option-text">
           {{ downloadOption.textTranslationKey | translate }}
-        </p>
+        </i>
 
       </li>
     }
