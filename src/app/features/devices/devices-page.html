@@ -82,13 +82,13 @@
               <div class="devices-page__cell-content">{{ presentedDevice.stateLabel }}</div>
             </td>
             <td class="devices-page__cell">
-              <div class="devices-page__cell-content">
-                @if (presentedDevice.isSignOutOffered) {
+              @if (presentedDevice.isSignOutOffered) {
+                <div class="devices-page__cell-content">
                   <button type="button" (click)="viewModel.signOutDevice(presentedDevice.deviceId)">
                     {{ 'devices.signOutAction' | translate }}
                   </button>
-                }
-              </div>
+                </div>
+              }
             </td>
           </tr>
         }

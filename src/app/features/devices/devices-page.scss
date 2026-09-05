@@ -12,10 +12,7 @@
   vertical-align: middle;
 
   &:nth-child(even) {
-
-    td.devices-page__cell > div.devices-page__cell-content {
-      background-color: var(--color-panel);
-    }
+    background-color: var(--color-panel);;
   }
 }
 
