@@ -8,7 +8,11 @@ Things that comes to my mind during solving other shits and should be done
 ### Device name
 - for work after synchronization is implemented into chrome extension actually
 - implement device (or rather say installation ?) name to each chrome extension that user is installing typed by user alongside connection code
-- make it required
+- ~~make it required~~ **softened: naming is optional.** A user who does not care types nothing
+  and keeps the automatic label, which is what the extension already sends. The point of the
+  field is to let somebody who runs several browsers on one machine tell them apart, and that
+  is a want, not an obligation - making it mandatory would tax every user for a problem only
+  some of them have
 - if user type name that is already in device list as online, show him warning and ask him what to do (cancel / rename / overwrite)
 - **the identity half is already done, separately from this task.** Two Chromium browsers on one
   machine used to be recorded as one device, because a device was keyed on the name it sent and
