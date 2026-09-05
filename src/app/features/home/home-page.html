@@ -31,6 +31,7 @@
   </section>
 
   <section class="home-page__downloads">
+
     <div class="home-page__downloads-free">
       <h3>{{ 'home.downloads.free.title' | translate }}</h3>
 
@@ -38,7 +39,7 @@
       <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
 
       <h4>{{ 'home.downloads.devicesCount' | translate }}</h4>
-      <p>10</p>
+      <p>5</p>
 
       <h4>{{ 'home.downloads.workspacesCount' | translate }}</h4>
       <p>2</p>
@@ -56,6 +57,7 @@
 
     <div class="home-page__downloads-paid">
       <h3>{{ 'home.downloads.paid.title' | translate }}</h3>
+      <span>{{ 'home.downloads.paid.billing' | translate }}</span>
 
       <h4>{{ 'home.downloads.linksCount' | translate }}</h4>
       <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
@@ -76,5 +78,29 @@
         'home.callToAction' | translate
       }}</a>
     </div>
+
+    <div class="home-page__downloads-lifetime">
+      <h3>{{ 'home.downloads.lifetime.title' | translate }}</h3>
+
+      <h4>{{ 'home.downloads.linksCount' | translate }}</h4>
+      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+
+      <h4>{{ 'home.downloads.devicesCount' | translate }}</h4>
+      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+
+      <h4>{{ 'home.downloads.workspacesCount' | translate }}</h4>
+      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+
+      <h4>{{ 'home.downloads.profilesCount' | translate }}</h4>
+      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+
+      <h4>{{ 'home.downloads.ads' | translate }}</h4>
+      <p>{{ 'home.downloads.yes' | translate }}</p>
+
+      <a class="home-page__call-to-action" [routerLink]="downloadLink">{{
+        'home.callToAction' | translate
+      }}</a>
+    </div>
+
   </section>
 </article>

@@ -54,7 +54,11 @@
         "title": "FREE"
       },
       "paid": {
-        "title": "€0.39 / month"
+        "title": "€0.39 / month",
+        "billing": "* billed annually, €4.68 per year"
+      },
+      "lifetime": {
+        "title": "€9.99 LIFETIME"
       },
       "unlimitedAmount": "UNLIMITED",
       "yes": "YES",

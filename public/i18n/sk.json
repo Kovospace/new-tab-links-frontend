@@ -54,7 +54,11 @@
         "title": "ZADARMO"
       },
       "paid": {
-        "title": "0.39€ / mesiac"
+        "title": "0.39€ / mesiac",
+        "billing": "* účtované ročne, t.j. 4.68€ / rok"
+      },
+      "lifetime": {
+        "title": "9.99€ DOŽIVOTNE"
       },
       "unlimitedAmount": "NEOBMEDZENE",
       "yes": "ÁNO",

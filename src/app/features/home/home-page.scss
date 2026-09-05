@@ -21,12 +21,14 @@
 }
 
 .home-page__downloads {
+  font-size: 0.875em;
   width: 100%;
   margin-top: 4em;
   margin-bottom: 2em;
   text-align: center;
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 
   & > div {
     width: 46%;
@@ -54,6 +56,30 @@
 
         &:hover {
           background-color: var(--color-accent2);
+        }
+      }
+
+      span {
+        font-size: 1.25em;
+      }
+    }
+
+    &.home-page__downloads-lifetime {
+      color: var(--color-background);
+      background: linear-gradient(
+        135deg,
+        #8A6A00 0%,
+        #D4AF37 35%,
+        #FFE08A 50%,
+        #D4AF37 65%,
+        #8A6A00 100%
+      );
+
+      a.home-page__call-to-action {
+        background-color: #D4AF37;
+
+        &:hover {
+          background-color: #FFE08A;
         }
       }
     }
