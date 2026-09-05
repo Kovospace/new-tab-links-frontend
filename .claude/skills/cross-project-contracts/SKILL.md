@@ -5,16 +5,19 @@ description: How this frontend relates to the NewTabLinks backend and the NewTab
 
 # Cross-project contracts — NewTabLinks
 
-Three repositories make up the product. This one is the **frontend/portal**.
+Three repositories make up the product, and a fourth owns the database schema behind the
+backend. This one is the **frontend/portal**.
 
 | Repo | Local path | Remote | Role |
 |---|---|---|---|
 | Frontend (this) | `/home/kovo/IdeaProjects/new-tab-links-frontend` | `Kovospace/new-tab-links-frontend` | Angular portal: presentation, hosting, everything deliberately kept out of the extension |
 | Backend | `/home/kovo/IdeaProjects/new-tab-links-backend` | `Kovospace/new-tab-links-backend` | Spring Boot service: storage, sync, auth |
 | Extension | `/home/kovo/IdeaProjects/NewTabGroupedLinks` | `K0V0/NewTabGroupedLinks` | The product itself: Chrome MV3 new-tab page |
+| Migrations | `/home/kovo/IdeaProjects/new-tab-links-migrations` | `Kovospace/new-tab-links-migrations` | Flyway SQL owning the backend's schema, shipped as an init-container image |
 
-Note the owner mismatch — the extension is under **K0V0**, the other two under **Kovospace**.
-All three remotes are SSH; `~/.ssh/id_ed25519` authenticates for all of them.
+Note the owner mismatch — the extension is under **K0V0**, the rest under **Kovospace**.
+All remotes are SSH; `~/.ssh/id_ed25519` authenticates for all of them. Migrations is the one
+this repo has no `additionalDirectories` entry for; if a read of it is refused, that is why.
 
 Read the sibling repos with `git -C <path> <cmd>` and plain file reads rather than `cd`.
 Read access is granted through `permissions.additionalDirectories` in the gitignored
@@ -42,6 +45,19 @@ Read access is granted through `permissions.additionalDirectories` in the gitign
   website base URL. Details in the `authentication-flows` skill.
 - **This repo owns the web presentation** and any feature moved out of the extension for
   maintainability. It is a *consumer* of the backend, never a second source of truth.
+- **The migrations repo owns the schema, and the backend does not.** `spring.flyway.enabled=false`
+  there; the image runs as an init container and deployed backends then run `ddl-auto=validate`.
+  Two consequences worth carrying into any cross-repo answer about storage. First, **the schema
+  Hibernate generates is not the schema production runs** — the migrated one declares
+  `ON DELETE CASCADE` throughout the hierarchy, a generated one has no delete rules at all, so
+  behaviour observed against a `ddl-auto=update` dev database proves nothing about deployed
+  behaviour. Second, `validate` checks columns and types but **not** delete rules, unique
+  constraints or indexes, so a rule living only in `sql/` is verified by nothing in the backend's
+  own test suite. Read `sql/` rather than inferring from the JPA entities.
+- **A schema change is a release sequence, not a commit.** The image tag *is* the schema version:
+  the migration image ships first, the backend's `flyway.migrations.schema.version` is bumped in
+  the commit that starts depending on it, and the deployment pin is `devops-engineer`'s to move.
+  `sql/` is append-only — Flyway checksums applied migrations and CI enforces it.
 
 ## Answering a question another repo asks
 

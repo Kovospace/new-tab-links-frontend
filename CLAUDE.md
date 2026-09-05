@@ -68,6 +68,7 @@ picked up by a **new** session.
 | Backend (Spring Boot) | `/home/kovo/IdeaProjects/new-tab-links-backend` | `Kovospace/new-tab-links-backend` |
 | Chrome extension | `/home/kovo/IdeaProjects/NewTabGroupedLinks` | `K0V0/NewTabGroupedLinks` |
 | GitOps (cluster state) | `/home/kovo/IdeaProjects/kovostack-infra-gitops` | `Kovospace/kovostack-infra-gitops` |
+| Schema migrations (Flyway) | `/home/kovo/IdeaProjects/new-tab-links-migrations` | `Kovospace/new-tab-links-migrations` |
 
 Details — ownership of each concern, the shared data model, how to ask and answer across repos —
 live in the **`cross-project-contracts`** skill. Read those repos with `git -C <path> <cmd>`;
@@ -83,6 +84,16 @@ no approval gate. Changes to it belong to **`devops-engineer`** (`~/.claude/agen
 before every push to `main`. Hand it anything the cluster has to be told — a new environment
 variable that needs a value, an image tag, a probe path, an init-container version — and say what
 the value must be and why, because that agent knows Kubernetes, not this application.
+
+**The database schema is not the backend's to generate.** `new-tab-links-migrations` owns it:
+Flyway SQL shipped as an image that runs as an init container, and deployed backends run
+`ddl-auto=validate` against what it produced. **A schema Hibernate generates for itself is not
+equivalent** — it has no `ON DELETE` rules, where the migrated one cascades throughout — so a
+claim about how the database behaves is only true if it was checked against `sql/`, not against a
+`ddl-auto=update` dev database. This repo never touches it, but any reasoning here about what the
+backend's storage does has to read it. Unlike the others it is **not** listed in this repo's
+`additionalDirectories` (the backend's does list it) — so if a read of that path is refused from
+here, that missing entry is why.
 
 ## Developing against real backend data
 
