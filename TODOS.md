@@ -5,30 +5,24 @@ Things that comes to my mind during solving other shits and should be done
 
 ## User experience
 
-### Bring synchroniation into chrome extension finally
-- as we said and did, synchronization is going to be performed using obtained sync code
-- chrome extension have menu widget in top panel on the right (three dots)
-  - there should appear menu items like "Log in", "Register", and "Enter sync code" for user that is not logged in (extension that is not synced)
-  - for logged in user, there should be items like "Log out"
-- If user is logging into extension that have some links already added to the same profile as "data on the backend", then:
-  - merge groups and links, implement some separate class or module handling migration logic
-  - if there are for example two exact same links with exact same name in the same group or subgroup, do not add them duplicitly
-  - in another case, if there are two duplicates with differen name, keep both
-- connect to a backend according to specification
-- connect to the websocket link or implement it if it is not implemented on backend yet - the websocket should only perform ping if there is new content on the backend for given user
-  - this user experience is primarily in case user rusn mutiple browsers or workstations at once
-- otherwise check for new content only when browser first opened, then websocket should work i guess - i do not want to wreck my backend by requesting endpoint that should provide info
-  if there is something new on each tab open
-  - check who has new content - if it is extension or backend and merge respectivelly
-- if content changes in some computer or browser (new link, rename, order change, anything that changes data), then send that change to the backend in the moment when it happens
-  - make this somehow non-blocking the user if for example is currently offline
-
-
 ### Device name
 - for work after synchronization is implemented into chrome extension actually
 - implement device (or rather say installation ?) name to each chrome extension that user is installing typed by user alongside connection code
 - make it required
 - if user type name that is already in device list as online, show him warning and ask him what to do (cancel / rename / overwrite)
+- **the identity half is already done, separately from this task.** Two Chromium browsers on one
+  machine used to be recorded as one device, because a device was keyed on the name it sent and
+  neither the device name (built from a frozen `navigator.platform`, which names the OS) nor the
+  browser name (parsed from a user agent Chromium forks impersonate Chrome in) can tell them
+  apart. They shared a row, so signing one out signed out both. A device is now keyed on the
+  installation id the extension has always minted for itself, and the name is only a label.
+  What is left here is therefore the *naming*, not the identity
+- decided: "overwrite" on a name clash means the new installation **takes over the existing device
+  row** - its history and first-seen date survive and the old installation is signed out. That is
+  the "I reinstalled on this machine" case, which is what the word was reaching for
+- blocked, one clause only: "will not be counted into free account limits" needs the
+  **User payment & pro features** task below. There are no device limits in the code yet, so
+  there is nothing to exclude a signed-out device from
 - if is in list but as logged out:
   - will not be counted into free account limits
   - just inform user (after connection) that this device was once logged out (welcome back)
@@ -72,3 +66,22 @@ Things that comes to my mind during solving other shits and should be done
 - done: a shared `app-back-button` on the gdpr, cookies and sitemap pages. It goes back through
   the browser's own history, except when this page is the only entry in the tab — arrived at from
   a bookmark or a search engine — where back would do nothing at all and it goes home instead
+
+### Bring synchroniation into chrome extension finally
+- as we said and did, synchronization is going to be performed using obtained sync code
+- chrome extension have menu widget in top panel on the right (three dots)
+  - there should appear menu items like "Log in", "Register", and "Enter sync code" for user that is not logged in (extension that is not synced)
+  - for logged in user, there should be items like "Log out"
+- If user is logging into extension that have some links already added to the same profile as "data on the backend", then:
+  - merge groups and links, implement some separate class or module handling migration logic
+  - if there are for example two exact same links with exact same name in the same group or subgroup, do not add them duplicitly
+  - in another case, if there are two duplicates with differen name, keep both
+- connect to a backend according to specification
+- connect to the websocket link or implement it if it is not implemented on backend yet - the websocket should only perform ping if there is new content on the backend for given user
+  - this user experience is primarily in case user rusn mutiple browsers or workstations at once
+- otherwise check for new content only when browser first opened, then websocket should work i guess - i do not want to wreck my backend by requesting endpoint that should provide info
+  if there is something new on each tab open
+  - check who has new content - if it is extension or backend and merge respectivelly
+- if content changes in some computer or browser (new link, rename, order change, anything that changes data), then send that change to the backend in the moment when it happens
+  - make this somehow non-blocking the user if for example is currently offline
+
