@@ -2,8 +2,8 @@
   <h1 class="devices-page__heading">{{ 'devices.heading' | translate }}</h1>
   <i>{{ 'devices.leadParagraph' | translate }}</i>
 
-  @if (viewModel.signOutConfirmation()) {
-    <i role="status">{{ viewModel.signOutConfirmation() }}</i>
+  @if (viewModel.actionConfirmation()) {
+    <i role="status">{{ viewModel.actionConfirmation() }}</i>
   }
 
   @if (viewModel.loadFailure()) {
@@ -87,6 +87,35 @@
                   <button type="button" (click)="viewModel.signOutDevice(presentedDevice.deviceId)">
                     {{ 'devices.signOutAction' | translate }}
                   </button>
+                </div>
+              } @else if (presentedDevice.isRemovalOffered) {
+                <div class="devices-page__cell-content buttonHolder">
+                  @if (presentedDevice.isRemovalConfirmationPending) {
+                    <span role="alert">{{ 'devices.removeConfirmPrompt' | translate }}</span>
+
+                    <button
+                      type="button"
+                      [disabled]="viewModel.isRemovalInFlight()"
+                      (click)="viewModel.confirmDeviceRemoval(presentedDevice.deviceId)"
+                    >
+                      @if (viewModel.isRemovalInFlight()) {
+                        {{ 'form.submitting' | translate }}
+                      } @else {
+                        {{ 'devices.removeConfirmAction' | translate }}
+                      }
+                    </button>
+
+                    <button type="button" (click)="viewModel.cancelDeviceRemoval()">
+                      {{ 'devices.removeCancelAction' | translate }}
+                    </button>
+                  } @else {
+                    <button
+                      type="button"
+                      (click)="viewModel.askToRemoveDevice(presentedDevice.deviceId)"
+                    >
+                      {{ 'devices.removeAction' | translate }}
+                    </button>
+                  }
                 </div>
               }
             </td>

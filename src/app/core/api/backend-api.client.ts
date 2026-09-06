@@ -109,12 +109,23 @@ export class BackendApiClient {
   /**
    * Sends a DELETE request.
    *
-   * @param path    backend path, starting with a slash
-   * @param options whether to omit the bearer token and which extra headers to send
+   * <p>Query parameters are accepted here, and are the only way to reach a DELETE endpoint that
+   * takes an argument: a request body on DELETE is ill-defined, unevenly supported by proxies and
+   * caches, and {@link HttpClient} will not send one. The device endpoint needs this — see
+   * {@code API_ENDPOINT_PATHS.user.deleteAndForgetParameter}.</p>
+   *
+   * @param path            backend path, starting with a slash
+   * @param queryParameters optional query string values
+   * @param options         whether to omit the bearer token and which extra headers to send
    * @returns the parsed response body, which these endpoints leave empty
    */
-  delete<TResponse>(path: string, options: BackendRequestOptions = {}): Observable<TResponse> {
+  delete<TResponse>(
+    path: string,
+    queryParameters?: Readonly<Record<string, string>>,
+    options: BackendRequestOptions = {},
+  ): Observable<TResponse> {
     return this.httpClient.delete<TResponse>(this.buildAbsoluteUrl(path), {
+      params: queryParameters,
       headers: this.buildHeaders(options),
       context: this.buildContext(options),
     });
