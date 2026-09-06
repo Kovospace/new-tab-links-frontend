@@ -90,32 +90,13 @@
                 </div>
               } @else if (presentedDevice.isRemovalOffered) {
                 <div class="devices-page__cell-content buttonHolder">
-                  @if (presentedDevice.isRemovalConfirmationPending) {
-                    <span role="alert">{{ 'devices.removeConfirmPrompt' | translate }}</span>
-
-                    <button
-                      type="button"
-                      [disabled]="viewModel.isRemovalInFlight()"
-                      (click)="viewModel.confirmDeviceRemoval(presentedDevice.deviceId)"
-                    >
-                      @if (viewModel.isRemovalInFlight()) {
-                        {{ 'form.submitting' | translate }}
-                      } @else {
-                        {{ 'devices.removeConfirmAction' | translate }}
-                      }
-                    </button>
-
-                    <button type="button" (click)="viewModel.cancelDeviceRemoval()">
-                      {{ 'devices.removeCancelAction' | translate }}
-                    </button>
-                  } @else {
-                    <button
-                      type="button"
-                      (click)="viewModel.askToRemoveDevice(presentedDevice.deviceId)"
-                    >
-                      {{ 'devices.removeAction' | translate }}
-                    </button>
-                  }
+                  <button
+                    type="button"
+                    class="button danger"
+                    (click)="viewModel.askToRemoveDevice(presentedDevice.deviceId)"
+                  >
+                    {{ 'devices.removeAction' | translate }}
+                  </button>
                 </div>
               }
             </td>
@@ -126,4 +107,30 @@
   }
 
   <app-extension-connect-panel />
+
+  @if (viewModel.devicePendingRemoval()) {
+    <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
+      <section
+        class="modal__panel modal__panel--danger"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="devices-remove-heading"
+        aria-describedby="devices-remove-warning"
+      >
+        <h2 id="devices-remove-heading">{{ 'devices.removeHeading' | translate }}</h2>
+        <p id="devices-remove-warning">{{ viewModel.removalWarning() }}</p>
+        <button
+          type="button"
+          class="button danger"
+          [disabled]="viewModel.isRemovalInFlight()"
+          (click)="viewModel.confirmDeviceRemoval()"
+        >
+          {{ 'devices.removeConfirmAction' | translate }}
+        </button>
+        <button type="button" (click)="viewModel.cancelDeviceRemoval()">
+          {{ 'devices.removeCancelAction' | translate }}
+        </button>
+      </section>
+    </div>
+  }
 </article>

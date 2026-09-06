@@ -35,8 +35,6 @@ export interface PresentedDevice {
    * and the backend would accept removing a signed-in device too.</p>
    */
   readonly isRemovalOffered: boolean;
-  /** Whether this row is currently asking the user to confirm its removal. */
-  readonly isRemovalConfirmationPending: boolean;
 }
 
 /**
@@ -59,7 +57,7 @@ export class DevicesPageViewModel {
   private readonly isLoadingDevices = signal(false);
   private readonly loadFailureMessage = signal('');
   private readonly actionSuccessMessage = signal('');
-  private readonly deviceIdAwaitingRemovalConfirmation = signal('');
+  private readonly deviceIdAwaitingRemoval = signal('');
   private readonly isRemovingDevice = signal(false);
 
   /** Whether the list is being fetched, which is what the loading wording keys off. */
@@ -82,7 +80,6 @@ export class DevicesPageViewModel {
   /** The devices, ready to render. */
   readonly presentedDevices = computed<readonly PresentedDevice[]>(() => {
     const activeLanguage = this.translationService.currentLanguageCode();
-    const deviceIdAwaitingConfirmation = this.deviceIdAwaitingRemovalConfirmation();
 
     return this.loadedDevices().map((device) => ({
       deviceId: device.id,
@@ -95,8 +92,31 @@ export class DevicesPageViewModel {
       ),
       isSignOutOffered: device.signedIn,
       isRemovalOffered: !device.signedIn,
-      isRemovalConfirmationPending: device.id === deviceIdAwaitingConfirmation,
     }));
+  });
+
+  /**
+   * The device a removal has been asked for but not yet confirmed, or null when none is.
+   *
+   * <p>Derived from the identifier rather than holding a row of its own, so that the dialog shows
+   * the same finished text the table does and re-words itself when the language changes.</p>
+   */
+  readonly devicePendingRemoval = computed<PresentedDevice | null>(() => {
+    const deviceId = this.deviceIdAwaitingRemoval();
+
+    return this.presentedDevices().find((device) => device.deviceId === deviceId) ?? null;
+  });
+
+  /** The dialog's warning, naming the device it is about; empty when no dialog is open. */
+  readonly removalWarning = computed<string>(() => {
+    const device = this.devicePendingRemoval();
+
+    return device === null
+      ? ''
+      : this.translationService.translate('devices.removeWarning', {
+          deviceName: device.deviceName,
+          browserName: device.browserName,
+        });
   });
 
   /** Whether the account has never been used from anywhere, which reads differently from a failure. */
@@ -147,26 +167,25 @@ export class DevicesPageViewModel {
   }
 
   /**
-   * Asks the user to confirm removing one device, revealing that row's second press.
+   * Arms the removal of one device, without performing it.
    *
-   * <p>Removal cannot be undone, so the first press only offers the question — the same two-step
-   * guard the account deletion panel uses. Only one row asks at a time: opening the question on a
-   * second row withdraws it from the first, which keeps two confirm buttons from ever facing the
-   * user at once.</p>
+   * <p>Removal cannot be undone, so the press only opens the dialog that asks — the same guard,
+   * and the same dialog, the operator's account list uses. Holding the identifier rather than a
+   * flag per row is what keeps two dialogs from ever being open at once.</p>
    *
    * @param deviceId identifier of the device the user pressed remove on
    */
   askToRemoveDevice(deviceId: string): void {
-    this.deviceIdAwaitingRemovalConfirmation.set(deviceId);
+    this.deviceIdAwaitingRemoval.set(deviceId);
     this.actionSuccessMessage.set('');
     this.loadFailureMessage.set('');
   }
 
   /**
-   * Withdraws the removal question, leaving the device listed.
+   * Closes the dialog without removing anything, leaving the device listed.
    */
   cancelDeviceRemoval(): void {
-    this.deviceIdAwaitingRemovalConfirmation.set('');
+    this.deviceIdAwaitingRemoval.set('');
   }
 
   /**
@@ -175,9 +194,16 @@ export class DevicesPageViewModel {
    * <p>Irreversible: the row and the first-seen and last-used history on it are deleted. Should
    * that browser sign in again it returns as a new device, dated from that moment.</p>
    *
-   * @param deviceId identifier of the device to remove
+   * <p>Takes no argument, because the device is whichever one the open dialog is about. A press on
+   * a confirm button that no dialog belongs to does nothing.</p>
    */
-  confirmDeviceRemoval(deviceId: string): void {
+  confirmDeviceRemoval(): void {
+    const device = this.devicePendingRemoval();
+    if (device === null) {
+      return;
+    }
+
+    const deviceId = device.deviceId;
     this.isRemovingDevice.set(true);
     this.actionSuccessMessage.set('');
     this.loadFailureMessage.set('');
@@ -214,13 +240,13 @@ export class DevicesPageViewModel {
   /**
    * Puts the removal state back as it was, whichever way the call went.
    *
-   * <p>The question is withdrawn on failure as well as on success: the row it belonged to may no
-   * longer be there, and leaving a confirm button pointed at a device that has just refused to be
-   * removed only invites the same failure again.</p>
+   * <p>The dialog closes on failure as well as on success: the device it was about may no longer
+   * be there, and leaving it open over a removal that has just been refused only invites the same
+   * failure again. The wording of the failure is on the page behind it.</p>
    */
   private finishRemoval(): void {
     this.isRemovingDevice.set(false);
-    this.deviceIdAwaitingRemovalConfirmation.set('');
+    this.deviceIdAwaitingRemoval.set('');
   }
 }
 

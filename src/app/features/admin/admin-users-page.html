@@ -31,13 +31,9 @@
   </form>
 
   @if (viewModel.isCreatingAccount()) {
-    <div
-      class="admin-page__modal"
-      animate.enter="admin-page__modal--opening"
-      animate.leave="admin-page__modal--closing"
-    >
+    <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
       <section
-        class="admin-page__panel"
+        class="modal__panel"
         role="dialog"
         aria-modal="true"
         aria-labelledby="admin-create-heading"
@@ -201,13 +197,9 @@
   }
 
   @if (viewModel.accountPendingDeletion(); as accountToDelete) {
-    <div
-      class="admin-page__modal"
-      animate.enter="admin-page__modal--opening"
-      animate.leave="admin-page__modal--closing"
-    >
+    <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
       <section
-        class="admin-page__panel admin-page__panel--danger"
+        class="modal__panel modal__panel--danger"
         role="alertdialog"
         aria-modal="true"
         aria-labelledby="admin-delete-heading"
@@ -232,13 +224,9 @@
   }
 
   @if (viewModel.editedAccount(); as editedAccount) {
-    <div
-      class="admin-page__modal"
-      animate.enter="admin-page__modal--opening"
-      animate.leave="admin-page__modal--closing"
-    >
+    <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
       <section
-        class="admin-page__panel"
+        class="modal__panel"
         role="dialog"
         aria-modal="true"
         aria-labelledby="admin-edit-heading"

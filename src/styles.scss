@@ -234,6 +234,14 @@ button:not(.language-switcher__option),
     background-color: var(--color-ui-element-accented-hover);
   }
 
+  &.danger {
+    background-color: var(--color-ui-element-danger);
+
+    &:hover {
+      background-color: var(--color-ui-element-danger-hover);
+    }
+  }
+
   // `&` here is a two-part selector, so Sass expands this to all four pairings: button + button,
   // button + .button, .button + button and .button + .button.
   //
@@ -253,8 +261,7 @@ p {
 // i as information
 // u as "upozornenie"
 i,
-u
-{
+u {
   position: relative;
   padding: 0.25em 0.5em;
   background-color: var(--color-accent2-darker);
@@ -272,8 +279,8 @@ u
     margin-right: 0.5em;
     font-weight: bold;
     font-size: 1em;
-    top:0;
-    bottom:0;
+    top: 0;
+    bottom: 0;
     left: 0;
     line-height: 100%;
     aspect-ratio: 1 / 1;
@@ -344,6 +351,94 @@ form {
       border-radius: 0.25em;
       margin: 0.375em 0;
     }
+  }
+}
+
+// ------------------------------------------------------------------------------------------------
+// Modal dialogs
+//
+// Global because more than one feature needs them and they belong to the viewport rather than to
+// any page: the admin account panels and the device list's removal confirmation are the two so
+// far. The rules moved here from `features/admin/admin-users-page.scss`, unchanged apart from the
+// class names, so that a second use could not become a second copy of them.
+//
+// A panel interrupts the page rather than extending it: until it is answered there is nothing
+// else useful to do. Appending one to the document said the opposite — it arrived below the fold,
+// on a page that still looked operable, and on a long list it could open entirely out of sight.
+//
+// So it is lifted out of the flow onto a backdrop that covers the viewport and blurs what is
+// behind it. `.modal` is the backdrop; `.modal__panel` is the box centred on it.
+// ------------------------------------------------------------------------------------------------
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-overlay);
+
+  // The backdrop scrolls, not the panel, so a form taller than a short screen stays reachable
+  // whole rather than being trapped inside a box with its own scrollbar.
+  display: flex;
+  overflow-y: auto;
+  padding: 1.5em;
+
+  // Two layers of separation, because either can be missing. The tint alone is enough to read the
+  // page behind as inactive; the blur is what stops the content showing through the panel's own
+  // edges, and browsers without it lose nothing but the refinement.
+  background-color: rgb(0 0 0 / 0.6);
+  backdrop-filter: blur(0.375em);
+}
+
+.modal__panel {
+  // `margin: auto` rather than `align-items: center` on the backdrop. Both centre the panel, but a
+  // centred flex item taller than its container overflows equally in both directions and the top
+  // of it cannot be scrolled to — the one arrangement in which a long form loses its heading.
+  // Automatic margins collapse to nothing instead, and the panel simply scrolls.
+  margin: auto;
+  width: min(100%, 34em);
+  padding: 1.5em;
+  background-color: var(--color-panel);
+  box-shadow: var(--shadow-overlay);
+}
+
+.modal__panel--danger {
+  background-color: var(--color-panel-danger);
+}
+
+// Opening and closing.
+//
+// `animate.enter` and `animate.leave` in the template put these classes on for the duration of the
+// animation. The second is the reason they are used at all: `@if` removes its content the moment
+// the condition turns false, so without Angular holding the element until the animation ends there
+// is no closing animation to write. Both timings come from the motion tokens, which is what makes
+// them honour `prefers-reduced-motion` without either rule mentioning it.
+//
+// Closing plays the same two keyframe sets in `reverse` rather than defining its own, so the panel
+// leaves exactly the way it arrived and only one description of the movement exists.
+.modal--opening {
+  animation: modal-backdrop-fade var(--duration-fast) var(--easing-standard);
+
+  .modal__panel {
+    animation: modal-panel-rise var(--duration-fast) var(--easing-standard);
+  }
+}
+
+.modal--closing {
+  animation: modal-backdrop-fade var(--duration-fast) var(--easing-standard) reverse;
+
+  .modal__panel {
+    animation: modal-panel-rise var(--duration-fast) var(--easing-standard) reverse;
+  }
+}
+
+@keyframes modal-backdrop-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-panel-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1em) scale(0.97);
   }
 }
 
