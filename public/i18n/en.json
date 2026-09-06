@@ -83,7 +83,36 @@
       "crxUnavailable": "The packaged download is not available yet."
     },
     "registerAction": {
-      "heading": ""
+      "heading": "...Or if you want synchronisation and backups",
+      "heading2": "1. Register and sign in",
+      "leadText": "Register the ordinary way (the registration form, then the activation link sent to your e-mail), or use Google",
+      "registerButton": "Register",
+      "loginButton": "Log in"
+    },
+    "pairAction": {
+      "heading": "2. Pair the installed extension",
+      "headingNormalLogin": "a.) An ordinary account",
+      "headingGoogleLogin": "b.) A Google account",
+      "tutorText1": "1. Once you are signed in you can reach the",
+      "tutorText2": "section, where you can have a pairing code generated.",
+      "tutorText3": "1. Sign in to the Chrome extension with your account details.",
+      "tutorText4": "2. Fill in your details.",
+      "tutorText5": "3. Once you are signed in, the profiles, workspaces, groups and links you created locally start synchronising.",
+      "tutorText6": "You can check that you are signed in, and sign out again, from the menu.",
+      "tutorText7": "Because registering and signing in with a Google account never creates a password on this platform, pairing works a little differently.",
+      "tutorText8": "This way of pairing works for ordinary accounts too.",
+      "tutorText9": "If you have already signed out of this site, sign in again.",
+      "tutorText10": "2. Enter the connect code in the Chrome extension.",
+      "tutorText11": "3. Done",
+      "devicesButton": "My Devices",
+      "standartLoginMenuAlt": "The extension's profile menu, offering log in, register and enter sync code, with the pointer on log in",
+      "standartLoginFormAlt": "The extension's log-in form, with fields for a username or email, a password and a device name",
+      "standartLoginMenuLoggedAlt": "The extension's profile menu after signing in, showing the account name, the synchronised state and log out",
+      "useConnectionCodeAlt": "The My devices page on this site, with the Generate a connect code button highlighted",
+      "useConnectionCode2Alt": "A generated connect code, with the time it stops working and a button that copies it",
+      "useConnectionCode3Alt": "The extension's profile menu with the pointer on enter sync code",
+      "useConnectionCode4Alt": "The extension's enter sync code form, with fields for the connect code and a device name",
+      "useConnectionCode5Alt": "The extension's profile menu once paired, showing the account name, the synchronised state and log out"
     }
   },
   "register": {

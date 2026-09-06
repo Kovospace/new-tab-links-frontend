@@ -1,11 +1,9 @@
 <article>
-
   <h1>{{ 'download.downloadAction.heading' | translate }}</h1>
 
   <ul>
     @for (downloadOption of viewModel.downloadOptions; track downloadOption.headingTranslationKey) {
       <li class="download-page__option">
-
         <h2>
           {{ downloadOption.headingTranslationKey | translate }}
         </h2>
@@ -34,7 +32,6 @@
         <i class="download-page__option-text">
           {{ downloadOption.textTranslationKey | translate }}
         </i>
-
       </li>
     }
   </ul>
@@ -55,16 +52,71 @@
         {{ 'download.registerAction.loginButton' | translate }}
       </a>
     </li>
+
     <li class="download-page__option">
       <h2>
         {{ 'download.pairAction.heading' | translate }}
       </h2>
-      <p>{{ 'download.pairAction.tutorText1' | translate }}
+
+      <h3>{{ 'download.pairAction.headingNormalLogin' | translate }}</h3>
+      <p></p>
+      <p>{{ 'download.pairAction.tutorText3' | translate }}</p>
+      <img
+        [src]="'install/standart-login-menu.png' | localizedImage"
+        [alt]="'download.pairAction.standartLoginMenuAlt' | translate"
+      />
+      <p>{{ 'download.pairAction.tutorText4' | translate }}</p>
+      <img
+        [src]="'install/standart-login-form.png' | localizedImage"
+        [alt]="'download.pairAction.standartLoginFormAlt' | translate"
+      />
+      <p>{{ 'download.pairAction.tutorText5' | translate }}</p>
+      <p>{{ 'download.pairAction.tutorText6' | translate }}</p>
+      <img
+        [src]="'install/standart-login-menu-logged.png' | localizedImage"
+        [alt]="'download.pairAction.standartLoginMenuLoggedAlt' | translate"
+      />
+
+      <h3>{{ 'download.pairAction.headingGoogleLogin' | translate }}</h3>
+      <p>{{ 'download.pairAction.tutorText7' | translate }}</p>
+      <p>{{ 'download.pairAction.tutorText8' | translate }}</p>
+      <p>
+        {{ 'download.pairAction.tutorText9' | translate }}
+        <a class="button" [href]="">
+          {{ 'download.registerAction.loginButton' | translate }}
+        </a>
+      </p>
+      <p>
+        {{ 'download.pairAction.tutorText1' | translate }}
         <a class="button" [href]="">
           {{ 'download.pairAction.devicesButton' | translate }}
         </a>
         {{ 'download.pairAction.tutorText2' | translate }}
+      </p>
+      <img
+        [src]="'install/use-connection-code.png' | localizedImage"
+        [alt]="'download.pairAction.useConnectionCodeAlt' | translate"
+      />
+      <br />
+      <img
+        [src]="'install/use-connection-code-2.png' | localizedImage"
+        [alt]="'download.pairAction.useConnectionCode2Alt' | translate"
+      />
+      <p>{{ 'download.pairAction.tutorText10' | translate }}</p>
+      <img
+        [src]="'install/use-connection-code-3.png' | localizedImage"
+        [alt]="'download.pairAction.useConnectionCode3Alt' | translate"
+      />
+      <br />
+      <img
+        [src]="'install/use-connection-code-4.png' | localizedImage"
+        [alt]="'download.pairAction.useConnectionCode4Alt' | translate"
+      />
+      <p>{{ 'download.pairAction.tutorText11' | translate }}</p>
+      <img
+        [src]="'install/use-connection-code-5.png' | localizedImage"
+        [alt]="'download.pairAction.useConnectionCode5Alt' | translate"
+      />
     </li>
   </ol>
-
 </article>

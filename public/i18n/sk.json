@@ -91,9 +91,28 @@
     },
     "pairAction": {
       "heading": "2. Spárovanie inštalovaného rozšírenia",
-      "tutorText1": "Po prihlásení sa Vám sprístupní sekcia",
+      "headingNormalLogin": "a.) Štandartný účet",
+      "headingGoogleLogin": "b.) Google účet",
+      "tutorText1": "1. Po prihlásení sa Vám sprístupní sekcia",
       "tutorText2": "kde si necháte vygenerovať párovací kód.",
-      "devicesButton": "Moje zariadenia"
+      "tutorText3": "1. Prihláste sa v Chrome rozšírení svojimi údajmi k účtu.",
+      "tutorText4": "2. Vyplňte svoje údaje.",
+      "tutorText5": "3. Po úspešnom prihlásení sa spustí synchronizácia Vašich lokálne vytvorených profilov, pracovných plôch, skupín a linkov.",
+      "tutorText6": "Kontrolu prihlásenia a odhlásenie sa je možné vykonať z menu.",
+      "tutorText7": "Keďže registrácia a prihlásovanie ku Google účtu prebieha bez vytvárania hesla na tejto platforme, bude postup párovania mierne odlišný.",
+      "tutorText8": "Tento postup párovania je ale možné použiť aj pre štandartné účty.",
+      "tutorText9": "V prípade, že ste sa už odhlásili na tomto portáli, tak sa znovu prihláste.",
+      "tutorText10": "2. Zadajte pripojovací kód v Chrome rozšírení.",
+      "tutorText11": "3. Hotovo",
+      "devicesButton": "Moje zariadenia",
+      "standartLoginMenuAlt": "Menu profilu v rozšírení s voľbami na prihlásenie, registráciu a zadanie synchronizačného kódu, s kurzorom na prihlásení",
+      "standartLoginFormAlt": "Prihlasovací formulár rozšírenia s poľami pre používateľské meno alebo e-mail, heslo a názov zariadenia",
+      "standartLoginMenuLoggedAlt": "Menu profilu v rozšírení po prihlásení, s menom účtu, stavom synchronizácie a odhlásením",
+      "useConnectionCodeAlt": "Stránka Moje zariadenia na tomto webe so zvýrazneným tlačidlom Vygenerovať pripojovací kód",
+      "useConnectionCode2Alt": "Vygenerovaný pripojovací kód s časom platnosti a tlačidlom na skopírovanie",
+      "useConnectionCode3Alt": "Menu profilu v rozšírení s kurzorom na voľbe zadania synchronizačného kódu",
+      "useConnectionCode4Alt": "Formulár rozšírenia na zadanie synchronizačného kódu, s poľami pre pripojovací kód a názov zariadenia",
+      "useConnectionCode5Alt": "Menu profilu v rozšírení po spárovaní, s menom účtu, stavom synchronizácie a odhlásením"
     }
   },
   "register": {

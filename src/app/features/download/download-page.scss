@@ -3,13 +3,16 @@
 .download-page__option {
   margin-top: 3em;
 
-  a.button {
-    //margin: 0.5em 0;
+  h3 {
+    margin-top: 1.5em;
+    margin-bottom: 1em;
   }
-}
 
-.download-page__option-text:first-of-type {
-  //margin-top: 1em;
+  img {
+    border-radius: 0.5em;
+    border: 0.25em solid var(--color-accent);
+    margin: 0.5em 0;
+  }
 }
 
 .download-page__sync-title {
