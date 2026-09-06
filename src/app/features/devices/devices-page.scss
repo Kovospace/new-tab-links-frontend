@@ -6,6 +6,13 @@
 
 .devices-page__table {
   margin: 1.5em 0;
+
+  thead {
+
+    tr {
+      background-color: var(--color-panel);
+    }
+  }
 }
 
 .devices-page__row {
@@ -33,12 +40,11 @@
   }
 }
 
-.devices-page__column-header-content {
-  font-weight: bold;
-  background-color: var(--color-panel);
-}
-
 .devices-page__cell-content {
+
+  &.buttonHolder {
+    width: max-content;
+  }
 
   button {
     font-size: 1em;

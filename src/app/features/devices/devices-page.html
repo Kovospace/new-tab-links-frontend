@@ -83,7 +83,7 @@
             </td>
             <td class="devices-page__cell">
               @if (presentedDevice.isSignOutOffered) {
-                <div class="devices-page__cell-content">
+                <div class="devices-page__cell-content buttonHolder">
                   <button type="button" (click)="viewModel.signOutDevice(presentedDevice.deviceId)">
                     {{ 'devices.signOutAction' | translate }}
                   </button>

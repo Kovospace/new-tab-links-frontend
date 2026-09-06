@@ -2,8 +2,16 @@
 
 .download-page__option {
   margin-top: 3em;
+
+  a.button {
+    //margin: 0.5em 0;
+  }
 }
 
 .download-page__option-text:first-of-type {
-  margin-top: 1em;
+  //margin-top: 1em;
+}
+
+.download-page__sync-title {
+  margin-top: 2em;
 }

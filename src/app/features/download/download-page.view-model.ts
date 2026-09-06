@@ -35,18 +35,18 @@ export class DownloadPageViewModel {
   /** The ways to install, in the order they are offered. */
   readonly downloadOptions: readonly DownloadOption[] = [
     buildDownloadOption(
-      'download.webStoreHeading',
-      'download.webStoreText',
-      'download.webStoreAction',
-      'download.webStoreUnavailable',
+      'download.downloadAction.webStoreHeading',
+      'download.downloadAction.webStoreText',
+      'download.downloadAction.webStoreAction',
+      'download.downloadAction.webStoreUnavailable',
       this.extensionDownload.chromeWebStoreUrl,
       true,
     ),
     buildDownloadOption(
-      'download.crxHeading',
-      'download.crxText',
-      'download.crxAction',
-      'download.crxUnavailable',
+      'download.downloadAction.crxHeading',
+      'download.downloadAction.crxText',
+      'download.downloadAction.crxAction',
+      'download.downloadAction.crxUnavailable',
       this.extensionDownload.selfHostedCrxPath,
       false,
     ),

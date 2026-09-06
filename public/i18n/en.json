@@ -12,7 +12,7 @@
   },
   "nav": {
     "home": "Home",
-    "download": "Download",
+    "download": "Install",
     "register": "Register",
     "login": "Login",
     "devices": "My Devices",
@@ -71,16 +71,20 @@
     }
   },
   "download": {
-    "heading": "Download",
-    "leadParagraph": "Install the extension from the Chrome Web Store, or download the packaged extension and load it yourself.",
-    "webStoreHeading": "Chrome Web Store",
-    "webStoreText": "The recommended way to install. Updates arrive automatically.",
-    "webStoreAction": "Open in Chrome Web Store",
-    "webStoreUnavailable": "The store listing is not published yet.",
-    "crxHeading": "Packaged extension (.crx)",
-    "crxText": "Hosted here. Load it through chrome://extensions with Developer Mode enabled.",
-    "crxAction": "Download the .crx file",
-    "crxUnavailable": "The packaged download is not available yet."
+    "downloadAction": {
+      "heading": "Download",
+      "webStoreHeading": "Chrome Web Store",
+      "webStoreText": "The recommended way to install. Updates arrive automatically.",
+      "webStoreAction": "Open in Chrome Web Store",
+      "webStoreUnavailable": "The store listing is not published yet.",
+      "crxHeading": "Packaged extension (.crx)",
+      "crxText": "Hosted here. Load it through chrome://extensions with Developer Mode enabled.",
+      "crxAction": "Download the .crx file",
+      "crxUnavailable": "The packaged download is not available yet."
+    },
+    "registerAction": {
+      "heading": ""
+    }
   },
   "register": {
     "heading": "Create an ordinary account",
