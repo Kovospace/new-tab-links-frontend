@@ -1,9 +1,19 @@
-import { Injectable, OnDestroy, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { BackendFailureTranslator } from '../../../core/api/backend-failure.translator';
 import { ExtensionConnectCode } from '../../../core/api/models/authentication-request.model';
 import { TranslationService } from '../../../core/i18n/translation.service';
 import { UserDeviceService } from '../../../core/user/user-device.service';
 import { formatInstantForDisplay } from '../../../shared/formatting/instant-formatter';
+import { createSelfClearingMessage } from '../../../shared/messaging/self-clearing-message';
+
+/**
+ * How long the outcome of a copy stays on screen, in milliseconds.
+ *
+ * <p>Long enough to be read, short enough that it is gone before the reader wonders whether it
+ * refers to the code now in front of them or to the one before it. Shorter than the device list's
+ * confirmations, because this one sits beside the thing it is about.</p>
+ */
+const COPY_OUTCOME_LIFETIME_MILLISECONDS = 4000;
 
 /**
  * State and behaviour behind the "connect a browser extension" panel.
@@ -20,15 +30,7 @@ import { formatInstantForDisplay } from '../../../shared/formatting/instant-form
  * typing a passphrase into a browser popup.</p>
  */
 @Injectable()
-export class ExtensionConnectPanelViewModel implements OnDestroy {
-  /**
-   * How long the outcome of a copy stays on screen, in milliseconds.
-   *
-   * <p>Long enough to be read, short enough that it is gone before the reader wonders whether
-   * it refers to the code now in front of them or to the one before it.</p>
-   */
-  private static readonly COPY_OUTCOME_DURATION_MILLISECONDS = 4000;
-
+export class ExtensionConnectPanelViewModel {
   private readonly userDeviceService = inject(UserDeviceService);
   private readonly translationService = inject(TranslationService);
   private readonly failureTranslator = inject(BackendFailureTranslator);
@@ -36,8 +38,9 @@ export class ExtensionConnectPanelViewModel implements OnDestroy {
   private readonly mintedCode = signal<ExtensionConnectCode | null>(null);
   private readonly isMinting = signal(false);
   private readonly mintFailureMessage = signal('');
-  private readonly copyOutcomeMessage = signal('');
-  private copyOutcomeTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly copyOutcomeMessage = createSelfClearingMessage(
+    COPY_OUTCOME_LIFETIME_MILLISECONDS,
+  );
 
   /** Whether a code is being minted, which is what disables the button. */
   readonly isGeneratingCode = this.isMinting.asReadonly();
@@ -51,7 +54,7 @@ export class ExtensionConnectPanelViewModel implements OnDestroy {
    * <p>Worded here rather than in the template because it is one of two sentences chosen at
    * runtime, and because it takes itself away again after a few seconds.</p>
    */
-  readonly copyOutcome = this.copyOutcomeMessage.asReadonly();
+  readonly copyOutcome = this.copyOutcomeMessage.value;
 
   /** The code to display, empty until one has been minted. */
   readonly connectCode = computed<string>(() => this.mintedCode()?.code ?? '');
@@ -89,7 +92,7 @@ export class ExtensionConnectPanelViewModel implements OnDestroy {
   generateConnectCode(): void {
     this.isMinting.set(true);
     this.mintFailureMessage.set('');
-    this.clearCopyOutcome();
+    this.copyOutcomeMessage.clear();
 
     this.userDeviceService.mintExtensionConnectCode().subscribe({
       next: (extensionConnectCode) => {
@@ -130,31 +133,12 @@ export class ExtensionConnectPanelViewModel implements OnDestroy {
     );
   }
 
-  /** Cancels a pending acknowledgement, so nothing sets a signal after the panel has gone. */
-  ngOnDestroy(): void {
-    this.clearCopyOutcome();
-  }
-
   /**
-   * Shows one sentence about the copy, and arranges for it to go away again.
+   * Shows one sentence about the copy, which takes itself away again.
    *
    * @param translationKey the sentence to show
    */
   private announceCopyOutcome(translationKey: string): void {
-    this.clearCopyOutcome();
-    this.copyOutcomeMessage.set(this.translationService.translate(translationKey));
-    this.copyOutcomeTimer = setTimeout(
-      () => this.copyOutcomeMessage.set(''),
-      ExtensionConnectPanelViewModel.COPY_OUTCOME_DURATION_MILLISECONDS,
-    );
-  }
-
-  /** Takes the acknowledgement away now, cancelling the timer that would have done it later. */
-  private clearCopyOutcome(): void {
-    if (this.copyOutcomeTimer !== null) {
-      clearTimeout(this.copyOutcomeTimer);
-      this.copyOutcomeTimer = null;
-    }
-    this.copyOutcomeMessage.set('');
+    this.copyOutcomeMessage.show(this.translationService.translate(translationKey));
   }
 }

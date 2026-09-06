@@ -5,9 +5,18 @@ import { UserDevice } from '../../core/api/models/user-device.model';
 import { TranslationService } from '../../core/i18n/translation.service';
 import { UserDeviceService } from '../../core/user/user-device.service';
 import { formatInstantForDisplay } from '../../shared/formatting/instant-formatter';
+import { createSelfClearingMessage } from '../../shared/messaging/self-clearing-message';
 
 /** Status the backend answers with when the device is not there to be removed. */
 const DEVICE_ALREADY_GONE_STATUS = 404;
+
+/**
+ * How long a confirmation stays on screen, in milliseconds.
+ *
+ * <p>Long enough to be read without hurrying, short enough that it is gone before it can be
+ * mistaken for a report on whatever the reader does next.</p>
+ */
+const CONFIRMATION_LIFETIME_MILLISECONDS = 10_000;
 
 /**
  * One row of the device table, every value already worded and formatted.
@@ -56,7 +65,9 @@ export class DevicesPageViewModel {
   private readonly loadedDevices = signal<readonly UserDevice[]>([]);
   private readonly isLoadingDevices = signal(false);
   private readonly loadFailureMessage = signal('');
-  private readonly actionSuccessMessage = signal('');
+  private readonly actionSuccessMessage = createSelfClearingMessage(
+    CONFIRMATION_LIFETIME_MILLISECONDS,
+  );
   private readonly deviceIdAwaitingRemoval = signal('');
   private readonly isRemovingDevice = signal(false);
 
@@ -70,9 +81,11 @@ export class DevicesPageViewModel {
    * Confirmation that a device was signed out or removed, empty until one is.
    *
    * <p>One signal serves both actions because only the latest of them is worth reporting, and two
-   * would leave the page able to claim a sign-out and a removal at the same time.</p>
+   * would leave the page able to claim a sign-out and a removal at the same time. It removes
+   * itself after a few seconds — see {@code SelfClearingMessage} for why a confirmation should
+   * not outlive the moment it describes. Failures do not, and are on {@link loadFailure}.</p>
    */
-  readonly actionConfirmation = this.actionSuccessMessage.asReadonly();
+  readonly actionConfirmation = this.actionSuccessMessage.value;
 
   /** Whether a removal is in flight, which is what disables the confirm button. */
   readonly isRemovalInFlight = this.isRemovingDevice.asReadonly();
@@ -153,12 +166,12 @@ export class DevicesPageViewModel {
    * @param deviceId identifier of the device to revoke
    */
   signOutDevice(deviceId: string): void {
-    this.actionSuccessMessage.set('');
+    this.actionSuccessMessage.clear();
     this.loadFailureMessage.set('');
 
     this.userDeviceService.signOutDevice(deviceId).subscribe({
       next: () => {
-        this.actionSuccessMessage.set(this.translationService.translate('devices.signOutSuccess'));
+        this.actionSuccessMessage.show(this.translationService.translate('devices.signOutSuccess'));
         this.loadDevices();
       },
       error: (failure: unknown) =>
@@ -177,7 +190,7 @@ export class DevicesPageViewModel {
    */
   askToRemoveDevice(deviceId: string): void {
     this.deviceIdAwaitingRemoval.set(deviceId);
-    this.actionSuccessMessage.set('');
+    this.actionSuccessMessage.clear();
     this.loadFailureMessage.set('');
   }
 
@@ -194,6 +207,10 @@ export class DevicesPageViewModel {
    * <p>Irreversible: the row and the first-seen and last-used history on it are deleted. Should
    * that browser sign in again it returns as a new device, dated from that moment.</p>
    *
+   * <p>A device the backend says was already gone takes the same path as one it has just deleted,
+   * because the outcome the user asked for is the same either way and a 404 there is a race they
+   * cannot see.</p>
+   *
    * <p>Takes no argument, because the device is whichever one the open dialog is about. A press on
    * a confirm button that no dialog belongs to does nothing.</p>
    */
@@ -205,7 +222,7 @@ export class DevicesPageViewModel {
 
     const deviceId = device.deviceId;
     this.isRemovingDevice.set(true);
-    this.actionSuccessMessage.set('');
+    this.actionSuccessMessage.clear();
     this.loadFailureMessage.set('');
 
     this.userDeviceService.forgetDevice(deviceId).subscribe({
@@ -233,7 +250,7 @@ export class DevicesPageViewModel {
    * already gone, because those are the same outcome as far as the user is concerned.</p>
    */
   private reportRemovalDone(): void {
-    this.actionSuccessMessage.set(this.translationService.translate('devices.removeSuccess'));
+    this.actionSuccessMessage.show(this.translationService.translate('devices.removeSuccess'));
     this.loadDevices();
   }
 

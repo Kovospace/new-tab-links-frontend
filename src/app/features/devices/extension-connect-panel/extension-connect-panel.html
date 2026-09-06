@@ -16,11 +16,9 @@
 
   @if (viewModel.hasConnectCode()) {
     <div class="extension-connect-panel__code-block">
-
       <span>{{ 'devices.connectCodeLabel' | translate }}:</span>
       <br />
       <div>
-
         <output class="extension-connect-panel__code">{{ viewModel.connectCode() }}</output>
 
         <button
@@ -39,12 +37,10 @@
         <p class="extension-connect-panel__copy-outcome" role="status">
           {{ viewModel.copyOutcome() }}
         </p>
-
       </div>
       <small class="extension-connect-panel__code-expiry">{{ viewModel.expiryNotice() }}</small>
       <br />
       <small>{{ 'devices.connectCodeHint' | translate }}</small>
-
     </div>
   }
 

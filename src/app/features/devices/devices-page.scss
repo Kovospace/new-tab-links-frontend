@@ -8,7 +8,6 @@
   margin: 1.5em 0;
 
   thead {
-
     tr {
       background-color: var(--color-panel);
     }
@@ -26,8 +25,7 @@
 // The wrapper inside every cell — see the template for why the cells themselves are left alone.
 // Layout, alignment, minimum height, truncation and anything positioned belong here.
 .devices-page__column-header-content,
-.devices-page__cell-content
-{
+.devices-page__cell-content {
   min-height: 3em;
   display: flex;
   align-items: center;
@@ -41,7 +39,6 @@
 }
 
 .devices-page__cell-content {
-
   &.buttonHolder {
     width: max-content;
   }

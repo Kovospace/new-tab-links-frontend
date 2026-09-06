@@ -35,6 +35,9 @@ const DEVICE_TRANSLATIONS = {
   },
 };
 
+/** How long a confirmation stays on screen, mirroring the view-model's own constant. */
+const CONFIRMATION_LIFETIME_MILLISECONDS = 10_000;
+
 /** Identifier of the signed-out device, the only kind the list offers to remove. */
 const SIGNED_OUT_DEVICE_ID = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb';
 
@@ -200,9 +203,30 @@ describe('DevicesPageViewModel', () => {
     respondToRemovalOf(SIGNED_OUT_DEVICE_ID);
     respondWithDevices([REPORTED_DEVICES[0]]);
 
-    expect(viewModel.actionConfirmation()).toBe('That device was removed from the list.');
     expect(viewModel.presentedDevices().length).toBe(1);
     expect(viewModel.isRemovalInFlight()).toBe(false);
+  });
+
+  it('confirms the removal, and withdraws the confirmation once it has been read', () => {
+    vi.useFakeTimers();
+
+    try {
+      viewModel.loadDevices();
+      respondWithDevices(REPORTED_DEVICES);
+
+      viewModel.askToRemoveDevice(SIGNED_OUT_DEVICE_ID);
+      viewModel.confirmDeviceRemoval();
+      respondToRemovalOf(SIGNED_OUT_DEVICE_ID);
+      respondWithDevices([REPORTED_DEVICES[0]]);
+
+      expect(viewModel.actionConfirmation()).toBe('That device was removed from the list.');
+
+      vi.advanceTimersByTime(CONFIRMATION_LIFETIME_MILLISECONDS);
+
+      expect(viewModel.actionConfirmation()).toBe('');
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('withdraws the question and words the failure when the removal is refused', () => {
@@ -234,6 +258,7 @@ describe('DevicesPageViewModel', () => {
 
     expect(viewModel.actionConfirmation()).toBe('That device was removed from the list.');
     expect(viewModel.loadFailure()).toBe('');
+    expect(viewModel.presentedDevices().length).toBe(1);
   });
 
   it('words a failed load instead of leaving the page blank', () => {
