@@ -5,37 +5,22 @@ Things that comes to my mind during solving other shits and should be done
 
 ## User experience
 
-### Device name
-- for work after synchronization is implemented into chrome extension actually
-- implement device (or rather say installation ?) name to each chrome extension that user is installing typed by user alongside connection code
-- ~~make it required~~ **softened: naming is optional.** A user who does not care types nothing
-  and keeps the automatic label, which is what the extension already sends. The point of the
-  field is to let somebody who runs several browsers on one machine tell them apart, and that
-  is a want, not an obligation - making it mandatory would tax every user for a problem only
-  some of them have
-- if user type name that is already in device list as online, show him warning and ask him what to do (cancel / rename / overwrite)
-- **the identity half is already done, separately from this task.** Two Chromium browsers on one
-  machine used to be recorded as one device, because a device was keyed on the name it sent and
-  neither the device name (built from a frozen `navigator.platform`, which names the OS) nor the
-  browser name (parsed from a user agent Chromium forks impersonate Chrome in) can tell them
-  apart. They shared a row, so signing one out signed out both. A device is now keyed on the
-  installation id the extension has always minted for itself, and the name is only a label.
-  What is left here is therefore the *naming*, not the identity
-- decided: "overwrite" on a name clash means the new installation **takes over the existing device
-  row** - its history and first-seen date survive and the old installation is signed out. That is
-  the "I reinstalled on this machine" case, which is what the word was reaching for
-- blocked, one clause only: "will not be counted into free account limits" needs the
-  **User payment & pro features** task below. There are no device limits in the code yet, so
-  there is nothing to exclude a signed-out device from
-- if is in list but as logged out:
-  - will not be counted into free account limits
-  - just inform user (after connection) that this device was once logged out (welcome back)
-
 ### Implement GDPR bullshit
 - TODO description
 
 ### Implement Cookies bullshit
 - TODO description
+
+### SEO
+- implement basic seo
+- add images for social network post sharing
+
+### Responsive design
+- done just partly now
+
+### Social networks share buttons
+- + OG tags
+
 
 ## Critical architecture steps, missing parts
 
@@ -43,6 +28,11 @@ Things that comes to my mind during solving other shits and should be done
 - basic features are unlimited amount of links and groups and subgroups, but workspaces are limited to 2, profile to 1 and connected devices to 10
 - explore how chrome store works and how to pair user with user payment
 - explore how to check if payment is still in charge - user will probably be paying monthly
+
+### Product presentation homepage
+- homepage screenshots, text, extension presentation
+
+### Product presentation and media for google chrome store
 
 
 # Ideas
@@ -89,3 +79,31 @@ Things that comes to my mind during solving other shits and should be done
 - if content changes in some computer or browser (new link, rename, order change, anything that changes data), then send that change to the backend in the moment when it happens
   - make this somehow non-blocking the user if for example is currently offline
 
+### Device name
+- for work after synchronization is implemented into chrome extension actually
+- implement device (or rather say installation ?) name to each chrome extension that user is installing typed by user alongside connection code
+- ~~make it required~~ **softened: naming is optional.** A user who does not care types nothing
+  and keeps the automatic label, which is what the extension already sends. The point of the
+  field is to let somebody who runs several browsers on one machine tell them apart, and that
+  is a want, not an obligation - making it mandatory would tax every user for a problem only
+  some of them have
+- if user type name that is already in device list as online, show him warning and ask him what to do (cancel / rename / overwrite)
+- **the identity half is already done, separately from this task.** Two Chromium browsers on one
+  machine used to be recorded as one device, because a device was keyed on the name it sent and
+  neither the device name (built from a frozen `navigator.platform`, which names the OS) nor the
+  browser name (parsed from a user agent Chromium forks impersonate Chrome in) can tell them
+  apart. They shared a row, so signing one out signed out both. A device is now keyed on the
+  installation id the extension has always minted for itself, and the name is only a label.
+  What is left here is therefore the *naming*, not the identity
+- decided: "overwrite" on a name clash means the new installation **takes over the existing device
+  row** - its history and first-seen date survive and the old installation is signed out. That is
+  the "I reinstalled on this machine" case, which is what the word was reaching for
+- blocked, one clause only: "will not be counted into free account limits" needs the
+  **User payment & pro features** task below. There are no device limits in the code yet, so
+  there is nothing to exclude a signed-out device from
+- if is in list but as logged out:
+  - will not be counted into free account limits
+  - just inform user (after connection) that this device was once logged out (welcome back)
+
+### Repurpose download section to how to / install section
+- with images & dumb tutorial
