@@ -39,6 +39,28 @@ export class UserDeviceService {
   }
 
   /**
+   * Signs one device out and deletes it from the list for good.
+   *
+   * <p>The same endpoint as {@link signOutDevice}, asked to do more by the
+   * {@code deleteAndForgetParameter} flag. The two are separate methods here rather than one
+   * method with a boolean argument because they are different decisions with different
+   * consequences, and a call site reading {@code forgetDevice(id)} says which one was meant —
+   * where {@code signOutDevice(id, true)} would not.</p>
+   *
+   * <p>Irreversible: the device's first-seen and last-used history goes with the row. Should that
+   * browser sign in again it comes back as a new device, with a new identifier and a first-seen
+   * date of that moment. Whatever calls this must have asked the user first.</p>
+   *
+   * @param deviceId identifier of the device to delete
+   * @returns an observable that completes once the device is gone
+   */
+  forgetDevice(deviceId: string): Observable<void> {
+    return this.backendApiClient.delete<void>(API_ENDPOINT_PATHS.user.myDevice(deviceId), {
+      [API_ENDPOINT_PATHS.user.deleteAndForgetParameter]: 'true',
+    });
+  }
+
+  /**
    * Mints a code for the user to type into the browser extension.
    *
    * <p>This is how an account created through Google signs the extension in. Such an account has

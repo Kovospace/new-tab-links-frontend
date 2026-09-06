@@ -112,6 +112,7 @@ export class AdminUserService {
   deleteAccount(userId: string): Observable<void> {
     return this.backendApiClient.delete<void>(
       API_ENDPOINT_PATHS.admin.user(userId),
+      undefined,
       this.asTheOperator(),
     );
   }

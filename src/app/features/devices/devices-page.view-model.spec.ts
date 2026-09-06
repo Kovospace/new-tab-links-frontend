@@ -27,8 +27,15 @@ const REPORTED_DEVICES: readonly UserDevice[] = [
 
 /** The translation file the wording under test comes from. */
 const DEVICE_TRANSLATIONS = {
-  devices: { stateSignedIn: 'Signed in', stateSignedOut: 'Signed out' },
+  devices: {
+    stateSignedIn: 'Signed in',
+    stateSignedOut: 'Signed out',
+    removeSuccess: 'That device was removed from the list.',
+  },
 };
+
+/** Identifier of the signed-out device, the only kind the list offers to remove. */
+const SIGNED_OUT_DEVICE_ID = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb';
 
 describe('DevicesPageViewModel', () => {
   let viewModel: DevicesPageViewModel;
@@ -62,6 +69,21 @@ describe('DevicesPageViewModel', () => {
     httpTestingController
       .expectOne((request) => request.url.endsWith('/api/v1/users/me/devices'))
       .flush(devices);
+  }
+
+  /**
+   * Answers the removal request the view-model makes, asserting that it asked to forget rather
+   * than merely to sign out.
+   *
+   * @param deviceId identifier the request must address
+   */
+  function respondToRemovalOf(deviceId: string): void {
+    const removalRequest = httpTestingController.expectOne(
+      (request) => request.method === 'DELETE' && request.url.endsWith(`/devices/${deviceId}`),
+    );
+
+    expect(removalRequest.request.params.get('deleteAndForget')).toBe('true');
+    removalRequest.flush(null, { status: 204, statusText: 'No Content' });
   }
 
   it('hands the template finished text for every column', () => {
@@ -107,6 +129,97 @@ describe('DevicesPageViewModel', () => {
     respondWithDevices([]);
 
     expect(viewModel.isDeviceListEmpty()).toBe(true);
+    expect(viewModel.loadFailure()).toBe('');
+  });
+
+  it('offers removal exactly where it does not offer signing out', () => {
+    viewModel.loadDevices();
+    respondWithDevices(REPORTED_DEVICES);
+
+    const [liveDevice, finishedDevice] = viewModel.presentedDevices();
+
+    expect(liveDevice.isRemovalOffered).toBe(false);
+    expect(finishedDevice.isRemovalOffered).toBe(true);
+  });
+
+  it('asks before removing, and removes nothing until the second press', () => {
+    viewModel.loadDevices();
+    respondWithDevices(REPORTED_DEVICES);
+
+    viewModel.askToRemoveDevice(SIGNED_OUT_DEVICE_ID);
+
+    const [liveDevice, finishedDevice] = viewModel.presentedDevices();
+    expect(finishedDevice.isRemovalConfirmationPending).toBe(true);
+    expect(liveDevice.isRemovalConfirmationPending).toBe(false);
+    httpTestingController.verify();
+  });
+
+  it('asks on one row at a time, so two confirm buttons never face the user', () => {
+    viewModel.loadDevices();
+    respondWithDevices(REPORTED_DEVICES);
+
+    viewModel.askToRemoveDevice(SIGNED_OUT_DEVICE_ID);
+    viewModel.askToRemoveDevice('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
+
+    const rowsAsking = viewModel
+      .presentedDevices()
+      .filter((device) => device.isRemovalConfirmationPending);
+    expect(rowsAsking.length).toBe(1);
+  });
+
+  it('leaves the device listed when the question is withdrawn', () => {
+    viewModel.loadDevices();
+    respondWithDevices(REPORTED_DEVICES);
+
+    viewModel.askToRemoveDevice(SIGNED_OUT_DEVICE_ID);
+    viewModel.cancelDeviceRemoval();
+
+    expect(viewModel.presentedDevices()[1].isRemovalConfirmationPending).toBe(false);
+    httpTestingController.verify();
+  });
+
+  it('asks the backend to forget the device, then refreshes the list', () => {
+    viewModel.loadDevices();
+    respondWithDevices(REPORTED_DEVICES);
+
+    viewModel.askToRemoveDevice(SIGNED_OUT_DEVICE_ID);
+    viewModel.confirmDeviceRemoval(SIGNED_OUT_DEVICE_ID);
+    respondToRemovalOf(SIGNED_OUT_DEVICE_ID);
+    respondWithDevices([REPORTED_DEVICES[0]]);
+
+    expect(viewModel.actionConfirmation()).toBe('That device was removed from the list.');
+    expect(viewModel.presentedDevices().length).toBe(1);
+    expect(viewModel.isRemovalInFlight()).toBe(false);
+  });
+
+  it('withdraws the question and words the failure when the removal is refused', () => {
+    viewModel.loadDevices();
+    respondWithDevices(REPORTED_DEVICES);
+
+    viewModel.askToRemoveDevice(SIGNED_OUT_DEVICE_ID);
+    viewModel.confirmDeviceRemoval(SIGNED_OUT_DEVICE_ID);
+    httpTestingController
+      .expectOne((request) => request.method === 'DELETE')
+      .flush('', { status: 500, statusText: 'Internal Server Error' });
+
+    expect(viewModel.loadFailure().length).toBeGreaterThan(0);
+    expect(viewModel.actionConfirmation()).toBe('');
+    expect(viewModel.isRemovalInFlight()).toBe(false);
+    expect(viewModel.presentedDevices()[1].isRemovalConfirmationPending).toBe(false);
+  });
+
+  it('treats a device that is already gone as removed rather than as a failure', () => {
+    viewModel.loadDevices();
+    respondWithDevices(REPORTED_DEVICES);
+
+    viewModel.askToRemoveDevice(SIGNED_OUT_DEVICE_ID);
+    viewModel.confirmDeviceRemoval(SIGNED_OUT_DEVICE_ID);
+    httpTestingController
+      .expectOne((request) => request.method === 'DELETE')
+      .flush('', { status: 404, statusText: 'Not Found' });
+    respondWithDevices([REPORTED_DEVICES[0]]);
+
+    expect(viewModel.actionConfirmation()).toBe('That device was removed from the list.');
     expect(viewModel.loadFailure()).toBe('');
   });
 

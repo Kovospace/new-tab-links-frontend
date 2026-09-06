@@ -51,12 +51,27 @@ export const API_ENDPOINT_PATHS = {
     myAccount: '/api/v1/users/me',
     myDevices: '/api/v1/users/me/devices',
     /**
-     * Builds the path that signs one device out.
+     * Builds the path of one device, which {@code DELETE} addresses for both of its two jobs.
      *
-     * @param deviceId identifier of the device to revoke, as listed by {@code myDevices}
+     * @param deviceId identifier of the device to act on, as listed by {@code myDevices}
      * @returns the path of that single device
      */
     myDevice: (deviceId: string): string => `/api/v1/users/me/devices/${deviceId}`,
+
+    /**
+     * Query parameter deciding which kind of deletion {@code DELETE myDevice} performs.
+     *
+     * <p>Absent or {@code false} — the default — revokes the device's tokens and keeps the row,
+     * because the list is a history of where the account has been used and losing entries from it
+     * silently would be worse than keeping a signed-out one. {@code true} additionally deletes the
+     * row, which is what the device list's remove button asks for.</p>
+     *
+     * <p>It is a parameter on the existing {@code DELETE} rather than an endpoint of its own so
+     * that the destructive reading has to be asked for explicitly: a bundle that predates this —
+     * one still cached in somebody's browser — never sends the flag and therefore keeps getting
+     * the sign-out it was written against.</p>
+     */
+    deleteAndForgetParameter: 'deleteAndForget',
   },
 
   /**
