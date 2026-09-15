@@ -8,8 +8,12 @@
 .angular/
 
 # Node modules and dependency files
+#
+# package-lock.json is committed on purpose: the image is built from it with
+# `npm ci`. npm 10.9.4 - the version in the pinned node:22.22.1 build image -
+# crashes while resolving this dependency graph from scratch, so a build without
+# the lockfile cannot install at all. See the Dockerfile's build stage.
 /node_modules/
-/package-lock.json
 /yarn.lock
 
 # Environment files

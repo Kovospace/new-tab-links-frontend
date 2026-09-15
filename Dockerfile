@@ -31,12 +31,17 @@ WORKDIR /src
 ### Manifest first. Docker caches this layer, so dependencies are reinstalled
 ### only when the manifest actually changes - not on every source edit.
 #
-# The lockfile is gitignored in this repository, so a CI checkout has none and
-# `npm ci` would fail. It is used when present and installed from otherwise;
-# committing it would make every build byte-for-byte reproducible.
+# Both files are required, and the install is `npm ci` - never `npm install`.
+# The lockfile used to be gitignored and this was a fallback to `npm install`,
+# which broke CI on 2026-09-15: npm 10.9.4, the version shipped in this pinned
+# node image, crashes with `Cannot read properties of null (reading 'edgesOut')`
+# while resolving vitest's peer set from scratch. Installing from the lockfile
+# skips that resolution entirely and is reproducible besides, so the lockfile is
+# now committed and a missing one must fail here loudly rather than silently take
+# a path that cannot work.
 #
-COPY package.json package-lock.json* ./
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+COPY package.json package-lock.json ./
+RUN npm ci
 
 
 ### Application sources.

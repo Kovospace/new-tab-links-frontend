@@ -104,9 +104,22 @@ Multi-stage: `node:22.22.1-alpine` builds, `nginxinc/nginx-unprivileged:1.29-alp
   `/var/www/runtime-config/` instead, and nginx maps that onto `/config.json` with `alias`.
   Making `/usr/share/nginx/html` writable by the serving process would be the easy way and is
   worth not doing.
-- **The lockfile is gitignored in this repository**, so a CI checkout has none and `npm ci` would
-  fail. The build uses it when present and falls back to `npm install`. Committing
-  `package-lock.json` would make builds reproducible and let this become a plain `npm ci`.
+- **`package-lock.json` is committed and the build stage is a plain `npm ci`** - a missing
+  lockfile has to fail the build. It was gitignored until 2026-09-15, with the build falling back
+  to `npm install` when absent, and that fallback is what broke CI: **npm 10.9.4 - the version
+  inside the pinned `node:22.22.1-alpine` image - crashes with `Cannot read properties of null
+  (reading 'edgesOut')`** resolving this graph from scratch, in `arborist`'s `#loadPeerSet` while
+  building vitest's peer set. Reproduce it with
+  `docker run --rm -v "$PWD":/s -w /s node:22.22.1-alpine sh -c 'npm install'` in a directory
+  holding only `package.json`. `npm ci` on the committed lockfile installs cleanly, because it
+  never runs that resolution. Two non-fixes: npm 12 refuses to install on this Node
+  (it wants `^22.22.2`), and npm 11 resolves the graph but no longer runs install scripts by
+  default, which silently changes what the native dependencies (`lmdb`, `@parcel/watcher`,
+  `esbuild`) end up as.
+- **Regenerate the lockfile with npm 9.2.0** - the version this machine has, and the one in
+  `packageManager`. The committed lockfile was produced by it (`lockfileVersion` 3) and npm 10.9.4
+  reads it without complaint; regenerating it *inside* the build image is not possible, because
+  that is the very resolution that crashes.
 - **`COPY --chmod` is not used** — it requires BuildKit. The shared pipeline builds with buildx,
   but a plain `docker build` has to work too, so the mode is set with an explicit `RUN chmod`
   inside a short `USER root` block.
