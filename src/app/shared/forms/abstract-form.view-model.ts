@@ -75,6 +75,22 @@ export abstract class AbstractFormViewModel {
   }
 
   /**
+   * Records a failed submission whose wording is this form's own rather than the backend's.
+   *
+   * <p>The counterpart to {@link completeSubmissionWith}, for the failures a form can describe
+   * better than {@code BackendFailureTranslator} can — a refusal this side of the network, or a
+   * feature the deployment has not switched on. It clears any per-field complaints, because they
+   * came from a different attempt and none of them explain this one.</p>
+   *
+   * @param failureTranslationKey key of the text to show
+   */
+  protected failSubmissionWith(failureTranslationKey: string): void {
+    this.submissionInFlight.set(false);
+    this.submissionFailureMessage.set(this.translationService.translate(failureTranslationKey));
+    this.submissionValidationMessages.set([]);
+  }
+
+  /**
    * Records a successful submission.
    *
    * @param successMessage finished text to show, already translated

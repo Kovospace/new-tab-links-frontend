@@ -1,0 +1,34 @@
+<section>
+  <h1>{{ 'account.refund.heading' | translate }}</h1>
+  <p>{{ 'account.refund.lead' | translate }}</p>
+
+  @if (viewModel.deadlineSentence(); as deadlineSentence) {
+    <p>{{ deadlineSentence }}</p>
+  }
+
+  @if (viewModel.isConfirmationRequested()) {
+    <p role="alert">{{ 'account.refund.confirmPrompt' | translate }}</p>
+
+    <button type="button" [disabled]="viewModel.isSubmitting()" (click)="viewModel.confirmRefund()">
+      @if (viewModel.isSubmitting()) {
+        {{ 'form.submitting' | translate }}
+      } @else {
+        {{ 'account.refund.confirmAction' | translate }}
+      }
+    </button>
+
+    <button type="button" (click)="viewModel.cancelConfirmation()">
+      {{ 'account.refund.keepAction' | translate }}
+    </button>
+  } @else {
+    <button type="button" (click)="viewModel.requestConfirmation()">
+      {{ 'account.refund.action' | translate }}
+    </button>
+  }
+
+  <app-form-feedback
+    [failureMessage]="viewModel.submissionFailure()"
+    [successMessage]="viewModel.submissionSuccess()"
+    [validationMessages]="viewModel.backendValidationMessages()"
+  />
+</section>

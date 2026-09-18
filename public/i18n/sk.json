@@ -247,6 +247,56 @@
       "PENDING_ACTIVATION": "Čaká na aktiváciu",
       "ACTIVE": "Aktívny",
       "DISABLED": "Zakázaný"
+    },
+    "premium": {
+      "heading": "Prejsť na plnú verziu",
+      "lead": "Odomknite plnú verziu. Povedzte nám, odkiaľ ste, vyberte si plán a presmerujeme vás k platobnej bráne.",
+      "withdrawalNotice": "Do 14 dní od nákupu môžete zmeniť názor a vrátime vám celú sumu, bez udania dôvodu. Nič vám nestrhneme za dni, počas ktorých ste ju používali.",
+      "continentLabel": "Kontinent",
+      "continentPlaceholder": "Vyberte kontinent",
+      "countryLabel": "Krajina",
+      "countryPlaceholder": "Vyberte krajinu",
+      "countryAwaitingContinent": "Najprv vyberte kontinent",
+      "planLabel": "Plán",
+      "plan": {
+        "YEARLY_RECURRING": {
+          "label": "Ročné predplatné",
+          "description": "Obnovuje sa raz ročne. Zrušiť môžete kedykoľvek; platí vám do konca zaplateného roka."
+        },
+        "LIFETIME": {
+          "label": "Doživotná licencia",
+          "description": "Jednorazová platba. Máte ju navždy, niet čo obnovovať ani rušiť."
+        }
+      },
+      "proceedAction": "Pokračovať k platbe",
+      "notAvailableYet": "Nákup plnej verzie zatiaľ nie je spustený. Nič sme vám nestrhli. Skúste to znova, keď platby spustíme."
+    },
+    "refund": {
+      "heading": "Zmenili ste názor?",
+      "lead": "Stále ste v 14-dňovej lehote od nákupu, takže vám môžeme vrátiť celú sumu. Bez udania dôvodu a bez zrážok za dni, počas ktorých ste ju používali.",
+      "deadline": "Vrátenie celej sumy je možné do {date}.",
+      "action": "Vrátiť peniaze",
+      "confirmPrompt": "Vrátime vám celú sumu a prístup k plnej verzii sa hneď ukončí. Nič z toho, čo ste vytvorili, sa nezmaže.",
+      "confirmAction": "Áno, vráťte mi peniaze",
+      "keepAction": "Ponechať plnú verziu",
+      "success": "Peniaze sú na ceste k vám. Na účte ich zvyčajne uvidíte do niekoľkých pracovných dní, podľa vašej banky."
+    },
+    "cancelSubscription": {
+      "heading": "Zrušenie predplatného",
+      "lead": "Zrušením zastavíte ďalšie obnovenie. Plnú verziu máte do konca už zaplateného obdobia a nič sa nevracia.",
+      "downgradeNotice": "Po skončení zaplateného obdobia sa účet vráti na bezplatný plán a jeho limity. Ak ich dovtedy prekračujete, najprv vás požiadame o upratanie — nič vám sami nezmažeme.",
+      "action": "Zrušiť predplatné",
+      "success": "Vaše predplatné sa už neobnoví. Plnú verziu máte do konca zaplateného obdobia."
+    }
+  },
+  "geography": {
+    "continent": {
+      "AFRICA": "Afrika",
+      "ASIA": "Ázia",
+      "EUROPE": "Európa",
+      "NORTH_AMERICA": "Severná Amerika",
+      "OCEANIA": "Oceánia",
+      "SOUTH_AMERICA": "Južná Amerika"
     }
   },
   "legal": {

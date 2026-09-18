@@ -29,6 +29,89 @@ Things that comes to my mind during solving other shits and should be done
 - explore how chrome store works and how to pair user with user payment
 - explore how to check if payment is still in charge - user will probably be paying monthly
 
+### Premium lapse: 30 day grace period
+- when a yearly subscription is not renewed (forgotten card, bank hiccup, gate did not charge),
+  keep the account premium for 30 more days instead of downgrading it on the expiry date
+- warn by email every week during those 30 days
+- the renewal itself should be the payment gate's own annual recurrence, not our cron - see the
+  PSD2/SCA and double-charge notes in the backend design
+- NOT IMPLEMENTED YET - decided 2026-09-18
+
+### Downgrading must not silently destroy data
+- premium lifts the free limits (2 workspaces, 1 profile, 10 devices), so an account coming off
+  premium can be holding more than the free plan allows
+- VOLUNTARY cancellation: refuse it until the account is back inside the free limits, and tell the
+  user exactly what has to go. This is the case the owner asked for
+- INVOLUNTARY lapse (expiry, failed card) cannot be refused - nobody clicked anything. DECIDED:
+  never delete anything. After the 30 day warning period the excess is BLOCKED, not removed,
+  and the rule is by creation date - the oldest rows up to the free limit stay usable, everything
+  newer is locked. Paying restores access in full
+- the lock should be DERIVED, never stored. "not premium AND older than the Nth oldest" is a rule
+  that needs no writer, so paying restores access with zero writes and nothing can go stale. A
+  stored `locked` flag would need writing on lapse and unwriting on payment, which is the same
+  denormalisation trap as the premium flag itself
+- blocked should mean visible but locked, not hidden. Hidden reads as data loss and generates
+  support mail; the user needs to see what they are paying to get back
+- DEVICES, resolved: rank by last use, not creation date. The backend already has the query and
+  keeps last_used_at on every sign-in, so this is nearly free - and creation order would need new
+  logic AND be wrong
+- devices must NOT be capped at sign-in. Refusing a sign-in locks someone out of the product on
+  the machine in their hand, and the 11th device is by definition the one they are holding. The
+  sign-in always succeeds, the new device becomes most-recently-used, and the LEAST recently used
+  falls out of the live set and is signed out
+- count only devices with a LIVE SESSION, not rows in the device list. The list is a history and
+  deliberately keeps rows after sign-out; counting those would block someone who has merely used
+  eleven browsers over two years
+- the extension has to render the locked state, and so does this site's devices page
+
+- CRITICAL, do not get this wrong: a blocked workspace must STILL APPEAR in the sync snapshot.
+  The extension takes the snapshot as authoritative and treats an absent record as deleted, so
+  filtering blocked rows out of it makes every client delete them locally, and the next push then
+  deletes them on the server. Implementing "blocking" by omission would cause exactly the data
+  loss this whole decision exists to prevent - silently, on the user's own devices, with no error
+  anywhere. Blocking travels as separate lists of blocked ids; the snapshot itself stays complete
+- an older extension that ignores those lists therefore fails OPEN and shows everything. That is
+  the correct failure direction, because the server refuses the writes regardless: client-side
+  blocking is presentation, server-side refusal is enforcement
+- the caps must be refused on WRITE, and there are two independent creation paths for each kind -
+  the REST service the website uses, AND the sync push, which does not go through it. A cap added
+  only to the services leaves the extension able to create unlimited workspaces by pushing them.
+  Writes INTO a blocked workspace must be refused too, or it is not blocked
+- blocked rows have no TTL, no sweep and no cleanup, ever. Whoever writes the token cleanup job
+  must never generalise it over domain rows
+- rank by (created_at, id), never created_at alone - a sync push can create several workspaces in
+  one transaction, and a tie that resolves differently per request makes the blocked one flicker
+- OPEN, blocks enabling this: GRANDFATHERING. The day the limits switch on, every existing account
+  already holding 3 workspaces or 11 devices has data blocked overnight, with no purchase and no
+  lapse. Options: exempt rows created before an effective date, a per-account exemption flag, or
+  warn by email with a window. Build it behind config and ship it DISABLED until this is answered
+- OPEN: a blocked row must still count toward the limit, or blocking one frees a slot and the next
+  one unblocks - an oscillation
+- NOT IMPLEMENTED YET - decided 2026-09-18
+
+### Right of withdrawal: 14 day full refund
+- full refund within 14 days of purchase, no reason needed, nothing deducted for days used
+- deliberately more generous than EU law requires, which is why NO consent checkbox is needed at
+  checkout - the checkbox only ever buys the right to charge pro-rata, and we are not charging it
+- the pre-contractual NOTICE is still mandatory though: it is on the purchase form already, and
+  omitting it stretches the withdrawal window from 14 days to 12 months and 14 days
+- DONE on this site: a "Get a refund" button on the account page, shown while the backend says
+  `refundable`. Two-step confirmation, no reason asked - asking for one would be a condition on
+  exercising a right that has none
+- backend still needed: the `refundable` flag on the subscription status (it is a deadline, so it
+  must be computed server-side, never against the browser clock), and a refund endpoint that calls
+  the gate's refund API. Both `refundable` and `refundableUntil` are already in the frontend model
+- a refund must NEVER be refused for being over the free limits. A statutory withdrawal right
+  cannot carry conditions - blocking is the only available answer on that path
+- the 30 day grace period must NOT apply to a refund. That grace is for a FAILED RENEWAL, where
+  the user probably still wants the product. A refund is the user saying they do not. Letting the
+  two meet gives a month of free product to anyone who asks for their money back
+- OPEN: refund-and-rebuy on LIFETIME is free premium forever - buy, use 13 days, refund, buy
+  again. The amounts being small is exactly why someone would automate it. Fix cheaply: one refund
+  per account, or refuse a new purchase for N days after one
+- OPEN: does the 14 day refund apply to every annual renewal, or only the first purchase?
+- still missing: a refund policy page, and the order confirmation email on a durable medium
+
 ### Product presentation homepage
 - homepage screenshots, text, extension presentation
 

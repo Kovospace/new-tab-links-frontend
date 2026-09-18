@@ -65,6 +65,7 @@ describe('PageHeaderViewModel', () => {
       displayName: 'Matej',
       status: 'ACTIVE',
       hasPassword: true,
+      premium: false,
       createdAt: '2026-08-24T10:15:30Z',
       updatedAt: '2026-08-24T10:15:30Z',
     });
