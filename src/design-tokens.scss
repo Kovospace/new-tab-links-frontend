@@ -115,6 +115,9 @@
   --color-ui-element-danger: #FF2D32;
   --color-ui-element-danger-hover: #ff4a4e;
 
+  --color-section-even: #111;
+  --color-section-even-danger: #701011;
+
   // State. Kept apart from the accent because they carry meaning rather than identity, and
   // because a design may want them louder than anything else on the page.
   --color-danger: currentColor;
