@@ -42,3 +42,8 @@ yarn-error.log*
 # API while stealing the real domain under mirrord. The deployed image gets its own config.json
 # from the entrypoint, so this file is a developer's override and never belongs in a commit.
 /public/config.json
+
+# Local runtime configuration values for `ng serve`, from which
+# scripts/write-local-runtime-config.sh generates public/config.json. Machine-
+# specific, and the committed template is .env.local.example.
+/.env.local

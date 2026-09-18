@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "config:local": "./scripts/write-local-runtime-config.sh",
+    "prestart": "npm run config:local",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",

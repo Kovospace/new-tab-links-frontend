@@ -25,3 +25,13 @@ CLAUDE.md
 
 # The local development stack: no use inside the image.
 docker-compose.yml
+proxy.conf.json
+scripts
+
+# A developer's generated runtime configuration. The entrypoint writes the real
+# one at container start and nginx serves that through an alias, so a copy baked
+# into the web root is never read - but it would still carry a local backend URL
+# and API key into a layer, which is the leak this file exists to prevent. CI
+# never has one (it is gitignored); a `docker build` on a developer's machine
+# does.
+public/config.json

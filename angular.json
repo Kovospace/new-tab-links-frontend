@@ -30,11 +30,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/reset.scss",
-              "src/design-tokens.scss",
-              "src/styles.scss"
-            ]
+            "styles": ["src/reset.scss", "src/design-tokens.scss", "src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -73,7 +69,8 @@
           "defaultConfiguration": "development",
           "options": {
             "port": 5173,
-            "allowedHosts": ["tabilinks.app", "localhost", "127.0.0.1"]
+            "allowedHosts": ["tabilinks.app", "localhost", "127.0.0.1"],
+            "proxyConfig": "proxy.conf.json"
           }
         },
         "test": {

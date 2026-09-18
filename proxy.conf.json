@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "https://api.tabilinks.app",
+    "secure": true,
+    "changeOrigin": true,
+    "headers": {
+      "origin": "https://tabilinks.app"
+    },
+    "logLevel": "debug"
+  }
+}
