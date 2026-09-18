@@ -73,7 +73,7 @@
           "defaultConfiguration": "development",
           "options": {
             "port": 5173,
-            "allowedHosts": ["new-tab-links.matejkovac.sk", "localhost", "127.0.0.1"]
+            "allowedHosts": ["tabilinks.app", "localhost", "127.0.0.1"]
           }
         },
         "test": {
