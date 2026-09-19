@@ -14,6 +14,10 @@
 
 .home-page__feature {
   margin-top: 3em;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 .home-page__feature-text {
@@ -21,7 +25,7 @@
 }
 
 .home-page__downloads {
-  font-size: 0.875em;
+  font-size: 0.75em;
   width: 100%;
   margin-top: 4em;
   margin-bottom: 2em;
@@ -29,12 +33,15 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  justify-content: space-evenly;
 
   & > div {
-    width: 46%;
-    margin: 0 2%;
+    //min-width: 46%;
+    margin: 1em 2%;
     padding: 1.5em;
     border-radius: 1em;
+    flex-grow: 1;
+    flex-shrink: 1;
 
     &.home-page__downloads-free {
       background-color: var(--color-accent);
@@ -112,6 +119,15 @@
         background-color var(--duration-fast) var(--easing-standard),
         color var(--duration-fast) var(--easing-standard);
       //background-color: white;
+    }
+  }
+
+  @media (max-width: 959px) {
+    flex-direction: column;
+    align-items: center;
+
+    & > div {
+      min-width: 90%;
     }
   }
 }

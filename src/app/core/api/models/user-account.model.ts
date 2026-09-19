@@ -29,6 +29,25 @@ export interface UserAccount {
    * account page offers "set a password" or "change your password".</p>
    */
   readonly hasPassword: boolean;
+  /**
+   * Whether the account holds the full version right now.
+   *
+   * <p>The authoritative answer to "is this user premium", and the one thing about billing that
+   * lives on the account rather than behind {@code /api/v1/billing/subscription}. Everything else
+   * — which plan, until when, whether it renews — is detail that belongs with the subscription;
+   * this is the entitlement, and it is what any feature gate should read.</p>
+   *
+   * <p><strong>Never re-derive this from a date.</strong> Comparing a "subscribed until" value
+   * against {@code Date.now()} puts the decision on a clock the user owns, and it cannot see a
+   * grace period, a manual grant, or a refund the server has already acted on.</p>
+   *
+   * <p>It rides along to the Chrome extension for free: the backend embeds this DTO in the sync
+   * snapshot as {@code SyncSnapshotDto.owner}, so the extension learns the flag on every pull
+   * without a second endpoint. That is a consequence worth knowing rather than a problem — it is
+   * exactly what the extension would need to gate a feature of its own.</p>
+   */
+  readonly premium: boolean;
+
   /** When the account was created, ISO-8601. */
   readonly createdAt: string;
   /** When the account was last changed, ISO-8601. */

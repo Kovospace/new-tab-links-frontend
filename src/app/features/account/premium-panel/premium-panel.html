@@ -1,0 +1,70 @@
+<section class="premium_panel">
+  <h1>{{ 'account.premium.heading' | translate }}</h1>
+  <p>{{ 'account.premium.lead' | translate }}</p>
+  <p>{{ 'account.premium.withdrawalNotice' | translate }}</p>
+
+  <form [formGroup]="viewModel.purchaseForm" (ngSubmit)="viewModel.submitPremiumPurchase()">
+    <label>
+      <span>{{ 'account.premium.continentLabel' | translate }}</span>
+      <select formControlName="continent">
+        <option value="">{{ 'account.premium.continentPlaceholder' | translate }}</option>
+        @for (continent of viewModel.continentOptions(); track continent.code) {
+          <option [value]="continent.code">{{ continent.label }}</option>
+        }
+      </select>
+      @if (viewModel.fieldValidationMessages()['continent']; as validationMessage) {
+        <br>
+        <em>{{ validationMessage }}</em>
+      }
+    </label>
+
+    <label>
+      <span>{{ 'account.premium.countryLabel' | translate }}</span>
+      <select formControlName="countryCode">
+        <option value="">
+          @if (viewModel.hasChosenContinent()) {
+            {{ 'account.premium.countryPlaceholder' | translate }}
+          } @else {
+            {{ 'account.premium.countryAwaitingContinent' | translate }}
+          }
+        </option>
+        @for (country of viewModel.countryOptions(); track country.code) {
+          <option [value]="country.code">{{ country.name }}</option>
+        }
+      </select>
+      @if (viewModel.fieldValidationMessages()['countryCode']; as validationMessage) {
+        <br>
+        <em>{{ validationMessage }}</em>
+      }
+    </label>
+
+    <fieldset>
+      <legend>{{ 'account.premium.planLabel' | translate }}</legend>
+      @for (planOption of viewModel.planOptions(); track planOption.plan) {
+        <label>
+          <input type="radio" formControlName="plan" [value]="planOption.plan" />
+          <span>{{ planOption.label }}</span>
+          <small>{{ planOption.description }}</small>
+        </label>
+      }
+      @if (viewModel.fieldValidationMessages()['plan']; as validationMessage) {
+        <br>
+        <em>{{ validationMessage }}</em>
+      }
+    </fieldset>
+
+    <button type="submit" [disabled]="viewModel.isSubmitting()">
+      @if (viewModel.isSubmitting()) {
+        {{ 'form.submitting' | translate }}
+      } @else {
+        {{ 'account.premium.proceedAction' | translate }}
+      }
+    </button>
+
+    <app-form-feedback
+      [failureMessage]="viewModel.submissionFailure()"
+      [successMessage]="viewModel.submissionSuccess()"
+      [validationMessages]="viewModel.backendValidationMessages()"
+    />
+  </form>
+</section>

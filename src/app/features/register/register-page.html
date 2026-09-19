@@ -1,83 +1,86 @@
-<article>
-  <h1>{{ 'register.heading' | translate }}</h1>
+<article class="register-page">
 
-  <form [formGroup]="viewModel.registrationForm" (ngSubmit)="viewModel.submitRegistration()">
-    <label>
-      <span>{{ 'register.usernameLabel' | translate }}</span>
-      <input type="text" formControlName="username" autocomplete="username" />
-      <small>{{ 'register.usernameHint' | translate }}</small>
-      @if (viewModel.fieldValidationMessages()['username']; as validationMessage) {
-        <em class="register-page__field-error">{{ validationMessage }}</em>
-      }
-      @if (viewModel.isCheckingUsernameExistence()) {
-        <small class="register-page__field-checking" role="status">{{
-          'register.usernameChecking' | translate
-        }}</small>
-      }
-      @if (viewModel.usernameTakenMessage(); as usernameTakenMessage) {
-        <small class="register-page__field-taken" role="status">{{ usernameTakenMessage }}</small>
-      }
-      @if (viewModel.usernameAvailableMessage(); as usernameAvailableMessage) {
-        <small class="register-page__field-available" role="status">{{
-          usernameAvailableMessage
-        }}</small>
-      }
-    </label>
+  <section>
+    <h1>{{ 'register.heading' | translate }}</h1>
 
-    <label>
-      <span>{{ 'register.emailLabel' | translate }}</span>
-      <input type="email" formControlName="email" autocomplete="email" />
-      <small>{{ 'register.emailHint' | translate }}</small>
-      @if (viewModel.fieldValidationMessages()['email']; as validationMessage) {
-        <em class="register-page__field-error">{{ validationMessage }}</em>
+    <form [formGroup]="viewModel.registrationForm" (ngSubmit)="viewModel.submitRegistration()">
+      <label>
+        <span>{{ 'register.usernameLabel' | translate }}</span>
+        <input type="text" formControlName="username" autocomplete="username" />
+        <small>{{ 'register.usernameHint' | translate }}</small>
+        @if (viewModel.fieldValidationMessages()['username']; as validationMessage) {
+          <em class="register-page__field-error">{{ validationMessage }}</em>
+        }
+        @if (viewModel.isCheckingUsernameExistence()) {
+          <small class="register-page__field-checking" role="status">{{
+              'register.usernameChecking' | translate
+            }}</small>
+        }
+        @if (viewModel.usernameTakenMessage(); as usernameTakenMessage) {
+          <small class="register-page__field-taken" role="status">{{ usernameTakenMessage }}</small>
+        }
+        @if (viewModel.usernameAvailableMessage(); as usernameAvailableMessage) {
+          <small class="register-page__field-available" role="status">{{
+              usernameAvailableMessage
+            }}</small>
+        }
+      </label>
+
+      <label>
+        <span>{{ 'register.emailLabel' | translate }}</span>
+        <input type="email" formControlName="email" autocomplete="email" />
+        <small>{{ 'register.emailHint' | translate }}</small>
+        @if (viewModel.fieldValidationMessages()['email']; as validationMessage) {
+          <em class="register-page__field-error">{{ validationMessage }}</em>
+        }
+      </label>
+
+      <label>
+        <span>{{ 'register.displayNameLabel' | translate }}</span>
+        <input type="text" formControlName="displayName" autocomplete="name" />
+        <small>{{ 'register.displayNameHint' | translate }}</small>
+        @if (viewModel.fieldValidationMessages()['displayName']; as validationMessage) {
+          <em class="register-page__field-error">{{ validationMessage }}</em>
+        }
+      </label>
+
+      <label>
+        <span>{{ 'register.passwordLabel' | translate }}</span>
+        <input type="password" formControlName="password" autocomplete="new-password" />
+        <small>{{ 'register.passwordHint' | translate }}</small>
+        @if (viewModel.fieldValidationMessages()['password']; as validationMessage) {
+          <em class="register-page__field-error">{{ validationMessage }}</em>
+        }
+      </label>
+
+      <label>
+        <span>{{ 'register.passwordConfirmationLabel' | translate }}</span>
+        <input type="password" formControlName="passwordConfirmation" autocomplete="new-password" />
+        <small>{{ 'register.passwordConfirmationHint' | translate }}</small>
+        @if (viewModel.fieldValidationMessages()['passwordConfirmation']; as validationMessage) {
+          <em class="register-page__field-error">{{ validationMessage }}</em>
+        }
+      </label>
+
+      <button type="submit" [disabled]="viewModel.isSubmitting()">
+        @if (viewModel.isSubmitting()) {
+          {{ 'form.submitting' | translate }}
+        } @else {
+          {{ 'register.submitAction' | translate }}
+        }
+      </button>
+
+      <app-form-feedback
+        [failureMessage]="viewModel.submissionFailure()"
+        [successMessage]="viewModel.submissionSuccess()"
+        [validationMessages]="viewModel.backendValidationMessages()"
+      />
+
+      @if (viewModel.emailDeliveryWarning(); as emailDeliveryWarning) {
+        <p class="register-page__delivery-warning" role="alert">{{ emailDeliveryWarning }}</p>
       }
-    </label>
-
-    <label>
-      <span>{{ 'register.displayNameLabel' | translate }}</span>
-      <input type="text" formControlName="displayName" autocomplete="name" />
-      <small>{{ 'register.displayNameHint' | translate }}</small>
-      @if (viewModel.fieldValidationMessages()['displayName']; as validationMessage) {
-        <em class="register-page__field-error">{{ validationMessage }}</em>
-      }
-    </label>
-
-    <label>
-      <span>{{ 'register.passwordLabel' | translate }}</span>
-      <input type="password" formControlName="password" autocomplete="new-password" />
-      <small>{{ 'register.passwordHint' | translate }}</small>
-      @if (viewModel.fieldValidationMessages()['password']; as validationMessage) {
-        <em class="register-page__field-error">{{ validationMessage }}</em>
-      }
-    </label>
-
-    <label>
-      <span>{{ 'register.passwordConfirmationLabel' | translate }}</span>
-      <input type="password" formControlName="passwordConfirmation" autocomplete="new-password" />
-      <small>{{ 'register.passwordConfirmationHint' | translate }}</small>
-      @if (viewModel.fieldValidationMessages()['passwordConfirmation']; as validationMessage) {
-        <em class="register-page__field-error">{{ validationMessage }}</em>
-      }
-    </label>
-
-    <button type="submit" [disabled]="viewModel.isSubmitting()">
-      @if (viewModel.isSubmitting()) {
-        {{ 'form.submitting' | translate }}
-      } @else {
-        {{ 'register.submitAction' | translate }}
-      }
-    </button>
-
-    <app-form-feedback
-      [failureMessage]="viewModel.submissionFailure()"
-      [successMessage]="viewModel.submissionSuccess()"
-      [validationMessages]="viewModel.backendValidationMessages()"
-    />
-
-    @if (viewModel.emailDeliveryWarning(); as emailDeliveryWarning) {
-      <p class="register-page__delivery-warning" role="alert">{{ emailDeliveryWarning }}</p>
-    }
-  </form>
+    </form>
+  </section>
 
   @if (viewModel.isResendOffered()) {
     <section class="register-page__resend">
@@ -99,17 +102,18 @@
     </section>
   }
 
-  <section class="register-page__google">
+  <section>
     <h1>{{ 'register.headingGoogle' | translate }}</h1>
     <button type="button" (click)="viewModel.registerWithGoogle()">
       {{ 'register.googleAction' | translate }}
     </button>
   </section>
 
-  <section class="register-page__login-hint">
+  <section>
     <h1>{{ 'register.alreadyHaveAccount' | translate }}</h1>
     <a class="button" [routerLink]="loginLink">
       {{ 'register.loginLink' | translate }}
     </a>
   </section>
+
 </article>

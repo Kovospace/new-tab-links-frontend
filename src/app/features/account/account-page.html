@@ -10,6 +10,18 @@
   @if (viewModel.hasAccount()) {
     <app-profile-panel [currentDisplayName]="viewModel.currentDisplayName()" />
 
+    @if (viewModel.canPurchasePremium()) {
+      <app-premium-panel />
+    }
+
+    @if (viewModel.canRequestRefund()) {
+      <app-refund-panel [refundableUntil]="viewModel.refundableUntil()" />
+    }
+
+    @if (viewModel.canCancelSubscription()) {
+      <app-cancel-subscription-panel />
+    }
+
     <app-password-panel [accountHasPassword]="viewModel.hasPassword()" />
 
     <app-delete-account-panel />

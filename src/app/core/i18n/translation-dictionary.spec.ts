@@ -4,12 +4,12 @@ describe('flattenTranslationFile', () => {
   it('flattens nested objects into dotted keys', () => {
     const flattened = flattenTranslationFile({
       nav: { home: 'Home', download: 'Download' },
-      site: { title: 'NewTabLinks' },
+      site: { title: 'Tabilinks' },
     });
 
     expect(flattened.get('nav.home')).toBe('Home');
     expect(flattened.get('nav.download')).toBe('Download');
-    expect(flattened.get('site.title')).toBe('NewTabLinks');
+    expect(flattened.get('site.title')).toBe('Tabilinks');
   });
 
   it('flattens arbitrarily deep nesting', () => {

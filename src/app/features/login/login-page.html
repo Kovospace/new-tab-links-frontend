@@ -1,41 +1,44 @@
-<article>
-  <h1>{{ 'login.heading' | translate }}</h1>
+<article class="login-page">
 
-  <form [formGroup]="viewModel.loginForm" (ngSubmit)="viewModel.submitSignIn()">
-    <label>
-      <span>{{ 'login.usernameOrEmailLabel' | translate }}</span>
-      <input type="text" formControlName="usernameOrEmail" autocomplete="username" />
-      @if (viewModel.fieldValidationMessages()['usernameOrEmail']; as validationMessage) {
-        <br />
-        <em>{{ validationMessage }}</em>
-      }
-    </label>
+  <section>
+    <h1>{{ 'login.heading' | translate }}</h1>
 
-    <label>
-      <span>{{ 'login.passwordLabel' | translate }}</span>
-      <input type="password" formControlName="password" autocomplete="current-password" />
-      @if (viewModel.fieldValidationMessages()['password']; as validationMessage) {
-        <br />
-        <em>{{ validationMessage }}</em>
-      }
-    </label>
+    <form [formGroup]="viewModel.loginForm" (ngSubmit)="viewModel.submitSignIn()">
+      <label>
+        <span>{{ 'login.usernameOrEmailLabel' | translate }}</span>
+        <input type="text" formControlName="usernameOrEmail" autocomplete="username" />
+        @if (viewModel.fieldValidationMessages()['usernameOrEmail']; as validationMessage) {
+          <br />
+          <em>{{ validationMessage }}</em>
+        }
+      </label>
 
-    <button type="submit" [disabled]="viewModel.isSubmitting()">
-      @if (viewModel.isSubmitting()) {
-        {{ 'form.submitting' | translate }}
-      } @else {
-        {{ 'login.submitAction' | translate }}
-      }
-    </button>
+      <label>
+        <span>{{ 'login.passwordLabel' | translate }}</span>
+        <input type="password" formControlName="password" autocomplete="current-password" />
+        @if (viewModel.fieldValidationMessages()['password']; as validationMessage) {
+          <br />
+          <em>{{ validationMessage }}</em>
+        }
+      </label>
 
-    <app-form-feedback
-      [failureMessage]="viewModel.submissionFailure()"
-      [successMessage]="viewModel.submissionSuccess()"
-      [validationMessages]="viewModel.backendValidationMessages()"
-    />
-  </form>
+      <button type="submit" [disabled]="viewModel.isSubmitting()">
+        @if (viewModel.isSubmitting()) {
+          {{ 'form.submitting' | translate }}
+        } @else {
+          {{ 'login.submitAction' | translate }}
+        }
+      </button>
 
-  <section class="login-page__google">
+      <app-form-feedback
+        [failureMessage]="viewModel.submissionFailure()"
+        [successMessage]="viewModel.submissionSuccess()"
+        [validationMessages]="viewModel.backendValidationMessages()"
+      />
+    </form>
+  </section>
+
+  <section>
     <h1>{{ 'login.googleSeparator' | translate }}</h1>
     <button type="button" (click)="viewModel.signInWithGoogle()">
       {{ 'login.googleAction' | translate }}
@@ -44,17 +47,18 @@
     <i class="login-page__google-hint">{{ 'login.googleHint' | translate }}</i>
   </section>
 
-  <section class="login-page__forgot-password">
+  <section>
     <h1>{{ 'login.forgotPassword' | translate }}</h1>
     <a class="button" [routerLink]="routeLinks.resetPassword">
       {{ 'login.forgotPasswordAction' | translate }}
     </a>
   </section>
 
-  <section class="login-page__register">
+  <section>
     <h1>{{ 'login.noAccount' | translate }}</h1>
     <a class="button" [routerLink]="routeLinks.register">
       {{ 'login.registerLink' | translate }}
     </a>
   </section>
+
 </article>

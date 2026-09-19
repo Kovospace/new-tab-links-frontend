@@ -9,7 +9,7 @@ import { TranslationService } from './core/i18n/translation.service';
 
 /** Enough of the real translation file to prove the shell is wired to it. */
 const ENGLISH_TRANSLATIONS = {
-  site: { title: 'NewTabLinks', tagline: 'Your links, everywhere.' },
+  site: { title: 'Tabilinks', tagline: 'Your links, everywhere.' },
   nav: {
     home: 'Home',
     download: 'Download',
@@ -68,9 +68,10 @@ describe('App shell', () => {
   }
 
   it('renders the site title in the top bar', () => {
-    expect(renderedPage().querySelector('.page-header__title')?.textContent).toContain(
-      'NewTabLinks',
-    );
+    // The wordmark, not a translated string: the header spells it as `<em>Tabi</em>links` so the
+    // first half can be styled, and it reads the same in every language. Asserting textContent
+    // rather than the markup is what keeps that styling free to change.
+    expect(renderedPage().querySelector('.page-header__title')?.textContent).toContain('Tabilinks');
   });
 
   it('offers an anonymous visitor the four public destinations', () => {

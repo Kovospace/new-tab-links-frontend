@@ -35,6 +35,14 @@ export interface AdminUser {
   readonly displayName: string;
   readonly status: UserAccountStatus;
   readonly hasPassword: boolean;
+  /**
+   * Whether the account holds the full version.
+   *
+   * <p>The same flag the account itself carries, and the operator's is the one hand that can set
+   * it without a payment. A grant made here is still a real entitlement — it is what honours a
+   * support case, and what makes the premium panels testable before any gate exists.</p>
+   */
+  readonly premium: boolean;
   readonly failedLoginAttempts: number;
   readonly createdAt: string;
   readonly updatedAt: string;
@@ -59,6 +67,8 @@ export interface AdminUserUpdate {
   readonly email: string;
   readonly displayName: string;
   readonly status: UserAccountStatus;
+  /** Whether the account holds the full version; the operator's grant or revoke. */
+  readonly premium: boolean;
 }
 
 /** An account created by the operator, mirroring {@code AdminUserCreateRequestDto}. */
@@ -69,4 +79,6 @@ export interface AdminUserCreation {
   /** Omitted for an account that can only sign in through a provider. */
   readonly password?: string;
   readonly status: UserAccountStatus;
+  /** Whether the new account starts with the full version. */
+  readonly premium: boolean;
 }

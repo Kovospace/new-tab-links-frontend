@@ -1,110 +1,115 @@
 <article>
-  <h1 class="devices-page__heading">{{ 'devices.heading' | translate }}</h1>
-  <i>{{ 'devices.leadParagraph' | translate }}</i>
 
-  @if (viewModel.actionConfirmation()) {
-    <i role="status">{{ viewModel.actionConfirmation() }}</i>
-  }
+  <section>
 
-  @if (viewModel.loadFailure()) {
-    <u role="alert">{{ viewModel.loadFailure() }}</u>
-  }
+    <h1 class="devices-page__heading">{{ 'devices.heading' | translate }}</h1>
+    <i>{{ 'devices.leadParagraph' | translate }}</i>
 
-  @if (viewModel.isLoading()) {
-    <i role="status">{{ 'form.submitting' | translate }}</i>
-  } @else if (viewModel.isDeviceListEmpty()) {
-    <i>{{ 'devices.emptyState' | translate }}</i>
-  } @else {
-    <!--
-      Every cell holds one wrapper element, and every rule that positions anything is written
-      against that wrapper rather than the cell.
+    @if (viewModel.actionConfirmation()) {
+      <i role="status">{{ viewModel.actionConfirmation() }}</i>
+    }
 
-      A table cell is not an ordinary box. Its geometry is decided by the table layout algorithm
-      and not by the cell: `height` is a minimum the row may overrule, `width` is a suggestion the
-      column negotiates away, `overflow`, `transform` and `position: relative` are undefined on it,
-      and it cannot be a flex or grid container without `display` taking it out of the table and
-      breaking the column alignment that is the only reason to use a table at all. A plain `div`
-      inside it has none of those restrictions, so alignment, truncation, minimum heights and
-      anything positioned absolutely all become ordinary CSS again.
-    -->
-    <table class="devices-page__table">
-      <thead>
-        <tr class="devices-page__row">
-          <th scope="col">
-            <div class="devices-page__column-header-content">
-              {{ 'devices.columnDevice' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="devices-page__column-header-content">
-              {{ 'devices.columnBrowser' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="devices-page__column-header-content">
-              {{ 'devices.columnFirstSeen' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="devices-page__column-header-content">
-              {{ 'devices.columnLastUsed' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="devices-page__column-header-content">
-              {{ 'devices.columnState' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="devices-page__column-header-content">
-              {{ 'devices.columnActions' | translate }}
-            </div>
-          </th>
-        </tr>
-      </thead>
+    @if (viewModel.loadFailure()) {
+      <u role="alert">{{ viewModel.loadFailure() }}</u>
+    }
 
-      <tbody>
-        @for (presentedDevice of viewModel.presentedDevices(); track presentedDevice.deviceId) {
+    @if (viewModel.isLoading()) {
+      <i role="status">{{ 'form.submitting' | translate }}</i>
+    } @else if (viewModel.isDeviceListEmpty()) {
+      <i>{{ 'devices.emptyState' | translate }}</i>
+    } @else {
+      <!--
+        Every cell holds one wrapper element, and every rule that positions anything is written
+        against that wrapper rather than the cell.
+
+        A table cell is not an ordinary box. Its geometry is decided by the table layout algorithm
+        and not by the cell: `height` is a minimum the row may overrule, `width` is a suggestion the
+        column negotiates away, `overflow`, `transform` and `position: relative` are undefined on it,
+        and it cannot be a flex or grid container without `display` taking it out of the table and
+        breaking the column alignment that is the only reason to use a table at all. A plain `div`
+        inside it has none of those restrictions, so alignment, truncation, minimum heights and
+        anything positioned absolutely all become ordinary CSS again.
+      -->
+      <table class="devices-page__table">
+        <thead>
           <tr class="devices-page__row">
-            <td class="devices-page__cell">
-              <div class="devices-page__cell-content">{{ presentedDevice.deviceName }}</div>
-            </td>
-            <td class="devices-page__cell">
-              <div class="devices-page__cell-content">{{ presentedDevice.browserName }}</div>
-            </td>
-            <td class="devices-page__cell">
-              <div class="devices-page__cell-content">{{ presentedDevice.firstSeenLabel }}</div>
-            </td>
-            <td class="devices-page__cell">
-              <div class="devices-page__cell-content">{{ presentedDevice.lastUsedLabel }}</div>
-            </td>
-            <td class="devices-page__cell">
-              <div class="devices-page__cell-content">{{ presentedDevice.stateLabel }}</div>
-            </td>
-            <td class="devices-page__cell">
-              @if (presentedDevice.isSignOutOffered) {
-                <div class="devices-page__cell-content buttonHolder">
-                  <button type="button" (click)="viewModel.signOutDevice(presentedDevice.deviceId)">
-                    {{ 'devices.signOutAction' | translate }}
-                  </button>
-                </div>
-              } @else if (presentedDevice.isRemovalOffered) {
-                <div class="devices-page__cell-content buttonHolder">
-                  <button
-                    type="button"
-                    class="button danger"
-                    (click)="viewModel.askToRemoveDevice(presentedDevice.deviceId)"
-                  >
-                    {{ 'devices.removeAction' | translate }}
-                  </button>
-                </div>
-              }
-            </td>
+            <th scope="col">
+              <div class="devices-page__column-header-content">
+                {{ 'devices.columnDevice' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="devices-page__column-header-content">
+                {{ 'devices.columnBrowser' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="devices-page__column-header-content">
+                {{ 'devices.columnFirstSeen' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="devices-page__column-header-content">
+                {{ 'devices.columnLastUsed' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="devices-page__column-header-content">
+                {{ 'devices.columnState' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="devices-page__column-header-content">
+                {{ 'devices.columnActions' | translate }}
+              </div>
+            </th>
           </tr>
-        }
-      </tbody>
-    </table>
-  }
+        </thead>
+
+        <tbody>
+          @for (presentedDevice of viewModel.presentedDevices(); track presentedDevice.deviceId) {
+            <tr class="devices-page__row">
+              <td class="devices-page__cell">
+                <div class="devices-page__cell-content">{{ presentedDevice.deviceName }}</div>
+              </td>
+              <td class="devices-page__cell">
+                <div class="devices-page__cell-content">{{ presentedDevice.browserName }}</div>
+              </td>
+              <td class="devices-page__cell">
+                <div class="devices-page__cell-content">{{ presentedDevice.firstSeenLabel }}</div>
+              </td>
+              <td class="devices-page__cell">
+                <div class="devices-page__cell-content">{{ presentedDevice.lastUsedLabel }}</div>
+              </td>
+              <td class="devices-page__cell">
+                <div class="devices-page__cell-content">{{ presentedDevice.stateLabel }}</div>
+              </td>
+              <td class="devices-page__cell">
+                @if (presentedDevice.isSignOutOffered) {
+                  <div class="devices-page__cell-content buttonHolder">
+                    <button type="button" (click)="viewModel.signOutDevice(presentedDevice.deviceId)">
+                      {{ 'devices.signOutAction' | translate }}
+                    </button>
+                  </div>
+                } @else if (presentedDevice.isRemovalOffered) {
+                  <div class="devices-page__cell-content buttonHolder">
+                    <button
+                      type="button"
+                      class="button danger"
+                      (click)="viewModel.askToRemoveDevice(presentedDevice.deviceId)"
+                    >
+                      {{ 'devices.removeAction' | translate }}
+                    </button>
+                  </div>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </section>
 
   <app-extension-connect-panel />
 

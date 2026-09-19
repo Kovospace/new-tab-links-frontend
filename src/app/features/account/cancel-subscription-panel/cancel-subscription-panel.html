@@ -1,0 +1,23 @@
+<section>
+  <h1>{{ 'account.cancelSubscription.heading' | translate }}</h1>
+  <p>{{ 'account.cancelSubscription.lead' | translate }}</p>
+  <p>{{ 'account.cancelSubscription.downgradeNotice' | translate }}</p>
+
+  <button
+    type="button"
+    [disabled]="viewModel.isSubmitting()"
+    (click)="viewModel.submitCancellation()"
+  >
+    @if (viewModel.isSubmitting()) {
+      {{ 'form.submitting' | translate }}
+    } @else {
+      {{ 'account.cancelSubscription.action' | translate }}
+    }
+  </button>
+
+  <app-form-feedback
+    [failureMessage]="viewModel.submissionFailure()"
+    [successMessage]="viewModel.submissionSuccess()"
+    [validationMessages]="viewModel.backendValidationMessages()"
+  />
+</section>
