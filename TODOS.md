@@ -179,11 +179,69 @@ BLOCKING QUESTION FOR THE BACKEND: IS THE SNAPSHOT SERVED TO AN OVER-LIMIT ACCOU
   user reaches for after a reinstall
 - RECOMMENDED: serve the snapshot to an over-limit account and refuse only the PUSH. Reading your
   own data was never what the cap was about, and without it the remedy has no input
-- WITH A CONDITION THAT IS EASY TO GET WRONG: the snapshot must be FETCHED AND NOT APPLIED.
-  Applying it writes the account's contents over local state - so for a lapsed user who has just
-  deleted four workspaces locally in order to get under the limit, applying the snapshot PUTS ALL
-  FOUR BACK and undoes the exact work the remedy depends on. The seam already exists, so this is a
-  matter of not calling the second half, plus a guard so no other path does either
+- APPROVED 2026-09-19: the snapshot IS served, only the push is refused. The eligibility service
+  therefore has ONE call site, the push, and the snapshot service is untouched by the whole feature
+
+- THE CONDITION, AND IT IS A FULLER RULE THAN FIRST STATED. "Fetch and do not apply" was HALF the
+  rule and the half alone is worse than neither. The pull does two things: it applies the snapshot
+  AND stores it as the baseline. The baseline is what "deleted" MEANS in this client - there are no
+  tombstones, so a record in the baseline that is absent locally IS a deletion to push. A device
+  that stores a baseline describing six workspaces while holding two locally has just declared
+  FOUR DELETIONS, and the one-shot remedy would then remove four workspaces that device never held
+  and the user never saw. On a freshly reinstalled machine that is the worst possible outcome of a
+  remedy meant to save their data
+- SO THE RULE, COMPLETE: while the account is over the limit a snapshot is fetched FOR DISPLAY AND
+  DIAGNOSIS ONLY - neither applied to local state nor stored as the baseline. A delete list is
+  computed only where a baseline and the local data it describes were written TOGETHER
+- the codebase already contains this reasoning one case over: first contact withholds computed
+  deletions because a deletion there describes the merge's mistake rather than the user's intent
+- IT NEEDS A GUARD, NOT AN OMISSION. Apply-snapshot has one caller, but the pull has THREE entry
+  points and one of them is driven by another device's activity on nobody's schedule - so the
+  over-limit device will be told to pull while the user is mid-deletion. And the merge path is a
+  SECOND independent writer that never goes through apply-snapshot at all. "Do not call the second
+  half" would have to be remembered at four sites, one of them asynchronous
+- the MERGE path should keep writing, and this does not contradict the rule: it writes local state
+  and the baseline TOGETHER from the same snapshot, so they are consistent by construction and no
+  false deletions arise. That is exactly the input the remedy needs, and before this decision it
+  was unreachable because the snapshot fetch itself failed
+- DERIVE over-limit FROM THE SNAPSHOT, not from a refused push: the limits now arrive on the
+  snapshot, so the client counts what it holds and compares. Effective on the FIRST fetch rather
+  than after a wasted round trip, a pure function of one payload so trivially testable, and the
+  device knows BEFORE it writes anything - which is what the rule above requires
+
+- NO MARKER ON THE SNAPSHOT, and the reason is better than "the client already knows": the server
+  CANNOT answer the question a marker would appear to answer. The merge case is local UNION remote
+  and the server has never seen the joining device's data, so a flag could only report whether the
+  ACCOUNT ALONE is over - telling a device about to merge two local workspaces into a
+  two-workspace account "you are fine" moments before it discovers it is not. A field that is
+  correct for one caller and misleading for another is worse than no field: absent, the client
+  knows it must compute; present, it is invited to trust
+- log at INFO when an ineligible account pulls a snapshot. That sequence precedes every one-shot
+  remedy and you will want to see it happening rather than infer it
+
+- NAME THE CONDITION, NOT THE CONSEQUENCE: the 409 code becomes ACCOUNT_OVER_FREE_LIMIT.
+  FREE_PLAN_SYNC_NOT_AVAILABLE is now inaccurate, since reading IS available - and naming it
+  ..._PUSH_NOT_AVAILABLE would name a consequence that has already changed once this week
+- A COLLISION TO PREVENT BEFORE IT IS WRITTEN: SyncRejectionReason.FREE_PLAN_LIMIT_REACHED is ONE
+  OPERATION refused with the batch continuing and a 200, while the 409 ACCOUNT_OVER_FREE_LIMIT is
+  the WHOLE REQUEST with nothing applied. Different mechanisms, one word apart, and near-identical
+  names would eventually be merged by someone tidying up. Keeping them verbally distinct is most
+  of the defence
+- manageUrl gains a contract line now that one shape serves two refusals: NON-NULL means the
+  remedy is elsewhere, send the user there (the device cap, resolved on this website); NULL means
+  the remedy is here (the push refusal, resolved by the extension's own one-shot action)
+- the message field is an ENGLISH DIAGNOSTIC for logs and a fallback line, NEVER a display string.
+  Say so in its documentation, or someone will eventually "fix" the prose by translating it
+  server-side - which would put the same sentence in two repositories when the typed fields exist
+  precisely so the client can render it in its own language
+
+- THE EMPTY-BATCH PROBE IS NOW LOAD-BEARING, and it is exactly the kind of thing a later refactor
+  deletes. Before this decision a client could infer eligibility from a refused snapshot; now the
+  snapshot always answers 200, so an empty push is the ONLY way to ask "may I sync?" and get a
+  true answer. Short-circuiting an empty batch to a 200 before the eligibility check is an
+  obvious-looking tidy-up that would remove the only probe in the system, with no test failing and
+  no symptom until some client quietly stops being able to ask. Defend it twice: document it on
+  the endpoint as a permitted probe rather than a no-op, and name the test for the behaviour
 
 THE CACHED LIMIT OVERRIDE APPLIES ONLY WHILE A SESSION EXISTS. Otherwise a premium user signs out,
 keeps "uncapped" cached, creates five workspaces offline, signs back in and is refused - the exact
