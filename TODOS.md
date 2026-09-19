@@ -168,6 +168,42 @@ EXTENSION SIDE VERIFIED 2026-09-19. Effort M -> S-M, about a day to a day and a 
   asymmetry bites - client stricter than server is harmless, client laxer means the user creates a
   third workspace and is then refused sync, punished for using the app as it let them
 
+THE INVARIANT, worth having in one line because it was invisible from either side alone:
+ACCOUNT-level eligibility lives in the service layer, consulted by the two sync entry points.
+DEVICE-level capacity lives at token issue. The account's state governs what it may sync; the
+device's existence governs whether this machine gets a token at all. A device refused at token
+issue has no token and so cannot delete-push - which is correct, because that refusal's remedy is
+on the website's device manager, not in the extension.
+- and the connect-immediately-after-a-delete-only-push sequence is safe for a reason nobody
+  designed for it: the device cap applies only to the CREATE branch of find-or-create, and the
+  device pushing the deletes already exists, so its follow-up connect cannot be refused by the cap
+
+THE EMPTY-BATCH TRAP, and it would have shipped: allMatch over an empty list is vacuously true, so
+a naive delete-only predicate returns 200 for an EMPTY push from an ineligible account. An empty
+push is the obvious way for a client to ask "may I sync?", so a false green light there is worse
+than useless. The predicate must require NON-EMPTY and all-DELETE.
+
+THE ELIGIBILITY REFUSAL IS A WHOLE-REQUEST FAILURE, never a per-operation rejection. That channel
+means "this operation was wrong"; ineligibility is a property of the ACCOUNT, so reporting it per
+operation would return four hundred identical rejections. A 409 from the endpoint, thrown before
+anything is applied, which also keeps the single transaction from doing work it will roll back.
+
+A MULTI-PROFILE DELETE BATCH WORKS BY CONSTRUCTION, not by care: the predicate inspects only the
+operation KIND, never what it addresses. Every delete is ownership-scoped in its own query, and a
+delete of an already-absent row is a silent no-op - so the whole-batch retry that decision 15's
+one-shot-then-reconnect flow makes realistic is idempotent and costs nothing.
+
+THE LIMITS RIDE ON THE SNAPSHOT AS A SIBLING OF `owner`, not as a field on the user DTO. They are
+DEPLOYMENT CONFIGURATION, not account state, and that DTO is also returned by /users/me and
+through the operator's account list - so putting them there would ship three integers of config
+into the admin surface and need explaining later.
+- do NOT add usage counts to the snapshot. It already contains every profile and environment the
+  account owns, so the client can count what it holds from the payload in hand. Only the limits
+  are new information
+- record the asymmetry as the field's own documentation, because it is not obvious from the field:
+  a client stricter than the server refuses something that would have been allowed, which is a
+  disappointment; a client laxer lets the user create something and then punishes them for it
+
 DECIDED 2026-09-19 — both approved:
 - if sync is refused OUTRIGHT then deletions cannot reach the server either. A lapsed user deletes
   four workspaces on their laptop, the account still holds six, and they can NEVER get back to
@@ -720,7 +756,10 @@ DECIDED 2026-09-19 — both approved:
   environmentLimit, profilesUsed / profileLimit, devicesUsed / deviceLimit. The client then
   refuses by comparing two numbers it was given, and the message can state real figures - which is
   what makes the grandfathered case comprehensible rather than reading as a bug
-- OPEN: is the workspace cap PER ACCOUNT or PER PROFILE? For a free user it cannot matter, because
+- RESOLVED by the extension: it does not matter. Free allows ONE profile and premium is uncapped,
+  so "workspaces across the account" and "workspaces in this profile" coincide for every account
+  the limit can bite. Counting is O(1) off the loaded profile
+- (superseded question) is the workspace cap PER ACCOUNT or PER PROFILE? For a free user it cannot matter, because
   the profile cap is 1. It bites only for the population decisions 12 and 13 just created - a
   grandfathered user with two or three profiles. Per-profile is dramatically cheaper for the
   client. Settle it explicitly rather than by implementation accident
