@@ -168,13 +168,20 @@ EXTENSION SIDE VERIFIED 2026-09-19. Effort M -> S-M, about a day to a day and a 
   asymmetry bites - client stricter than server is harmless, client laxer means the user creates a
   third workspace and is then refused sync, punished for using the app as it let them
 
-OPEN, and it is the one wrinkle in the simplification:
+DECIDED 2026-09-19 — both approved:
 - if sync is refused OUTRIGHT then deletions cannot reach the server either. A lapsed user deletes
   four workspaces on their laptop, the account still holds six, and they can NEVER get back to
   free sync - paying becomes the only exit, which reads as a hostage situation rather than a limit
-- RECOMMENDED: deletes always push, even when sync is otherwise refused. One narrow exception, no
-  new interface anywhere, and it is the same conclusion the old design reached by a much longer
-  road. Everything else stays refused
+- APPROVED: deletes always push, even when sync is otherwise refused. Stated as a rule rather than
+  a carve-out: eligibility governs what an account may GROW to, never what it may SHRINK to
+- SHAPE: a one-shot user action, not a silent channel - "remove these from my account" in the
+  application menu, which pushes the deletes and on success re-attempts the connect. That repairs
+  the baseline by the normal snapshot route rather than patching it, and it is explicit to the
+  user, which matters for something that deletes rows on a server
+- APPROVED: the server sends the limits it enforces, in three places - the refusal body, the sync
+  snapshot, and plan-usage. The extension's compiled numbers become a BOOTSTRAP DEFAULT used only
+  before first contact, and a limit increase then reaches users without a Chrome Web Store release
+  and its review latency
 - there is a PRINCIPLED statement of it that makes it a rule rather than a carve-out: eligibility
   governs what an account may GROW to, never what it may SHRINK to. A delete can never make an
   ineligible account more ineligible. Implementation is one predicate over the batch, before the
