@@ -1,18 +1,10 @@
 // Only what is actually styled has a rule here. A class exists in the template when this file
 // gives it something; adding a style means adding both, and removing the last declaration
 // means removing the class too. Empty placeholder rules are not kept.
-.login-page__google {
-  margin-top: 3em;
-}
 
-.login-page__google-hint {
-  margin-top: 0.5em;
-}
+.login-page {
 
-.login-page__forgot-password {
-  margin-top: 3em;
-}
-
-.login-page__register {
-  margin-top: 3em;
+  section {
+    background-color: var(--color-section-even);
+  }
 }

@@ -62,6 +62,14 @@ select {
   }
 }
 
+input[type=radio] {
+  display: inline-block;
+  aspect-ratio: 1 / 1;
+  padding: 0.5em;
+  border-width: 0.5em;
+  border-radius: 50%;
+}
+
 // The closed control. Everything above it is shared with `input`; these are the differences.
 select {
   // Removes the platform's own arrow, so the one drawn below is the only one on the control and
@@ -228,7 +236,7 @@ button:not(.language-switcher__option),
   // element name, so other elements around it are ignored — but there is no `:first-of-class` for
   // `.button`, and neither selector can see a group that simply starts partway through a
   // container. A rule that only ever adds a gap between two adjacent buttons has no ends to fix.
-  margin: 0;
+  margin: 0.25em 0;
 
   &:hover {
     background-color: var(--color-ui-element-accented-hover);
@@ -451,4 +459,5 @@ form {
 
 section {
   padding: 1.5em 1em;
+  margin: 1em 0;
 }

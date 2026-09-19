@@ -108,14 +108,15 @@
   --color-panel-danger: #FF2D32;
 
   // for use with "live" ui elements like buttons, forms, menu items
-  --color-ui-element: #333;
+  --color-ui-element: #666;
+  --color-ui-element-hover: #888;
   --color-ui-element-accented: #004fff;
   --color-ui-element-accented-hover: #4a82ff;
   --color-ui-element-selected: #004fff;
   --color-ui-element-danger: #FF2D32;
   --color-ui-element-danger-hover: #ff4a4e;
 
-  --color-section-even: #111;
+  --color-section-even: #222;
   --color-section-even-danger: #701011;
 
   // State. Kept apart from the accent because they carry meaning rather than identity, and

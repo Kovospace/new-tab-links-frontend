@@ -1,6 +1,14 @@
 // Only what is actually styled has a rule here. A class exists in the template when this file
 // gives it something; adding a style means adding both, and removing the last declaration
 // means removing the class too. Empty placeholder rules are not kept.
+
+.register-page {
+
+  section {
+    background-color: var(--color-section-even);
+  }
+}
+
 .register-page__field-error {
   margin: 0.125em 0;
 }
@@ -33,16 +41,4 @@
   padding: 0.25em 0.5em;
   border-radius: 0.25em;
   margin: 0.25em 0;
-}
-
-.register-page__resend {
-  margin-top: 3em;
-}
-
-.register-page__google {
-  margin-top: 3em;
-}
-
-.register-page__login-hint {
-  margin-top: 3em;
 }

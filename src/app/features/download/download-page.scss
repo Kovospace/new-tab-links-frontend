@@ -1,5 +1,9 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
 
+.download_page {
+  padding: 1em;
+}
+
 .download-page__option {
   margin-top: 3em;
 
@@ -12,6 +16,7 @@
     border-radius: 0.5em;
     border: 0.25em solid var(--color-accent);
     margin: 0.5em 0;
+    max-width: 100%;
   }
 }
 
