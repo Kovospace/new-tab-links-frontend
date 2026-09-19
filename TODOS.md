@@ -835,6 +835,100 @@ DECIDED 2026-09-19 — both approved:
 - OPEN: does the 14 day refund apply to every annual renewal, or only the first purchase?
 - still missing: a refund policy page, and the order confirmation email on a durable medium
 
+### Money operations: everything not yet built
+Consolidated 2026-09-19 from the billing design. The site already renders the purchase form, the
+refund button and the cancel panel, all behind flags no backend serves yet, so every item here is
+backend or non-code unless it says otherwise.
+
+CHECKOUT
+- POST /api/v1/billing/checkouts, bearer token. Request is {plan, countryCode}; response is
+  {checkoutId, redirectUrl, provider, expiresAt}
+- the browser reaches redirectUrl by TOP-LEVEL NAVIGATION, never fetch - it is cross-origin and a
+  payment gate sends no CORS headers
+- the backend picks the provider from the country: GoPay inside the EU, a merchant-of-record
+  outside it. The website sends a bare ISO code and nothing else, because the EU list is really a
+  list of TERRITORIES and any version of it in a public bundle is a tax bug shipped to every
+  browser that cannot be recalled - and one the buyer could edit, which means choosing who carries
+  the tax liability
+- 409 when a live subscription or an outstanding checkout already exists, returning the existing
+  checkoutId so the page can resume rather than double-charge
+
+THE WEBHOOK IS WHAT GRANTS PREMIUM - not the browser coming back
+- POST /api/v1/billing/webhooks/{provider}, no bearer token, verified by provider signature. The
+  frontend must never call it and must never be able to
+- read the RAW BODY for the HMAC before Jackson touches it; be idempotent on the provider's event
+  id; re-verify the payment server-to-server before granting anything
+- register the signature filter CONSTRUCTED, not as a @Bean, or Boot's servlet auto-registration
+  runs it a second time outside the security chain. Add its path to the public endpoints; do NOT
+  add it to the CORS origin list or its headers to the allowed request headers
+- highest-risk piece in the whole feature
+
+THE RETURN PAGE is a completely separate thing from the webhook, and carries NO authority
+- a route on this site, /account/purchase/return?checkoutId=..., which only says which checkout to
+  poll. NOT YET BUILT ON THIS SITE
+- it polls GET /api/v1/billing/checkouts/{id}, backing off, capped around a minute
+- it must render THREE outcomes: succeeded, failed, and STILL PENDING - and pending is the COMMON
+  case, not an edge case, because the webhook and the browser race and the webhook usually loses
+- once the backend pins the path as a property, renaming it becomes a two-repo change like the
+  activation and reset paths. Choose the name to keep now
+
+RENEWAL, AND THE ONLY THING THAT EVER REVOKES ANYTHING
+- renewal should be the GATE'S own annual recurrence, not our cron. Charging a stored card from
+  our scheduler makes us responsible for the PSD2/SCA exemption chain
+- BUT THE EXPIRY SWEEP IS STILL MANDATORY, and it is the single most forgettable item here: a
+  renewal that does not happen is a NON-EVENT. No webhook fires, because the gate has nothing to
+  report. Only a clock on our side can notice. Build read-state and checkout without the sweep and
+  every expiry becomes permanent free premium
+- hourly, fixed delay, plus once at startup. Past its period end: CANCELLED -> EXPIRED; ACTIVE ->
+  PAST_DUE, keeping premium true through the 30 day grace
+- while PAST_DUE, RE-QUERY THE PROVIDER for the real state of the period. Never treat "no webhook
+  arrived" as "no payment happened" - webhooks are lost, retried and delivered out of order. This
+  step is what makes the whole thing self-correcting
+- DOUBLE-CHARGE HAZARD: the scheduler runs in every replica and there is no leader election. Two
+  pods charge the same card in the same instant. Needs all three: SELECT ... FOR UPDATE SKIP
+  LOCKED to claim rows, an idempotency key derived from (subscription_id, period_end) so a retry
+  of the same period can never become a second charge, and fixedDelay rather than fixedRate
+- DUNNING: retry around day 1, 3 and 7, a reminder email on the first failure and a final notice
+  before expiry. Silently forgotten in most first passes
+
+PRICES COME FROM THE SERVER, ALWAYS
+- GET /api/v1/billing/plans?countryCode=, returning amount, currency, tax-inclusive flag, period
+- NO price literal in the Angular bundle and none in public/i18n. A price in a public bundle
+  drifts from what is actually charged the first time VAT or currency differs by country
+- the purchase form currently shows no price at all, deliberately, for this reason
+
+ACCOUNT DELETION MUST CANCEL THE PROVIDER-SIDE RECURRENCE FIRST
+- the real hazard is not the foreign key, it is the provider: deleting the account drops the local
+  row while the mandate at the gate KEEPS CHARGING THE CARD, and the customer now has no account
+  to cancel from
+- so DELETE /api/v1/users/me gains a step, ordered deliberately: cancel at the provider, and fail
+  the deletion if the cancel fails. It is a network call inside a transactional method
+- payment_order must SURVIVE the deletion - invoice retention runs to years - so user_id is
+  nullable with ON DELETE SET NULL and the buyer's email is denormalised onto the row. Everything
+  else in the schema cascades from the user; billing must not follow that reflex wholesale
+
+REFUNDS - the site half is DONE, the rest is not
+- POST /api/v1/billing/subscription/refund, empty body, returning the updated status
+- a refund is ASYNCHRONOUS: the gate confirms by webhook, so the button says "on its way", not
+  "refunded". Entitlement ends IMMEDIATELY though - take the feature away at request time, give
+  the money back when the gate says so. That asymmetry is deliberate and in the user's favour
+- payment_refund is its own table, one row per money movement. Reversing the order row in place
+  destroys the record of what was actually charged, which is the thing an accountant wants
+- subscription state becomes REFUNDED, not CANCELLED: cancelled means "paid up until the period
+  end", and a refunded buyer has been paid back, so they are owed nothing
+- premium goes false immediately with NO grace. The 30 day grace is for a FAILED RENEWAL, where
+  the user probably still wants the product
+
+NOT A CODE PROBLEM, BUT IT CONSTRAINS THE CODE
+- invoicing, VAT reporting and OSS registration are an accounting decision. The EUR 10 000
+  threshold is about VAT place-of-supply and is unrelated to withdrawal rights, which apply from
+  the first euro
+- GoPay is a PSP and NOT a merchant of record, so on the EU route the owner is the seller and
+  carries the invoices, the VAT registration, the refunds and the consumer-law duties themselves.
+  Only the non-EU MoR route offloads that. Worth weighing against GoPay's lower fee
+- still missing and not buildable by guessing: a refund policy page, and the order confirmation
+  email on a durable medium restating the contract
+
 ### Product presentation homepage
 - homepage screenshots, text, extension presentation
 
