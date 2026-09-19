@@ -128,9 +128,61 @@ Things that comes to my mind during solving other shits and should be done
   last-modified creates that expectation and then denies it. With a client-owned timestamp an
   offline edit carries the moment it happened, so the workspace ranks itself back in and the push
   is accepted - self-healing, no message needed
-- conditions on the client-owned version: the server must CLAMP a future timestamp to now (a device
-  with a wrong clock would otherwise pin its workspaces live for ever), and must REFUSE a bumped
-  modifiedAt on a blocked row, or a fail-open old build unblocks rows by touching them
+- RESOLVED 2026-09-19: client-owned it is. The backend withdrew subtree MAX, on the grounds that
+  every server stamp is a stamp of when a row ARRIVED and the whole problem is that arrival time
+  is not activity time - aggregating arrival times more cleverly does not turn them into activity
+  times. The client-owned version also SUBSUMES subtree MAX: "bumped on any mutation anywhere in
+  the subtree" is the same semantics, computed on the side that knows which workspace a link
+  belongs to, with no aggregate query and no write amplification
+- build it as a column with a fallback, not a hard dependency on the client: supplied and valid ->
+  stored verbatim after clamping; absent -> now(); and any SERVER-side content change (the REST
+  update paths, the website) also sets it to now(). An older extension that never sends it then
+  degrades to what the ranking would have been anyway rather than breaking
+- CLAMP a future value to now - a device with a clock a decade ahead would otherwise pin its
+  workspaces live for ever and lock out everything else the account owns, undiagnosably. Also put
+  a FLOOR on it: Instant.EPOCH or a negative value ranks a row below everything for ever, the
+  mirror image of the same bug
+- DO NOT refuse a bumped modifiedAt on a blocked row. That was my suggestion and it is WRONG - it
+  re-creates the very deadlock the client-owned timestamp exists to break: the laptop's workspaces
+  are stale so they are blocked, the user works on one, the bump is refused, the row stays stale
+  and stays blocked. The correct rule separates the two: modifiedAt is ALWAYS accepted and always
+  clamped (it is ranking metadata, not content), the rank is RECOMPUTED, and only then is the
+  operation's CONTENT refused if the row is still blocked. The offline edit then ranks itself back
+  in and its content write is accepted, demoting something else in exchange - which is what a cap
+  means. So the round-4 rule now reads: on a blocked row the permitted writes are the container's
+  own delete, AND the ranking timestamp. Those two look unrelated and are the only two things that
+  can get a user out of the state
+- what refusing the bump was really reaching for is a CLIENT-CORRECTNESS requirement, and it must
+  be written into the contract in these words: SEND THE STORED MOMENT OF THE LAST REAL MUTATION,
+  NEVER now() AT PUSH TIME. A client that stamps now() on every push makes every row tie at the
+  present moment, the ranking becomes noise, and the live set is whatever sorted last
+- and that requirement has a second, named victim. Adding a column that differs on every push
+  makes every pushed row DIRTY under Hibernate's dirty-checking, where today a re-pushed unchanged
+  row produces no UPDATE at all. Every row would then get an UPDATE and updated_at would be
+  re-stamped on rows whose content did not change - corrupting the one field whose documented
+  purpose is telling clients what changed. Benign if and only if the client sends the stored
+  moment and pushes only rows its baseline diff says changed
+
+- LIVE BUG FOUND 2026-09-19, worth fixing in the same change: closedAt ALREADY has the wrong-clock
+  bug. It is the existing precedent for a client-owned timestamp - stored exactly as sent, never
+  replaced by a server clock - but its validation checks only that the value is non-null. No upper
+  bound, no lower bound, no clamp. So a device with a bad clock pins its closed tabs at the top of
+  the user's list for ever and nothing notices. The bounds helper written for modifiedAt should be
+  applied to closedAt too; it is a two-line reuse that fixes something real
+
+- EPOCH MILLIS CONFIRMED EMPIRICALLY, not from memory: the backend was run against its own
+  classpath and a bare JSON number deserialises as epoch SECONDS. Sending millis lands the row in
+  the year 57687, with no exception, no warning and no validation. Send ISO-8601 strings. The
+  clamp above makes the whole class of bug unreachable regardless, which is the real reason to
+  have it - a bug already paid for once should not depend on every future client getting units
+  right
+
+- TRUST: do NOT over-engineer defences on a client-supplied ranking input. Worked through, a
+  hostile client that lies about modifiedAt gains NOTHING in quantity - the cap is N regardless of
+  how rows sort - only a choice of WHICH N of its own rows are live. Which is to say the worst
+  case is the feature that was rejected as a user-facing setting. No resource gained, no other
+  account affected, every row involved already the attacker's own. The clamp and the floor are the
+  whole defence; signing or attestation would be cost with no threat behind it
 - send it as an ISO INSTANT, never epoch millis - the backend reads a bare number as epoch SECONDS
   and files the row in the year 58664, silently. That bug has been paid for once already
 - cost: this is the "new field on an entity" case - five places or it is silently lost. Side effect:
@@ -167,8 +219,21 @@ Things that comes to my mind during solving other shits and should be done
   already be fighting over profile `position`, because it is derived from object insertion order
   and the snapshot never reorders the registry. Each device pushes its own positions on every sync,
   each push bumps both profile rows and notifies the other. Invisible today; under last-modified
-  ranking it churns the ranking input for ever. Needs a TWO-DEVICE settle test before any of this
-  ships - the existing settle test is single-device
+  ranking it churns the ranking input for ever
+- the backend could not falsify it and confirms the server has NO mechanism that would break the
+  loop: no normalisation, no conflict detection, no version check, conflicts resolved by arrival
+  order. Equal values cost nothing, so the churn requires genuine disagreement - but once two
+  clients disagree the server oscillates indefinitely with no symptom
+- ANOTHER ARGUMENT FOR THE CLIENT-OWNED TIMESTAMP: a position flip-flop driven by re-deriving
+  order from insertion order is NOT a user mutation, so a correct client would not bump modifiedAt
+  for it and the churn stays invisible instead of becoming a lockout. Server-stamped ranking has
+  no such filter - it sees an UPDATE and stamps it. The honest flip side is that the ranking now
+  inherits whatever correctness the client has, which is the real cost of this design
+- TWO-DEVICE SETTLE TEST SHOULD BE A RELEASE GATE, not a nice-to-have: decision 10 converts a
+  latent invisible churn into a visible loss of access to data. Server half: push an identical
+  batch twice and assert no row's updated_at moved; push two conflicting orderings alternately and
+  assert it settles. Cheap diagnostic meanwhile: log at DEBUG when a pushed upsert results in an
+  UPDATE whose only changed field is position
 
 - FRESH-INSTALL MERGE BLOCKS THE USER'S REAL WORKSPACES AT SIGN-IN - the worst first-run case in
   the feature, and it sits on decision 11's happy path rather than at an edge. A free user with 2
@@ -325,6 +390,15 @@ Things that comes to my mind during solving other shits and should be done
   lapse. Options: exempt rows created before an effective date, a per-account exemption flag, or
   warn by email with a window. Build it behind config and ship it DISABLED until this is answered
 - NOT IMPLEMENTED YET - decided 2026-09-18
+
+### Admin premium grant: must not write the flag directly
+- the operator's grant/revoke checkbox is DONE on this site (admin DTO mirrors, edit and create
+  forms, a column in the account list)
+- BACKEND CONSTRAINT: it must NOT write app_user.premium directly. It goes through the single
+  writer, which creates or removes a LIFETIME subscription row with provider = MANUAL_GRANT, and
+  the column is updated as a consequence. Writing the column from the admin path re-creates the
+  floating-flag problem - a premium: true with nothing behind it, which nothing can later prove
+  right or wrong
 
 ### Right of withdrawal: 14 day full refund
 - full refund within 14 days of purchase, no reason needed, nothing deducted for days used
