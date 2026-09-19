@@ -85,6 +85,41 @@ DECIDED 2026-09-19:
   configuration file there rather than scattered as literals. Consequence stated out loud:
   changing a limit later needs an extension release
 
+BACKEND DESIGN CONFIRMED 2026-09-19. Effort collapses from L (3-4 days) to M (1-2), and the
+limits half needs NO DATABASE MIGRATION AT ALL - no column, no table, no migrations release, no
+schema version bump, no two-repo release sequence. Configuration and service logic end to end.
+
+THREE LOCKOUTS THAT ARE EACH ONE `if` IN THE WRONG PLACE:
+- the creation check belongs in the INSERT BRANCH of the synchronisation services, not in the
+  appliers and not on the upsert as a whole. An upsert of an EXISTING row must never be refused,
+  or a user sitting at exactly the limit can no longer edit what they already have
+- the device cap applies ONLY on the create branch of find-or-create. Otherwise an account sitting
+  at exactly 10 can never sign in again on ANY of its own devices - including the one it would use
+  to free a slot. A total lockout reachable by a completely normal user
+- count SIGNED-IN devices, never rows. The device list is a history and deliberately keeps rows
+  after sign-out, so counting rows would refuse someone who has merely used eleven browsers over
+  two years and signed out of eight
+
+A RACE THAT REINTRODUCES THE STATE THIS DESIGN DELETED: two devices pushing at once both count 1,
+both insert, and the account holds 3 - with no blocking machinery left to cope, because we just
+removed it. Needs a per-account lock (SELECT FOR UPDATE on the user row, or an advisory lock)
+around count-and-insert. Creates are rare, so serialising them per account costs nothing.
+
+REFUSAL SHAPE: 409 Conflict, never 403 (the token is valid and the caller is who they say),
+never 401, never 402 (poorly supported, and payment is not the only exit). Body is TYPED, not
+prose - the extension must not parse English to word its own message: a stable `code`, the
+`resource`, `accountCount`, `limit`, the full `limits` set, and a `manageUrl`.
+- for the device cap NEVER 401 or 403: telling someone their password was wrong when their device
+  count was the problem is the worst available failure
+- manageUrl comes FROM THE SERVER, alongside the existing activation, password-reset and OAuth
+  callback paths, so the extension never hardcodes the site address and a deployment can move it
+
+SEND THE LIMITS TO THE CLIENT, in three places - the refusal body, the sync snapshot, and
+plan-usage. That demotes the extension's compiled values to a BOOTSTRAP DEFAULT used only before
+first contact, which is what they should be. Otherwise raising the limit to 3 leaves an installed
+extension enforcing 2, and lowering it lets the extension offer what the server then refuses -
+both of which look like bugs in the extension.
+
 OPEN, and it is the one wrinkle in the simplification:
 - if sync is refused OUTRIGHT then deletions cannot reach the server either. A lapsed user deletes
   four workspaces on their laptop, the account still holds six, and they can NEVER get back to
@@ -92,8 +127,21 @@ OPEN, and it is the one wrinkle in the simplification:
 - RECOMMENDED: deletes always push, even when sync is otherwise refused. One narrow exception, no
   new interface anywhere, and it is the same conclusion the old design reached by a much longer
   road. Everything else stays refused
-- the same question covers the premium-lapse case, which is otherwise treated exactly like the
-  merge case: sync stops, nothing is blocked or deleted, every device keeps what it holds
+- there is a PRINCIPLED statement of it that makes it a rule rather than a carve-out: eligibility
+  governs what an account may GROW to, never what it may SHRINK to. A delete can never make an
+  ineligible account more ineligible. Implementation is one predicate over the batch, before the
+  eligibility check: accept the push if every operation is a DELETE
+
+- BUT IT SOLVES ONLY ONE OF THE TWO ROUTES OVER THE LIMIT, and the difference decides the wording:
+  - LAPSED FROM PREMIUM: the excess is ON THE SERVER. The account holds 6, free allows 2. The
+    delete-only push is exactly the exit, and without it this is the hostage situation. Solved
+  - MERGING TWO UNSYNCED INSTALLS: the excess is LOCAL. Device B holds 2, the account already
+    holds 2, the merge would make 4 - and there is nothing on the server to remove, because B's
+    own 2 were never uploaded. B's exit is to delete LOCALLY, which needs no push at all, or to pay
+  - so the same refusal has two different remedies. "Delete some workspaces" means ON THE SERVER in
+    one case and ON THIS DEVICE in the other, and getting it backwards sends the user to delete the
+    wrong data. That is why the refusal body carries accountCount: the extension compares it against
+    its own local count and words the message accordingly
 
 ### Downgrading must not silently destroy data
 - premium lifts the free limits (2 workspaces, 1 profile, 10 devices), so an account coming off
