@@ -163,6 +163,49 @@ Things that comes to my mind during solving other shits and should be done
   purpose is telling clients what changed. Benign if and only if the client sends the stored
   moment and pushes only rows its baseline diff says changed
 
+- CONTENT AND THE TIMESTAMP TRAVEL AS ONE OPERATION - do not split them on the client. A correct
+  client never emits a content change for a row it knows is blocked, so it never builds a
+  timestamp-only write by accident. The only client that sends both together is one that does not
+  know yet - offline when the entitlement lapsed, or a stale build - and for that client the
+  combined operation is exactly what makes recovery atomic: the same operation carrying the new
+  ranking carries the content the recompute then authorises. Split in two, they could be separated
+  by anything else in the batch and the content judged against a rank the bump had not moved yet
+- THE SNAPSHOT MUST RETURN modifiedAt, as a field DISTINCT from updatedAt. Keep updatedAt meaning
+  when the row arrived; let the new field mean when the user last changed it. If the server stores
+  it and never returns it nothing loops - local state and the baseline lose it symmetrically - but
+  it hollows out everything the field is for: the client forgets its own ranking after every pull,
+  an unsynced install has nothing to derive from once it has synced even once, and no UI can ever
+  say WHY a workspace is dimmed
+- bump it in the MUTATORS, never in the shared save(). save() is also how a PULL writes the
+  account's data over local state, so a bump there would re-stamp every row on every pull - the
+  "every row ties at the present moment" failure arriving by the back door
+- the filter then falls out of the list of mutators: a user action bumps, a pull does not, and a
+  position flip-flop re-derived from insertion order does not, because nothing calls a mutator
+  for it
+
+- THE SWAP IS NOW NEARLY FREE, and it was expensive before. "Work in this one instead" on a dimmed
+  workspace is exactly a modifiedAt-only upsert, which the server now always accepts and always
+  re-ranks on. No new endpoint, no server allowance, no stored preference, no picker - one menu
+  item, and the cap does the rest by demoting whatever is least recently used. It is also the
+  answer to "the live set freezes for ever once the cap bites". Worth re-deciding in this light
+
+- A BATCH CAN HALF-APPLY AND THE LOSER IS DISCARDED SILENTLY. Recomputing the rank per operation
+  means one batch's own operations can demote each other: free cap of 1, four workspaces, user
+  edits two of them offline. Bumping A promotes A, bumping B then demotes A again, and A's link
+  operations - later in the batch - are refused against a rank that A's own bump had already won
+  and lost. Which edit survives is decided by operation order, which is object iteration order and
+  arbitrary from the user's point of view. The client logs and lets the next pull fix it, so the
+  work disappears with no message. REMEDY on the client, and it belongs in scope rather than
+  deferred: surface rejections once in the account menu's status line, which already exists
+
+- AN OLD BUILD PLUS THE POSITION CHURN IS A LOCKOUT NOBODY CAUSED. "Absent means the server stamps
+  now()" is right in isolation, but an old build never sends the field AND takes part in the
+  position ping-pong. Every one of those pushes re-stamps modified_at to now for the profiles
+  involved, so they pin themselves permanently at the top of the ranking and the user's other
+  profile is blocked - produced entirely by a disagreement no user ever made. The correct-client
+  filter cannot help, because old builds are precisely the ones that lack it. So the CLIENT HALF
+  of the two-device settle test should land BEFORE the ranking does, not alongside it
+
 - LIVE BUG FOUND 2026-09-19, worth fixing in the same change: closedAt ALREADY has the wrong-clock
   bug. It is the existing precedent for a client-owned timestamp - stored exactly as sent, never
   replaced by a server clock - but its validation checks only that the value is non-null. No upper
@@ -275,9 +318,17 @@ Things that comes to my mind during solving other shits and should be done
   channel the protocol already has, with a new FREE_PLAN_LIMIT_REACHED rejection reason, so the
   rest of an offline device's batch still applies. This is also the answer to "a cap added only to
   the REST services lets the extension create unlimited rows by pushing them"
-- the only write permitted on a blocked container is DELETING THE CONTAINER ITSELF. Everything
-  below it is read-only from both the REST path and the push. Partial edits inside a blocked
-  workspace serve no purpose and only complicate the rule
+- the only CONTENT write permitted on a blocked container is DELETING THE CONTAINER ITSELF, plus
+  the ranking timestamp per the accept-bump/refuse-content rule. Everything else below it is
+  read-only from both the REST path and the push
+- BUT "the container's own delete" is too narrow as worded, and reads as refusing the very deletes
+  the escape hatch emits. A link inside a blocked workspace is itself a blocked row, and the
+  client emits explicit deletes for every link, subgroup and group BEFORE the environment. It was
+  verified that the server cascades and that deleting an already-absent row is a silent no-op, so
+  the hatch does work - but it takes two pushes, and the first comes back as a batch full of
+  rejections on the single path we most want clean. Permit a delete of ANY row whose container is
+  blocked: one condition on the server, and it keeps the rejection channel meaning "something
+  genuinely went wrong"
 - the deleting device does not see its own promotion: the push echo is deliberately ignored by the
   origin device, and it cannot recompute blocking locally because it holds neither the rule nor
   the limits. Fix is small - put the blocked id lists on the PUSH RESULT as well as the snapshot.
@@ -382,9 +433,13 @@ Things that comes to my mind during solving other shits and should be done
   Writes INTO a blocked workspace must be refused too, or it is not blocked
 - blocked rows have no TTL, no sweep and no cleanup, ever. Whoever writes the token cleanup job
   must never generalise it over domain rows
-- rank by (last_modified, id), never the timestamp alone - a sync push can touch several
-  workspaces in one transaction, and a tie that resolves differently per request makes the blocked
-  one flicker
+- rank by (modified_at, id), NEVER the timestamp alone. This was nearly lost in relay and the
+  argument is STRONGER under the new field than under created_at: the server clamps future values
+  to now, so every value clamped in the same instant ties EXACTLY, and a first-contact merge
+  inserts a whole device's worth of rows at one timestamp. Without the id tie-break the flicker
+  returns on precisely the paths that produce ties
+- clamping a fast clock to now also compresses that device's genuine edit ordering into a single
+  instant - harmless once the id tie-break is there, meaningless without it
 - GRANDFATHERING DECIDED 2026-09-19: do not block anything that already exists. Rows created
   before the effective date are PERMANENTLY EXEMPT from blocking. This was the item that blocked
   enabling the whole feature; it is now answered
