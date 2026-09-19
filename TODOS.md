@@ -456,6 +456,56 @@ Things that comes to my mind during solving other shits and should be done
 - the reason, and it is the whole point: not counting them would be a loophole that removes any
   motivation to pay. A long-standing free user would never meet a limit and the paywall would
   only ever apply to new users
+- OPEN, AND THE WORDING CURRENTLY SAYS THE CRUEL THING: does "counts toward the cap" apply to the
+  BLOCKING computation as well as to the creation refusal? Read strictly it does, and then a user
+  with 5 grandfathered workspaces has already consumed the whole free allowance - so every
+  workspace they create later, during premium, is blocked the moment premium lapses, while a
+  NEWCOMER with no grandfathered rows keeps 2. The most loyal user ends up with a smaller live set
+  than someone who joined yesterday. The humane reading, and almost certainly the intended one:
+  counting applies to the CREATION REFUSAL only, and the blocking computation ranks only the
+  non-grandfathered rows - so that user keeps their 5 plus the 2 most recently modified
+  premium-era ones
+
+- THE FIRST-CONTACT MERGE DEFEATS GRANDFATHERING FOR THE PEOPLE IT PROTECTS. created_at is
+  server-stamped at insert and no client creation time travels in any sync operation, so a
+  first-contact merge pushes a device's local-only rows as ordinary upserts and they are inserted,
+  and stamped, NOW. An unsynced user of two years who signs in next month therefore has every
+  workspace stamped as created after the effective date, none grandfathered, and the newest
+  blocked on the spot. That is the upgrade-day regression decision 12 exists to prevent, arriving
+  through the one door we most want these users to walk through - and it lands on exactly the
+  population decision 12 was written for, since long-standing free users are by definition the
+  ones who never connected an account
+- FIX, and the cheap one is better: GRANDFATHER EVERYTHING CARRIED OVER AT FIRST CONTACT. The
+  account has never seen those rows; they predate the account itself. One condition on the
+  server's first-contact path, no new field, nothing for the client to send, and it does not make
+  grandfathering depend on a client clock. The alternative - send the client's createdAt and
+  honour it, clamped - costs a field through the same five places and does depend on that clock
+
+- THE CLIENT NOW NEVER RANKS, ANYWHERE. Decision 12 plus "an unsynced install blocks nothing, it
+  only refuses creation" collapse into one invariant: in every state the extension is ever in,
+  blocking is a LIST IT WAS GIVEN, never a computation it performs. A never-connected install
+  blocks nothing; one that connected and signed out keeps the last server-provided lists. This
+  retires local ranking, local blocked-set derivation, the effective date on the client, and with
+  them the whole class of client/server ranking disagreement. modifiedAt is still needed - the
+  server ranks on it and it is what makes the offline self-heal work - but the client only ever
+  REPORTS it, never sorts by it
+
+- SEND THE USED-COUNTS, NOT ONLY THE LIMITS. The extension has no account-wide view: AppState is
+  one profile's data, so counting workspaces across the account means reading every profile's
+  storage key one at a time, and a profile this device has never loaded holds data it cannot see.
+  The server computes those counts anyway to derive the blocked lists, so send environmentsUsed /
+  environmentLimit, profilesUsed / profileLimit, devicesUsed / deviceLimit. The client then
+  refuses by comparing two numbers it was given, and the message can state real figures - which is
+  what makes the grandfathered case comprehensible rather than reading as a bug
+- OPEN: is the workspace cap PER ACCOUNT or PER PROFILE? For a free user it cannot matter, because
+  the profile cap is 1. It bites only for the population decisions 12 and 13 just created - a
+  grandfathered user with two or three profiles. Per-profile is dramatically cheaper for the
+  client. Settle it explicitly rather than by implementation accident
+- the refusal has TWO wordings that cannot share a sentence: at the cap ("free accounts can have 2
+  workspaces"), and over the cap while grandfathered ("you have 5 and they all keep working; free
+  accounts can create up to 2, so adding another needs premium"). The second is the one nobody has
+  written and the one most likely to read as a bug if it is worded like the first
+
 - CONSEQUENCE for the extension: the up-front creation refusal is the ONLY thing a grandfathered
   user ever sees of the limits. No dimming, no read-only state - just a refusal at the moment they
   try to create. That makes the wording of that refusal far more load-bearing than it looked as
