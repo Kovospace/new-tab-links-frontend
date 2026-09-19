@@ -75,13 +75,25 @@ WHAT SURVIVES:
 - the purchase, refund and cancel flows, which never depended on any of this
 - the three live bugs found along the way, which are worth fixing regardless
 
-STILL TO PIN DOWN under the new model:
-- on connect, is sync REFUSED outright, or does it pull and then refuse to push? Refusing outright
-  is simpler to explain and leaves the account untouched
-- same question for a premium lapse with more than the free limits already synced
-- the 10-device cap: refuse the 11th pairing, rather than anything cleverer
-- the limits are compiled into the extension for the unsynced case. Changing them later then needs
-  an extension release - acceptable, but say so out loud
+DECIDED 2026-09-19:
+- on connect over the limit, sync is REFUSED OUTRIGHT. Not pull-then-refuse-to-push
+- the 10-device cap refuses the 11th pairing, and the user is TOLD it is their eleventh and
+  pointed at the device manager on this website to clear out stale devices. The devices page
+  already exists and already offers sign-out-and-forget, so the extension needs a link and a
+  message rather than anything new here
+- the free limits are compiled into the extension for the unsynced case, and belong in a
+  configuration file there rather than scattered as literals. Consequence stated out loud:
+  changing a limit later needs an extension release
+
+OPEN, and it is the one wrinkle in the simplification:
+- if sync is refused OUTRIGHT then deletions cannot reach the server either. A lapsed user deletes
+  four workspaces on their laptop, the account still holds six, and they can NEVER get back to
+  free sync - paying becomes the only exit, which reads as a hostage situation rather than a limit
+- RECOMMENDED: deletes always push, even when sync is otherwise refused. One narrow exception, no
+  new interface anywhere, and it is the same conclusion the old design reached by a much longer
+  road. Everything else stays refused
+- the same question covers the premium-lapse case, which is otherwise treated exactly like the
+  merge case: sync stops, nothing is blocked or deleted, every device keeps what it holds
 
 ### Downgrading must not silently destroy data
 - premium lifts the free limits (2 workspaces, 1 profile, 10 devices), so an account coming off
