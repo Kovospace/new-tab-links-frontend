@@ -450,10 +450,16 @@ Things that comes to my mind during solving other shits and should be done
   premium, created ten workspaces, and then lapsed created those rows after the date, so they are
   blocked normally. Grandfathering protects people who never had a chance to know a limit existed,
   not people who bought premium and stopped paying
-- OPEN SUB-QUESTION: do grandfathered rows still COUNT toward the cap when creating new ones? The
-  recommendation on the table is yes - an account with 5 old workspaces keeps all 5 usable but
-  cannot create a 6th without paying. "Keep what you have, do not grow past the cap for free."
-  Answering no would let a grandfathered account create 2 more on top of 5 and keep 7 for ever
+- ANSWERED 2026-09-19: grandfathered rows DO count toward the cap, and creating new workspaces or
+  profiles past it is refused. The exemption applies to BLOCKING only, never to COUNTING. So an
+  account with 5 grandfathered workspaces keeps all 5 usable for ever and cannot create a 6th
+- the reason, and it is the whole point: not counting them would be a loophole that removes any
+  motivation to pay. A long-standing free user would never meet a limit and the paywall would
+  only ever apply to new users
+- CONSEQUENCE for the extension: the up-front creation refusal is the ONLY thing a grandfathered
+  user ever sees of the limits. No dimming, no read-only state - just a refusal at the moment they
+  try to create. That makes the wording of that refusal far more load-bearing than it looked as
+  one signal among several, and it makes the numeric limits reaching the client non-negotiable
 - NOT IMPLEMENTED YET - decided 2026-09-18
 
 ### Admin premium grant: must not write the flag directly
