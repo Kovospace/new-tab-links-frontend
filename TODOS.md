@@ -120,6 +120,54 @@ first contact, which is what they should be. Otherwise raising the limit to 3 le
 extension enforcing 2, and lowering it lets the extension offer what the server then refuses -
 both of which look like bugs in the extension.
 
+EXTENSION SIDE VERIFIED 2026-09-19. Effort M -> S-M, about a day to a day and a half.
+
+- SIX creation call sites, not four. Two of them are BULK IMPORTS from a file, where the question
+  is not "have I room for one more" but "does this file fit" - the check runs after parsing and
+  before writing, and must refuse the file WHOLE. Importing the first two workspaces and dropping
+  the rest is silent data mangling, and the user still holds the file believing it was taken
+- the guard goes in the VIEW MODELS, not in a repository choke point - the opposite of the old
+  blocking design. A repository guard would also catch the sync paths and the registry REPAIR
+  path, and refusing the repair would make a damaged registry unrepairable
+- counting is now O(1): free allows one profile and premium is uncapped, so "workspaces across the
+  account" and "workspaces in this profile" coincide for every account the limit can bite. The
+  multi-profile storage loop is not needed and the refusal handlers stay synchronous
+
+- A REFUSED CONNECT IS NOT QUITE A NO-OP TODAY, and it is one line out of place: the connect
+  rewrites and persists local identifiers BEFORE anything else, so a refused attempt would still
+  have permanently renamed the user's profile and workspace ids. Harmless in itself and eventually
+  necessary, but it is a lasting local change caused by an attempt that failed. Move the check
+  ahead of it, and clear the session on refusal - otherwise the device sits holding valid tokens
+  with no synchronisation and re-attempts on every new tab
+- THE MERGE REFUSAL CANNOT BE THE SERVER'S. The merged total is local union remote and the server
+  has never seen the joining device's data. Only the client can know it, and only after fetching
+  the snapshot. There is a clean seam because the merge is PURE: compute every profile's merge in
+  memory, count, then write them all or none
+- DELETE-ONLY PUSH HAS A BASELINE TRAP: a clean push stores the whole local state as the new
+  baseline, so after a delete-only push the baseline would record the account as holding every
+  local upsert that was never sent - and if sync later resumes because the user paid, those
+  upserts are gone for ever, silently, server-side. Either forget exactly the confirmed-deleted
+  rows, or make it a one-shot user action that re-attempts the connect on success, which repairs
+  the baseline by the normal route rather than patching it
+- delete-only is needed ONLY for the lapsed case. A joining device can get under the limit
+  entirely locally, because the merged total is a union - deleting its own workspaces reduces it
+
+- RECONCILED: the two agents assumed different refusal points, and the backend's choice resolves
+  the extension's blocking question. The extension assumed sync would be refused AT TOKEN ISSUE,
+  which would make delete-only push impossible - a device with no token cannot push anything. The
+  backend instead put eligibility in a service consulted by the SNAPSHOT and PUSH paths, so the
+  token IS issued and a delete-only push works. Only the DEVICE cap sits at token issue, which is
+  correct because that refusal is about the device rather than the account
+- both agents independently reached "typed reason code plus numbers, never prose". The extension's
+  reason is worth keeping: it renders a server message string inside a TRANSLATED frame, so prose
+  would arrive in the backend's language while the rest of the page is in the user's
+
+- SERVER-SENT LIMITS, recommended by both sides: compile the numbers as defaults and let the
+  server override them, cached locally. The compiled values then serve only an install that has
+  never had an account, and a limit INCREASE reaches users without a store release. Without it the
+  asymmetry bites - client stricter than server is harmless, client laxer means the user creates a
+  third workspace and is then refused sync, punished for using the app as it let them
+
 OPEN, and it is the one wrinkle in the simplification:
 - if sync is refused OUTRIGHT then deletions cannot reach the server either. A lapsed user deletes
   four workspaces on their laptop, the account still holds six, and they can NEVER get back to
