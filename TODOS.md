@@ -456,15 +456,23 @@ Things that comes to my mind during solving other shits and should be done
 - the reason, and it is the whole point: not counting them would be a loophole that removes any
   motivation to pay. A long-standing free user would never meet a limit and the paywall would
   only ever apply to new users
-- OPEN, AND THE WORDING CURRENTLY SAYS THE CRUEL THING: does "counts toward the cap" apply to the
-  BLOCKING computation as well as to the creation refusal? Read strictly it does, and then a user
-  with 5 grandfathered workspaces has already consumed the whole free allowance - so every
-  workspace they create later, during premium, is blocked the moment premium lapses, while a
-  NEWCOMER with no grandfathered rows keeps 2. The most loyal user ends up with a smaller live set
-  than someone who joined yesterday. The humane reading, and almost certainly the intended one:
-  counting applies to the CREATION REFUSAL only, and the blocking computation ranks only the
-  non-grandfathered rows - so that user keeps their 5 plus the 2 most recently modified
-  premium-era ones
+- THE ONE OPEN QUESTION THE TWO AGENTS DISAGREE ON. Do grandfathered rows consume the N ranking
+  slots? Worked on an account with 5 grandfathered workspaces that bought premium, made 3 more and
+  lapsed, free cap 2:
+  - READING A - rank over all rows, exempt pre-date rows from the outcome:
+    blocked = !premium AND created_at >= effectiveAt AND rank > N
+    -> 5 grandfathered + the 2 most recently modified premium-era = 7 usable, 1 blocked
+  - READING B - grandfathered rows consume slots:
+    blocked = !premium AND created_at >= effectiveAt AND rank_among_post_date > max(0, N - pre_date_count)
+    -> 5 grandfathered + 0 premium-era = 5 usable, 3 blocked
+  - the EXTENSION argues for A: under B every workspace made while PAYING is blocked the moment
+    payment stops, and the most recent work is by definition what someone is actually using
+  - the BACKEND argues for B: it is the literal reading of "keep what you have, do not grow past
+    the cap for free" applied to blocking as well as creation, and under A an account with
+    grandfathered rows ends up with MORE free capacity than one without, so holding old rows earns
+    new slots
+  - NOT DECIDED. It changes user-visible behaviour for a real class of account and must not be
+    settled by whoever implements it first
 
 - THE FIRST-CONTACT MERGE DEFEATS GRANDFATHERING FOR THE PEOPLE IT PROTECTS. created_at is
   server-stamped at insert and no client creation time travels in any sync operation, so a
@@ -480,6 +488,60 @@ Things that comes to my mind during solving other shits and should be done
   server's first-contact path, no new field, nothing for the client to send, and it does not make
   grandfathering depend on a client clock. The alternative - send the client's createdAt and
   honour it, clamped - costs a field through the same five places and does depend on that clock
+
+- THE EFFECTIVE DATE'S ABSENCE IS THE OFF SWITCH, and the default must fail SAFE. If the property
+  is unset, nothing is blocked at all - not "no rows are exempt". Backwards, and a deployment that
+  forgets one environment variable blocks every existing user's data on the next rollout, which is
+  the exact catastrophe grandfathering exists to prevent. Making absence disable the feature also
+  means you cannot switch blocking on without having decided the date, and gives the ship-disabled
+  posture with no second flag
+- the date is SET ONCE AND NEVER CHANGED. Moving it later retroactively blocks or unblocks data
+  for every user on the platform, with no deploy-time symptom and nothing that would fail. It
+  belongs in the GitOps values file with a comment saying so, and should be handed to
+  devops-engineer framed as a migration rather than as one more tunable
+- it rides on created_at, the one column in the schema that provably never moves - not updatable,
+  no setter, no path that writes it after insert. So grandfathering is a property of the ROW, not
+  of the account: one account can hold both exempt and blockable rows, which is what makes "bought
+  premium, made ten, stopped paying" resolve correctly with no special case
+- CAPTURE THE CLAMP INSTANT ONCE PER REQUEST, not per row. Clamping each row against its own now()
+  spreads them by microseconds and orders them by arrival within the batch - arbitrary, and not
+  reproducible if the batch is replayed. One captured instant makes the ties real, lets id break
+  them deterministically, and makes a replayed batch produce the identical ranking. Fix the id
+  direction and write it down; arbitrary is fine, unspecified is not
+
+- THE BLOCKED-ROW RULE, AMENDED THREE TIMES, STATED ONCE. On a blocked row:
+  1. the ranking timestamp is always accepted, clamped;
+  2. ANY DELETE is always accepted - of anything, not just the container. Refusing a delete
+     protects nothing: blocking exists to stop a free account USING and GROWING PAST the cap, and
+     a user destroying their own data deliberately does neither. Only containers are capped, so
+     deleting links inside a blocked workspace changes no counted number;
+  3. every other write is refused.
+  Items 1 and 2 are the only two ways out of the state, which is why they are the only exceptions
+
+- NO MONOTONICITY CHECK ON modifiedAt. Do not validate that it never goes backwards, exactly or
+  with an epsilon. It would be conflict detection in a system that deliberately has none and
+  resolves by arrival order; it would fire spuriously on the microsecond-to-millisecond truncation
+  the client's own mapper performs; and the clamp and floor already bound the value to
+  [created_at, now], which is all the ranking needs. With no comparison in the code there is no
+  comparison to get wrong
+
+- THE HALF-APPLYING BATCH HAS A SERVER-SIDE FIX, and only the server can do it because only the
+  server knows the rank. Compute the batch's live set ONCE, before the apply loop, and hold it
+  fixed for the whole batch - a read-only pass over the operation list, overlaying the modifiedAt
+  values the batch declares onto the account's current ones. Deterministic, order-independent,
+  reproducible on replay, no two-phase write
+- REFINEMENT that removes most of the remaining pain: judge content against the UNION of the
+  pre-batch and post-batch live sets. Cap 1, workspaces A and B both edited offline - A was live
+  before, B is live after, both are in the union, so BOTH batches of content apply and nothing is
+  rejected, with the final state B live and A blocked. That is exactly what an offline session
+  looks like: work in the one you are leaving and the one you are arriving at. Costs one set union
+
+- HONEST LIMIT OF THE CONTENT REFUSAL, worth re-reading if it ever seems to cost too much: it buys
+  less enforcement than it looks like, because the snapshot ships every blocked row's CONTENTS to
+  the client anyway - that invariant is not negotiable. So a patched client can already USE a
+  blocked workspace; what refusal actually prevents is SYNCING new edits in it. The genuine,
+  unavoidable enforcement is the container-creation check, and that is the one worth being strict
+  about
 
 - THE CLIENT NOW NEVER RANKS, ANYWHERE. Decision 12 plus "an unsynced install blocks nothing, it
   only refuses creation" collapse into one invariant: in every state the extension is ever in,
