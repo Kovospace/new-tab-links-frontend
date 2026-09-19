@@ -9,7 +9,7 @@ import { TranslationService } from './core/i18n/translation.service';
 
 /** Enough of the real translation file to prove the shell is wired to it. */
 const ENGLISH_TRANSLATIONS = {
-  site: { title: 'NewTabLinks', tagline: 'Your links, everywhere.' },
+  site: { title: 'Tabilinks', tagline: 'Your links, everywhere.' },
   nav: {
     home: 'Home',
     download: 'Download',
