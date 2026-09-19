@@ -37,6 +37,52 @@ Things that comes to my mind during solving other shits and should be done
   PSD2/SCA and double-charge notes in the backend design
 - NOT IMPLEMENTED YET - decided 2026-09-18
 
+### SUPERSEDED 2026-09-19 — read this before anything below it
+
+The blocking design below got too complicated and is replaced. Kept only because the reasoning in
+it is worth not re-deriving, and because a few of its findings are live bugs independent of any of
+it (closedAt bounds, epoch-millis deserialisation, the profile position churn).
+
+WHAT REPLACES IT, decided by the owner:
+
+- the free limits - 2 workspaces, 1 profile - are enforced AT CREATION on every install, including
+  an unsynchronised one. They are the DEFAULT for an extension with no account. So a single device
+  can never get over the limit in the first place
+- THERE ARE NO EXISTING USERS. The extension is not in the Chrome Web Store
+  (NEWTABLINKS_CHROME_WEB_STORE_URL is empty in the GitOps values, and the download page shows its
+  "not published yet" wording), so the only account is the owner's own test one. Grandfathering was
+  built to protect users who do not exist
+- the only way to exceed the limits is therefore MERGING two unsynchronised installs, or lapsing
+  from premium. In both cases the answer is not to block anything: the user is TOLD that their
+  current setup excludes them from free synchronisation. Sync does not start; nothing is blocked,
+  dimmed, ranked or deleted, and every workspace keeps working locally on the device that holds it
+- a user excluded from free sync can still install the extension and create workspaces offline, up
+  to the same offline free limit
+
+WHAT THIS DELETES OUTRIGHT:
+- grandfathering: the effective date, the exemption predicate, the fail-safe off switch, Reading A
+  vs Reading B, and the first-contact hole. All of it
+- blocking itself: no blocked id lists, no dimming, no read-only workspaces, no tips-panel danger
+  warning, no "work in this one instead" swap, no escape hatch, no promotion redraw
+- the whole ranking apparatus: last-modified vs creation date, subtree MAX, the client-owned
+  modifiedAt, the (timestamp, id) tie-break, the clamp and floor, accept-bump/refuse-content, the
+  half-applying batch and its set union, and the two-device settle test as a release gate
+- the sync-snapshot landmine, because nothing is ever omitted from a snapshot
+
+WHAT SURVIVES:
+- the creation cap, enforced locally and on both write paths (REST and sync push)
+- premium as a boolean on the user model, and the operator's grant in the admin surface
+- the purchase, refund and cancel flows, which never depended on any of this
+- the three live bugs found along the way, which are worth fixing regardless
+
+STILL TO PIN DOWN under the new model:
+- on connect, is sync REFUSED outright, or does it pull and then refuse to push? Refusing outright
+  is simpler to explain and leaves the account untouched
+- same question for a premium lapse with more than the free limits already synced
+- the 10-device cap: refuse the 11th pairing, rather than anything cleverer
+- the limits are compiled into the extension for the unsynced case. Changing them later then needs
+  an extension release - acceptable, but say so out loud
+
 ### Downgrading must not silently destroy data
 - premium lifts the free limits (2 workspaces, 1 profile, 10 devices), so an account coming off
   premium can be holding more than the free plan allows
