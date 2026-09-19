@@ -284,7 +284,7 @@
     "cancelSubscription": {
       "heading": "Cancel subscription",
       "lead": "Cancelling stops the next renewal. You keep the full version until the period you have already paid for runs out, and nothing is refunded.",
-      "downgradeNotice": "When the period you have paid for ends, the account goes back to the free plan and its limits. If you are over them by then, you will be asked to tidy up first — nothing of yours is deleted for you.",
+      "downgradeNotice": "When the period you have paid for ends, the account goes back to the free plan. Anything over its limits stays exactly where it is and is never deleted — it simply becomes read-only until you subscribe again.",
       "action": "Cancel subscription",
       "success": "Your subscription will not renew. You keep the full version until the period you have paid for ends."
     }
@@ -367,6 +367,8 @@
       "displayName": "Display name",
       "password": "Password",
       "status": "Status",
+      "premium": "Full version",
+      "premiumHint": "Grants the full version by hand, with no payment. Use it for a support case, or to try the premium pages before the payment gate exists.",
       "failedAttempts": "Failed sign-ins",
       "createdAt": "Created",
       "actions": "Actions"
@@ -375,6 +377,10 @@
       "PENDING_ACTIVATION": "Awaiting activation",
       "ACTIVE": "Active",
       "DISABLED": "Disabled"
+    },
+    "premium": {
+      "yes": "Full",
+      "no": "Free"
     },
     "create": {
       "heading": "Create an account",

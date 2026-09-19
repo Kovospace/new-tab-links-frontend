@@ -31,6 +31,8 @@ export interface PresentedAccount {
   readonly displayName: string;
   readonly status: UserAccountStatus;
   readonly statusLabel: string;
+  /** Whether the account holds the full version, in words. */
+  readonly premiumLabel: string;
   readonly createdAt: string;
   readonly failedLoginAttempts: number;
   /** Whether anything has piled up against this account, which is what offers the unlock. */
@@ -126,6 +128,7 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
     email: ['', [Validators.required, Validators.email]],
     displayName: ['', [Validators.required, Validators.maxLength(120)]],
     status: ['ACTIVE' as UserAccountStatus, [Validators.required]],
+    premium: [false],
   });
 
   /** The password the operator is setting on the edited account, blank to remove it. */
@@ -147,6 +150,7 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
     displayName: ['', [Validators.required]],
     password: ['', [Validators.minLength(REGISTRATION_FIELD_CONSTRAINTS.passwordMinimumLength)]],
     status: ['ACTIVE' as UserAccountStatus, [Validators.required]],
+    premium: [false],
   });
 
   /** Loads the first page. Called by the page component once it is on screen. */
@@ -193,6 +197,7 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       email: account.email,
       displayName: account.displayName,
       status: account.status,
+      premium: account.premium,
     });
     this.passwordForm.reset();
   }
@@ -312,7 +317,8 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       return;
     }
 
-    const { username, email, displayName, password, status } = this.createForm.getRawValue();
+    const { username, email, displayName, password, status, premium } =
+      this.createForm.getRawValue();
 
     this.beginSubmission();
     this.adminUserService
@@ -321,6 +327,7 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
         email,
         displayName,
         status,
+        premium,
         ...(password.length > 0 ? { password } : {}),
       })
       .subscribe({
@@ -374,6 +381,9 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       displayName: account.displayName,
       status: account.status,
       statusLabel: this.translationService.translate(`admin.status.${account.status}`),
+      premiumLabel: this.translationService.translate(
+        account.premium ? 'admin.premium.yes' : 'admin.premium.no',
+      ),
       createdAt: formatInstantForDisplay(
         account.createdAt,
         this.translationService.currentLanguageCode(),

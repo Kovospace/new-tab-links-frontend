@@ -40,18 +40,256 @@ Things that comes to my mind during solving other shits and should be done
 ### Downgrading must not silently destroy data
 - premium lifts the free limits (2 workspaces, 1 profile, 10 devices), so an account coming off
   premium can be holding more than the free plan allows
-- VOLUNTARY cancellation: refuse it until the account is back inside the free limits, and tell the
-  user exactly what has to go. This is the case the owner asked for
+- the cancel confirmation is supposed to say what will be blocked at the period end, but THIS SITE
+  CANNOT KNOW THAT - it deliberately does not consume workspace or profile CRUD, so it has no way
+  to learn the account holds four workspaces. Today's wording is therefore generic on purpose. The
+  fix proposed by the backend is GET /api/v1/users/me/plan-usage returning limits, usage and
+  blockedIfDowngraded, with the arithmetic done server-side so the wording cannot drift from the
+  enforcement. It is S, it also feeds the extension's tips panel, and it belongs in the read-state
+  slice rather than with the payments work. NOT DECIDED YET
+- VOLUNTARY cancellation is ALWAYS ALLOWED. An earlier idea to refuse it until the account was
+  back inside the limits was dropped on 2026-09-19: it would keep a user in a contract that
+  charges them again unless they first delete their own data, which is obstruction of termination
+  and squarely a dark pattern in the EU. It was also unnecessary - blocking already handles the
+  over-limit case at the period end. The confirmation step says what will be blocked instead
 - INVOLUNTARY lapse (expiry, failed card) cannot be refused - nobody clicked anything. DECIDED:
   never delete anything. After the 30 day warning period the excess is BLOCKED, not removed,
-  and the rule is by creation date - the oldest rows up to the free limit stay usable, everything
-  newer is locked. Paying restores access in full
-- the lock should be DERIVED, never stored. "not premium AND older than the Nth oldest" is a rule
-  that needs no writer, so paying restores access with zero writes and nothing can go stale. A
-  stored `locked` flag would need writing on lapse and unwriting on payment, which is the same
-  denormalisation trap as the premium flag itself
-- blocked should mean visible but locked, not hidden. Hidden reads as data loss and generates
-  support mail; the user needs to see what they are paying to get back
+  and the rule is by LAST MODIFIED - the most recently changed rows up to the free limit stay
+  usable, everything staler is locked. Paying restores access in full. REVISED 2026-09-19: this
+  was originally oldest-first by creation date, and that was backwards. See the note below
+- the lock should be DERIVED, never stored. "not premium AND outside the N most recently modified"
+  is a rule that needs no writer, so paying restores access with zero writes and nothing can go
+  stale. A stored `locked` flag would need writing on lapse and unwriting on payment, which is the
+  same denormalisation trap as the premium flag itself
+
+- WHY LAST MODIFIED AND NOT CREATION DATE - decided 2026-09-19, and there is no user-facing choice
+  of any kind. The owner's reasoning: do not make the user care, and settings for edge cases are
+  overwhelming. An earlier idea to let the user pick which N stay active was dropped for that
+  reason. Three things fall out of the change, all improvements:
+  - THE ESCAPE HATCH STOPS BEING ABSURD. Under oldest-first, promoting your blocked workspaces
+    meant deleting the WORKING ones - "delete the 2 you still use to unlock the 2 you cannot
+    touch". Under last-modified the blocked ones are the stale ones, so the user deletes what they
+    had already stopped using, which is what anyone would have done anyway
+  - IT TELLS A STORY THAT IS TRUE. "the ones you have worked on recently still work" is how people
+    think about their own data; "the ones you made first" is not
+  - WRONG, corrected 2026-09-19: it was claimed this solves the two-unsynced-devices merge with no
+    UI. It does not. Ranking by last-modified keeps the most recently PUSHED, not the most
+    recently worked on: merged rows are stamped now() on insert, so a laptop that sat in a drawer
+    for a year and is signed in for the first time arrives stamped "now" and BLOCKS the desktop's
+    genuinely current workspaces. Only a client-owned timestamp fixes this (see below)
+  - blocked rows are read-only, so their timestamp freezes and they can never bump themselves back
+    into the live set. The blocked set only changes on a delete, or when premium changes. No
+    oscillation
+  - RANK ON THE SUBTREE, NOT ON THE ROW. This is the trap, found 2026-09-19 and it would have
+    shipped: environment.updated_at does NOT move when you work in a workspace. It moves when the
+    ROW changes - renamed, re-described, re-parented, repositioned. Adding a link or editing a
+    group writes OTHER rows and leaves the environment untouched. So a workspace used every day
+    for two years but never renamed has a two-year-old timestamp, while one created last month,
+    renamed once and never opened again looks fresher - and the ranking locks the workspace the
+    user lives in. That is decision 10's own failure mode reintroduced one level down, and worse,
+    because it is neither stable nor explicable
+  - so "last modified" must mean max(updated_at) across the row AND everything beneath it. Still
+    DERIVED, still nothing stored: it is a fold over collections the snapshot path already holds
+    in memory, so it is free exactly where it matters. A stored last_active_at would need a writer
+    on every link, group and subgroup mutation - the hottest write path in the application
+  - subtree ranking also gives the user a NON-DESTRUCTIVE way back. With no stored preference,
+    deletion was going to be the only control over which rows are live, and deletion is
+    irreversible. Under subtree ranking, opening a workspace and using it promotes it
+  - do not rank on updated_at as a redefinition of it: that column already has an owner, it exists
+    for the extension's sync ("the field a client compares against to discover what changed"). One
+    column serving two policies in two repositories means a future sync change silently locks
+    someone out of their data. Subtree ranking READS it rather than redefining it, which is the
+    coupling we want
+  - MIGRATIONS MUST NEVER BULK-SET updated_at. JPA callbacks do not run for Flyway SQL, so a
+    migration leaves it alone unless it sets it explicitly - and one UPDATE ... SET updated_at =
+    now() would silently reshuffle the live set for every user on the platform, with no deploy-time
+    symptom at all
+  - no index on (owner_id, updated_at). It would be an index on a column that changes on every
+    write, costing maintenance on the sync push. Add one only if a slow-query log asks for it
+  - THE OSCILLATION PATH THAT MUST STAY CLOSED: a client that renumbers siblings on a drag and
+    pushes them all would write position on blocked rows too, bumping them and promoting them
+    while demoting a live one. Already closed by "writes to blocked rows are refused, the
+    container's own delete excepted" - but ONLY if the refusal covers POSITION-ONLY writes and not
+    merely content changes. Needs a test named for exactly that
+  - the tips panel now has to explain WHY a workspace locked, not just that it did - the live set
+    is a function of behaviour, so it can legitimately change while the user is not looking
+
+- THE TWO CANDIDATE FIXES ARE NOT EQUIVALENT. Choose deliberately:
+  - SERVER-SIDE subtree MAX(updated_at) over the row and everything beneath it. Fixes "using a
+    workspace does not count". Does NOT fix offline edits, and does NOT fix the merge, because the
+    client still has no number of its own
+  - CLIENT-OWNED modifiedAt on environments and profiles, written by the extension on any mutation
+    in that subtree, carried on the upsert, stored verbatim, ranked on by the server. Fixes all
+    three. Both agents independently recommend this one
+- why the client-owned version matters most, the offline DEADLOCK: with server stamps, a blocked
+  workspace cannot be rescued by working in it, because the edit is the very thing that is
+  refused. You cannot bump because you are blocked, and you are blocked because you did not bump.
+  Under the old oldest-first rule the ranking was immutable so nobody expected editing to help;
+  last-modified creates that expectation and then denies it. With a client-owned timestamp an
+  offline edit carries the moment it happened, so the workspace ranks itself back in and the push
+  is accepted - self-healing, no message needed
+- conditions on the client-owned version: the server must CLAMP a future timestamp to now (a device
+  with a wrong clock would otherwise pin its workspaces live for ever), and must REFUSE a bumped
+  modifiedAt on a blocked row, or a fail-open old build unblocks rows by touching them
+- send it as an ISO INSTANT, never epoch millis - the backend reads a bare number as epoch SECONDS
+  and files the row in the year 58664, silently. That bug has been paid for once already
+- cost: this is the "new field on an entity" case - five places or it is silently lost. Side effect:
+  every link edit now also emits an environment upsert to carry the number, so pushes grow slightly
+  and every mutation touches two rows
+
+- "THE ONES YOU WORKED ON RECENTLY" GOES STALE AND STAYS STALE. Because only live rows can be
+  modified, the live set FREEZES at the instant the cap takes effect. Six months later the honest
+  wording is "the ones you happened to be working on the day you lapsed". And the escape hatch
+  inverts again: the only ways back into a blocked workspace are paying, or deleting fresher ones -
+  and "fresher" now means "the ones you use". So the instruction becomes "delete your current work
+  to get the old one back", which is the oldest-first absurdity moved rather than removed
+- PROPOSED FIX, one action and not a setting: allow exactly ONE privileged operation on a blocked
+  workspace - "work in this one instead" - which bumps its modifiedAt and thereby demotes whatever
+  is currently freshest. A SWAP, not a limit lift, so it cannot exceed the cap. No picker, no
+  stored preference, nothing new to configure; it reuses the derived rule and stores nothing beyond
+  the timestamp that already exists. Needs the server to accept a modifiedAt-only write on a
+  blocked row. It also gives a dimmed workspace something honest to offer besides "buy premium"
+
+- DECISION 11 IS AN UPGRADE-DAY REGRESSION FOR EXISTING UNSYNCED USERS. Someone who has never
+  signed in, with 4 workspaces and 2 profiles, loses access to 2 workspaces and 1 profile on the
+  day this ships - with no account, no explanation, and NO PURCHASE PATH IN THE EXTENSION AT ALL
+  ("upgrade to premium" is still an unimplemented TODO there). The profile cap of 1 is the sharper
+  edge: anyone who ever made a second profile is by definition an engaged user
+- RECOMMENDED INSTEAD: an install that has never connected an account REFUSES NEW CREATIONS past
+  the limit but BLOCKS NOTHING THAT ALREADY EXISTS. A fresh install still cannot pretend to be
+  premium - it cannot make a third workspace - and nobody wakes up to find their data greyed out
+  by an update. Retroactive blocking begins only once an account has been connected, which is also
+  the first moment the user has somewhere to go and something to buy
+- the up-front refusal covers FOUR call sites, not one: add workspace, create profile, IMPORT
+  profile (creates one as a side effect), and the first-run screen's load-defaults/import
+
+- PRE-EXISTING BUG THAT DECISION 10 WOULD PROMOTE INTO THE RANKING INPUT: two signed-in devices may
+  already be fighting over profile `position`, because it is derived from object insertion order
+  and the snapshot never reorders the registry. Each device pushes its own positions on every sync,
+  each push bumps both profile rows and notifies the other. Invisible today; under last-modified
+  ranking it churns the ranking input for ever. Needs a TWO-DEVICE settle test before any of this
+  ships - the existing settle test is single-device
+
+- FRESH-INSTALL MERGE BLOCKS THE USER'S REAL WORKSPACES AT SIGN-IN - the worst first-run case in
+  the feature, and it sits on decision 11's happy path rather than at an edge. A free user with 2
+  workspaces used for a year does a fresh install, creates 2 scratch workspaces before signing in
+  (allowed - the cap permits exactly that), then signs in. Merged rows are stamped now() on insert
+  and the extension has NO updatedAt to supply a truer value, so the 2 scratch workspaces outrank
+  a year of real work and the real ones are blocked the moment the user signs in. Recoverable -
+  delete the scratch ones and everything returns - but the first impression of signing in is that
+  it locked their data. No clean backend fix exists without a client-supplied activity time.
+  OPEN, choose one: have the extension defer creating local workspaces until sign-in has been
+  offered and declined, or warn before the merge unions, or fix it in the tips wording only
+- blocked means VISIBLE BUT LOCKED, never hidden. Hidden reads as data loss and generates support
+  mail; the user needs to see what they are paying to get back
+
+- HOW BLOCKING LOOKS IN THE EXTENSION - decided 2026-09-19, extension work, not this repo:
+  - an over-limit workspace stays visible and openable, with its button DIMMED
+  - inside it nothing is clickable: links do not open, and no editing, renaming or any other
+    operation is offered. Read-only in the strict sense
+  - DELETING the workspace is the one thing still allowed, and it is the escape hatch: with 4
+    workspaces on a free account, deleting the 2 stale blocked ones leaves 2, which are all
+    inside the limit. Falls out of the ranking for free, with no unblock job
+  - profiles work the same way: an over-limit profile stays accessible, and every workspace inside
+    it is read-only
+  - the tips panel shows a warning in the danger colour on each restricted workspace, saying what
+    the limit is and how to lift it (re-enable premium)
+  - so a blocked row DOES still count toward the limit (answering the open question below);
+    deletion is what actually frees a slot, because it removes the row rather than hiding it
+
+- RESOLVED 2026-09-19: pushed deletes of blocked rows ARE allowed. No special case, no second
+  delete mechanism. Refusing them would produce a ZOMBIE WORKSPACE - the client believes the row
+  is gone, the server believes it is present, and the next pull resurrects it. Delete, it comes
+  back; delete again, it comes back. A permanent divergence, and far worse than anything allowing
+  the delete risks. The protection that actually matters is the invariant we already have: the
+  snapshot always stays complete, so no client can mistake a blocked row for an absent one
+- log deletes of blocked rows distinctly at INFO with a count per push. If a client ever starts
+  mass-deleting them, that line is the difference between noticing in a week and noticing in a
+  support ticket
+- over-limit CREATES arriving by push must NOT throw. Reject the single operation through the
+  channel the protocol already has, with a new FREE_PLAN_LIMIT_REACHED rejection reason, so the
+  rest of an offline device's batch still applies. This is also the answer to "a cap added only to
+  the REST services lets the extension create unlimited rows by pushing them"
+- the only write permitted on a blocked container is DELETING THE CONTAINER ITSELF. Everything
+  below it is read-only from both the REST path and the push. Partial edits inside a blocked
+  workspace serve no purpose and only complicate the rule
+- the deleting device does not see its own promotion: the push echo is deliberately ignored by the
+  origin device, and it cannot recompute blocking locally because it holds neither the rule nor
+  the limits. Fix is small - put the blocked id lists on the PUSH RESULT as well as the snapshot.
+  General rule: blocking state rides on every response that can change it
+- UNSYNCED EXTENSIONS ARE CAPPED AT THE FREE LIMITS - decided 2026-09-19. An extension with no
+  account cannot know whether the person is premium, so free limits are the only safe default.
+  Cost worth knowing: a PAYING customer doing a fresh install is capped until they sign in. Soften
+  it by applying the cap only before any account has ever been connected on that install, and by
+  remembering the last known entitlement across a sign-out
+- capping each device does NOT solve two unsynced devices each creating workspaces and then
+  merging - the collision happens at the join, not at creation. Verified in the extension:
+  mergeWithAccount pairs profiles by identity then by name and ProfileMergeEngine.merge is a
+  union, so 2 local + 2 remote really is 4. Note this is TRUE TODAY, premium or free - the limits
+  do not create the problem, they only make it visible
+- the merge needs no new mechanism: merge everything, block the excess by the ranking above,
+  nothing is lost and delete still frees a slot. With last-modified ranking the outcome is also
+  the right one automatically, so there is no sign-in prompt and no picker
+- do NOT refuse a sign-in over a count. Refusing would be far worse than the problem
+- keep SEPARATE: the same workspace edited on two unsynced devices is a CONTENT conflict, not a
+  count conflict, and the existing protocol resolves it by arrival order. Different problem
+
+- THE CREATION PATH IS NOT COVERED BY ANY OF THIS, AND IT IS THE COMMON CASE. A free user with 2
+  workspaces presses "add workspace". Either the server refuses it and the next pull deletes it
+  locally - the exact data loss this feature exists to prevent - or the server accepts and blocks
+  it instantly and the user is staring at a dimmed, unusable workspace they just made. The
+  extension must refuse the action UP FRONT with a message pointing at premium, which means the
+  NUMERIC LIMITS have to reach the client, not just the blocked id lists. Otherwise the client
+  hard-codes 2 and 1 and drifts. Biggest hole in the design; fix first
+
+- PROMOTION AFTER DELETING DOES NOT HAPPEN BY ITSELF. Three independent reasons, all verified in
+  the extension code: (a) a local delete schedules a push only, and the change notification names
+  this device as origin so its own echo is deliberately skipped - nothing pulls; (b) even a pull
+  may not redraw, because the observable is deep-equal guarded and after a delete the pulled state
+  equals local state, so it never fires; (c) even a fired observable does not redraw the
+  workspace switcher, which reuses DOM elements by key and never updates their content. As the
+  code stands the user deletes two workspaces, the other two stay dimmed, and F5 fixes it - on the
+  one interaction the whole design calls the escape hatch. Fix: blocked lists on the PUSH RESULT,
+  plus reload the page when entitlements genuinely change (the established idiom there)
+
+- DELETING A WORKSPACE EMITS DELETES FOR EVERY LINK, SUBGROUP AND GROUP BENEATH IT, children
+  first. Every one of those is a blocked row. If the backend refuses writes to blocked rows
+  without exempting the whole subtree delete, the escape hatch does not work at all
+
+- A REFUSED OPERATION COSTS A PERMANENT RETRY LOOP in the extension as it stands: push() returns
+  early on any rejection without advancing the baseline, and the debounced path calls push() alone
+  rather than pushThenPull(). So the rejected operation is re-sent on every subsequent push, and
+  each push notifies the account's other devices - the two-devices-answering-each-other loop.
+  Client-side blocking is therefore NOT merely presentation here. Gate the client properly AND fix
+  the debounced path
+
+- OFFLINE EDITS TO A NEWLY BLOCKED WORKSPACE ARE SILENTLY DESTROYED. User edits offline, the
+  workspace becomes blocked meanwhile, the push is refused, the baseline does not advance, and the
+  next pull writes the account's state over local state with no message. "An account keeps every
+  byte" holds for data the server already had; it does not hold for work made on a stale client.
+  Decide whether that is acceptable or whether the client must surface it
+
+- TIPS BAR CSS IS IN THE WAY: a rule hides the WHOLE bar when the tip face is hidden, so a warning
+  added inside it would be invisible for exactly the users who hid tips. Either make that rule
+  conditional on the warning being absent, or put the warning in its own element beside the bar.
+  Also: the tips view-model does not know which workspace is open, and a per-workspace warning
+  needs that - about 30 lines, and the real cost of the tips item
+- "openable but nothing works" reads as a broken extension rather than a paywall. A dead link
+  click should SAY why rather than fail silently, and the explanation belongs where the eye is -
+  a band across the workspace head, not only in the bar at the foot of a long scroll
+
+- DEVICES ARE IN THE CAPS AND IN NOBODY'S PLAN. The extension IS a device, and there is no wiring
+  anywhere for being device 11 - a refused device that keeps pushing is the retry loop above. At
+  minimum the account menu must be able to say "this browser is over your free limit"
+- CLOSED TABS HANG OFF A PROFILE, not a workspace. The service worker records them continuously
+  and they ride along with every push, so a blocked profile would produce refused operations
+  forever with no UI anywhere to stop it. Decide explicitly
+
+- TIPS WORDING CAUTION: with 4 workspaces and a limit of 2, deleting ANY two fixes it. The ranking
+  only decides WHICH are blocked while the account is over, never whether deleting helps. So the
+  warning must say "you have 4 workspaces, free allows 2" and must NOT name particular ones or
+  suggest deleting particular ones - the ranking decides which are blocked, never whether deleting
+  helps
 - DEVICES, resolved: rank by last use, not creation date. The backend already has the query and
   keeps last_used_at on every sign-in, so this is nearly free - and creation order would need new
   logic AND be wrong
@@ -79,14 +317,13 @@ Things that comes to my mind during solving other shits and should be done
   Writes INTO a blocked workspace must be refused too, or it is not blocked
 - blocked rows have no TTL, no sweep and no cleanup, ever. Whoever writes the token cleanup job
   must never generalise it over domain rows
-- rank by (created_at, id), never created_at alone - a sync push can create several workspaces in
-  one transaction, and a tie that resolves differently per request makes the blocked one flicker
+- rank by (last_modified, id), never the timestamp alone - a sync push can touch several
+  workspaces in one transaction, and a tie that resolves differently per request makes the blocked
+  one flicker
 - OPEN, blocks enabling this: GRANDFATHERING. The day the limits switch on, every existing account
   already holding 3 workspaces or 11 devices has data blocked overnight, with no purchase and no
   lapse. Options: exempt rows created before an effective date, a per-account exemption flag, or
   warn by email with a window. Build it behind config and ship it DISABLED until this is answered
-- OPEN: a blocked row must still count toward the limit, or blocking one frees a slot and the next
-  one unblocks - an oscillation
 - NOT IMPLEMENTED YET - decided 2026-09-18
 
 ### Right of withdrawal: 14 day full refund

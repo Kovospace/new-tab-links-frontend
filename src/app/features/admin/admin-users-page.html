@@ -67,6 +67,11 @@
               </select>
             </span>
           </label>
+          <label>
+            <span>{{ 'admin.field.premium' | translate }}</span>
+            <input type="checkbox" formControlName="premium" />
+            <small>{{ 'admin.field.premiumHint' | translate }}</small>
+          </label>
           <button type="submit" [disabled]="viewModel.isSubmitting()">
             {{ 'admin.create.submitAction' | translate }}
           </button>
@@ -121,6 +126,11 @@
           </th>
           <th scope="col">
             <div class="admin-page__column-header-content">
+              {{ 'admin.field.premium' | translate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="admin-page__column-header-content">
               {{ 'admin.field.failedAttempts' | translate }}
             </div>
           </th>
@@ -150,6 +160,9 @@
             </td>
             <td>
               <div class="admin-page__cell-content">{{ account.statusLabel }}</div>
+            </td>
+            <td>
+              <div class="admin-page__cell-content">{{ account.premiumLabel }}</div>
             </td>
             <td>
               <div class="admin-page__cell-content">{{ account.failedLoginAttempts }}</div>
@@ -254,6 +267,11 @@
                 }
               </select>
             </span>
+          </label>
+          <label>
+            <span>{{ 'admin.field.premium' | translate }}</span>
+            <input type="checkbox" formControlName="premium" />
+            <small>{{ 'admin.field.premiumHint' | translate }}</small>
           </label>
           <button type="submit" [disabled]="viewModel.isSubmitting()">
             {{ 'admin.edit.saveAction' | translate }}

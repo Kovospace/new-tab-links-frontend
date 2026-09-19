@@ -284,7 +284,7 @@
     "cancelSubscription": {
       "heading": "Zrušenie predplatného",
       "lead": "Zrušením zastavíte ďalšie obnovenie. Plnú verziu máte do konca už zaplateného obdobia a nič sa nevracia.",
-      "downgradeNotice": "Po skončení zaplateného obdobia sa účet vráti na bezplatný plán a jeho limity. Ak ich dovtedy prekračujete, najprv vás požiadame o upratanie — nič vám sami nezmažeme.",
+      "downgradeNotice": "Po skončení zaplateného obdobia sa účet vráti na bezplatný plán. Čokoľvek nad jeho limity zostane presne tam, kde je, a nikdy sa nezmaže — len sa uzamkne na čítanie, kým si predplatné znova neaktivujete.",
       "action": "Zrušiť predplatné",
       "success": "Vaše predplatné sa už neobnoví. Plnú verziu máte do konca zaplateného obdobia."
     }
@@ -367,6 +367,8 @@
       "displayName": "Zobrazované meno",
       "password": "Heslo",
       "status": "Stav",
+      "premium": "Plná verzia",
+      "premiumHint": "Udelí plnú verziu ručne, bez platby. Použite pri riešení podpory alebo na vyskúšanie prémiových stránok, kým platobná brána neexistuje.",
       "failedAttempts": "Neúspešné prihlásenia",
       "createdAt": "Vytvorený",
       "actions": "Akcie"
@@ -375,6 +377,10 @@
       "PENDING_ACTIVATION": "Čaká na aktiváciu",
       "ACTIVE": "Aktívny",
       "DISABLED": "Zakázaný"
+    },
+    "premium": {
+      "yes": "Plná",
+      "no": "Zadarmo"
     },
     "create": {
       "heading": "Vytvoriť účet",
