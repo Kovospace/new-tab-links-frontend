@@ -385,10 +385,20 @@ Things that comes to my mind during solving other shits and should be done
 - rank by (last_modified, id), never the timestamp alone - a sync push can touch several
   workspaces in one transaction, and a tie that resolves differently per request makes the blocked
   one flicker
-- OPEN, blocks enabling this: GRANDFATHERING. The day the limits switch on, every existing account
-  already holding 3 workspaces or 11 devices has data blocked overnight, with no purchase and no
-  lapse. Options: exempt rows created before an effective date, a per-account exemption flag, or
-  warn by email with a window. Build it behind config and ship it DISABLED until this is answered
+- GRANDFATHERING DECIDED 2026-09-19: do not block anything that already exists. Rows created
+  before the effective date are PERMANENTLY EXEMPT from blocking. This was the item that blocked
+  enabling the whole feature; it is now answered
+- implement it as part of the same derived rule, with no new storage: blocked = not premium AND
+  created_at >= effective date AND outside the N most recently modified. The effective date is one
+  configured instant, not a per-account flag, so nothing has to be written or backfilled
+- note what the effective date does NOT protect, and this is the right line: someone who WAS
+  premium, created ten workspaces, and then lapsed created those rows after the date, so they are
+  blocked normally. Grandfathering protects people who never had a chance to know a limit existed,
+  not people who bought premium and stopped paying
+- OPEN SUB-QUESTION: do grandfathered rows still COUNT toward the cap when creating new ones? The
+  recommendation on the table is yes - an account with 5 old workspaces keeps all 5 usable but
+  cannot create a 6th without paying. "Keep what you have, do not grow past the cap for free."
+  Answering no would let a grandfathered account create 2 more on top of 5 and keep 7 for ever
 - NOT IMPLEMENTED YET - decided 2026-09-18
 
 ### Admin premium grant: must not write the flag directly
