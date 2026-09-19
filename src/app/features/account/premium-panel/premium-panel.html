@@ -13,6 +13,7 @@
         }
       </select>
       @if (viewModel.fieldValidationMessages()['continent']; as validationMessage) {
+        <br>
         <em>{{ validationMessage }}</em>
       }
     </label>
@@ -32,6 +33,7 @@
         }
       </select>
       @if (viewModel.fieldValidationMessages()['countryCode']; as validationMessage) {
+        <br>
         <em>{{ validationMessage }}</em>
       }
     </label>
@@ -46,6 +48,7 @@
         </label>
       }
       @if (viewModel.fieldValidationMessages()['plan']; as validationMessage) {
+        <br>
         <em>{{ validationMessage }}</em>
       }
     </fieldset>
