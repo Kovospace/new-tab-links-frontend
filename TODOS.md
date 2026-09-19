@@ -168,6 +168,35 @@ EXTENSION SIDE VERIFIED 2026-09-19. Effort M -> S-M, about a day to a day and a 
   asymmetry bites - client stricter than server is harmless, client laxer means the user creates a
   third workspace and is then refused sync, punished for using the app as it let them
 
+BLOCKING QUESTION FOR THE BACKEND: IS THE SNAPSHOT SERVED TO AN OVER-LIMIT ACCOUNT?
+- a delete-only push needs a BASELINE, because the change set is a difference against one. Two
+  ordinary ways a lapsed user arrives without a baseline: signing out and back in, which clears it
+  deliberately, and a reinstall or a second machine
+- with no baseline, push() diverts to the merge path, which fetches a snapshot FIRST. So if
+  eligibility refuses the snapshot as well as the push, that device is BLIND: it cannot compute a
+  delete list, cannot show the user what the account holds, and cannot even say which workspaces
+  are the problem. The one-shot remedy would be offered and do nothing - on precisely the device a
+  user reaches for after a reinstall
+- RECOMMENDED: serve the snapshot to an over-limit account and refuse only the PUSH. Reading your
+  own data was never what the cap was about, and without it the remedy has no input
+- WITH A CONDITION THAT IS EASY TO GET WRONG: the snapshot must be FETCHED AND NOT APPLIED.
+  Applying it writes the account's contents over local state - so for a lapsed user who has just
+  deleted four workspaces locally in order to get under the limit, applying the snapshot PUTS ALL
+  FOUR BACK and undoes the exact work the remedy depends on. The seam already exists, so this is a
+  matter of not calling the second half, plus a guard so no other path does either
+
+THE CACHED LIMIT OVERRIDE APPLIES ONLY WHILE A SESSION EXISTS. Otherwise a premium user signs out,
+keeps "uncapped" cached, creates five workspaces offline, signs back in and is refused - the exact
+asymmetry decision 16 exists to prevent, arriving by the back door. With no session the compiled
+defaults apply, which is what decision 14 says those numbers are for.
+
+THE CLIENT'S RESULT TYPE CANNOT CARRY A REASON CODE OR COUNTS TODAY, and both approved answers
+depend on it: the rejected variant reduces the response body to one human-readable string and
+discards everything else, so a typed body would be parsed and thrown away before any caller saw
+it. Widen it once to carry the parsed body, and keep the message field populated regardless so an
+older build still says something true. Use the SAME shape for the limits in the refusal body and
+in the snapshot, so there is one parser rather than two that can drift.
+
 THE INVARIANT, worth having in one line because it was invisible from either side alone:
 ACCOUNT-level eligibility lives in the service layer, consulted by the two sync entry points.
 DEVICE-level capacity lives at token issue. The account's state governs what it may sync; the
