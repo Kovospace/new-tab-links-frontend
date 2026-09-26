@@ -12,10 +12,12 @@ backend. This one is the **frontend/portal**.
 |---|---|---|---|
 | Frontend (this) | `/home/kovo/IdeaProjects/new-tab-links-frontend` | `Kovospace/new-tab-links-frontend` | Angular portal: presentation, hosting, everything deliberately kept out of the extension |
 | Backend | `/home/kovo/IdeaProjects/new-tab-links-backend` | `Kovospace/new-tab-links-backend` | Spring Boot service: storage, sync, auth |
-| Extension | `/home/kovo/IdeaProjects/NewTabGroupedLinks` | `K0V0/NewTabGroupedLinks` | The product itself: Chrome MV3 new-tab page |
+| Extension | `/home/kovo/IdeaProjects/new-tab-links-extension` | `Kovospace/new-tab-links-extension` | The product itself: Chrome MV3 new-tab page |
 | Migrations | `/home/kovo/IdeaProjects/new-tab-links-migrations` | `Kovospace/new-tab-links-migrations` | Flyway SQL owning the backend's schema, shipped as an init-container image |
 
-Note the owner mismatch — the extension is under **K0V0**, the rest under **Kovospace**.
+All four repositories are under **Kovospace**. The extension was formerly
+`K0V0/NewTabGroupedLinks` and GitHub still redirects that URL, so a stale remote appears to
+work — it is the same repository, renamed and transferred, not a fork.
 All remotes are SSH; `~/.ssh/id_ed25519` authenticates for all of them. Migrations is the one
 this repo has no `additionalDirectories` entry for; if a read of it is refused, that is why.
 

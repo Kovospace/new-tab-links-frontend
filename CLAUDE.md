@@ -54,7 +54,7 @@ from here:
 | Send it to | User-level agent | Points at |
 |---|---|---|
 | the backend | **`backend-developer`** | `new-tab-links-backend/.claude/agents/developer.md` |
-| the extension | **`extension-developer`** | `NewTabGroupedLinks/.claude/agents/backend-sync.md` |
+| the extension | **`extension-developer`** | `new-tab-links-extension/.claude/agents/backend-sync.md` |
 | the cluster | **`devops-engineer`** | `kovostack-infra-gitops/.claude/agents/devops-engineer.md` |
 
 This repo has one too — **`frontend-developer`** — which is how the other three reach *you*. Each
@@ -66,7 +66,7 @@ picked up by a **new** session.
 | Repo | Local path | Remote |
 |---|---|---|
 | Backend (Spring Boot) | `/home/kovo/IdeaProjects/new-tab-links-backend` | `Kovospace/new-tab-links-backend` |
-| Chrome extension | `/home/kovo/IdeaProjects/NewTabGroupedLinks` | `K0V0/NewTabGroupedLinks` |
+| Chrome extension | `/home/kovo/IdeaProjects/new-tab-links-extension` | `Kovospace/new-tab-links-extension` |
 | GitOps (cluster state) | `/home/kovo/IdeaProjects/kovostack-infra-gitops` | `Kovospace/kovostack-infra-gitops` |
 | Schema migrations (Flyway) | `/home/kovo/IdeaProjects/new-tab-links-migrations` | `Kovospace/new-tab-links-migrations` |
 
