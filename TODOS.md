@@ -92,6 +92,32 @@ Things that comes to my mind during solving other shits and should be done
 - payout fee is **7 EUR or 1%, whichever is higher**, minimum 50 EUR balance, paid on the 1st and
   15th. so take payouts rarely: one 400 EUR payout a year costs 7 EUR, twelve small ones cost 84
 
+**Decided 2026-09-27 - going live with Creem: test mode first, review last**
+
+- work in **test mode** until the product is finished: webhook, checkout, prices, product
+  descriptions and the presentation site are all tuned there. test mode needs no verification
+- Creem's review checks "your website, support email, and product details", so it goes in only
+  when those are final. before submitting, the website must have:
+  - [ ] a real product description of what pro and lifetime give
+  - [ ] visible pricing, matching the Creem products exactly
+  - [ ] terms of service, privacy policy and a **refund policy**
+  - [ ] the **support email visible on the site** (footer, contact or legal page) - the same one
+    registered in Creem. a missing or mismatched one is a named rejection reason
+- [ ] the extension **published in the Chrome Web Store**. Creem's docs do not say it is
+  required - ask their support if it matters - but a reviewer wants to see a real product
+- then, in this order:
+  - [ ] switch the dashboard to live, start **Balance -> Payout Account**; KYC/KYB starts from
+    there. government ID, business documents if selling as a company, and the same name spelling
+    on ID, business details and bank account (a mismatch is the other named rejection reason)
+  - [ ] **recreate the products in live mode.** test and live are completely separate; nothing
+    transfers and the live product ids are new
+  - [ ] register the webhook endpoint in live mode; it gets its own signing secret
+  - [ ] swap the backend's Creem values as one change in Infisical: live `CREEM_API_KEY`, live
+    `CREEM_WEBHOOK_SECRET`, live API base URL (`https://api.creem.io`, not `test-api`), live
+    product ids. a live key against the test URL, or the reverse, fails every call
+  - [ ] one real purchase and refund end to end before announcing anything
+- rotate the test API key once the integration works - it was pasted into a Claude session
+
 **Decided 2026-09-26 - account deletion is blocked while billing is live**
 
 - an account with a live subscription **cannot be deleted**. the user must cancel first, through
