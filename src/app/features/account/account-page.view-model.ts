@@ -1,10 +1,22 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { BackendFailureTranslator } from '../../core/api/backend-failure.translator';
-import { NO_SUBSCRIPTION, SubscriptionStatus } from '../../core/api/models/subscription.model';
+import { ActivatedRoute } from '@angular/router';
+import {
+  NO_SUBSCRIPTION,
+  PremiumPlan,
+  SubscriptionStatus,
+} from '../../core/api/models/subscription.model';
 import { UserAccount } from '../../core/api/models/user-account.model';
+import {
+  PremiumStanding,
+  listPurchasablePlans,
+  parsePremiumPlan,
+  resolvePremiumStanding,
+} from '../../core/billing/premium-standing';
 import { SubscriptionService } from '../../core/billing/subscription.service';
 import { TranslationService } from '../../core/i18n/translation.service';
 import { UserAccountService } from '../../core/user/user-account.service';
+import { APPLICATION_ROUTE_QUERY_PARAMETERS } from '../../core/routing/application-route-paths';
 import { formatInstantForDisplay } from '../../shared/formatting/instant-formatter';
 
 /**
@@ -59,18 +71,64 @@ export class AccountPageViewModel {
   readonly hasPassword = computed<boolean>(() => this.loadedAccount()?.hasPassword ?? false);
 
   /**
-   * Whether to offer the purchase form.
+   * Where the account stands with premium.
    *
-   * <p>Read from the account's own {@code premium} flag — the single place that answers "is this
-   * user premium" — and not worked out from the subscription's dates. Comparing
+   * <p>Premium or not is read from the account's own {@code premium} flag — the single place that
+   * answers "is this user premium" — and not worked out from the subscription's dates. Comparing
    * {@code validUntil} against {@code Date.now()} here would put the decision on a clock the user
    * owns, and it could not see a grace period, an operator's manual grant, or a refund the server
-   * has already acted on.</p>
+   * has already acted on. The subscription only tells a subscriber from a lifetime buyer.</p>
    *
    * <p>An account loaded from a backend that does not send the flag yet reads as not premium,
    * which is the right answer while nothing can be bought.</p>
    */
-  readonly canPurchasePremium = computed<boolean>(() => !this.loadedAccount()?.premium);
+  private readonly premiumStanding = computed<PremiumStanding>(() =>
+    resolvePremiumStanding(this.loadedAccount(), this.loadedSubscription()),
+  );
+
+  /**
+   * The plans the purchase form offers: both to a free account, only lifetime to a subscriber,
+   * none to a lifetime buyer.
+   */
+  readonly purchasablePlans = computed<readonly PremiumPlan[]>(() =>
+    listPurchasablePlans(this.premiumStanding()),
+  );
+
+  /** Whether to offer the purchase form at all. */
+  readonly canPurchasePremium = computed<boolean>(() => this.purchasablePlans().length > 0);
+
+  /**
+   * The plan a link asked for, through {@link APPLICATION_ROUTE_QUERY_PARAMETERS.accountPremiumPlan}.
+   *
+   * <p>Read once: the page is opened with it, and nothing on the page changes it afterwards.</p>
+   */
+  private readonly requestedPremiumPlan = parsePremiumPlan(
+    inject(ActivatedRoute).snapshot.queryParamMap.get(
+      APPLICATION_ROUTE_QUERY_PARAMETERS.accountPremiumPlan,
+    ),
+  );
+
+  /**
+   * The plan to choose in the purchase form before the reader does.
+   *
+   * <p>Only a plan the account can actually buy — a subscriber arriving from an old link that
+   * asked for the subscription gets the form's own default, not an offer to pay twice.</p>
+   */
+  readonly preselectedPremiumPlan = computed<PremiumPlan | null>(() =>
+    this.requestedPremiumPlan && this.purchasablePlans().includes(this.requestedPremiumPlan)
+      ? this.requestedPremiumPlan
+      : null,
+  );
+
+  /**
+   * Whether the page was opened to buy something, and the purchase form is there to be shown.
+   *
+   * <p>The home page's offers link here with a plan; the reader expects to land on the form, not
+   * at the top of an account page with the form somewhere below the profile.</p>
+   */
+  readonly shouldRevealPremiumPanel = computed<boolean>(
+    () => this.requestedPremiumPlan !== null && this.canPurchasePremium(),
+  );
 
   /**
    * Whether to offer cancelling.

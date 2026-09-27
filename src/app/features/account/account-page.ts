@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  afterRenderEffect,
+  inject,
+} from '@angular/core';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { AccountPageViewModel } from './account-page.view-model';
 import { CancelSubscriptionPanel } from './cancel-subscription-panel/cancel-subscription-panel';
@@ -35,6 +42,28 @@ import { ProfilePanel } from './profile-panel/profile-panel';
 export class AccountPage implements OnInit {
   /** State of the account page. */
   protected readonly viewModel = inject(AccountPageViewModel);
+
+  /** The purchase form's element id, which a link asking for a plan scrolls to. */
+  protected readonly premiumPanelAnchor = 'premium';
+
+  private readonly viewportScroller = inject(ViewportScroller);
+
+  /** Whether the purchase form has been scrolled to, so it happens once and not on every render. */
+  private hasRevealedPremiumPanel = false;
+
+  /**
+   * Scrolls to the purchase form once it has rendered, when the page was opened to buy.
+   *
+   * <p>After render, not on navigation: the form appears only once the account has loaded, which
+   * is well after the router would have looked for it — so a plain URL fragment finds nothing.</p>
+   */
+  private readonly revealPremiumPanelOnceRendered = afterRenderEffect(() => {
+    if (this.hasRevealedPremiumPanel || !this.viewModel.shouldRevealPremiumPanel()) {
+      return;
+    }
+    this.hasRevealedPremiumPanel = true;
+    this.viewportScroller.scrollToAnchor(this.premiumPanelAnchor);
+  });
 
   /**
    * Fetches the account as soon as the page opens.

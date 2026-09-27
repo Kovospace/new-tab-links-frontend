@@ -67,7 +67,14 @@
       "workspacesCount": "Workspaces",
       "profilesCount": "Profiles",
       "devicesCount": "Synchronised installations",
-      "ads": "NO ad banner"
+      "ads": "NO ad banner",
+      "action": {
+        "upgradeToPremium": "Upgrade to premium",
+        "subscribed": "Subscribed",
+        "upgradeToLifetime": "Upgrade to lifetime",
+        "alreadyOnLifetime": "Already on lifetime",
+        "alreadyOnPremium": "Already on premium"
+      }
     }
   },
   "download": {
@@ -269,7 +276,8 @@
         }
       },
       "proceedAction": "Proceed to payment",
-      "notAvailableYet": "Buying the full version is not switched on yet. Nothing has been charged. Please try again once payments go live."
+      "notAvailableYet": "Buying the full version is not switched on yet. Nothing has been charged. Please try again once payments go live.",
+      "subscriptionEndsWithLifetime": "Your yearly subscription is cancelled automatically once the lifetime purchase is confirmed, so you are never charged for both."
     },
     "refund": {
       "heading": "Changed your mind?",

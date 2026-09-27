@@ -11,7 +11,11 @@
     <app-profile-panel [currentDisplayName]="viewModel.currentDisplayName()" />
 
     @if (viewModel.canPurchasePremium()) {
-      <app-premium-panel />
+      <app-premium-panel
+        [id]="premiumPanelAnchor"
+        [purchasablePlans]="viewModel.purchasablePlans()"
+        [preselectedPlan]="viewModel.preselectedPremiumPlan()"
+      />
     }
 
     @if (viewModel.canRequestRefund()) {

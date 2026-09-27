@@ -31,7 +31,6 @@
   </section>
 
   <section class="home-page__downloads">
-
     <div class="home-page__downloads-free">
       <h3>{{ 'home.downloads.free.title' | translate }}</h3>
 
@@ -50,9 +49,17 @@
       <h4>{{ 'home.downloads.ads' | translate }}</h4>
       <p>{{ 'home.downloads.no' | translate }}</p>
 
-      <a class="home-page__call-to-action" [routerLink]="downloadLink">{{
-        'home.callToAction' | translate
-      }}</a>
+      @let freeAction = viewModel.freeOfferAction();
+      @if (freeAction.routerLink) {
+        <a
+          class="home-page__call-to-action"
+          [routerLink]="freeAction.routerLink"
+          [queryParams]="freeAction.queryParams"
+          >{{ freeAction.label }}</a
+        >
+      } @else {
+        <strong>{{ freeAction.label }}</strong>
+      }
     </div>
 
     <div class="home-page__downloads-paid">
@@ -74,9 +81,17 @@
       <h4>{{ 'home.downloads.ads' | translate }}</h4>
       <p>{{ 'home.downloads.yes' | translate }}</p>
 
-      <a class="home-page__call-to-action" [routerLink]="downloadLink">{{
-        'home.callToAction' | translate
-      }}</a>
+      @let subscriptionAction = viewModel.subscriptionOfferAction();
+      @if (subscriptionAction.routerLink) {
+        <a
+          class="home-page__call-to-action"
+          [routerLink]="subscriptionAction.routerLink"
+          [queryParams]="subscriptionAction.queryParams"
+          >{{ subscriptionAction.label }}</a
+        >
+      } @else {
+        <strong>{{ subscriptionAction.label }}</strong>
+      }
     </div>
 
     <div class="home-page__downloads-lifetime">
@@ -97,10 +112,17 @@
       <h4>{{ 'home.downloads.ads' | translate }}</h4>
       <p>{{ 'home.downloads.yes' | translate }}</p>
 
-      <a class="home-page__call-to-action" [routerLink]="downloadLink">{{
-        'home.callToAction' | translate
-      }}</a>
+      @let lifetimeAction = viewModel.lifetimeOfferAction();
+      @if (lifetimeAction.routerLink) {
+        <a
+          class="home-page__call-to-action"
+          [routerLink]="lifetimeAction.routerLink"
+          [queryParams]="lifetimeAction.queryParams"
+          >{{ lifetimeAction.label }}</a
+        >
+      } @else {
+        <strong>{{ lifetimeAction.label }}</strong>
+      }
     </div>
-
   </section>
 </article>

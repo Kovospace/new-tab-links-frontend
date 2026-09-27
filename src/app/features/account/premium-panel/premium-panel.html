@@ -2,6 +2,9 @@
   <h1>{{ 'account.premium.heading' | translate }}</h1>
   <p>{{ 'account.premium.lead' | translate }}</p>
   <p>{{ 'account.premium.withdrawalNotice' | translate }}</p>
+  @if (viewModel.subscriptionCancellationNotice(); as subscriptionCancellationNotice) {
+    <p>{{ subscriptionCancellationNotice }}</p>
+  }
 
   <form [formGroup]="viewModel.purchaseForm" (ngSubmit)="viewModel.submitPremiumPurchase()">
     <label>

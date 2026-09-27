@@ -123,4 +123,34 @@ describe('PremiumPanelViewModel', () => {
     expect(viewModel.submissionFailure()).toBe('account.premium.notAvailableYet');
     expect(viewModel.isSubmitting()).toBe(false);
   });
+  it('offers a subscriber only lifetime, and moves the choice off the plan they hold', () => {
+    viewModel.offerPlans(['LIFETIME'], null);
+
+    expect(viewModel.planOptions().map((option) => option.plan)).toEqual(['LIFETIME']);
+    expect(viewModel.purchaseForm.controls.plan.value).toBe('LIFETIME');
+  });
+
+  it('tells a subscriber buying lifetime that the subscription will be cancelled', () => {
+    expect(viewModel.subscriptionCancellationNotice()).toBe('');
+
+    viewModel.offerPlans(['LIFETIME'], null);
+
+    expect(viewModel.subscriptionCancellationNotice()).toBe(
+      'account.premium.subscriptionEndsWithLifetime',
+    );
+  });
+
+  it('chooses the plan a link preselected', () => {
+    viewModel.offerPlans(['YEARLY_RECURRING', 'LIFETIME'], 'LIFETIME');
+
+    expect(viewModel.purchaseForm.controls.plan.value).toBe('LIFETIME');
+  });
+
+  it("keeps the reader's own choice when nothing is preselected", () => {
+    viewModel.purchaseForm.controls.plan.setValue('LIFETIME');
+
+    viewModel.offerPlans(['YEARLY_RECURRING', 'LIFETIME'], null);
+
+    expect(viewModel.purchaseForm.controls.plan.value).toBe('LIFETIME');
+  });
 });

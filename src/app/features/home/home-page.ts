@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateParagraphsPipe } from '../../core/i18n/translate-paragraphs.pipe';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
-import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-paths';
 import { HomePageViewModel } from './home-page.view-model';
 
 /**
  * The landing page: what the extension is and why anyone would want it.
+ *
+ * <p>The three offers at the bottom are tailored to a signed-in visitor: what they can still buy
+ * links to the purchase form, and what they already have says so instead.</p>
  */
 @Component({
   selector: 'app-home-page',
@@ -16,10 +18,14 @@ import { HomePageViewModel } from './home-page.view-model';
   styleUrl: './home-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage {
+export class HomePage implements OnInit {
   /** State of the home page. */
   protected readonly viewModel = inject(HomePageViewModel);
 
-  /** Where the call to action leads. */
-  protected readonly downloadLink = APPLICATION_ROUTE_LINKS.download;
+  /**
+   * Finds out where a signed-in visitor stands, so the offers can say so.
+   */
+  ngOnInit(): void {
+    this.viewModel.loadPremiumStanding();
+  }
 }

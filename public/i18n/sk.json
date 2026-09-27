@@ -67,7 +67,14 @@
       "workspacesCount": "Pracovné plochy",
       "profilesCount": "Profily",
       "devicesCount": "Synchronizované inštalácie",
-      "ads": "BEZ reklamného pruhu"
+      "ads": "BEZ reklamného pruhu",
+      "action": {
+        "upgradeToPremium": "Prejsť na plnú verziu",
+        "subscribed": "Predplatené",
+        "upgradeToLifetime": "Prejsť na doživotnú licenciu",
+        "alreadyOnLifetime": "Už máte doživotnú licenciu",
+        "alreadyOnPremium": "Už máte plnú verziu"
+      }
     }
   },
   "download": {
@@ -269,7 +276,8 @@
         }
       },
       "proceedAction": "Pokračovať k platbe",
-      "notAvailableYet": "Nákup plnej verzie zatiaľ nie je spustený. Nič sme vám nestrhli. Skúste to znova, keď platby spustíme."
+      "notAvailableYet": "Nákup plnej verzie zatiaľ nie je spustený. Nič sme vám nestrhli. Skúste to znova, keď platby spustíme.",
+      "subscriptionEndsWithLifetime": "Vaše ročné predplatné sa po potvrdení doživotnej licencie automaticky zruší, takže nikdy nezaplatíte za obe."
     },
     "refund": {
       "heading": "Zmenili ste názor?",
