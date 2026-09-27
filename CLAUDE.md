@@ -61,6 +61,19 @@ This repo has one too — **`frontend-developer`** — which is how the other th
 resolves its own checkout and never edits the calling one. A newly added agent file is only
 picked up by a **new** session.
 
+**Every one of them costs 15-20K tokens before it reads your brief**, and every step it takes
+re-sends everything it has read so far. So brief them tightly:
+
+- **Say which job it is** — a question, an impact analysis, an estimate, or implementation. Their
+  required reading depends on it; an unlabelled brief is treated as a question.
+- **Name the files and line ranges** you already know matter, instead of "read the section on X".
+- **Ask for what you need back**, not for everything they found.
+- A question the code map answers does not need an agent at all.
+
+Each repo keeps a `.claude/CODEMAP.md` (the migrations repo: its `CLAUDE.md`); an agent reads it
+first. `.claude/tools/agent-cost.py` measures what a run actually cost and where — see its
+header for the metrics.
+
 ## Sibling repositories
 
 | Repo | Local path | Remote |
@@ -170,18 +183,25 @@ src/app/
 │   ├── auth/        session store, sign-in service, interceptor, guards, storage
 │   ├── i18n/        translation service, the impure translate pipe, dictionary helpers
 │   ├── user/        account and device services
+│   ├── billing/     premium checkout and the subscription
 │   ├── password/    set, change and reset
 │   ├── config/      the one file holding environment-dependent values
 │   └── routing/     route paths, three of them pinned by backend configuration
 ├── shared/                         reused by features
-│   ├── layout/      page header, page footer, language switcher
+│   ├── layout/      page header, page footer, language switcher, back button
 │   ├── forms/       form view-model base, validation wording, feedback component
+│   ├── geography/   countries and continents
+│   ├── messaging/   self-clearing message
 │   └── formatting/  instant formatter
 └── features/                       one folder per page: component + view-model + template + scss
     home · download · register · login · activate-account · reset-password
-    oauth-callback · devices (+ extension-connect-panel) · account (+ three panels)
+    oauth-callback · devices (+ extension-connect-panel) · account (+ six panels)
     legal (shared text page + sitemap) · not-found · admin (sign-in + account list)
 ```
+
+Which file holds which concern — the lookup, rather than the tree:
+
+@.claude/CODEMAP.md
 
 ## Configuration is resolved at container start
 
@@ -256,6 +276,8 @@ probes only when it is set, and `NEWTABLINKS_BACKEND_BASE_URL` pointing at the b
 ```
 .claude/
 ├── agents/developer.md                    the frontend developer agent
+├── CODEMAP.md                             which file holds which concern; imported below Layout
+├── tools/agent-cost.py                    what an agent run cost, and where the tokens went
 ├── skills/angular-code-standards/         coding rules
 ├── skills/authentication-flows/           identity, sessions, the pairing code
 ├── skills/deployment-pipeline/            image, nginx, runtime config, CI/CD

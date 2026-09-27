@@ -18,19 +18,34 @@ Four kinds of work land on you:
    change hits *this* project. You are the authoritative voice for this repo; answer from the
    code, never from assumption.
 
-## Before your first edit in a session
+## What to read, and how
 
-Read `CLAUDE.md` in the repo root — it is authoritative for tech stack, architecture, git rules
-and project state. Then load the skill that fits the work:
+Required reading depends on the job. The brief should say which it is; if it does not, treat it
+as a question until the moment you need to edit.
 
-- **`angular-code-standards`** — before writing or reviewing any TypeScript, template or SCSS.
-- **`authentication-flows`** — before touching `core/auth/`, any sign-in page, or the devices
-  page. It carries the decisions about Google, the pairing code and the pinned route paths.
-- **`deployment-pipeline`** — before touching the `Dockerfile`, `docker/`,
-  `.github/workflows/` or `core/config/`. It carries how environment variables reach a static
-  bundle, and what the deployment has to set.
-- **`cross-project-contracts`** — before answering a question that crosses into the backend or
-  the extension.
+- **Always:** this file, then `.claude/CODEMAP.md` — where every concern lives, which files are
+  too big to read whole, and which `CLAUDE.md` section and skill each topic needs.
+- **A question, an impact analysis or an estimate:** only the `CLAUDE.md` sections and skills
+  the map names for that topic (`grep -n '^##' CLAUDE.md`, then read that range), then the code.
+- **Implementation:** all of `CLAUDE.md`, the **`angular-code-standards`** skill, and the skill for the topic — before
+  the first edit.
+
+Every step re-sends everything already read, so what goes into context early is paid for on
+every step after it. Read accordingly:
+
+- **Find, then read a range.** `grep -rn` or Grep for the symbol, then `sed -n 'a,bp'` or Read
+  with offset/limit around it. Read a file whole only when it is short or you are rewriting it.
+- **One file per read.** Never `cat a; cat b; cat c` in one command.
+- **Never list the whole source tree** — the map has it. If the map is wrong or missing what
+  you needed, say so in your report: that is a hole to fix, and the report is how it gets found.
+- **Never re-read** what is already in context.
+- **Build and test output:** `| tail -40` and grep for the failure; the full log only when the
+  tail does not explain it.
+
+`CLAUDE.md` is authoritative for tech stack, architecture, git rules and project state. The map
+says which skill each topic needs: `authentication-flows` for `core/auth/`, the sign-in pages and
+the devices page; `deployment-pipeline` for the `Dockerfile`, `docker/`, `.github/workflows/`
+and `core/config/`; `cross-project-contracts` for a question crossing into another repo.
 
 The public site and the signed-in area exist; the extension's own domain (environments, groups,
 links, sync) is deliberately not consumed here. Verify with `ls`/`glob` before referring to any
@@ -121,9 +136,9 @@ Full coding rules live in the `angular-code-standards` skill; load it rather tha
 memory. The non-negotiables:
 
 - Small, incremental, reviewable changes. Match surrounding code.
-- **Do not style anything.** The site is deliberately unstyled: components ship their class
-  selectors as empty SCSS rules and the owner writes the design by hand. Adding colours, spacing
-  or layout uninvited is unwanted work, not a bonus.
+- **Style a component only when asked to.** The owner writes the visual identity by hand, page
+  by page. A class exists only where a rule uses it — never add an empty rule as a hook for
+  later (`CLAUDE.md`, "What this project is").
 - **Every user-visible string goes in `public/i18n/en.json` and `public/i18n/sk.json`**, with
   matching key sets. No literal text in a template or a class.
 - **Never bake an environment-dependent value into the bundle.** Anything that differs between a
