@@ -23,6 +23,13 @@ export type SubscriptionState =
   | 'PENDING_PAYMENT'
   /** Paid and running. */
   | 'ACTIVE'
+  /**
+   * A renewal charge failed and the provider is still retrying it.
+   *
+   * <p>Still premium: the backend marks a failed renewal and never revokes on it, so the reader
+   * keeps what they paid for until the period ends.</p>
+   */
+  | 'PAST_DUE'
   /** Cancelled, but paid up until {@link SubscriptionStatus.validUntil}. */
   | 'CANCELLED'
   /** Ran out and was not renewed. */
@@ -50,7 +57,7 @@ export interface PendingCheckout {
 /**
  * Everything the website is allowed to know about an account's premium standing.
  *
- * <p>Mirrors the response of {@code GET /api/v1/billing/subscription}, which answers 200 for
+ * <p>Mirrors the response of {@code GET /api/v1/payments/subscription}, which answers 200 for
  * every signed-in account — including one that has never bought anything, which comes back as
  * {@code state: 'NONE'} rather than as a 404. Code the "no subscription" branch against that
  * state, not against an error.</p>
@@ -188,9 +195,9 @@ export interface PremiumCheckoutSession {
  * What an account with no subscription looks like.
  *
  * <p>The shape the backend promises to answer with for an account that has never bought
- * anything. It exists here because the endpoint does not, so
- * {@code SubscriptionService} can hand the interface something real to render while the backend
- * catches up — and because it is the fixture every test of the "not premium" branch wants.</p>
+ * anything. Callers fall back to it when the subscription cannot be loaded — "nothing bought" is
+ * the safe reading, since whether the account is premium comes from the account itself — and it is
+ * the fixture every test of the "not premium" branch wants.</p>
  */
 export const NO_SUBSCRIPTION: SubscriptionStatus = {
   plan: null,
