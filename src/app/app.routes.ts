@@ -69,6 +69,15 @@ export const routes: Routes = [
       import('./features/account/account-page').then((module) => module.AccountPage),
   },
   {
+    // No guard: a buyer whose session ran out while paying still deserves the thanks, and is
+    // offered the sign-in from the page rather than bounced off it.
+    path: APPLICATION_ROUTE_PATHS.purchaseThankYou,
+    loadComponent: () =>
+      import('./features/purchase-thank-you/purchase-thank-you-page').then(
+        (module) => module.PurchaseThankYouPage,
+      ),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.privacy,
     data: {
       headingTranslationKey: 'legal.gdprHeading',

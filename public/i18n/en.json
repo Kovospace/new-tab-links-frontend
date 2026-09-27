@@ -396,5 +396,20 @@
       "confirmAction": "Yes, delete it permanently"
     },
     "cancelAction": "Cancel"
+  },
+  "purchaseThankYou": {
+    "heading": "Thank you!",
+    "confirmation": {
+      "CHECKING": "Your payment went through. We are confirming it with your account — this takes a few seconds.",
+      "CONFIRMED_SUBSCRIPTION": "Your yearly subscription is active. Enjoy the full version.",
+      "CONFIRMED_LIFETIME": "Your lifetime full version is active. It is yours for good.",
+      "STILL_PENDING": "Your payment went through, and the confirmation is still on its way. Your account switches to the full version on its own as soon as it arrives — there is nothing you need to do.",
+      "SIGNED_OUT": "Your payment went through. Sign in to see the full version on your account."
+    },
+    "extensionNote": "The extension picks up the full version the next time it synchronises.",
+    "receiptNote": "A receipt is on its way to your email from Creem, our payment provider.",
+    "accountAction": "Go to your account",
+    "signInAction": "Sign in",
+    "downloadAction": "Get the extension"
   }
 }

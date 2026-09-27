@@ -196,6 +196,7 @@ src/app/
     home · download · register · login · activate-account · reset-password
     oauth-callback · devices (+ extension-connect-panel) · account (+ six panels)
     legal (shared text page + sitemap) · not-found · admin (sign-in + account list)
+    purchase-thank-you (where the payment provider returns a buyer)
 ```
 
 Which file holds which concern — the lookup, rather than the tree:

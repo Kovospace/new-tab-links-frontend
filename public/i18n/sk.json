@@ -396,5 +396,20 @@
       "confirmAction": "Áno, zmazať natrvalo"
     },
     "cancelAction": "Zrušiť"
+  },
+  "purchaseThankYou": {
+    "heading": "Ďakujeme!",
+    "confirmation": {
+      "CHECKING": "Platba prebehla. Potvrdzujeme ju vo vašom účte — potrvá to pár sekúnd.",
+      "CONFIRMED_SUBSCRIPTION": "Vaše ročné predplatné je aktívne. Užívajte si plnú verziu.",
+      "CONFIRMED_LIFETIME": "Vaša doživotná plná verzia je aktívna. Je vaša navždy.",
+      "STILL_PENDING": "Platba prebehla a potvrdenie je ešte na ceste. Váš účet sa prepne na plnú verziu sám, len čo dorazí — nemusíte nič robiť.",
+      "SIGNED_OUT": "Platba prebehla. Prihláste sa a uvidíte plnú verziu vo svojom účte."
+    },
+    "extensionNote": "Rozšírenie si plnú verziu načíta pri najbližšej synchronizácii.",
+    "receiptNote": "Potvrdenie o platbe vám príde e-mailom od Creem, nášho poskytovateľa platieb.",
+    "accountAction": "Prejsť do účtu",
+    "signInAction": "Prihlásiť sa",
+    "downloadAction": "Získať rozšírenie"
   }
 }
