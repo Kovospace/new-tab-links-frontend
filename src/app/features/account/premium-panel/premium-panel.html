@@ -8,7 +8,6 @@
 
   <form [formGroup]="viewModel.purchaseForm" (ngSubmit)="viewModel.submitPremiumPurchase()">
     <fieldset>
-      <legend>{{ 'account.premium.planLabel' | translate }}</legend>
       @for (planOption of viewModel.planOptions(); track planOption.plan) {
         <label>
           <input type="radio" formControlName="plan" [value]="planOption.plan" />
