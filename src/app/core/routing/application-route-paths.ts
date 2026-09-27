@@ -34,6 +34,10 @@ export const APPLICATION_ROUTE_PATHS = {
    * it opens. Linked from nowhere else.
    */
   purchaseThankYou: 'thank-you',
+  /** Every tip, listed. The extension's "tell me more" links land below it. */
+  tips: 'tips',
+  /** One tip; the slug is its markdown file's name. */
+  tip: 'tips/:slug',
   privacy: 'privacy',
   cookies: 'cookies',
   sitemap: 'sitemap',
@@ -63,6 +67,7 @@ export const APPLICATION_ROUTE_LINKS = {
   devices: `/${APPLICATION_ROUTE_PATHS.devices}`,
   account: `/${APPLICATION_ROUTE_PATHS.account}`,
   purchaseThankYou: `/${APPLICATION_ROUTE_PATHS.purchaseThankYou}`,
+  tips: `/${APPLICATION_ROUTE_PATHS.tips}`,
   privacy: `/${APPLICATION_ROUTE_PATHS.privacy}`,
   cookies: `/${APPLICATION_ROUTE_PATHS.cookies}`,
   sitemap: `/${APPLICATION_ROUTE_PATHS.sitemap}`,

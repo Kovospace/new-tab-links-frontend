@@ -21,7 +21,8 @@
     "back": "Späť",
     "skipToContent": "Preskočiť na obsah",
     "openMenu": "Otvoriť ponuku",
-    "closeMenu": "Zavrieť ponuku"
+    "closeMenu": "Zavrieť ponuku",
+    "tips": "Tipy"
   },
   "footer": {
     "gdpr": "Ochrana osobných údajov (GDPR)",
@@ -411,5 +412,14 @@
     "accountAction": "Prejsť do účtu",
     "signInAction": "Prihlásiť sa",
     "downloadAction": "Získať rozšírenie"
+  },
+  "tips": {
+    "heading": "Tipy",
+    "lead": "Podrobnejšie vysvetlenie tipov, ktoré rozšírenie zobrazuje na vašej novej karte.",
+    "loading": "Načítava sa…",
+    "empty": "Zatiaľ tu nie sú žiadne tipy.",
+    "notFound": "Na tejto adrese žiadny tip nie je.",
+    "loadFailed": "Tip sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "backToList": "Všetky tipy"
   }
 }

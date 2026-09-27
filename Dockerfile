@@ -49,6 +49,9 @@ RUN npm ci
 COPY angular.json tsconfig*.json ./
 COPY public ./public
 COPY src ./src
+# `npm run build` first runs scripts/build-tips-index.mjs (the prebuild hook), which
+# lists the tip markdown into public/content/tips/index.json.
+COPY scripts ./scripts
 
 
 ### Production build. Emits dist/new-tab-links-frontend/browser - hashed bundles,

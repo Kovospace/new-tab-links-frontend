@@ -1,0 +1,11 @@
+<article class="tip">
+  @if (viewModel.isLoading()) {
+    <i role="status">{{ 'tips.loading' | translate }}</i>
+  } @else if (viewModel.failureMessage()) {
+    <p role="alert">{{ viewModel.failureMessage() }}</p>
+  } @else {
+    <div [innerHTML]="viewModel.renderedHtml()"></div>
+  }
+
+  <a [routerLink]="viewModel.tipsListLink" class="button">{{ 'tips.backToList' | translate }}</a>
+</article>

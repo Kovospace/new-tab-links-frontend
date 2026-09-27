@@ -60,7 +60,7 @@
                 class="page-header__navigation-link"
                 [routerLink]="navigationEntry.routerLink"
                 routerLinkActive="page-header__navigation-link--active"
-                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLinkActiveOptions]="navigationEntry.activeWhen"
                 >{{ navigationEntry.labelTranslationKey | translate }}</a
               >
             </li>

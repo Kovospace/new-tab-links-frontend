@@ -23,10 +23,12 @@ README.md
 CLAUDE.md
 *.md
 
-# The local development stack: no use inside the image.
+# The local development stack: no use inside the image. scripts/ stays out too,
+# except the tips index the build's prebuild hook runs.
 docker-compose.yml
 proxy.conf.json
-scripts
+scripts/*
+!scripts/build-tips-index.mjs
 
 # A developer's generated runtime configuration. The entrypoint writes the real
 # one at container start and nginx serves that through an alias, so a copy baked

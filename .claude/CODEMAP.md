@@ -23,6 +23,8 @@ Keep it current: a new folder under `core/` or `shared/`, or a new concern, adds
 | Password set, change, reset | `core/password/password.service.ts` |
 | Billing — checkout (`POST /api/v1/payments/checkouts`) and the subscription | `core/billing/premium-checkout.service.ts`, `core/billing/subscription.service.ts`, `core/api/models/subscription.model.ts` |
 | Account page panels (profile, password, premium, cancel, refund, delete) | `features/account/*-panel/` |
+| Tips: markdown per language, rendered in the browser | `public/content/tips/<lang>/<slug>.md`; `core/tips/` (fetch with English fallback, `marked` renderer resolving relative image and tip links); `features/tips/` (list + one tip) |
+| Tips index (a static site cannot list a folder) | `scripts/build-tips-index.mjs`, run by `prestart`/`prebuild`; output gitignored |
 | Return from the payment provider; waits for the webhook to make the account premium | `features/purchase-thank-you/` (path pinned by the backend's `checkout.success-path`) |
 | Extension pairing code | `features/devices/extension-connect-panel/` |
 | Route paths (three pinned by the backend) | `core/routing/application-route-paths.ts`, wired in `app.routes.ts` |

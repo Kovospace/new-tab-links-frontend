@@ -47,3 +47,6 @@ yarn-error.log*
 # scripts/write-local-runtime-config.sh generates public/config.json. Machine-
 # specific, and the committed template is .env.local.example.
 /.env.local
+
+# Generated from public/content/tips/*/*.md by scripts/build-tips-index.mjs before start and build.
+/public/content/tips/index.json

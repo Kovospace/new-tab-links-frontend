@@ -21,7 +21,8 @@
     "back": "Back",
     "skipToContent": "Skip to content",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "tips": "Tips"
   },
   "footer": {
     "gdpr": "GDPR compliance",
@@ -411,5 +412,14 @@
     "accountAction": "Go to your account",
     "signInAction": "Sign in",
     "downloadAction": "Get the extension"
+  },
+  "tips": {
+    "heading": "Tips",
+    "lead": "The longer story behind the tips the extension shows on your new tab page.",
+    "loading": "Loading…",
+    "empty": "No tips have been written yet.",
+    "notFound": "There is no tip at this address.",
+    "loadFailed": "This tip could not be loaded. Please try again in a moment.",
+    "backToList": "All tips"
   }
 }

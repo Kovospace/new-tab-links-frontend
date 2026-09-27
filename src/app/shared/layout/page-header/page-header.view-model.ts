@@ -1,6 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router } from '@angular/router';
+import { IsActiveMatchOptions, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route-paths';
 import { AuthenticationSessionStore } from '../../../core/auth/authentication-session.store';
@@ -15,7 +15,37 @@ export interface NavigationEntry {
   readonly labelTranslationKey: string;
   /** Absolute router link the entry points at. */
   readonly routerLink: string;
+  /** When the entry is shown as the current page; see {@link MATCHES_ITS_PAGES_BELOW}. */
+  readonly activeWhen: IsActiveMatchOptions;
 }
+
+/**
+ * The entry is current on its own page only.
+ *
+ * <p>Home's alone: its path is {@code /}, which every address in the site starts with, so matching
+ * anything wider would light it up everywhere.</p>
+ */
+const MATCHES_ITS_OWN_PAGE: IsActiveMatchOptions = {
+  paths: 'exact',
+  queryParams: 'ignored',
+  matrixParams: 'ignored',
+  fragment: 'ignored',
+};
+
+/**
+ * The entry is current on its page and every page below it — Tips on {@code /tips/<slug>} as well
+ * as on {@code /tips}.
+ *
+ * <p>Query parameters are ignored, so Account stays current on {@code /account?plan=LIFETIME},
+ * which is where the home page's offers link. Paths are compared by segment, not as text:
+ * {@code /tips} is not current on a {@code /tipsy}.</p>
+ */
+const MATCHES_ITS_PAGES_BELOW: IsActiveMatchOptions = {
+  paths: 'subset',
+  queryParams: 'ignored',
+  matrixParams: 'ignored',
+  fragment: 'ignored',
+};
 
 /**
  * State and behaviour behind the top bar.
@@ -113,16 +143,58 @@ export class PageHeaderViewModel {
 
 /** What a visitor without a session is offered. */
 const ANONYMOUS_NAVIGATION_ENTRIES: readonly NavigationEntry[] = [
-  { labelTranslationKey: 'nav.home', routerLink: APPLICATION_ROUTE_LINKS.home },
-  { labelTranslationKey: 'nav.download', routerLink: APPLICATION_ROUTE_LINKS.download },
-  { labelTranslationKey: 'nav.register', routerLink: APPLICATION_ROUTE_LINKS.register },
-  { labelTranslationKey: 'nav.login', routerLink: APPLICATION_ROUTE_LINKS.login },
+  {
+    labelTranslationKey: 'nav.home',
+    routerLink: APPLICATION_ROUTE_LINKS.home,
+    activeWhen: MATCHES_ITS_OWN_PAGE,
+  },
+  {
+    labelTranslationKey: 'nav.download',
+    routerLink: APPLICATION_ROUTE_LINKS.download,
+    activeWhen: MATCHES_ITS_PAGES_BELOW,
+  },
+  {
+    labelTranslationKey: 'nav.tips',
+    routerLink: APPLICATION_ROUTE_LINKS.tips,
+    activeWhen: MATCHES_ITS_PAGES_BELOW,
+  },
+  {
+    labelTranslationKey: 'nav.register',
+    routerLink: APPLICATION_ROUTE_LINKS.register,
+    activeWhen: MATCHES_ITS_PAGES_BELOW,
+  },
+  {
+    labelTranslationKey: 'nav.login',
+    routerLink: APPLICATION_ROUTE_LINKS.login,
+    activeWhen: MATCHES_ITS_PAGES_BELOW,
+  },
 ];
 
 /** What a visitor holding a session is offered. */
 const SIGNED_IN_NAVIGATION_ENTRIES: readonly NavigationEntry[] = [
-  { labelTranslationKey: 'nav.home', routerLink: APPLICATION_ROUTE_LINKS.home },
-  { labelTranslationKey: 'nav.download', routerLink: APPLICATION_ROUTE_LINKS.download },
-  { labelTranslationKey: 'nav.devices', routerLink: APPLICATION_ROUTE_LINKS.devices },
-  { labelTranslationKey: 'nav.account', routerLink: APPLICATION_ROUTE_LINKS.account },
+  {
+    labelTranslationKey: 'nav.home',
+    routerLink: APPLICATION_ROUTE_LINKS.home,
+    activeWhen: MATCHES_ITS_OWN_PAGE,
+  },
+  {
+    labelTranslationKey: 'nav.download',
+    routerLink: APPLICATION_ROUTE_LINKS.download,
+    activeWhen: MATCHES_ITS_PAGES_BELOW,
+  },
+  {
+    labelTranslationKey: 'nav.tips',
+    routerLink: APPLICATION_ROUTE_LINKS.tips,
+    activeWhen: MATCHES_ITS_PAGES_BELOW,
+  },
+  {
+    labelTranslationKey: 'nav.devices',
+    routerLink: APPLICATION_ROUTE_LINKS.devices,
+    activeWhen: MATCHES_ITS_PAGES_BELOW,
+  },
+  {
+    labelTranslationKey: 'nav.account',
+    routerLink: APPLICATION_ROUTE_LINKS.account,
+    activeWhen: MATCHES_ITS_PAGES_BELOW,
+  },
 ];

@@ -120,6 +120,13 @@ Multi-stage: `node:22.22.1-alpine` builds, `nginxinc/nginx-unprivileged:1.29-alp
   `packageManager`. The committed lockfile was produced by it (`lockfileVersion` 3) and npm 10.9.4
   reads it without complaint; regenerating it *inside* the build image is not possible, because
   that is the very resolution that crashes.
+- **`scripts/` is excluded by `.dockerignore`, except `scripts/build-tips-index.mjs`.** `npm run
+  build` runs it first (the `prebuild` hook) to list the tips' markdown into
+  `public/content/tips/index.json`, so the Dockerfile copies `scripts/` and the ignore file lets
+  that one script through. Excluding it again fails the image build at `COPY scripts`.
+- **Tips' markdown is served from `/content/`, not `/tips/`.** `/tips` is a client-side route, and
+  a folder of the same name would be caught by the SPA fallback's `$uri/` before `index.html`.
+  `/content/` is `no-cache` like `/i18n/`, and serves `.md` as `text/markdown; charset=utf-8`.
 - **`COPY --chmod` is not used** — it requires BuildKit. The shared pipeline builds with buildx,
   but a plain `docker build` has to work too, so the mode is set with an explicit `RUN chmod`
   inside a short `USER root` block.

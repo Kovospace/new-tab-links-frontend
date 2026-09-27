@@ -1,0 +1,18 @@
+<article class="tips">
+  <h1>{{ 'tips.heading' | translate }}</h1>
+
+  @if (viewModel.isLoading()) {
+    <i role="status">{{ 'tips.loading' | translate }}</i>
+  } @else if (viewModel.isEmpty()) {
+    <p>{{ 'tips.empty' | translate }}</p>
+  } @else {
+    <ul>
+      @for (tip of viewModel.presentedTips(); track tip.slug) {
+        <li>
+          <a [routerLink]="tip.routerLink">{{ tip.title }}</a>
+        </li>
+        <br>
+      }
+    </ul>
+  }
+</article>

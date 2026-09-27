@@ -43,7 +43,32 @@ describe('PageHeaderViewModel', () => {
   it('offers an anonymous visitor the ways in', () => {
     const offeredLabels = viewModel.navigationEntries().map((entry) => entry.labelTranslationKey);
 
-    expect(offeredLabels).toEqual(['nav.home', 'nav.download', 'nav.register', 'nav.login']);
+    expect(offeredLabels).toEqual([
+      'nav.home',
+      'nav.download',
+      'nav.tips',
+      'nav.register',
+      'nav.login',
+    ]);
+  });
+
+  it('marks Home current on its own page only, and every other entry on the pages below it too', () => {
+    const pathMatching = Object.fromEntries(
+      viewModel
+        .navigationEntries()
+        .map((entry) => [entry.labelTranslationKey, entry.activeWhen.paths]),
+    );
+
+    expect(pathMatching).toEqual({
+      'nav.home': 'exact',
+      'nav.download': 'subset',
+      'nav.tips': 'subset',
+      'nav.register': 'subset',
+      'nav.login': 'subset',
+    });
+    for (const entry of viewModel.navigationEntries()) {
+      expect(entry.activeWhen.queryParams).toBe('ignored');
+    }
   });
 
   it('offers a signed-in visitor the pages that need a session', () => {
@@ -51,7 +76,13 @@ describe('PageHeaderViewModel', () => {
 
     const offeredLabels = viewModel.navigationEntries().map((entry) => entry.labelTranslationKey);
 
-    expect(offeredLabels).toEqual(['nav.home', 'nav.download', 'nav.devices', 'nav.account']);
+    expect(offeredLabels).toEqual([
+      'nav.home',
+      'nav.download',
+      'nav.tips',
+      'nav.devices',
+      'nav.account',
+    ]);
   });
 
   it('greets by username until the account is loaded, then by display name', () => {

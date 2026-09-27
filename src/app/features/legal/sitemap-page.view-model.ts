@@ -34,6 +34,7 @@ export class SitemapPageViewModel {
 const PUBLIC_SITEMAP_ENTRIES: readonly SitemapEntry[] = [
   { labelTranslationKey: 'nav.home', routerLink: APPLICATION_ROUTE_LINKS.home },
   { labelTranslationKey: 'nav.download', routerLink: APPLICATION_ROUTE_LINKS.download },
+  { labelTranslationKey: 'nav.tips', routerLink: APPLICATION_ROUTE_LINKS.tips },
 ];
 
 /** Pages that only make sense without a session. */
