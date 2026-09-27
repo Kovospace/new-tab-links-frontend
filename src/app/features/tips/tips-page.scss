@@ -1,1 +1,22 @@
 // Styling is deliberately left to be written by hand; this file is wired up and ready for it.
+.tips {
+  padding: 1em;
+
+  ul {
+
+    li {
+      display: inline-block;
+      padding: 0.25em 0.5em;
+      margin: 0.25em 0;
+      font-size: 1.125em;
+
+      &:nth-of-type(2n-1) {
+        background-color: var(--color-panel);
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

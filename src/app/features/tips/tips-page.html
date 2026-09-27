@@ -1,6 +1,5 @@
-<article>
+<article class="tips">
   <h1>{{ 'tips.heading' | translate }}</h1>
-  <p>{{ 'tips.lead' | translate }}</p>
 
   @if (viewModel.isLoading()) {
     <i role="status">{{ 'tips.loading' | translate }}</i>
@@ -12,6 +11,7 @@
         <li>
           <a [routerLink]="tip.routerLink">{{ tip.title }}</a>
         </li>
+        <br>
       }
     </ul>
   }

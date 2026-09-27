@@ -1,4 +1,4 @@
-<article>
+<article class="tip">
   @if (viewModel.isLoading()) {
     <i role="status">{{ 'tips.loading' | translate }}</i>
   } @else if (viewModel.failureMessage()) {
@@ -7,5 +7,5 @@
     <div [innerHTML]="viewModel.renderedHtml()"></div>
   }
 
-  <a [routerLink]="viewModel.tipsListLink">{{ 'tips.backToList' | translate }}</a>
+  <a [routerLink]="viewModel.tipsListLink" class="button">{{ 'tips.backToList' | translate }}</a>
 </article>
