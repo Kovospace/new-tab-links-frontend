@@ -190,7 +190,6 @@ src/app/
 ├── shared/                         reused by features
 │   ├── layout/      page header, page footer, language switcher, back button
 │   ├── forms/       form view-model base, validation wording, feedback component
-│   ├── geography/   countries and continents
 │   ├── messaging/   self-clearing message
 │   └── formatting/  instant formatter
 └── features/                       one folder per page: component + view-model + template + scss

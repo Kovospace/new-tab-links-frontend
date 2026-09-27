@@ -21,14 +21,13 @@ Keep it current: a new folder under `core/` or `shared/`, or a new concern, adds
 | Operator (admin) session and calls | `core/admin/*` |
 | Account and devices | `core/user/user-account.service.ts`, `core/user/user-device.service.ts` |
 | Password set, change, reset | `core/password/password.service.ts` |
-| Billing — checkout and the subscription | `core/billing/premium-checkout.service.ts`, `core/billing/subscription.service.ts`, `core/api/models/subscription.model.ts` |
+| Billing — checkout (`POST /api/v1/payments/checkouts`) and the subscription | `core/billing/premium-checkout.service.ts`, `core/billing/subscription.service.ts`, `core/api/models/subscription.model.ts` |
 | Account page panels (profile, password, premium, cancel, refund, delete) | `features/account/*-panel/` |
 | Extension pairing code | `features/devices/extension-connect-panel/` |
 | Route paths (three pinned by the backend) | `core/routing/application-route-paths.ts`, wired in `app.routes.ts` |
 | Environment-dependent values | `core/config/runtime-configuration.ts` (+ `docker/entrypoint/40-write-runtime-config.sh`, `Dockerfile`) |
 | Translation | `core/i18n/translation.service.ts`, pipes beside it; strings in `public/i18n/{en,sk}.json` |
 | Form view-model base, validation wording | `shared/forms/` |
-| Countries and continents | `shared/geography/` |
 | Header, footer, language switcher, back button | `shared/layout/*` |
 | Providers, translations loaded before first render | `app.config.ts` |
 | nginx, caching, security headers | `docker/nginx/` |

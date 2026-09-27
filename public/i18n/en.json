@@ -259,11 +259,6 @@
       "heading": "Go premium",
       "lead": "Unlock the full version. Tell us where you are, pick a plan, and you will be sent to our payment provider to finish.",
       "withdrawalNotice": "You can change your mind for 14 days after buying and get all of your money back, no reason needed. Nothing is deducted for the days you used it.",
-      "continentLabel": "Continent",
-      "continentPlaceholder": "Select a continent",
-      "countryLabel": "Country",
-      "countryPlaceholder": "Select a country",
-      "countryAwaitingContinent": "Choose a continent first",
       "planLabel": "Plan",
       "plan": {
         "YEARLY_RECURRING": {
@@ -295,16 +290,6 @@
       "downgradeNotice": "When the period you have paid for ends, the account goes back to the free plan. Anything over its limits stays exactly where it is and is never deleted — it simply becomes read-only until you subscribe again.",
       "action": "Cancel subscription",
       "success": "Your subscription will not renew. You keep the full version until the period you have paid for ends."
-    }
-  },
-  "geography": {
-    "continent": {
-      "AFRICA": "Africa",
-      "ASIA": "Asia",
-      "EUROPE": "Europe",
-      "NORTH_AMERICA": "North America",
-      "OCEANIA": "Oceania",
-      "SOUTH_AMERICA": "South America"
     }
   },
   "legal": {

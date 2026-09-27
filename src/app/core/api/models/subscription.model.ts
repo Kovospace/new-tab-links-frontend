@@ -23,6 +23,13 @@ export type SubscriptionState =
   | 'PENDING_PAYMENT'
   /** Paid and running. */
   | 'ACTIVE'
+  /**
+   * A renewal charge failed and the provider is still retrying it.
+   *
+   * <p>Still premium: the backend marks a failed renewal and never revokes on it, so the reader
+   * keeps what they paid for until the period ends.</p>
+   */
+  | 'PAST_DUE'
   /** Cancelled, but paid up until {@link SubscriptionStatus.validUntil}. */
   | 'CANCELLED'
   /** Ran out and was not renewed. */
@@ -50,7 +57,7 @@ export interface PendingCheckout {
 /**
  * Everything the website is allowed to know about an account's premium standing.
  *
- * <p>Mirrors the response of {@code GET /api/v1/billing/subscription}, which answers 200 for
+ * <p>Mirrors the response of {@code GET /api/v1/payments/subscription}, which answers 200 for
  * every signed-in account — including one that has never bought anything, which comes back as
  * {@code state: 'NONE'} rather than as a 404. Code the "no subscription" branch against that
  * state, not against an error.</p>
@@ -145,64 +152,52 @@ export interface SubscriptionStatus {
 }
 
 /**
+ * The plan as the backend's checkout names it.
+ *
+ * <p>Not {@link PremiumPlan}: the checkout endpoint was written against the payment module's own
+ * {@code ProPlan} enum, which calls the renewing plan {@code SUBSCRIPTION}. The two are translated
+ * in {@code PremiumCheckoutService} and nowhere else.</p>
+ */
+export type CheckoutPlan = 'SUBSCRIPTION' | 'LIFETIME';
+
+/**
  * What the website sends to start a purchase.
  *
- * <p>Mirrors the body of {@code POST /api/v1/billing/checkouts}. Deliberately the smallest thing
- * that could work: what is being bought, and where the buyer says they are.</p>
- *
- * <p>The country travels as a plain ISO code and nothing more. Which gate the purchase is routed
- * to — GoPay inside the EU, a merchant-of-record provider outside it — is the backend's decision.
- * That is not a detail: the EU list is not really a list of countries but of territories (the
- * Canaries, Åland, Mount Athos, Northern Ireland), and any version of it compiled into a public
- * bundle is a tax bug that ships to every browser and cannot be recalled, because the old bundle
- * stays in caches. It would also be a bug the buyer could edit, which means choosing who carries
- * the tax liability. The website says where the buyer claims to be; the server decides what that
- * claim means.</p>
- *
- * <p>The continent is not sent. It narrows the country dropdown and means nothing beyond that;
- * the backend derives the continent from the country. Two sources for one fact, one of them
- * supplied by the client, is a bug waiting to be written.</p>
+ * <p>Mirrors {@code CheckoutCreationRequestDto}, the body of
+ * {@code POST /api/v1/payments/checkouts}: the plan, and nothing else. Which product sells it is
+ * the server's decision, from configuration, so no product id ever reaches a browser — and the
+ * buyer's country is asked by Creem on its own page, because as merchant of record it is the
+ * seller and the one that has to know.</p>
  */
 export interface PremiumCheckoutRequest {
   /** Which plan is being bought. */
-  readonly plan: PremiumPlan;
-
-  /** ISO 3166-1 alpha-2 code of the country the buyer selected, upper case. */
-  readonly countryCode: string;
+  readonly plan: CheckoutPlan;
 }
 
 /**
  * Where the browser has to go next to pay.
  *
- * <p>Mirrors the 201 response of {@code POST /api/v1/billing/checkouts}. The URL is opaque on
- * purpose: every gate worth using hands back a hosted page of its own, so keeping it opaque means
- * swapping one provider for another changes nothing on this side.</p>
+ * <p>Mirrors {@code CheckoutSessionDto}. The URL is Creem's hosted checkout, minted for this one
+ * account: it carries the account's id through to the webhook, which is what makes the account
+ * premium. A fixed product payment link could not do that — the payment would arrive with nobody
+ * to credit it to.</p>
  *
  * <p>It must be reached with a top-level navigation. Fetching it would fail — it is cross-origin
- * and a payment gate sends no CORS headers — and a payment page inside an XHR would be the wrong
+ * and a payment page sends no CORS headers — and a payment page inside an XHR would be the wrong
  * shape even if it worked.</p>
  */
-export interface PremiumCheckoutRedirect {
-  /** Our identifier for this attempt; the return page polls on it. */
-  readonly checkoutId: string;
-
-  /** Absolute URL of the gate's hosted payment page. */
-  readonly redirectUrl: string;
-
-  /** Which provider the buyer is about to see, for the "you will be sent to…" line. */
-  readonly provider: string;
-
-  /** When the gate stops accepting this attempt, ISO-8601. */
-  readonly expiresAt: string;
+export interface PremiumCheckoutSession {
+  /** Absolute URL of the hosted payment page. */
+  readonly checkoutUrl: string;
 }
 
 /**
  * What an account with no subscription looks like.
  *
  * <p>The shape the backend promises to answer with for an account that has never bought
- * anything. It exists here because the endpoint does not, so
- * {@code SubscriptionService} can hand the interface something real to render while the backend
- * catches up — and because it is the fixture every test of the "not premium" branch wants.</p>
+ * anything. Callers fall back to it when the subscription cannot be loaded — "nothing bought" is
+ * the safe reading, since whether the account is premium comes from the account itself — and it is
+ * the fixture every test of the "not premium" branch wants.</p>
  */
 export const NO_SUBSCRIPTION: SubscriptionStatus = {
   plan: null,

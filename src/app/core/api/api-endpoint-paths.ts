@@ -74,6 +74,12 @@ export const API_ENDPOINT_PATHS = {
     deleteAndForgetParameter: 'deleteAndForget',
   },
 
+  /** Buying premium. What the payment provider tells the backend arrives by webhook, not here. */
+  payments: {
+    checkouts: '/api/v1/payments/checkouts',
+    mySubscription: '/api/v1/payments/subscription',
+  },
+
   /**
    * The operator's own endpoints: sign-in, and repairing accounts.
    *

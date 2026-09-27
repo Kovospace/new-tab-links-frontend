@@ -33,7 +33,7 @@ export interface UserAccount {
    * Whether the account holds the full version right now.
    *
    * <p>The authoritative answer to "is this user premium", and the one thing about billing that
-   * lives on the account rather than behind {@code /api/v1/billing/subscription}. Everything else
+   * lives on the account rather than behind {@code /api/v1/payments/subscription}. Everything else
    * — which plan, until when, whether it renews — is detail that belongs with the subscription;
    * this is the entitlement, and it is what any feature gate should read.</p>
    *

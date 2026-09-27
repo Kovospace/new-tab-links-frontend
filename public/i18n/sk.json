@@ -259,11 +259,6 @@
       "heading": "Prejsť na plnú verziu",
       "lead": "Odomknite plnú verziu. Povedzte nám, odkiaľ ste, vyberte si plán a presmerujeme vás k platobnej bráne.",
       "withdrawalNotice": "Do 14 dní od nákupu môžete zmeniť názor a vrátime vám celú sumu, bez udania dôvodu. Nič vám nestrhneme za dni, počas ktorých ste ju používali.",
-      "continentLabel": "Kontinent",
-      "continentPlaceholder": "Vyberte kontinent",
-      "countryLabel": "Krajina",
-      "countryPlaceholder": "Vyberte krajinu",
-      "countryAwaitingContinent": "Najprv vyberte kontinent",
       "planLabel": "Plán",
       "plan": {
         "YEARLY_RECURRING": {
@@ -295,16 +290,6 @@
       "downgradeNotice": "Po skončení zaplateného obdobia sa účet vráti na bezplatný plán. Čokoľvek nad jeho limity zostane presne tam, kde je, a nikdy sa nezmaže — len sa uzamkne na čítanie, kým si predplatné znova neaktivujete.",
       "action": "Zrušiť predplatné",
       "success": "Vaše predplatné sa už neobnoví. Plnú verziu máte do konca zaplateného obdobia."
-    }
-  },
-  "geography": {
-    "continent": {
-      "AFRICA": "Afrika",
-      "ASIA": "Ázia",
-      "EUROPE": "Európa",
-      "NORTH_AMERICA": "Severná Amerika",
-      "OCEANIA": "Oceánia",
-      "SOUTH_AMERICA": "Južná Amerika"
     }
   },
   "legal": {
