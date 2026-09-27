@@ -43,10 +43,21 @@ export interface AdminUser {
    * support case, and what makes the premium panels testable before any gate exists.</p>
    */
   readonly premium: boolean;
+  /** Why the account is premium, or {@code null} when it is not. */
+  readonly premiumSource: AdminPremiumSource | null;
   readonly failedLoginAttempts: number;
   readonly createdAt: string;
   readonly updatedAt: string;
 }
+
+/**
+ * Why an account holds the full version.
+ *
+ * <p>{@code LIFETIME} and {@code SUBSCRIPTION} were paid for through the payment provider;
+ * {@code GRANT} was given by an operator. Only a grant can be taken back from the admin page — a
+ * paid entitlement ends through a refund or a cancellation at the provider, never by a checkbox.</p>
+ */
+export type AdminPremiumSource = 'LIFETIME' | 'SUBSCRIPTION' | 'GRANT';
 
 /** One page of accounts, mirroring the backend's {@code AdminUserPageDto}. */
 export interface AdminUserPage {
@@ -67,7 +78,12 @@ export interface AdminUserUpdate {
   readonly email: string;
   readonly displayName: string;
   readonly status: UserAccountStatus;
-  /** Whether the account holds the full version; the operator's grant or revoke. */
+  /**
+   * Whether the account holds the full version; the operator's grant or revoke.
+   *
+   * <p>Sent unchanged for an account that paid: the backend refuses to revoke a paid entitlement
+   * with a 409, and the edit panel locks the checkbox so it is never asked to.</p>
+   */
   readonly premium: boolean;
 }
 

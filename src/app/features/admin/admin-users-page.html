@@ -271,7 +271,11 @@
           <label>
             <span>{{ 'admin.field.premium' | translate }}</span>
             <input type="checkbox" formControlName="premium" />
-            <small>{{ 'admin.field.premiumHint' | translate }}</small>
+            @if (viewModel.editedAccountHasPaidPremium()) {
+              <small>{{ 'admin.field.premiumPaidHint' | translate }}</small>
+            } @else {
+              <small>{{ 'admin.field.premiumHint' | translate }}</small>
+            }
           </label>
           <button type="submit" [disabled]="viewModel.isSubmitting()">
             {{ 'admin.edit.saveAction' | translate }}

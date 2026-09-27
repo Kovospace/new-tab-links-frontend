@@ -5,6 +5,7 @@ import { AdminAuthenticationService } from '../../core/admin/admin-authenticatio
 import { AdminSessionStore } from '../../core/admin/admin-session.store';
 import { AdminUserService } from '../../core/admin/admin-user.service';
 import {
+  AdminPremiumSource,
   AdminUser,
   USER_ACCOUNT_STATUSES,
   UserAccountStatus,
@@ -31,7 +32,7 @@ export interface PresentedAccount {
   readonly displayName: string;
   readonly status: UserAccountStatus;
   readonly statusLabel: string;
-  /** Whether the account holds the full version, in words. */
+  /** Whether, and why, the account holds the full version, in words. */
   readonly premiumLabel: string;
   readonly createdAt: string;
   readonly failedLoginAttempts: number;
@@ -70,6 +71,17 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
   private readonly accountBeingEdited = signal<AdminUser | null>(null);
   private readonly accountAwaitingDeletion = signal<AdminUser | null>(null);
   private readonly creatingAccount = signal(false);
+
+  /**
+   * Whether the account in the edit panel is premium because it paid.
+   *
+   * <p>Its premium checkbox is then locked on: taking a paid entitlement away is a refund or a
+   * cancellation at the payment provider, and the backend refuses it from here anyway. The panel
+   * says so instead of offering a box that could only fail.</p>
+   */
+  readonly editedAccountHasPaidPremium = computed<boolean>(() =>
+    isPaidPremium(this.accountBeingEdited()?.premiumSource ?? null),
+  );
 
   /** The accounts on the current page, ready to render. */
   readonly accounts = computed<readonly PresentedAccount[]>(() =>
@@ -199,7 +211,26 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       status: account.status,
       premium: account.premium,
     });
+    this.lockPremiumWhenPaid(account);
     this.passwordForm.reset();
+  }
+
+  /**
+   * Locks the premium checkbox for an account that paid, and frees it for any other.
+   *
+   * <p>Through the control rather than a {@code [disabled]} binding, which a reactive form warns
+   * about and ignores. A locked box still submits its value — {@code getRawValue} includes it — so
+   * a paid account is sent as premium, which the backend treats as "no change".</p>
+   *
+   * @param account the account just opened for editing
+   */
+  private lockPremiumWhenPaid(account: AdminUser): void {
+    const premiumField = this.editForm.controls.premium;
+    if (isPaidPremium(account.premiumSource)) {
+      premiumField.disable();
+    } else {
+      premiumField.enable();
+    }
   }
 
   /** Closes the edit panel without saving. */
@@ -382,7 +413,9 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       status: account.status,
       statusLabel: this.translationService.translate(`admin.status.${account.status}`),
       premiumLabel: this.translationService.translate(
-        account.premium ? 'admin.premium.yes' : 'admin.premium.no',
+        account.premium && account.premiumSource
+          ? `admin.premium.${account.premiumSource}`
+          : 'admin.premium.no',
       ),
       createdAt: formatInstantForDisplay(
         account.createdAt,
@@ -393,4 +426,14 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       signsInThroughProviderOnly: !account.hasPassword,
     };
   }
+}
+
+/**
+ * Whether an entitlement was paid for, rather than granted by an operator.
+ *
+ * @param premiumSource why the account is premium, or {@code null} when it is not
+ * @returns true for a lifetime purchase or a subscription
+ */
+function isPaidPremium(premiumSource: AdminPremiumSource | null): boolean {
+  return premiumSource === 'LIFETIME' || premiumSource === 'SUBSCRIPTION';
 }
