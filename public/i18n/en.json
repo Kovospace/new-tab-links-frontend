@@ -361,10 +361,11 @@
       "password": "Password",
       "status": "Status",
       "premium": "Full version",
-      "premiumHint": "Grants the full version by hand, with no payment. Use it for a support case, or to try the premium pages before the payment gate exists.",
+      "premiumHint": "Grants the full version by hand, with no payment — for a support case or a test account. Unticking takes the grant back.",
       "failedAttempts": "Failed sign-ins",
       "createdAt": "Created",
-      "actions": "Actions"
+      "actions": "Actions",
+      "premiumPaidHint": "Paid through Creem. It cannot be taken away here: refund or cancel it in the Creem dashboard."
     },
     "status": {
       "PENDING_ACTIVATION": "Awaiting activation",
@@ -372,8 +373,10 @@
       "DISABLED": "Disabled"
     },
     "premium": {
-      "yes": "Full",
-      "no": "Free"
+      "no": "Free",
+      "LIFETIME": "Full — lifetime (paid)",
+      "SUBSCRIPTION": "Full — subscription (paid)",
+      "GRANT": "Full — granted"
     },
     "create": {
       "heading": "Create an account",

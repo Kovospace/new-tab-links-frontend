@@ -361,10 +361,11 @@
       "password": "Heslo",
       "status": "Stav",
       "premium": "Plná verzia",
-      "premiumHint": "Udelí plnú verziu ručne, bez platby. Použite pri riešení podpory alebo na vyskúšanie prémiových stránok, kým platobná brána neexistuje.",
+      "premiumHint": "Udelí plnú verziu ručne, bez platby — pri riešení podpory alebo pre testovací účet. Odškrtnutím sa pridelenie odoberie.",
       "failedAttempts": "Neúspešné prihlásenia",
       "createdAt": "Vytvorený",
-      "actions": "Akcie"
+      "actions": "Akcie",
+      "premiumPaidHint": "Zaplatené cez Creem. Tu sa odobrať nedá: vráťte platbu alebo zrušte predplatné v administrácii Creem."
     },
     "status": {
       "PENDING_ACTIVATION": "Čaká na aktiváciu",
@@ -372,8 +373,10 @@
       "DISABLED": "Zakázaný"
     },
     "premium": {
-      "yes": "Plná",
-      "no": "Zadarmo"
+      "no": "Zadarmo",
+      "LIFETIME": "Plná — doživotná (zaplatená)",
+      "SUBSCRIPTION": "Plná — predplatné (zaplatené)",
+      "GRANT": "Plná — pridelená"
     },
     "create": {
       "heading": "Vytvoriť účet",
