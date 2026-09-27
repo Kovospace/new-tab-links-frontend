@@ -1,4 +1,4 @@
-import { Injectable, computed, inject } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
 import { PremiumCheckoutRequest, PremiumPlan } from '../../../core/api/models/subscription.model';
@@ -114,18 +114,64 @@ export class PremiumPanelViewModel extends AbstractFormViewModel {
   /** Whether a continent has been chosen, which is what enables the country dropdown. */
   readonly hasChosenContinent = computed<boolean>(() => this.countryOptions().length > 0);
 
-  /** The two plan options, worded in the reader's language. */
+  /**
+   * The plans on offer; both until the page says otherwise.
+   *
+   * <p>Both by default, so the form stands on its own; the account page narrows it to lifetime
+   * for a subscriber through {@link offerPlans}.</p>
+   */
+  private readonly offeredPlans = signal<readonly PremiumPlan[]>(['YEARLY_RECURRING', 'LIFETIME']);
+
+  /** The plan options on offer, worded in the reader's language. */
   readonly planOptions = computed<readonly PresentedPlan[]>(() =>
-    (['YEARLY_RECURRING', 'LIFETIME'] as const).map((plan) => ({
+    this.offeredPlans().map((plan) => ({
       plan,
       label: this.translationService.translate(`account.premium.plan.${plan}.label`),
       description: this.translationService.translate(`account.premium.plan.${plan}.description`),
     })),
   );
 
+  /**
+   * What happens to the subscription the reader already holds, or empty when they hold none.
+   *
+   * <p>Only a subscriber is offered lifetime without the subscription beside it, so that is how
+   * this knows. Worth saying before they pay rather than after: the backend cancels the
+   * subscription once the lifetime purchase is confirmed, and someone who did not expect it would
+   * otherwise go looking for the cancel button — or cancel it themselves, and wonder whether that
+   * voided the purchase.</p>
+   */
+  readonly subscriptionCancellationNotice = computed<string>(() =>
+    this.offeredPlans().includes('YEARLY_RECURRING')
+      ? ''
+      : this.translationService.translate('account.premium.subscriptionEndsWithLifetime'),
+  );
+
   constructor() {
     super();
     this.followContinentWithTheCountryField();
+  }
+
+  /**
+   * Narrows the form to the plans the account can buy, and chooses one of them.
+   *
+   * <p>The choice is the preselected plan when there is one — a link from the home page's offers
+   * says which plan the reader clicked. Otherwise the current choice is kept while it is still on
+   * offer, and moved to the first plan offered when it is not: a subscriber must never be left
+   * with the subscription they already hold selected and hidden.</p>
+   *
+   * @param purchasablePlans the plans the account can buy, in the order they are offered
+   * @param preselectedPlan the plan to choose, or {@code null} to keep the form's own choice
+   */
+  offerPlans(purchasablePlans: readonly PremiumPlan[], preselectedPlan: PremiumPlan | null): void {
+    this.offeredPlans.set(purchasablePlans);
+
+    const planField = this.purchaseForm.controls.plan;
+    const chosenPlan = preselectedPlan ?? planField.value;
+    if (purchasablePlans.includes(chosenPlan)) {
+      planField.setValue(chosenPlan);
+    } else if (purchasablePlans.length > 0) {
+      planField.setValue(purchasablePlans[0]);
+    }
   }
 
   /**

@@ -61,3 +61,17 @@ export const APPLICATION_ROUTE_LINKS = {
   admin: `/${APPLICATION_ROUTE_PATHS.admin}`,
   adminUsers: `/${APPLICATION_ROUTE_PATHS.adminUsers}`,
 } as const;
+
+/**
+ * Query parameters a link may carry into a route.
+ *
+ * <p>Named here for the same reason as the paths: the page that writes one and the page that
+ * reads it must agree on the spelling, and a literal on each side is two places to drift.</p>
+ */
+export const APPLICATION_ROUTE_QUERY_PARAMETERS = {
+  /**
+   * On {@link APPLICATION_ROUTE_LINKS.account}: the premium plan to preselect in the purchase
+   * form, a {@code PremiumPlan} value. Its presence also asks the page to scroll to the form.
+   */
+  accountPremiumPlan: 'plan',
+} as const;
