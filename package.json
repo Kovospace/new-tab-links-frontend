@@ -4,8 +4,10 @@
   "scripts": {
     "ng": "ng",
     "config:local": "./scripts/write-local-runtime-config.sh",
-    "prestart": "npm run config:local",
+    "tips:index": "node scripts/build-tips-index.mjs",
+    "prestart": "npm run config:local && npm run tips:index",
     "start": "ng serve",
+    "prebuild": "npm run tips:index",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -19,6 +21,7 @@
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
+    "marked": "^18.0.14",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

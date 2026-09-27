@@ -173,6 +173,9 @@ docker/nginx/                  server config: SPA fallback, caching, security he
 docker/entrypoint/             writes config.json from the container's environment
 .github/workflows/             thin caller into the shared Kovospace pipeline
 public/i18n/{en,sk}.json        every user-visible string; identical key sets
+public/content/tips/{en,sk}/    one markdown file per tip; the file name is its /tips/<slug>
+public/images/{en,sk}/tips/<slug>/   a tip's screenshots, named relatively from its markdown
+scripts/build-tips-index.mjs    lists the tips into content/tips/index.json before start/build
 src/app/
 ├── app.ts | app.html | app.scss    the shell: header, router outlet, footer
 ├── app.config.ts                   providers; loads translations before the first render
@@ -196,7 +199,7 @@ src/app/
     home · download · register · login · activate-account · reset-password
     oauth-callback · devices (+ extension-connect-panel) · account (+ six panels)
     legal (shared text page + sitemap) · not-found · admin (sign-in + account list)
-    purchase-thank-you (where the payment provider returns a buyer)
+    purchase-thank-you (where the payment provider returns a buyer) · tips (list + one tip)
 ```
 
 Which file holds which concern — the lookup, rather than the tree:

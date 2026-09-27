@@ -78,6 +78,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.tips,
+    loadComponent: () => import('./features/tips/tips-page').then((module) => module.TipsPage),
+  },
+  {
+    path: APPLICATION_ROUTE_PATHS.tip,
+    loadComponent: () => import('./features/tips/tip-page').then((module) => module.TipPage),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.privacy,
     data: {
       headingTranslationKey: 'legal.gdprHeading',
