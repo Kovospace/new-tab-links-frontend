@@ -9,6 +9,7 @@
  *   <li>{@link activateAccount} — {@code newtablinks.web.activation-path}</li>
  *   <li>{@link resetPassword} — {@code newtablinks.web.password-reset-path}</li>
  *   <li>{@link oauthCallback} — {@code newtablinks.web.oauth-callback-path}</li>
+ *   <li>{@link purchaseThankYou} — {@code newtablinks.payment.creem.checkout.success-path}</li>
  * </ul>
  *
  * <p>Renaming one of those means changing the matching backend property in the same change, or
@@ -27,6 +28,12 @@ export const APPLICATION_ROUTE_PATHS = {
   oauthCallback: 'auth/callback',
   devices: 'devices',
   account: 'account',
+  /**
+   * Where the payment provider sends a buyer back after paying. Fixed by the backend's
+   * {@code newtablinks.payment.creem.checkout.success-path}, which puts it into every checkout
+   * it opens. Linked from nowhere else.
+   */
+  purchaseThankYou: 'thank-you',
   privacy: 'privacy',
   cookies: 'cookies',
   sitemap: 'sitemap',
@@ -55,6 +62,7 @@ export const APPLICATION_ROUTE_LINKS = {
   resetPassword: `/${APPLICATION_ROUTE_PATHS.resetPassword}`,
   devices: `/${APPLICATION_ROUTE_PATHS.devices}`,
   account: `/${APPLICATION_ROUTE_PATHS.account}`,
+  purchaseThankYou: `/${APPLICATION_ROUTE_PATHS.purchaseThankYou}`,
   privacy: `/${APPLICATION_ROUTE_PATHS.privacy}`,
   cookies: `/${APPLICATION_ROUTE_PATHS.cookies}`,
   sitemap: `/${APPLICATION_ROUTE_PATHS.sitemap}`,

@@ -1,0 +1,23 @@
+<article class="thank_you">
+
+  <h1>{{ 'purchaseThankYou.heading' | translate }}</h1>
+
+  <p role="status">{{ viewModel.confirmationMessage() }}</p>
+
+  @if (viewModel.isConfirmed()) {
+    <p>{{ 'purchaseThankYou.extensionNote' | translate }}</p>
+  }
+
+  <p>{{ 'purchaseThankYou.receiptNote' | translate }}</p>
+
+  @switch (viewModel.confirmation()) {
+    @case ('SIGNED_OUT') {
+      <a [routerLink]="links.login" class="button">{{ 'purchaseThankYou.signInAction' | translate }}</a>
+    }
+    @default {
+      <a [routerLink]="links.account" class="button">{{ 'purchaseThankYou.accountAction' | translate }}</a>
+    }
+  }
+  <a [routerLink]="links.download" class="button">{{ 'purchaseThankYou.downloadAction' | translate }}</a>
+
+</article>
