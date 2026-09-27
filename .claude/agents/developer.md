@@ -51,35 +51,45 @@ The public site and the signed-in area exist; the extension's own domain (enviro
 links, sync) is deliberately not consumed here. Verify with `ls`/`glob` before referring to any
 component, service or route, and never invent an endpoint — read the backend.
 
-## The GitOps repository
+## Changing what the cluster runs — the `devops-engineer` agent
 
-The cluster's desired state lives in `Kovospace/kovostack-infra-gitops`, checked out at
-`/home/kovo/IdeaProjects/kovostack-infra-gitops` and readable from here. Three files describe
-this application:
+Tabilinks is deployed from the GitOps repository `/home/kovo/IdeaProjects/kovostack-infra-gitops`
+(`Kovospace/kovostack-infra-gitops`). **Read it freely; never write to it.** Argo CD reconciles its
+`main` continuously with `prune` and `selfHeal`, so a push there is a production deployment with
+no approval gate. Every change to it goes through the user-level agent **`devops-engineer`**
+(`~/.claude/agents/devops-engineer.md`, which follows that repo's own
+`.claude/agents/devops-engineer.md`). It asks the user before every push to `main`.
 
-- `applications/new-tab-links-frontend.yaml` — the Argo CD Application: which chart version, the
-  sync policy, the namespace.
-- `applications/new-tab-links-frontend/values.yaml` — what a human edits: `host`, `healthPath`,
-  resources, and the `env:` block that becomes `config.json`.
-- `versions/new-tab-links-frontend.yaml` — the image tag, written by CI. Never edited by hand;
-  it is loaded after the values file so it always wins.
+Where a deployment value belongs decides whether it needs that agent at all:
 
-**Read it freely** — to answer "what does this deployment actually set?", to check whether a new
-environment variable has a value in the cluster, or to confirm what the chart is given. That
-beats guessing, and it is the only place the real answer exists.
+| The value is… | It lives in | Changed by |
+|---|---|---|
+| a non-secret setting that differs from the code's default (a path, a URL, an interval) | `applications/<app>/values.yaml`, the `env:` block | `devops-engineer` |
+| a secret (API key, signing secret, password) | Infisical, pulled into the Pod through `envFrom` — no manifest change | **the user**, in Infisical. Never in git, never in an agent brief |
+| the image tag | `versions/<app>.yaml` | CI, never by hand |
+| the migrations init-container version | `versions/new-tab-links-backend-init.yaml` | the backend pipeline; `devops-engineer` only if it cannot |
+| equal to the code's default | nowhere — leave it unset | — |
 
-**Do not write to it.** Argo CD reconciles its `main` continuously with `prune` and `selfHeal`,
-so a push there is a production deployment with no approval gate. That repo has its own agent —
-**`devops-engineer`**, registered user-level in `~/.claude/agents/devops-engineer.md` — which
-owns every change to it and asks the user before each push to `main`. Hand it anything that has
-to change in the cluster: a new environment variable that needs a value, an image tag, a probe
-path, a resource limit, an init-container version.
+`<app>` is `new-tab-links-backend` or `new-tab-links-frontend`. For the frontend, `env:` becomes
+`config.json` at container start, so it is only ever public configuration.
 
-When you hand work over, say what the value must be and *why* — that agent knows Kubernetes, not
-this application. `NEWTABLINKS_BACKEND_BASE_URL` must be the backend's **public** address because
-the visitor's browser resolves it, and `healthPath: /healthz` must be set or the chart renders no
-probes; neither is guessable from the cluster side.
+**What to hand it.** It knows Kubernetes, not this application, so a brief names: the app, the
+exact variable name, the exact value, **why** that value, and any ordering against a release
+("before the backend image with X deploys"). Label it implementation, as with any agent. For
+example: *new-tab-links-backend, set `CREEM_CHECKOUT_SUCCESS_PATH=/account?purchase=complete` in
+`env:` — where Creem sends a buyer after paying; must land with or after the frontend release
+that reads that parameter.*
 
+A new variable in code with a working default needs nothing in the cluster. Say so in the report
+rather than asking for a no-op change.
+
+Three files describe this site: `applications/new-tab-links-frontend.yaml` (the Argo CD
+Application — chart version, sync policy, namespace), `applications/new-tab-links-frontend/values.yaml`
+(`host`, `healthPath`, resources and the `env:` block) and `versions/new-tab-links-frontend.yaml`
+(the image tag). Two values are not guessable from the cluster side and must be explained when
+handed over: `NEWTABLINKS_BACKEND_BASE_URL` is the backend's **public** address, because the
+visitor's browser resolves it, and `healthPath: /healthz` must be set or the chart renders no
+probes.
 
 ## Answering another project's question
 
