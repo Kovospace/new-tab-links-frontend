@@ -120,6 +120,14 @@
         color var(--duration-fast) var(--easing-standard);
       //background-color: white;
     }
+
+    strong {
+      display: block;
+      font-size: 2em;
+      font-weight: bold;
+      font-style: italic;
+      margin-top: 1.5em;
+    }
   }
 
   @media (max-width: 959px) {
