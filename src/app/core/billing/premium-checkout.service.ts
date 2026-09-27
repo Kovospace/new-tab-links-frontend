@@ -1,18 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Observable, catchError, throwError } from 'rxjs';
+import { API_ENDPOINT_PATHS } from '../api/api-endpoint-paths';
+import { BackendApiClient } from '../api/backend-api.client';
 import {
-  PremiumCheckoutRedirect,
+  CheckoutPlan,
   PremiumCheckoutRequest,
+  PremiumCheckoutSession,
+  PremiumPlan,
   SubscriptionStatus,
 } from '../api/models/subscription.model';
 
 /**
- * Thrown when a purchase or a cancellation is attempted before any payment gate exists.
+ * Thrown when a purchase or a cancellation is attempted and no payment gate is there to take it.
  *
  * <p>Its own type rather than a bare {@code Error}, so that a view-model can tell "this is not
  * built yet" apart from "the gate said no" and word them differently. It should stop being thrown
- * once a gate is wired up, but it is worth keeping even then: a deployment with no gate
- * configured will want to say exactly this again.</p>
+ * for a purchase when the backend has no Creem key configured, and it stays thrown by refund and
+ * cancellation until those are built.</p>
  */
 export class PaymentGateUnavailableError extends Error {
   constructor() {
@@ -24,16 +29,13 @@ export class PaymentGateUnavailableError extends Error {
 /**
  * Starting and ending a premium subscription.
  *
- * <p><strong>This is a seam, and today it is empty.</strong> No payment gate is contracted, the
- * backend has no billing endpoints, and both calls fail with {@link PaymentGateUnavailableError}.
- * The signatures are the ones the backend's proposed contract implies, so that when it ships,
- * these two method bodies become {@code BackendApiClient} calls and the form, the view-model, the
- * validation, the country catalogue and the wording all stay exactly as they are.</p>
- *
- * <p>The point is that there is exactly <em>one</em> place to change. Callers must not work
- * around this class while it is unimplemented — a second path to the gate is how a seam stops
- * being one. The endpoint paths are deliberately not in {@code api-endpoint-paths.ts} yet: they
- * are still proposals, and a constant nothing calls is a constant nobody maintains.</p>
+ * <p><strong>Buying is wired; refunding and cancelling are not yet.</strong> A purchase asks the
+ * backend for a checkout, and the backend builds it from the product ids in its own configuration
+ * and puts the account's id inside it — which is how the webhook knows whom to make premium. The
+ * product payment links in Creem's dashboard are deliberately not used: they carry no account, so
+ * a payment through one would have nobody to credit it to, and their ids would be one more thing
+ * to keep in step per environment. Refund and cancel still fail with
+ * {@link PaymentGateUnavailableError} until the backend has endpoints for them.</p>
  *
  * <p>Note what is deliberately <em>not</em> here: anything that talks to a payment provider
  * directly. The browser only ever learns a URL to visit. Card details, gate credentials and the
@@ -43,15 +45,24 @@ export class PaymentGateUnavailableError extends Error {
  */
 @Injectable({ providedIn: 'root' })
 export class PremiumCheckoutService {
+  private readonly backendApiClient = inject(BackendApiClient);
+
   /**
    * Starts a purchase and answers where to send the browser.
    *
-   * @param checkoutRequest what is being bought, and where the buyer says they are
-   * @returns the gate's hosted payment page to redirect to
+   * <p>A 503 means the backend has no payment provider configured, and becomes
+   * {@link PaymentGateUnavailableError} so the reader is told that rather than shown a server
+   * error. Everything else is passed on as it came.</p>
+   *
+   * @param plan what is being bought
+   * @returns the hosted payment page to redirect to
    */
-  beginCheckout(checkoutRequest: PremiumCheckoutRequest): Observable<PremiumCheckoutRedirect> {
-    void checkoutRequest;
-    return throwError(() => new PaymentGateUnavailableError());
+  beginCheckout(plan: PremiumPlan): Observable<PremiumCheckoutSession> {
+    const checkoutRequest: PremiumCheckoutRequest = { plan: toCheckoutPlan(plan) };
+
+    return this.backendApiClient
+      .post<PremiumCheckoutSession>(API_ENDPOINT_PATHS.payments.checkouts, checkoutRequest)
+      .pipe(catchError((failure: unknown) => throwError(() => explainCheckoutFailure(failure))));
   }
 
   /**
@@ -84,4 +95,26 @@ export class PremiumCheckoutService {
   cancelSubscription(): Observable<SubscriptionStatus> {
     return throwError(() => new PaymentGateUnavailableError());
   }
+}
+
+/**
+ * Names a plan the way the backend's checkout does.
+ *
+ * @param plan the plan as the rest of the website names it
+ * @returns the same plan as {@code POST /api/v1/payments/checkouts} expects it
+ */
+function toCheckoutPlan(plan: PremiumPlan): CheckoutPlan {
+  return plan === 'LIFETIME' ? 'LIFETIME' : 'SUBSCRIPTION';
+}
+
+/**
+ * Turns "no payment provider configured" into its own error, and leaves every other failure as is.
+ *
+ * @param failure whatever the checkout call failed with
+ * @returns the error to pass on
+ */
+function explainCheckoutFailure(failure: unknown): unknown {
+  const noGateConfigured =
+    failure instanceof HttpErrorResponse && failure.status === HttpStatusCode.ServiceUnavailable;
+  return noGateConfigured ? new PaymentGateUnavailableError() : failure;
 }

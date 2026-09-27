@@ -7,40 +7,6 @@
   }
 
   <form [formGroup]="viewModel.purchaseForm" (ngSubmit)="viewModel.submitPremiumPurchase()">
-    <label>
-      <span>{{ 'account.premium.continentLabel' | translate }}</span>
-      <select formControlName="continent">
-        <option value="">{{ 'account.premium.continentPlaceholder' | translate }}</option>
-        @for (continent of viewModel.continentOptions(); track continent.code) {
-          <option [value]="continent.code">{{ continent.label }}</option>
-        }
-      </select>
-      @if (viewModel.fieldValidationMessages()['continent']; as validationMessage) {
-        <br>
-        <em>{{ validationMessage }}</em>
-      }
-    </label>
-
-    <label>
-      <span>{{ 'account.premium.countryLabel' | translate }}</span>
-      <select formControlName="countryCode">
-        <option value="">
-          @if (viewModel.hasChosenContinent()) {
-            {{ 'account.premium.countryPlaceholder' | translate }}
-          } @else {
-            {{ 'account.premium.countryAwaitingContinent' | translate }}
-          }
-        </option>
-        @for (country of viewModel.countryOptions(); track country.code) {
-          <option [value]="country.code">{{ country.name }}</option>
-        }
-      </select>
-      @if (viewModel.fieldValidationMessages()['countryCode']; as validationMessage) {
-        <br>
-        <em>{{ validationMessage }}</em>
-      }
-    </label>
-
     <fieldset>
       <legend>{{ 'account.premium.planLabel' | translate }}</legend>
       @for (planOption of viewModel.planOptions(); track planOption.plan) {
