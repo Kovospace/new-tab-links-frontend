@@ -1,0 +1,70 @@
+// The screenshots sit side by side on one track, each a full width wide; the view-model slides the
+// track by one width per screenshot, and the frame clips everything but the one in view. The dots
+// sit over the bottom centre of the image.
+//
+// The screenshots are meant to share one aspect ratio. One that does not is shown whole and
+// centred in a frame as tall as the tallest, rather than cropped.
+//
+// Timed from --duration-slow, so the reduced-motion block in design-tokens.scss turns the slide
+// into an instant switch without this file asking.
+
+.demo-slideshow {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 0.25em solid var(--color-accent);
+  border-radius: 1em;
+
+  @media screen and (min-width: 1440px) {
+    width: 1280px;
+  }
+}
+
+.demo-slideshow__track {
+  display: flex;
+  align-items: center;
+  transition: transform var(--duration-slow) var(--easing-emphasised);
+}
+
+.demo-slideshow__slide {
+  flex: 0 0 100%;
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.demo-slideshow__dots {
+  position: absolute;
+  bottom: 1em;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5em;
+}
+
+.demo-slideshow__dot {
+  width: 1.75em;
+  height: 1.75em;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: var(--color-ui-element);
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+  aspect-ratio: 1 / 1;
+  border: 0.25em solid var(--color-background);
+
+  &:hover {
+    background-color: var(--color-ui-element-hover);
+  }
+
+  &--active {
+    background-color: var(--color-accent);
+    transform: scale(1.5);
+  }
+
+  &--active:hover {
+    background-color: var(--color-accent-hover);
+  }
+}

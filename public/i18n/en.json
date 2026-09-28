@@ -76,6 +76,11 @@
         "alreadyOnLifetime": "Already on lifetime",
         "alreadyOnPremium": "Already on premium"
       }
+    },
+    "demo": {
+      "slideshowLabel": "Screenshots of the extension",
+      "slideAlternativeText": "Screenshot {number} of {count} of the NewTabGroupedLinks new tab page",
+      "showSlide": "Show screenshot {number} of {count}"
     }
   },
   "download": {

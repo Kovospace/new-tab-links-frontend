@@ -1,0 +1,31 @@
+<div class="demo-slideshow" role="group" [attr.aria-label]="viewModel.slideshowLabel()">
+  <div class="demo-slideshow__track" [style.transform]="viewModel.trackTransform()">
+    @for (presentedSlide of viewModel.presentedSlides(); track presentedSlide.imageUrl) {
+      <img
+        class="demo-slideshow__slide"
+        [src]="presentedSlide.imageUrl"
+        [alt]="presentedSlide.imageAlternativeText"
+        [attr.aria-hidden]="presentedSlide.isHiddenFromAssistiveTechnology"
+      />
+    }
+  </div>
+
+  @if (viewModel.hasSeveralSlides()) {
+    <div class="demo-slideshow__dots">
+      @for (
+        presentedSlide of viewModel.presentedSlides();
+        track presentedSlide.imageUrl;
+        let slidePosition = $index
+      ) {
+        <button
+          type="button"
+          class="demo-slideshow__dot"
+          [class.demo-slideshow__dot--active]="presentedSlide.isActive"
+          [attr.aria-label]="presentedSlide.dotLabel"
+          [attr.aria-current]="presentedSlide.isActive"
+          (click)="viewModel.showSlide(slidePosition)"
+        ></button>
+      }
+    </div>
+  }
+</div>
