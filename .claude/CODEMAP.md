@@ -36,6 +36,7 @@ Keep it current: a new folder under `core/` or `shared/`, or a new concern, adds
 | Header, footer, language switcher, back button | `shared/layout/*` |
 | Providers, translations loaded before first render | `app.config.ts` |
 | nginx, caching, security headers | `docker/nginx/` |
+| Ad slot the extension frames (static, not a route; posts `tabilinks-ad-slot-ready`) | `public/slot/workspace-footer.html`; its frameable headers in `docker/nginx/default.conf` (`location ^~ /slot/`) |
 
 ## Files big enough to read by range
 

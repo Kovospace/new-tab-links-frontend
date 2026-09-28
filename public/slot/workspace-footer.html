@@ -1,0 +1,108 @@
+<!doctype html>
+<!--
+  The ad slot at the foot of the extension's workspace (new-tab-links-extension frames it at
+  728 x 64 on every new tab). Static on purpose - not an Angular route - because it loads with every
+  tab a user opens and so must be tiny: inline CSS, a few lines of script, no framework.
+
+  What it shows can change here without an extension release: our own promotion today, an ad
+  network's snippet later (see AD NETWORK SNIPPET below).
+
+  - Language by ?lang= : en (default) or sk.
+  - No analytics, no visitor signal, no cookies: a new tab is not a website visit.
+  - Every link opens a new tab; the frame is sandboxed with allow-popups and
+    allow-popups-to-escape-sandbox, so the account page opens normally.
+  - Framing is allowed by nginx's own location for /slot/ (docker/nginx/default.conf), which sends
+    frame-ancestors instead of the site-wide X-Frame-Options: SAMEORIGIN.
+  - The extension keeps the frame hidden until this page posts 'tabilinks-ad-slot-ready', so an
+    offline browser shows an empty slot rather than Chrome's error page. Without that message the
+    slot never appears.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Tabilinks</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #222;
+        color: #eee;
+        font: 15px/1.3 Arial, Helvetica, sans-serif;
+      }
+
+      .slot {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 0 16px;
+      }
+
+      .slot__promotion {
+        color: #eee;
+        text-decoration: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .slot__promotion strong {
+        color: #09f;
+      }
+
+      .slot__promotion:hover span,
+      .slot__promotion:focus-visible span {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slot">
+      <!-- ===== AD NETWORK SNIPPET =====================================================
+           An ad network's snippet (EthicalAds or Carbon - both allow our own promotion on the
+           same page) goes here, beside or in place of the promotion below. Links it renders
+           must open in a new tab as well. Once it has rendered its ad - or immediately, if the
+           network offers no such event - send 'tabilinks-ad-slot-ready' as at the foot of this
+           file, and stop sending it from there.
+           ================================================================================ -->
+
+      <a
+        class="slot__promotion"
+        href="https://tabilinks.app/account"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong id="promotion-lead">Go premium:</strong>
+        <span id="promotion-text">remove this and support development</span>
+      </a>
+    </div>
+
+    <script>
+      (function () {
+        var wording = {
+          en: { lead: 'Go premium:', text: 'remove this and support development' },
+          sk: { lead: 'Prejdite na prémium:', text: 'odstráňte toto a podporte vývoj' },
+        };
+
+        var requestedLanguage = new URLSearchParams(location.search).get('lang');
+        var language = Object.prototype.hasOwnProperty.call(wording, requestedLanguage)
+          ? requestedLanguage
+          : 'en';
+
+        document.documentElement.lang = language;
+        document.getElementById('promotion-lead').textContent = wording[language].lead;
+        document.getElementById('promotion-text').textContent = wording[language].text;
+
+        // Drawn: tell the extension it may show the frame. The exact string is the contract.
+        window.parent.postMessage('tabilinks-ad-slot-ready', '*');
+      })();
+    </script>
+  </body>
+</html>

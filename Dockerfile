@@ -76,6 +76,7 @@ FROM nginxinc/nginx-unprivileged:1.29-alpine
 #
 COPY docker/nginx/default.conf         /etc/nginx/conf.d/default.conf
 COPY docker/nginx/security-headers.conf /etc/nginx/conf.d/security-headers.conf
+COPY docker/nginx/security-headers-shared.conf /etc/nginx/conf.d/security-headers-shared.conf
 
 
 ### The entrypoint script that turns environment variables into config.json.
