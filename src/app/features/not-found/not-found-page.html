@@ -1,5 +1,8 @@
 <article>
-  <h1>{{ 'notFound.heading' | translate }}</h1>
-  <p>{{ 'notFound.body' | translate }}</p>
-  <a [routerLink]="homeLink">{{ 'notFound.homeAction' | translate }}</a>
+  <section>
+    <h1>{{ 'notFound.heading' | translate }}</h1>
+    <p>{{ 'notFound.body' | translate }}</p>
+    <br>
+    <a [routerLink]="homeLink" class="button">{{ 'notFound.homeAction' | translate }}</a>
+  </section>
 </article>
