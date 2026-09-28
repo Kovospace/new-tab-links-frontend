@@ -11,9 +11,12 @@
       @for (planOption of viewModel.planOptions(); track planOption.plan) {
         <label>
           <input type="radio" formControlName="plan" [value]="planOption.plan" />
-          <span>{{ planOption.label }}</span>
-          <small>{{ planOption.description }}</small>
+          <div>
+            <span>{{ planOption.label }}</span>
+            <small>{{ planOption.description }}</small>
+          </div>
         </label>
+        <br>
       }
       @if (viewModel.fieldValidationMessages()['plan']; as validationMessage) {
         <br>
