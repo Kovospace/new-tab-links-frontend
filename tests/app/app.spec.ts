@@ -59,8 +59,10 @@ describe('App shell', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
-    // The home page's demo slideshow asks for its list of screenshots; none is needed here.
+    // The home page's demo slideshow and its selling points ask for their indexes; neither is
+    // needed here.
     httpTestingController.expectOne('/content/demo/index.json').flush({});
+    httpTestingController.expectOne('/content/home-features/index.json').flush({});
   });
 
   afterEach(() => httpTestingController.verify());

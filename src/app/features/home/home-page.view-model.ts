@@ -1,24 +1,20 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Params } from '@angular/router';
+import { switchMap } from 'rxjs';
 import { PremiumPlan } from '../../core/api/models/subscription.model';
 import { AuthenticationSessionStore } from '../../core/auth/authentication-session.store';
 import { PremiumStanding } from '../../core/billing/premium-standing';
 import { PremiumStandingService } from '../../core/billing/premium-standing.service';
+import {
+  HomeFeaturesContentService,
+  RenderedHomeFeature,
+} from '../../core/home-features/home-features-content.service';
 import { TranslationService } from '../../core/i18n/translation.service';
 import {
   APPLICATION_ROUTE_LINKS,
   APPLICATION_ROUTE_QUERY_PARAMETERS,
 } from '../../core/routing/application-route-paths';
-
-/**
- * One selling point of the extension, ready to render.
- */
-export interface PresentedFeature {
-  /** Translation key of the feature's title. */
-  readonly titleTranslationKey: string;
-  /** Translation key of the feature's description. */
-  readonly textTranslationKey: string;
-}
 
 /**
  * The button under one offer column, ready to render.
@@ -47,6 +43,7 @@ export class HomePageViewModel {
   private readonly sessionStore = inject(AuthenticationSessionStore);
   private readonly premiumStandingService = inject(PremiumStandingService);
   private readonly translationService = inject(TranslationService);
+  private readonly homeFeaturesContentService = inject(HomeFeaturesContentService);
 
   /** The standing as last loaded; {@code UNKNOWN} until then. */
   private readonly loadedPremiumStanding = signal<PremiumStanding>('UNKNOWN');
@@ -61,25 +58,21 @@ export class HomePageViewModel {
     this.sessionStore.isSignedIn() ? this.loadedPremiumStanding() : 'UNKNOWN',
   );
 
-  /** The selling points, in the order they are shown. */
-  readonly presentedFeatures: readonly PresentedFeature[] = [
-    {
-      titleTranslationKey: 'home.features.groupsTitle',
-      textTranslationKey: 'home.features.groupsText',
-    },
-    {
-      titleTranslationKey: 'home.features.subgroupsTitle',
-      textTranslationKey: 'home.features.subgroupsText',
-    },
-    {
-      titleTranslationKey: 'home.features.workspacesTitle',
-      textTranslationKey: 'home.features.workspacesText',
-    },
-    {
-      titleTranslationKey: 'home.features.syncTitle',
-      textTranslationKey: 'home.features.syncText',
-    },
-  ];
+  /**
+   * The selling points, rendered from their markdown files, in the order they are shown.
+   *
+   * <p>Follows the reader's language: switching it fetches the points again, like every other
+   * text on the site, and a newer fetch cancels an older one. Empty until they arrive — the page
+   * around them needs nothing from them, so there is nothing to wait for.</p>
+   */
+  readonly presentedFeatures = toSignal(
+    toObservable(this.translationService.currentLanguageCode).pipe(
+      switchMap((languageCode) =>
+        this.homeFeaturesContentService.loadRenderedHomeFeatures(languageCode),
+      ),
+    ),
+    { initialValue: [] as readonly RenderedHomeFeature[] },
+  );
 
   /** The button under the free offer: already on premium, or get the extension. */
   readonly freeOfferAction = computed<PresentedOfferAction>(() => {

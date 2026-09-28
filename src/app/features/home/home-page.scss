@@ -14,14 +14,13 @@
 
 .home-page__feature {
   margin-top: 3em;
+  // Inherited by the point's paragraphs: they arrive through [innerHTML], which this component's
+  // scoped rules cannot reach, so the line height is set on the item they sit in.
+  line-height: 1.25em;
 
   &:first-child {
     margin-top: 0;
   }
-}
-
-.home-page__feature-text {
-  line-height: 1.25em;
 }
 
 .home-page__downloads {
@@ -75,18 +74,18 @@
       color: var(--color-background);
       background: linear-gradient(
         135deg,
-        #8A6A00 0%,
-        #D4AF37 35%,
-        #FFE08A 50%,
-        #D4AF37 65%,
-        #8A6A00 100%
+        #8a6a00 0%,
+        #d4af37 35%,
+        #ffe08a 50%,
+        #d4af37 65%,
+        #8a6a00 100%
       );
 
       a.home-page__call-to-action {
-        background-color: #D4AF37;
+        background-color: #d4af37;
 
         &:hover {
-          background-color: #FFE08A;
+          background-color: #ffe08a;
         }
       }
     }
