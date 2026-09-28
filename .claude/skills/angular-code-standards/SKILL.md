@@ -179,7 +179,14 @@ where the reason belongs — see `ExtensionConnectPanelViewModel` for the shape 
 
 ## Tests
 
-`vitest` via `ng test`. What is worth testing here:
+`vitest` via `ng test`. Specs live in `tests/`, never in `src/`, at the path of the file they
+cover — as in a Java project: `src/app/core/auth/authentication.interceptor.ts` is tested by
+`tests/app/core/auth/authentication.interceptor.spec.ts`. A spec imports what it tests through the
+`@app/*` alias (`tsconfig.json` → `src/app/*`), e.g. `'@app/core/auth/authentication.interceptor'`.
+`angular.json` (`test.options.include`, resolved against `src/`, hence `../tests`) and
+`tsconfig.spec.json` both point there.
+
+What is worth testing here:
 
 - **Every view-model with real mapping logic** — that is the part MVVM makes testable without a
   DOM, and the part that breaks.
