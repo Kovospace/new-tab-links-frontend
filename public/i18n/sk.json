@@ -76,6 +76,11 @@
         "alreadyOnLifetime": "Už máte doživotnú licenciu",
         "alreadyOnPremium": "Už máte plnú verziu"
       }
+    },
+    "demo": {
+      "slideshowLabel": "Snímky obrazovky rozšírenia",
+      "slideAlternativeText": "Snímka {number} z {count} novej karty NewTabGroupedLinks",
+      "showSlide": "Zobraziť snímku {number} z {count}"
     }
   },
   "download": {

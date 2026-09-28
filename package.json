@@ -5,9 +5,10 @@
     "ng": "ng",
     "config:local": "./scripts/write-local-runtime-config.sh",
     "tips:index": "node scripts/build-tips-index.mjs",
-    "prestart": "npm run config:local && npm run tips:index",
+    "demo:index": "node scripts/build-demo-index.mjs",
+    "prestart": "npm run config:local && npm run tips:index && npm run demo:index",
     "start": "ng serve",
-    "prebuild": "npm run tips:index",
+    "prebuild": "npm run tips:index && npm run demo:index",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

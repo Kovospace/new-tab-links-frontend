@@ -50,3 +50,4 @@ yarn-error.log*
 
 # Generated from public/content/tips/*/*.md by scripts/build-tips-index.mjs before start and build.
 /public/content/tips/index.json
+/public/content/demo/index.json
