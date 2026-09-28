@@ -17,7 +17,7 @@ import { TranslationService } from './translation.service';
  *
  * @example
  * ```html
- * @for (paragraph of 'home.features.workspacesText' | translateParagraphs; track paragraph) {
+ * @for (paragraph of 'some.multiParagraphKey' | translateParagraphs; track paragraph) {
  *   <p>{{ paragraph }}</p>
  * }
  * ```

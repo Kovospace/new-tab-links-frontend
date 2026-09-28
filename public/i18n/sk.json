@@ -36,19 +36,6 @@
     "heading": "Nová karta, ktorá konečne k niečomu je",
     "leadParagraph": "NewTabGroupedLinks nahradí prázdnu novú kartu odkazmi, ktoré naozaj otvárate, usporiadanými do skupín podľa Vás, s históriou a najčastejšie otváranými odkazmi a inými konfigurovateľnými widgetmi a miniaplikáciami.",
     "featuresHeading": "Čo to vie",
-    "features": {
-      "groupsTitle": "Skupiny a podskupiny odkazov",
-      "groupsText": "Vami vytvorené stĺpce - skupiny obsahujúce odkazy a eventuálne podskupiny s odkazmi.",
-      "subgroupsTitle": "Otváranie viacero odkazov naraz",
-      "subgroupsText": "Otvorte všetky odkazy v podskupine samostatne, naraz alebo naraz zoskupené v skupine kariet s definovaným názvom a farbou.",
-      "workspacesTitle": "Pracovné priestory a profily",
-      "workspacesText": [
-        "Jeden užívateľ môže mať viacero pracovných plôch na ktorých má skupiny s odkazmi.",
-        "To isté platí aj pre profily - zmeňte si profil a máte k dispozící ďalšie miesto pre ďalšie pracovné plochy so skupinami odkazov."
-      ],
-      "syncTitle": "Synchronizované všade",
-      "syncText": "Je jedno koľko budete mať zariadení, ak sú pripojené na internet tak profily, pracovné plochy, skupiny a dokazy budú synchronizované"
-    },
     "callToAction": "Získať rozšírenie",
     "downloads": {
       "free": {

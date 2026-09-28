@@ -1,7 +1,11 @@
-import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, map, throwError } from 'rxjs';
-import { DEFAULT_LANGUAGE_CODE, SupportedLanguageCode } from '../i18n/supported-language';
+import { Observable, catchError, throwError } from 'rxjs';
+import {
+  LoadedMarkdown,
+  LocalizedMarkdownService,
+  MarkdownNotFoundError,
+} from '../content/localized-markdown.service';
+import { SupportedLanguageCode } from '../i18n/supported-language';
 
 /** Where the tips' markdown and its generated index are served from; they ship in {@code public/content/tips}. */
 const TIPS_CONTENT_ROOT = '/content/tips';
@@ -23,14 +27,7 @@ export interface TipSummary {
 export type TipsIndex = Partial<Record<string, readonly TipSummary[]>>;
 
 /** A tip's markdown, and the language it was actually found in. */
-export interface LoadedTipMarkdown {
-  readonly markdown: string;
-  /**
-   * The language of the file that answered — the reader's, or English when the tip has not been
-   * translated yet. The renderer needs it to find the right language's screenshots.
-   */
-  readonly languageCode: SupportedLanguageCode;
-}
+export type LoadedTipMarkdown = LoadedMarkdown;
 
 /** Thrown when a tip exists in no language at all. */
 export class TipNotFoundError extends Error {
@@ -43,12 +40,12 @@ export class TipNotFoundError extends Error {
 /**
  * The tips' written content, fetched as files the site ships.
  *
- * <p>Not {@code BackendApiClient}: these are static files of this site, like the translations,
- * not calls to the backend.</p>
+ * <p>The fetching itself, with its English fallback, is {@link LocalizedMarkdownService}'s; this
+ * adds where tips live and names a missing one as a missing tip.</p>
  */
 @Injectable({ providedIn: 'root' })
 export class TipsContentService {
-  private readonly httpClient = inject(HttpClient);
+  private readonly localizedMarkdownService = inject(LocalizedMarkdownService);
 
   /**
    * Fetches the list of every tip.
@@ -56,15 +53,13 @@ export class TipsContentService {
    * @returns the tips by language
    */
   loadTipsIndex(): Observable<TipsIndex> {
-    return this.httpClient.get<TipsIndex>(`${TIPS_CONTENT_ROOT}/index.json`);
+    return this.localizedMarkdownService.loadIndex<TipsIndex>(TIPS_CONTENT_ROOT);
   }
 
   /**
    * Fetches one tip's markdown in the reader's language, or in English when it is not translated.
    *
-   * <p>A tip written in English first and translated later is the normal order of things, so an
-   * untranslated tip is shown in English rather than as missing. Only a tip that exists in no
-   * language fails, with {@link TipNotFoundError}.</p>
+   * <p>Only a tip that exists in no language fails, with {@link TipNotFoundError}.</p>
    *
    * @param slug the tip's address below {@code /tips}
    * @param languageCode the reader's language
@@ -74,64 +69,14 @@ export class TipsContentService {
     slug: string,
     languageCode: SupportedLanguageCode,
   ): Observable<LoadedTipMarkdown> {
-    return this.fetchMarkdown(slug, languageCode).pipe(
-      catchError((failure: unknown) =>
-        isNotFound(failure) && languageCode !== DEFAULT_LANGUAGE_CODE
-          ? this.fetchMarkdown(slug, DEFAULT_LANGUAGE_CODE)
-          : throwError(() => failure),
-      ),
-      catchError((failure: unknown) =>
-        throwError(() => (isNotFound(failure) ? new TipNotFoundError(slug) : failure)),
-      ),
-    );
-  }
-
-  /**
-   * Fetches one language's file of a tip.
-   *
-   * @param slug the tip's address below {@code /tips}
-   * @param languageCode the language whose file to fetch
-   * @returns the markdown, and that language
-   */
-  private fetchMarkdown(
-    slug: string,
-    languageCode: SupportedLanguageCode,
-  ): Observable<LoadedTipMarkdown> {
-    return this.httpClient
-      .get(`${TIPS_CONTENT_ROOT}/${languageCode}/${encodeURIComponent(slug)}.md`, {
-        responseType: 'text',
-      })
+    return this.localizedMarkdownService
+      .loadMarkdown(TIPS_CONTENT_ROOT, `${slug}.md`, languageCode)
       .pipe(
-        map((markdown) => {
-          if (isApplicationShell(markdown)) {
-            throw new HttpErrorResponse({ status: HttpStatusCode.NotFound });
-          }
-          return { markdown, languageCode };
-        }),
+        catchError((failure: unknown) =>
+          throwError(() =>
+            failure instanceof MarkdownNotFoundError ? new TipNotFoundError(slug) : failure,
+          ),
+        ),
       );
   }
-}
-
-/**
- * Whether a fetch answered with the application's own page instead of a markdown file.
- *
- * <p>The development server answers an unknown file with the HTML shell and a 200, where nginx
- * answers 404. Treated as missing, so that both behave alike and the shell is never rendered as a
- * tip.</p>
- *
- * @param body what the fetch answered with
- * @returns true for an HTML document
- */
-function isApplicationShell(body: string): boolean {
-  return /^\s*<!doctype html/i.test(body);
-}
-
-/**
- * Whether a failed fetch means the file is simply not there.
- *
- * @param failure whatever the fetch failed with
- * @returns true for a 404
- */
-function isNotFound(failure: unknown): boolean {
-  return failure instanceof HttpErrorResponse && failure.status === HttpStatusCode.NotFound;
 }

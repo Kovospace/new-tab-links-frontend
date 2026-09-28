@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { AuthenticationSessionStore } from '@app/core/auth/authentication-session.store';
 import { PremiumStanding } from '@app/core/billing/premium-standing';
 import { PremiumStandingService } from '@app/core/billing/premium-standing.service';
+import { HomeFeaturesContentService } from '@app/core/home-features/home-features-content.service';
 import { HomePageViewModel, PresentedOfferAction } from '@app/features/home/home-page.view-model';
 
 /**
@@ -33,6 +34,10 @@ describe('HomePageViewModel', () => {
         HomePageViewModel,
         { provide: AuthenticationSessionStore, useValue: { isSignedIn } },
         { provide: PremiumStandingService, useValue: { loadPremiumStanding: () => of(standing) } },
+        {
+          provide: HomeFeaturesContentService,
+          useValue: { loadRenderedHomeFeatures: () => of([]) },
+        },
       ],
     });
     viewModel = TestBed.inject(HomePageViewModel);

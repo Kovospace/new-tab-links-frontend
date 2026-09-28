@@ -8,7 +8,7 @@ import {
 import { TranslationService } from '../../../core/i18n/translation.service';
 
 /** How long one screenshot stays on screen before the next replaces it. */
-export const DEMO_SLIDE_DURATION_MILLISECONDS = 10_000;
+export const DEMO_SLIDE_DURATION_MILLISECONDS = 5_000;
 
 /** Folder below {@code images/<language>/} the screenshots live in. */
 const DEMO_IMAGE_FOLDER = 'demo';

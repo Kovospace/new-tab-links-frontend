@@ -14,22 +14,8 @@
 
   <section>
     <ul>
-      @for (
-        presentedFeature of viewModel.presentedFeatures;
-        track presentedFeature.titleTranslationKey
-      ) {
-        <li class="home-page__feature">
-          <h2>
-            {{ presentedFeature.titleTranslationKey | translate }}
-          </h2>
-
-          @for (
-            featureParagraph of presentedFeature.textTranslationKey | translateParagraphs;
-            track featureParagraph
-          ) {
-            <p class="home-page__feature-text">{{ featureParagraph }}</p>
-          }
-        </li>
+      @for (presentedFeature of viewModel.presentedFeatures(); track presentedFeature.slug) {
+        <li class="home-page__feature" [innerHTML]="presentedFeature.html"></li>
       }
     </ul>
   </section>
