@@ -118,6 +118,9 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
   /** Whether the create panel is open. */
   readonly isCreatingAccount = this.creatingAccount.asReadonly();
 
+  /** Where the operator's statistics page is. */
+  readonly statisticsLink = APPLICATION_ROUTE_LINKS.adminMetrics;
+
   /** Every status the operator may set, for the dropdowns. */
   readonly availableStatuses = USER_ACCOUNT_STATUSES;
 

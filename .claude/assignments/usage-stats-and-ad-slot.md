@@ -13,8 +13,8 @@
 > **Done** on `feature/usage-stats-and-ad-slot`: `public/slot/workspace-footer.html`, and the
 > `location ^~ /slot/` block in `docker/nginx/default.conf` (headers from
 > `security-headers-shared.conf`, without `X-Frame-Options`). Headers verified from a running
-> container; the cluster needs no change. **Parts 2 and 3 are still pending** — they wait for the
-> backend's `/api/v1/stats/website-visit` and `/api/v1/admin/metrics` endpoints.
+> container; the cluster needs no change. **Parts 2 and 3** are implemented on `feature/usage-stats-admin-metrics`
+> (the backend endpoints shipped in backend PR #27). Bot-user management was dropped by the user.
 
 The extension's new tab page shows this in an iframe, at the foot of the workspace. It is what
 lets the ad content change — our own promotion now, an ad network's snippet later — **without an

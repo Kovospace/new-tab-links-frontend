@@ -10,7 +10,7 @@ const DATE_AND_TIME_FORMAT: Intl.DateTimeFormatOptions = {
 };
 
 /** Locales the supported languages map onto for formatting purposes. */
-const FORMATTING_LOCALES: Readonly<Record<SupportedLanguageCode, string>> = {
+export const FORMATTING_LOCALES: Readonly<Record<SupportedLanguageCode, string>> = {
   en: 'en-GB',
   sk: 'sk-SK',
 };

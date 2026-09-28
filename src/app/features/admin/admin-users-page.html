@@ -4,6 +4,7 @@
     <p class="admin-page__session">
       {{ 'admin.users.sessionExpires' | translate }} {{ viewModel.sessionExpiryLabel() }}
     </p>
+    <a [routerLink]="viewModel.statisticsLink">{{ 'admin.navigation.statistics' | translate }}</a>
     <button type="button" (click)="viewModel.signOut()">
       {{ 'admin.users.signOutAction' | translate }}
     </button>

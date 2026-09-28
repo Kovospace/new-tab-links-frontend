@@ -401,7 +401,27 @@
       "warning": "Deleting {username} also deletes every workspace, group, subgroup and link it owns. This cannot be undone. To suspend the account instead, set its status to Disabled.",
       "confirmAction": "Yes, delete it permanently"
     },
-    "cancelAction": "Cancel"
+    "cancelAction": "Cancel",
+    "navigation": {
+      "accounts": "Accounts",
+      "statistics": "Statistics"
+    },
+    "metrics": {
+      "heading": "Statistics",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "loading": "Loading statistics…",
+      "total": "Month total: {total}",
+      "dayValue": "{day}: {value}",
+      "new_tabs": {
+        "title": "New tabs opened",
+        "explanation": "New tab pages opened in the extension, by the day of the browser that opened them."
+      },
+      "website_visitors": {
+        "title": "Website visitors",
+        "explanation": "People who visited this website, once per person per day (UTC). Robots and automated browsers are not counted."
+      }
+    }
   },
   "purchaseThankYou": {
     "heading": "Thank you!",

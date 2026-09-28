@@ -51,6 +51,8 @@ export const APPLICATION_ROUTE_PATHS = {
   admin: 'admin',
   /** The operator's account list, behind {@code requiresAdminSession}. */
   adminUsers: 'admin/users',
+  /** The operator's usage statistics, behind {@code requiresAdminSession}. */
+  adminMetrics: 'admin/metrics',
 } as const;
 
 /**
@@ -73,6 +75,7 @@ export const APPLICATION_ROUTE_LINKS = {
   sitemap: `/${APPLICATION_ROUTE_PATHS.sitemap}`,
   admin: `/${APPLICATION_ROUTE_PATHS.admin}`,
   adminUsers: `/${APPLICATION_ROUTE_PATHS.adminUsers}`,
+  adminMetrics: `/${APPLICATION_ROUTE_PATHS.adminMetrics}`,
 } as const;
 
 /**

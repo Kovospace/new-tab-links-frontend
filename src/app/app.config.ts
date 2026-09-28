@@ -9,6 +9,7 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { authenticationInterceptor } from './core/auth/authentication.interceptor';
 import { RUNTIME_CONFIGURATION, RuntimeConfiguration } from './core/config/runtime-configuration';
 import { TranslationService } from './core/i18n/translation.service';
+import { WebsiteVisitReporter } from './core/statistics/website-visit-reporter.service';
 import { routes } from './app.routes';
 
 /**
@@ -39,6 +40,9 @@ export function buildApplicationConfiguration(
        * translation keys is ever shown.
        */
       provideAppInitializer(() => inject(TranslationService).loadInitialLanguage()),
+
+      // Counts this page load as a website visit once the visitor behaves like a person.
+      provideAppInitializer(() => inject(WebsiteVisitReporter).watchForHumanVisit()),
     ],
   };
 }

@@ -110,6 +110,19 @@ export const API_ENDPOINT_PATHS = {
      * @returns the path of that account's password
      */
     userPassword: (userId: string): string => `/api/v1/admin/users/${userId}/password`,
+    /** One usage metric, day by day, for one month: {@code ?metric=…&month=YYYY-MM}. */
+    usageMetrics: '/api/v1/admin/metrics',
+  },
+
+  /**
+   * Anonymous usage counts.
+   *
+   * <p>The backend takes these without a token and ignores one if sent, so a stale session can
+   * never turn a count into a 401.</p>
+   */
+  statistics: {
+    /** One human visit to this website; empty body, answered 204 whether counted or not. */
+    websiteVisit: '/api/v1/stats/website-visit',
   },
 
   /**

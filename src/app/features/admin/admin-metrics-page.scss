@@ -1,0 +1,73 @@
+// Only what is actually styled has a rule here; see admin-users-page.scss.
+
+.admin-metrics-page__navigation {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.admin-metrics-page__month {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.admin-metrics-page__month-label {
+  min-width: 10em;
+  text-align: center;
+}
+
+.admin-metrics-page__chart {
+  margin-top: 2.5em;
+}
+
+.admin-metrics-page__total {
+  font-weight: bold;
+  margin-top: 0.5em;
+}
+
+.admin-metrics-page__graph {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 1em;
+}
+
+.admin-metrics-page__axis {
+  stroke: var(--color-ui-element);
+}
+
+.admin-metrics-page__label {
+  fill: var(--color-text-muted);
+  font-size: 12px;
+
+  &--value {
+    text-anchor: end;
+    dominant-baseline: middle;
+  }
+
+  &--day {
+    text-anchor: middle;
+  }
+}
+
+// The hover area spans the day's whole height, so a day with nothing counted can be read too.
+.admin-metrics-page__hover-area {
+  fill: transparent;
+}
+
+.admin-metrics-page__bar {
+  fill: var(--color-accent);
+  transition: fill var(--duration-fast) var(--easing-standard);
+}
+
+.admin-metrics-page__day:hover {
+  .admin-metrics-page__hover-area {
+    fill: var(--color-panel);
+  }
+
+  .admin-metrics-page__bar {
+    fill: var(--color-accent-hover);
+  }
+}

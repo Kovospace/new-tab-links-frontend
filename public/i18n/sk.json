@@ -401,7 +401,27 @@
       "warning": "Zmazaním účtu {username} sa zmažú aj všetky jeho pracovné plochy, skupiny, podskupiny a odkazy. Toto sa nedá vrátiť. Ak ho chcete len pozastaviť, nastavte mu stav Zakázaný.",
       "confirmAction": "Áno, zmazať natrvalo"
     },
-    "cancelAction": "Zrušiť"
+    "cancelAction": "Zrušiť",
+    "navigation": {
+      "accounts": "Účty",
+      "statistics": "Štatistiky"
+    },
+    "metrics": {
+      "heading": "Štatistiky",
+      "previousMonth": "Predchádzajúci mesiac",
+      "nextMonth": "Nasledujúci mesiac",
+      "loading": "Načítavam štatistiky…",
+      "total": "Spolu za mesiac: {total}",
+      "dayValue": "{day}: {value}",
+      "new_tabs": {
+        "title": "Otvorené nové karty",
+        "explanation": "Nové karty otvorené v rozšírení, podľa dňa v prehliadači, ktorý ich otvoril."
+      },
+      "website_visitors": {
+        "title": "Návštevníci webu",
+        "explanation": "Ľudia, ktorí navštívili tento web, raz za osobu a deň (UTC). Roboty a automatizované prehliadače sa nepočítajú."
+      }
+    }
   },
   "purchaseThankYou": {
     "heading": "Ďakujeme!",
