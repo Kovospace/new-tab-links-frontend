@@ -1,7 +1,8 @@
 # Code map
 
 Where things are, so that nobody lists the source tree to find out. Paths are relative to
-`src/app/`; a spec sits beside the file it covers. Every page is
+`src/app/`; a spec mirrors the path of the file it covers under `tests/` —
+`src/app/core/auth/x.ts` is tested by `tests/app/core/auth/x.spec.ts`. Every page is
 `features/<page>/<page>-page.{ts,html,scss,view-model.ts}`.
 Keep it current: a new folder under `core/` or `shared/`, or a new concern, adds a row here.
 

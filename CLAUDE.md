@@ -176,6 +176,7 @@ public/i18n/{en,sk}.json        every user-visible string; identical key sets
 public/content/tips/{en,sk}/    one markdown file per tip; the file name is its /tips/<slug>
 public/images/{en,sk}/tips/<slug>/   a tip's screenshots, named relatively from its markdown
 scripts/build-tips-index.mjs    lists the tips into content/tips/index.json before start/build
+tests/                          every spec, at the path of the file it covers under src/
 src/app/
 ├── app.ts | app.html | app.scss    the shell: header, router outlet, footer
 ├── app.config.ts                   providers; loads translations before the first render
