@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, of, switchMap, tap } from 'rxjs';
+import { Observable, catchError, of, switchMap, tap, throwError } from 'rxjs';
 import { API_ENDPOINT_PATHS } from '../api/api-endpoint-paths';
 import { BackendApiClient } from '../api/backend-api.client';
 import {
@@ -131,6 +131,9 @@ export class AuthenticationService {
    * <p>The presented token is revoked in the process, so the new pair must replace the old one
    * immediately — which is why the store is updated here and not by the caller.</p>
    *
+   * <p>A refusal is not final while another tab may have used the same token first: its newer
+   * pair is then already in storage, and is returned instead of the failure.</p>
+   *
    * @returns the new tokens
    */
   refreshSession(): Observable<TokenPair> {
@@ -145,7 +148,16 @@ export class AuthenticationService {
         { refreshToken },
         { withoutAuthorization: true },
       )
-      .pipe(tap((tokenPair) => this.sessionStore.startSession(tokenPair)));
+      .pipe(
+        tap((tokenPair) => this.sessionStore.startSession(tokenPair)),
+        catchError((refreshFailure: unknown) => {
+          const sessionRefreshedByAnotherTab =
+            this.sessionStore.adoptNewerStoredSession(refreshToken);
+          return sessionRefreshedByAnotherTab
+            ? of(sessionRefreshedByAnotherTab)
+            : throwError(() => refreshFailure);
+        }),
+      );
   }
 
   /**
