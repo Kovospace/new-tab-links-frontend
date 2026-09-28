@@ -1,10 +1,7 @@
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { AdminAuthenticationService } from '@app/core/admin/admin-authentication.service';
-import { AdminSessionStore } from '@app/core/admin/admin-session.store';
 import { AdminUsageMetricsService } from '@app/core/admin/admin-usage-metrics.service';
 import { BackendFailureTranslator } from '@app/core/api/backend-failure.translator';
 import { UsageMetric, UsageMetricMonth } from '@app/core/api/models/usage-metric.model';
@@ -46,8 +43,6 @@ describe('AdminMetricsPageViewModel', () => {
           provide: AdminUsageMetricsService,
           useValue: { loadMonth: (metric: UsageMetric, month: string) => loadMonth(metric, month) },
         },
-        { provide: AdminAuthenticationService, useValue: { signOut: vi.fn() } },
-        { provide: AdminSessionStore, useValue: { expiresAt: signal(null) } },
         { provide: BackendFailureTranslator, useValue: { describeFailure: () => 'It failed.' } },
         {
           provide: TranslationService,
@@ -57,7 +52,6 @@ describe('AdminMetricsPageViewModel', () => {
               values ? `${key} ${JSON.stringify(values)}` : key,
           },
         },
-        { provide: Router, useValue: { navigateByUrl: vi.fn() } },
       ],
     });
     viewModel = TestBed.inject(AdminMetricsPageViewModel);
