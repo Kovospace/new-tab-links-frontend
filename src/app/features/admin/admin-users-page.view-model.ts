@@ -1,8 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AdminAuthenticationService } from '../../core/admin/admin-authentication.service';
-import { AdminSessionStore } from '../../core/admin/admin-session.store';
 import { AdminUserService } from '../../core/admin/admin-user.service';
 import {
   AdminPremiumSource,
@@ -11,7 +8,6 @@ import {
   UserAccountStatus,
 } from '../../core/api/models/admin.model';
 import { REGISTRATION_FIELD_CONSTRAINTS } from '../../core/api/models/registration.model';
-import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-paths';
 import { formatInstantForDisplay } from '../../shared/formatting/instant-formatter';
 import { AbstractFormViewModel } from '../../shared/forms/abstract-form.view-model';
 
@@ -59,9 +55,6 @@ export interface PresentedAccount {
 export class AdminUsersPageViewModel extends AbstractFormViewModel {
   private readonly formBuilder = inject(FormBuilder);
   private readonly adminUserService = inject(AdminUserService);
-  private readonly adminAuthenticationService = inject(AdminAuthenticationService);
-  private readonly adminSessionStore = inject(AdminSessionStore);
-  private readonly router = inject(Router);
 
   private readonly loadedAccounts = signal<readonly AdminUser[]>([]);
   private readonly currentPage = signal(0);
@@ -120,17 +113,6 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
 
   /** Every status the operator may set, for the dropdowns. */
   readonly availableStatuses = USER_ACCOUNT_STATUSES;
-
-  /** When the operator's own session expires, as finished text. */
-  readonly sessionExpiryLabel = computed(() => {
-    const expiry = this.adminSessionStore.expiresAt();
-    return expiry === null
-      ? ''
-      : formatInstantForDisplay(
-          expiry.toISOString(),
-          this.translationService.currentLanguageCode(),
-        );
-  });
 
   /** The search box. */
   readonly searchForm = this.formBuilder.nonNullable.group({ query: [''] });
@@ -369,12 +351,6 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
         },
         error: (failure: unknown) => this.failSubmission(failure),
       });
-  }
-
-  /** Ends the operator session and returns to the sign-in. */
-  signOut(): void {
-    this.adminAuthenticationService.signOut();
-    void this.router.navigateByUrl(APPLICATION_ROUTE_LINKS.admin);
   }
 
   /** Fetches the current page of accounts. */

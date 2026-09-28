@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { FormFeedback } from '../../shared/forms/form-feedback/form-feedback';
+import { AdminHeader } from './admin-header/admin-header';
 import { AdminUsersPageViewModel } from './admin-users-page.view-model';
 
 /**
@@ -12,7 +13,7 @@ import { AdminUsersPageViewModel } from './admin-users-page.view-model';
  */
 @Component({
   selector: 'app-admin-users-page',
-  imports: [ReactiveFormsModule, TranslatePipe, FormFeedback],
+  imports: [ReactiveFormsModule, AdminHeader, TranslatePipe, FormFeedback],
   providers: [AdminUsersPageViewModel],
   templateUrl: './admin-users-page.html',
   styleUrl: './admin-users-page.scss',

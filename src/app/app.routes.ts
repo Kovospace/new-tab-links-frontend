@@ -117,6 +117,12 @@ export const routes: Routes = [
       import('./features/admin/admin-users-page').then((module) => module.AdminUsersPage),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.adminMetrics,
+    canActivate: [requiresAdminSession],
+    loadComponent: () =>
+      import('./features/admin/admin-metrics-page').then((module) => module.AdminMetricsPage),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.sitemap,
     loadComponent: () =>
       import('./features/legal/sitemap-page').then((module) => module.SitemapPage),

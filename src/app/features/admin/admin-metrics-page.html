@@ -1,0 +1,90 @@
+<article>
+
+  <app-admin-header />
+
+  <section>
+
+    <h1>{{ 'admin.metrics.heading' | translate }}</h1>
+
+    <div class="admin-metrics-page__month">
+      <button type="button" (click)="viewModel.showPreviousMonth()">
+        {{ 'admin.metrics.previousMonth' | translate }}
+      </button>
+      <h2 class="admin-metrics-page__month-label">{{ viewModel.displayedMonthLabel() }}</h2>
+      <button
+        type="button"
+        [disabled]="!viewModel.canShowNextMonth()"
+        (click)="viewModel.showNextMonth()"
+      >
+        {{ 'admin.metrics.nextMonth' | translate }}
+      </button>
+    </div>
+
+    @if (viewModel.isLoading()) {
+      <p>{{ 'admin.metrics.loading' | translate }}</p>
+    } @else if (viewModel.loadFailure()) {
+      <p role="alert">{{ viewModel.loadFailure() }}</p>
+    }
+
+    @for (chart of viewModel.presentedCharts(); track chart.metric) {
+      <section class="admin-metrics-page__chart">
+        <h3>{{ chart.title }}</h3>
+        <p>{{ chart.explanation }}</p>
+        <p class="admin-metrics-page__total">{{ chart.totalLabel }}</p>
+
+        <svg
+          class="admin-metrics-page__graph"
+          [attr.viewBox]="viewModel.chartViewBox"
+          role="img"
+          [attr.aria-label]="chart.title"
+        >
+          <line
+            class="admin-metrics-page__axis"
+            [attr.x1]="chart.baselineStartX"
+            [attr.x2]="chart.baselineEndX"
+            [attr.y1]="chart.baselineY"
+            [attr.y2]="chart.baselineY"
+          />
+          @for (valueLabel of chart.valueLabels; track valueLabel.text) {
+            <text
+              class="admin-metrics-page__label admin-metrics-page__label--value"
+              [attr.x]="valueLabel.x"
+              [attr.y]="valueLabel.y"
+            >
+              {{ valueLabel.text }}
+            </text>
+          }
+          @for (dayLabel of chart.dayLabels; track dayLabel.text) {
+            <text
+              class="admin-metrics-page__label admin-metrics-page__label--day"
+              [attr.x]="dayLabel.x"
+              [attr.y]="dayLabel.y"
+            >
+              {{ dayLabel.text }}
+            </text>
+          }
+          @for (bar of chart.bars; track bar.slotX) {
+            <g class="admin-metrics-page__day">
+              <title>{{ bar.hoverText }}</title>
+              <rect
+                class="admin-metrics-page__hover-area"
+                [attr.x]="bar.slotX"
+                [attr.y]="0"
+                [attr.width]="bar.slotWidth"
+                [attr.height]="chart.baselineY"
+              />
+              <rect
+                class="admin-metrics-page__bar"
+                [attr.x]="bar.barX"
+                [attr.y]="bar.barY"
+                [attr.width]="bar.barWidth"
+                [attr.height]="bar.barHeight"
+              />
+            </g>
+          }
+        </svg>
+      </section>
+    }
+
+  </section>
+</article>

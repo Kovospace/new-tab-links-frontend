@@ -20,16 +20,21 @@
 .admin-page__table {
   margin-top: 2em;
   margin-bottom: 2em;
+
+  thead {
+    tr {
+      background-color: var(--color-panel);
+    }
+  }
 }
 
+// Header and stripes are painted on the row, as on the devices page. A wrapper is only as tall
+// as its own content, so a background on the wrappers broke a row into blocks of different
+// heights whenever one cell wrapped onto more lines than its neighbours.
 .admin-page__row {
   vertical-align: middle;
 
-  // Striping is painted on the wrappers rather than on the row. The wrappers are inset by their
-  // own vertical margin, so the stripe stops short of the row's edges and reads as a band of
-  // separate cells rather than one full-bleed bar — and a background on a `tr` would in any case
-  // be covered wherever a cell had one of its own.
-  &:nth-child(even) .admin-page__cell-content {
+  &:nth-child(even) {
     background-color: var(--color-panel);
   }
 }
@@ -53,7 +58,6 @@
 
 .admin-page__column-header-content {
   font-weight: bold;
-  background-color: var(--color-panel);
 }
 
 // The actions carry the table's own size rather than the browser's default for a control.
