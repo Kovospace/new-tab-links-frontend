@@ -1,16 +1,9 @@
 // Only what is actually styled has a rule here; see admin-users-page.scss.
 
-.admin-metrics-page__navigation {
-  display: flex;
-  gap: 1em;
-  align-items: center;
-}
-
 .admin-metrics-page__month {
   display: flex;
   gap: 1em;
   align-items: center;
-  margin-top: 2em;
 }
 
 .admin-metrics-page__month-label {

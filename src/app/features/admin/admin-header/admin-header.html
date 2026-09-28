@@ -1,0 +1,15 @@
+<header>
+  <nav class="admin-header__navigation">
+    @for (presentedLink of viewModel.presentedLinks(); track presentedLink.routerLink) {
+      @if (presentedLink.isCurrentPage) {
+        <a [routerLink]="presentedLink.routerLink" aria-current="page" class="button">{{ presentedLink.label }}</a>
+      } @else {
+        <a [routerLink]="presentedLink.routerLink" class="button">{{ presentedLink.label }}</a>
+      }
+    }
+    <em>{{ 'admin.users.sessionExpires' | translate }} {{ viewModel.sessionExpiryLabel() }}</em>
+    <button type="button" (click)="viewModel.signOut()">
+      {{ 'admin.users.signOutAction' | translate }}
+    </button>
+  </nav>
+</header>

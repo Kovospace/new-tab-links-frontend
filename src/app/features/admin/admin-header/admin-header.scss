@@ -1,0 +1,13 @@
+// Only what is actually styled has a rule here; see admin-users-page.scss.
+
+.admin-header__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin: 0.75em 1em;
+
+  em {
+    margin-left: 1em;
+    margin-right:0.5em;
+  }
+}

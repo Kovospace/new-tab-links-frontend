@@ -1,305 +1,303 @@
 <article>
-  <header class="admin-page__bar">
+
+  <app-admin-header />
+
+  <section>
+
     <h1>{{ 'admin.users.heading' | translate }}</h1>
-    <p class="admin-page__session">
-      {{ 'admin.users.sessionExpires' | translate }} {{ viewModel.sessionExpiryLabel() }}
-    </p>
-    <a [routerLink]="viewModel.statisticsLink">{{ 'admin.navigation.statistics' | translate }}</a>
-    <button type="button" (click)="viewModel.signOut()">
-      {{ 'admin.users.signOutAction' | translate }}
-    </button>
-  </header>
 
-  <app-form-feedback
-    [failureMessage]="viewModel.submissionFailure()"
-    [successMessage]="viewModel.submissionSuccess()"
-    [validationMessages]="viewModel.backendValidationMessages()"
-  />
+    <app-form-feedback
+      [failureMessage]="viewModel.submissionFailure()"
+      [successMessage]="viewModel.submissionSuccess()"
+      [validationMessages]="viewModel.backendValidationMessages()"
+    />
 
-  <form
-    [formGroup]="viewModel.searchForm"
-    (ngSubmit)="viewModel.applySearch()"
-    class="admin-page__search-form"
-  >
-    <label>
-      <span>{{ 'admin.users.searchLabel' | translate }}</span>
-      <input type="search" formControlName="query" autocomplete="off" />
-    </label>
-    <button type="submit">{{ 'admin.users.searchAction' | translate }}</button>
-    <button type="button" (click)="viewModel.startCreatingAccount()">
-      {{ 'admin.users.createAction' | translate }}
-    </button>
-  </form>
+    <form
+      [formGroup]="viewModel.searchForm"
+      (ngSubmit)="viewModel.applySearch()"
+      class="admin-page__search-form"
+    >
+      <label>
+        <span>{{ 'admin.users.searchLabel' | translate }}</span>
+        <input type="search" formControlName="query" autocomplete="off" />
+      </label>
+      <button type="submit">{{ 'admin.users.searchAction' | translate }}</button>
+      <button type="button" (click)="viewModel.startCreatingAccount()">
+        {{ 'admin.users.createAction' | translate }}
+      </button>
+    </form>
 
-  @if (viewModel.isCreatingAccount()) {
-    <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
-      <section
-        class="modal__panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="admin-create-heading"
-      >
-        <h2 id="admin-create-heading">{{ 'admin.create.heading' | translate }}</h2>
-        <form [formGroup]="viewModel.createForm" (ngSubmit)="viewModel.submitNewAccount()">
-          <label>
-            <span>{{ 'admin.field.username' | translate }}</span>
-            <input type="text" formControlName="username" autocomplete="off" />
-          </label>
-          <label>
-            <span>{{ 'admin.field.email' | translate }}</span>
-            <input type="email" formControlName="email" autocomplete="off" />
-          </label>
-          <label>
-            <span>{{ 'admin.field.displayName' | translate }}</span>
-            <input type="text" formControlName="displayName" autocomplete="off" />
-          </label>
-          <label>
-            <span>{{ 'admin.field.password' | translate }}</span>
-            <input type="password" formControlName="password" autocomplete="new-password" />
-            <small>{{ 'admin.create.passwordHint' | translate }}</small>
-          </label>
-          <label>
-            <span>{{ 'admin.field.status' | translate }}</span>
-            <span class="select-field">
-              <select formControlName="status">
-                @for (status of viewModel.availableStatuses; track status) {
-                  <option [value]="status">{{ 'admin.status.' + status | translate }}</option>
-                }
-              </select>
-            </span>
-          </label>
-          <label>
-            <span>{{ 'admin.field.premium' | translate }}</span>
-            <input type="checkbox" formControlName="premium" />
-            <small>{{ 'admin.field.premiumHint' | translate }}</small>
-          </label>
-          <button type="submit" [disabled]="viewModel.isSubmitting()">
-            {{ 'admin.create.submitAction' | translate }}
-          </button>
-          <button type="button" (click)="viewModel.cancelCreatingAccount()">
-            {{ 'admin.cancelAction' | translate }}
-          </button>
-        </form>
-      </section>
-    </div>
-  }
+    @if (viewModel.isCreatingAccount()) {
+      <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
+        <section
+          class="modal__panel"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="admin-create-heading"
+        >
+          <h2 id="admin-create-heading">{{ 'admin.create.heading' | translate }}</h2>
+          <form [formGroup]="viewModel.createForm" (ngSubmit)="viewModel.submitNewAccount()">
+            <label>
+              <span>{{ 'admin.field.username' | translate }}</span>
+              <input type="text" formControlName="username" autocomplete="off" />
+            </label>
+            <label>
+              <span>{{ 'admin.field.email' | translate }}</span>
+              <input type="email" formControlName="email" autocomplete="off" />
+            </label>
+            <label>
+              <span>{{ 'admin.field.displayName' | translate }}</span>
+              <input type="text" formControlName="displayName" autocomplete="off" />
+            </label>
+            <label>
+              <span>{{ 'admin.field.password' | translate }}</span>
+              <input type="password" formControlName="password" autocomplete="new-password" />
+              <small>{{ 'admin.create.passwordHint' | translate }}</small>
+            </label>
+            <label>
+              <span>{{ 'admin.field.status' | translate }}</span>
+              <span class="select-field">
+                <select formControlName="status">
+                  @for (status of viewModel.availableStatuses; track status) {
+                    <option [value]="status">{{ 'admin.status.' + status | translate }}</option>
+                  }
+                </select>
+              </span>
+            </label>
+            <label>
+              <span>{{ 'admin.field.premium' | translate }}</span>
+              <input type="checkbox" formControlName="premium" />
+              <small>{{ 'admin.field.premiumHint' | translate }}</small>
+            </label>
+            <button type="submit" [disabled]="viewModel.isSubmitting()">
+              {{ 'admin.create.submitAction' | translate }}
+            </button>
+            <button type="button" (click)="viewModel.cancelCreatingAccount()">
+              {{ 'admin.cancelAction' | translate }}
+            </button>
+          </form>
+        </section>
+      </div>
+    }
 
-  @if (viewModel.isLoading()) {
-    <p>{{ 'admin.users.loading' | translate }}</p>
-  } @else if (viewModel.hasNoAccounts()) {
-    <p>{{ 'admin.users.noAccounts' | translate }}</p>
-  } @else {
-    <!--
-      Every cell holds one wrapper element, and every rule that positions anything is written
-      against that wrapper rather than the cell — the same arrangement as the devices table, for
-      the same reason.
+    @if (viewModel.isLoading()) {
+      <p>{{ 'admin.users.loading' | translate }}</p>
+    } @else if (viewModel.hasNoAccounts()) {
+      <p>{{ 'admin.users.noAccounts' | translate }}</p>
+    } @else {
+      <!--
+        Every cell holds one wrapper element, and every rule that positions anything is written
+        against that wrapper rather than the cell — the same arrangement as the devices table, for
+        the same reason.
 
-      A table cell is not an ordinary box. Its geometry is decided by the table layout algorithm
-      and not by the cell: `height` is a minimum the row may overrule, `width` is a suggestion the
-      column negotiates away, `overflow`, `transform` and `position: relative` are undefined on it,
-      and it cannot be a flex or grid container without `display` taking it out of the table and
-      breaking the column alignment that is the only reason to use a table at all. A plain `div`
-      inside it has none of those restrictions, so alignment, truncation, minimum heights and
-      anything positioned absolutely all become ordinary CSS again.
-    -->
-    <table class="admin-page__table">
-      <thead>
-        <tr class="admin-page__row">
-          <th scope="col">
-            <div class="admin-page__column-header-content">
-              {{ 'admin.field.username' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="admin-page__column-header-content">
-              {{ 'admin.field.email' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="admin-page__column-header-content">
-              {{ 'admin.field.displayName' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="admin-page__column-header-content">
-              {{ 'admin.field.status' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="admin-page__column-header-content">
-              {{ 'admin.field.premium' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="admin-page__column-header-content">
-              {{ 'admin.field.failedAttempts' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="admin-page__column-header-content">
-              {{ 'admin.field.createdAt' | translate }}
-            </div>
-          </th>
-          <th scope="col">
-            <div class="admin-page__column-header-content">
-              {{ 'admin.field.actions' | translate }}
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (account of viewModel.accounts(); track account.id) {
+        A table cell is not an ordinary box. Its geometry is decided by the table layout algorithm
+        and not by the cell: `height` is a minimum the row may overrule, `width` is a suggestion the
+        column negotiates away, `overflow`, `transform` and `position: relative` are undefined on it,
+        and it cannot be a flex or grid container without `display` taking it out of the table and
+        breaking the column alignment that is the only reason to use a table at all. A plain `div`
+        inside it has none of those restrictions, so alignment, truncation, minimum heights and
+        anything positioned absolutely all become ordinary CSS again.
+      -->
+      <table class="admin-page__table">
+        <thead>
           <tr class="admin-page__row">
-            <td>
-              <div class="admin-page__cell-content">{{ account.username }}</div>
-            </td>
-            <td>
-              <div class="admin-page__cell-content">{{ account.email }}</div>
-            </td>
-            <td>
-              <div class="admin-page__cell-content">{{ account.displayName }}</div>
-            </td>
-            <td>
-              <div class="admin-page__cell-content">{{ account.statusLabel }}</div>
-            </td>
-            <td>
-              <div class="admin-page__cell-content">{{ account.premiumLabel }}</div>
-            </td>
-            <td>
-              <div class="admin-page__cell-content">{{ account.failedLoginAttempts }}</div>
-            </td>
-            <td>
-              <div class="admin-page__cell-content">{{ account.createdAt }}</div>
-            </td>
-            <td>
-              <div class="admin-page__cell-content">
-                <button type="button" (click)="viewModel.editAccount(account.id)">
-                  {{ 'admin.users.editAction' | translate }}
-                </button>
-                @if (account.hasFailedAttempts) {
-                  <button type="button" (click)="viewModel.unlockAccount(account.id)">
-                    {{ 'admin.users.unlockAction' | translate }}
-                  </button>
-                }
-                <button type="button" (click)="viewModel.requestDeletion(account.id)">
-                  {{ 'admin.users.deleteAction' | translate }}
-                </button>
+            <th scope="col">
+              <div class="admin-page__column-header-content">
+                {{ 'admin.field.username' | translate }}
               </div>
-            </td>
+            </th>
+            <th scope="col">
+              <div class="admin-page__column-header-content">
+                {{ 'admin.field.email' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="admin-page__column-header-content">
+                {{ 'admin.field.displayName' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="admin-page__column-header-content">
+                {{ 'admin.field.status' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="admin-page__column-header-content">
+                {{ 'admin.field.premium' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="admin-page__column-header-content">
+                {{ 'admin.field.failedAttempts' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="admin-page__column-header-content">
+                {{ 'admin.field.createdAt' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="admin-page__column-header-content">
+                {{ 'admin.field.actions' | translate }}
+              </div>
+            </th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (account of viewModel.accounts(); track account.id) {
+            <tr class="admin-page__row">
+              <td>
+                <div class="admin-page__cell-content">{{ account.username }}</div>
+              </td>
+              <td>
+                <div class="admin-page__cell-content">{{ account.email }}</div>
+              </td>
+              <td>
+                <div class="admin-page__cell-content">{{ account.displayName }}</div>
+              </td>
+              <td>
+                <div class="admin-page__cell-content">{{ account.statusLabel }}</div>
+              </td>
+              <td>
+                <div class="admin-page__cell-content">{{ account.premiumLabel }}</div>
+              </td>
+              <td>
+                <div class="admin-page__cell-content">{{ account.failedLoginAttempts }}</div>
+              </td>
+              <td>
+                <div class="admin-page__cell-content">{{ account.createdAt }}</div>
+              </td>
+              <td>
+                <div class="admin-page__cell-content">
+                  <button type="button" (click)="viewModel.editAccount(account.id)">
+                    {{ 'admin.users.editAction' | translate }}
+                  </button>
+                  @if (account.hasFailedAttempts) {
+                    <button type="button" (click)="viewModel.unlockAccount(account.id)">
+                      {{ 'admin.users.unlockAction' | translate }}
+                    </button>
+                  }
+                  <button type="button" (click)="viewModel.requestDeletion(account.id)">
+                    {{ 'admin.users.deleteAction' | translate }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
 
-    <nav class="admin-page__pages">
-      <button
-        type="button"
-        [disabled]="!viewModel.hasPreviousPage()"
-        (click)="viewModel.showPreviousPage()"
-      >
-        {{ 'admin.users.previousPage' | translate }}
-      </button>
-      <span>{{ viewModel.pageSummary() }}</span>
-      <button
-        type="button"
-        [disabled]="!viewModel.hasNextPage()"
-        (click)="viewModel.showNextPage()"
-      >
-        {{ 'admin.users.nextPage' | translate }}
-      </button>
-    </nav>
-  }
-
-  @if (viewModel.accountPendingDeletion(); as accountToDelete) {
-    <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
-      <section
-        class="modal__panel modal__panel--danger"
-        role="alertdialog"
-        aria-modal="true"
-        aria-labelledby="admin-delete-heading"
-        aria-describedby="admin-delete-warning"
-      >
-        <h2 id="admin-delete-heading">{{ 'admin.delete.heading' | translate }}</h2>
-        <p id="admin-delete-warning">
-          {{ 'admin.delete.warning' | translate: { username: accountToDelete.username } }}
-        </p>
+      <nav class="admin-page__pages">
         <button
           type="button"
-          [disabled]="viewModel.isSubmitting()"
-          (click)="viewModel.confirmDeletion()"
+          [disabled]="!viewModel.hasPreviousPage()"
+          (click)="viewModel.showPreviousPage()"
         >
-          {{ 'admin.delete.confirmAction' | translate }}
+          {{ 'admin.users.previousPage' | translate }}
         </button>
-        <button type="button" (click)="viewModel.cancelDeletion()">
-          {{ 'admin.cancelAction' | translate }}
+        <span>{{ viewModel.pageSummary() }}</span>
+        <button
+          type="button"
+          [disabled]="!viewModel.hasNextPage()"
+          (click)="viewModel.showNextPage()"
+        >
+          {{ 'admin.users.nextPage' | translate }}
         </button>
-      </section>
-    </div>
-  }
+      </nav>
+    }
 
-  @if (viewModel.editedAccount(); as editedAccount) {
-    <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
-      <section
-        class="modal__panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="admin-edit-heading"
-      >
-        <h2 id="admin-edit-heading">
-          {{ 'admin.edit.heading' | translate: { username: editedAccount.username } }}
-        </h2>
-
-        <form [formGroup]="viewModel.editForm" (ngSubmit)="viewModel.saveEditedAccount()">
-          <label>
-            <span>{{ 'admin.field.email' | translate }}</span>
-            <input type="email" formControlName="email" autocomplete="off" />
-            <small>{{ 'admin.edit.emailHint' | translate }}</small>
-          </label>
-          <label>
-            <span>{{ 'admin.field.displayName' | translate }}</span>
-            <input type="text" formControlName="displayName" autocomplete="off" />
-          </label>
-          <label>
-            <span>{{ 'admin.field.status' | translate }}</span>
-            <span class="select-field">
-              <select formControlName="status">
-                @for (status of viewModel.availableStatuses; track status) {
-                  <option [value]="status">{{ 'admin.status.' + status | translate }}</option>
-                }
-              </select>
-            </span>
-          </label>
-          <label>
-            <span>{{ 'admin.field.premium' | translate }}</span>
-            <input type="checkbox" formControlName="premium" />
-            @if (viewModel.editedAccountHasPaidPremium()) {
-              <small>{{ 'admin.field.premiumPaidHint' | translate }}</small>
-            } @else {
-              <small>{{ 'admin.field.premiumHint' | translate }}</small>
-            }
-          </label>
-          <button type="submit" [disabled]="viewModel.isSubmitting()">
-            {{ 'admin.edit.saveAction' | translate }}
+    @if (viewModel.accountPendingDeletion(); as accountToDelete) {
+      <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
+        <section
+          class="modal__panel modal__panel--danger"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="admin-delete-heading"
+          aria-describedby="admin-delete-warning"
+        >
+          <h2 id="admin-delete-heading">{{ 'admin.delete.heading' | translate }}</h2>
+          <p id="admin-delete-warning">
+            {{ 'admin.delete.warning' | translate: { username: accountToDelete.username } }}
+          </p>
+          <button
+            type="button"
+            [disabled]="viewModel.isSubmitting()"
+            (click)="viewModel.confirmDeletion()"
+          >
+            {{ 'admin.delete.confirmAction' | translate }}
           </button>
-          <button type="button" (click)="viewModel.cancelEditing()">
+          <button type="button" (click)="viewModel.cancelDeletion()">
             {{ 'admin.cancelAction' | translate }}
           </button>
-        </form>
+        </section>
+      </div>
+    }
 
-        <form
-          [formGroup]="viewModel.passwordForm"
-          (ngSubmit)="viewModel.saveEditedAccountPassword()"
+    @if (viewModel.editedAccount(); as editedAccount) {
+      <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
+        <section
+          class="modal__panel"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="admin-edit-heading"
         >
-          <label>
-            <span>{{ 'admin.edit.newPasswordLabel' | translate }}</span>
-            <input type="password" formControlName="password" autocomplete="new-password" />
-            <small>{{ 'admin.edit.newPasswordHint' | translate }}</small>
-          </label>
-          <button type="submit" [disabled]="viewModel.isSubmitting()">
-            {{ 'admin.edit.savePasswordAction' | translate }}
-          </button>
-        </form>
-      </section>
-    </div>
-  }
+          <h2 id="admin-edit-heading">
+            {{ 'admin.edit.heading' | translate: { username: editedAccount.username } }}
+          </h2>
+
+          <form [formGroup]="viewModel.editForm" (ngSubmit)="viewModel.saveEditedAccount()">
+            <label>
+              <span>{{ 'admin.field.email' | translate }}</span>
+              <input type="email" formControlName="email" autocomplete="off" />
+              <small>{{ 'admin.edit.emailHint' | translate }}</small>
+            </label>
+            <label>
+              <span>{{ 'admin.field.displayName' | translate }}</span>
+              <input type="text" formControlName="displayName" autocomplete="off" />
+            </label>
+            <label>
+              <span>{{ 'admin.field.status' | translate }}</span>
+              <span class="select-field">
+                <select formControlName="status">
+                  @for (status of viewModel.availableStatuses; track status) {
+                    <option [value]="status">{{ 'admin.status.' + status | translate }}</option>
+                  }
+                </select>
+              </span>
+            </label>
+            <label>
+              <span>{{ 'admin.field.premium' | translate }}</span>
+              <input type="checkbox" formControlName="premium" />
+              @if (viewModel.editedAccountHasPaidPremium()) {
+                <small>{{ 'admin.field.premiumPaidHint' | translate }}</small>
+              } @else {
+                <small>{{ 'admin.field.premiumHint' | translate }}</small>
+              }
+            </label>
+            <button type="submit" [disabled]="viewModel.isSubmitting()">
+              {{ 'admin.edit.saveAction' | translate }}
+            </button>
+            <button type="button" (click)="viewModel.cancelEditing()">
+              {{ 'admin.cancelAction' | translate }}
+            </button>
+          </form>
+
+          <form
+            [formGroup]="viewModel.passwordForm"
+            (ngSubmit)="viewModel.saveEditedAccountPassword()"
+          >
+            <label>
+              <span>{{ 'admin.edit.newPasswordLabel' | translate }}</span>
+              <input type="password" formControlName="password" autocomplete="new-password" />
+              <small>{{ 'admin.edit.newPasswordHint' | translate }}</small>
+            </label>
+            <button type="submit" [disabled]="viewModel.isSubmitting()">
+              {{ 'admin.edit.savePasswordAction' | translate }}
+            </button>
+          </form>
+        </section>
+      </div>
+    }
+
+  </section>
 </article>

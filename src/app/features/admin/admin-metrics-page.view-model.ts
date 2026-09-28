@@ -1,8 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { AdminAuthenticationService } from '../../core/admin/admin-authentication.service';
-import { AdminSessionStore } from '../../core/admin/admin-session.store';
 import { AdminUsageMetricsService } from '../../core/admin/admin-usage-metrics.service';
 import { BackendFailureTranslator } from '../../core/api/backend-failure.translator';
 import {
@@ -11,11 +8,7 @@ import {
   UsageMetricMonth,
 } from '../../core/api/models/usage-metric.model';
 import { TranslationService } from '../../core/i18n/translation.service';
-import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-paths';
-import {
-  FORMATTING_LOCALES,
-  formatInstantForDisplay,
-} from '../../shared/formatting/instant-formatter';
+import { FORMATTING_LOCALES } from '../../shared/formatting/instant-formatter';
 
 /** The chart's coordinate space; the SVG scales it to whatever width the page gives it. */
 export const CHART_WIDTH = 720;
@@ -84,11 +77,8 @@ export interface PresentedMetricChart {
 @Injectable()
 export class AdminMetricsPageViewModel {
   private readonly adminUsageMetricsService = inject(AdminUsageMetricsService);
-  private readonly adminAuthenticationService = inject(AdminAuthenticationService);
-  private readonly adminSessionStore = inject(AdminSessionStore);
   private readonly backendFailureTranslator = inject(BackendFailureTranslator);
   private readonly translationService = inject(TranslationService);
-  private readonly router = inject(Router);
 
   private readonly currentMonth = calendarMonthOf(new Date());
   private readonly displayedMonth = signal<CalendarMonth>(this.currentMonth);
@@ -124,20 +114,6 @@ export class AdminMetricsPageViewModel {
     this.loadedMonths().map((loadedMonth) => this.presentChart(loadedMonth)),
   );
 
-  /** When the operator's own session expires, as finished text. */
-  readonly sessionExpiryLabel = computed(() => {
-    const expiry = this.adminSessionStore.expiresAt();
-    return expiry === null
-      ? ''
-      : formatInstantForDisplay(
-          expiry.toISOString(),
-          this.translationService.currentLanguageCode(),
-        );
-  });
-
-  /** Where the operator's other page is. */
-  readonly accountsLink = APPLICATION_ROUTE_LINKS.adminUsers;
-
   /** Loads the displayed month of both metrics. */
   loadDisplayedMonth(): void {
     const month = monthKey(this.displayedMonth());
@@ -171,12 +147,6 @@ export class AdminMetricsPageViewModel {
     }
     this.displayedMonth.update((month) => shiftMonth(month, 1));
     this.loadDisplayedMonth();
-  }
-
-  /** Ends the operator's session and returns to the sign-in. */
-  signOut(): void {
-    this.adminAuthenticationService.signOut();
-    void this.router.navigateByUrl(APPLICATION_ROUTE_LINKS.admin);
   }
 
   /**

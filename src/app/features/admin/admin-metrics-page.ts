@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { AdminHeader } from './admin-header/admin-header';
 import { AdminMetricsPageViewModel } from './admin-metrics-page.view-model';
 
 /**
@@ -8,7 +8,7 @@ import { AdminMetricsPageViewModel } from './admin-metrics-page.view-model';
  */
 @Component({
   selector: 'app-admin-metrics-page',
-  imports: [RouterLink, TranslatePipe],
+  imports: [AdminHeader, TranslatePipe],
   providers: [AdminMetricsPageViewModel],
   templateUrl: './admin-metrics-page.html',
   styleUrl: './admin-metrics-page.scss',
