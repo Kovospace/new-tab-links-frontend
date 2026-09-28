@@ -109,6 +109,36 @@ describe('authenticationInterceptor', () => {
     expect(sessionStore.isSignedIn()).toBe(false);
   });
 
+  it('replays with the pair another tab stored when that tab used the refresh token first', () => {
+    sessionStore.startSession(EXPIRED_SESSION);
+    // Another tab refreshed a moment earlier: its rotated pair is in storage, this tab has not
+    // heard yet, and the backend has already revoked the token this tab is about to present.
+    globalThis.localStorage.setItem('newtablinks.session', JSON.stringify(REFRESHED_SESSION));
+
+    let receivedBody: unknown = null;
+    httpClient.get('/api/v1/users/me').subscribe((body) => (receivedBody = body));
+
+    httpTestingController
+      .expectOne('/api/v1/users/me')
+      .flush('', { status: 401, statusText: 'Unauthorized' });
+
+    httpTestingController
+      .expectOne((request) => request.url.endsWith('/api/v1/auth/refresh'))
+      .flush('', { status: 401, statusText: 'Unauthorized' });
+
+    const replayedRequest = httpTestingController.expectOne('/api/v1/users/me');
+    expect(replayedRequest.request.headers.get('Authorization')).toBe(
+      `Bearer ${REFRESHED_SESSION.accessToken}`,
+    );
+    replayedRequest.flush({ username: 'kovo' });
+
+    expect(receivedBody).toEqual({ username: 'kovo' });
+    expect(sessionStore.isSignedIn()).toBe(true);
+    expect(globalThis.localStorage.getItem('newtablinks.session')).toBe(
+      JSON.stringify(REFRESHED_SESSION),
+    );
+  });
+
   it('does not try to refresh when there is no session to refresh', () => {
     httpClient.get('/api/v1/users/me').subscribe({ error: () => undefined });
 

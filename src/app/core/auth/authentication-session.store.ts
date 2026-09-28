@@ -25,6 +25,16 @@ export class AuthenticationSessionStore {
   /** The signed-in account, loaded lazily; null until something asks for it. */
   private readonly currentUserAccount = signal<UserAccount | null>(null);
 
+  /**
+   * Follows the session other tabs store, so that this tab never presents a refresh token another
+   * tab has already rotated away, and signs out when another tab does.
+   */
+  constructor() {
+    this.sessionStorageService.watchStoredSessionFromOtherTabs((storedSession) =>
+      this.followSessionStoredElsewhere(storedSession),
+    );
+  }
+
   /** The signed-in account, or null when it has not been loaded yet. */
   readonly signedInAccount = this.currentUserAccount.asReadonly();
 
@@ -73,6 +83,25 @@ export class AuthenticationSessionStore {
   }
 
   /**
+   * Adopts a newer session another tab has stored, when there is one.
+   *
+   * <p>The fallback for the race the {@code storage} event cannot close: two tabs refreshing at
+   * the same moment with the same token. One wins; the loser's refusal does not mean the session
+   * is over, only that the winner's pair is already in storage.</p>
+   *
+   * @param refusedRefreshToken the refresh token the backend has just refused
+   * @returns the stored session, when it carries a different refresh token; otherwise null
+   */
+  adoptNewerStoredSession(refusedRefreshToken: string): TokenPair | null {
+    const storedSession = this.sessionStorageService.readStoredSession();
+    if (!storedSession || storedSession.refreshToken === refusedRefreshToken) {
+      return null;
+    }
+    this.currentTokenPair.set(storedSession);
+    return storedSession;
+  }
+
+  /**
    * Records the account behind the current session.
    *
    * @param userAccount the account as the backend reports it
@@ -91,5 +120,21 @@ export class AuthenticationSessionStore {
     this.currentTokenPair.set(null);
     this.currentUserAccount.set(null);
     this.sessionStorageService.clearSession();
+  }
+
+  /**
+   * Mirrors in memory what another tab has just stored — without writing it back, which would
+   * only echo the event to every other tab.
+   *
+   * <p>The loaded account is dropped when the session ends or belongs to someone else, so the
+   * header never greets the previous user.</p>
+   *
+   * @param storedSession the session now in storage, or null when another tab signed out
+   */
+  private followSessionStoredElsewhere(storedSession: TokenPair | null): void {
+    if (storedSession?.username !== this.currentTokenPair()?.username) {
+      this.currentUserAccount.set(null);
+    }
+    this.currentTokenPair.set(storedSession);
   }
 }

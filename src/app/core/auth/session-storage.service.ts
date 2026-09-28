@@ -46,6 +46,27 @@ export class SessionStorageService {
   }
 
   /**
+   * Calls back whenever another tab of this site writes or clears the stored session.
+   *
+   * <p>Every tab keeps its tokens in memory, and the backend revokes a refresh token the moment it
+   * is used. So when one tab refreshes, every other tab is left holding a dead refresh token, and
+   * its next refresh fails and signs the user out everywhere. Following the browser's
+   * {@code storage} event — fired in every tab of the origin <em>except</em> the one that wrote —
+   * keeps them all on the latest pair.</p>
+   *
+   * @param onStoredSessionChanged receives the newly stored session, or null once it is cleared
+   */
+  watchStoredSessionFromOtherTabs(
+    onStoredSessionChanged: (storedSession: TokenPair | null) => void,
+  ): void {
+    globalThis.addEventListener?.('storage', (storageEvent: StorageEvent) => {
+      if (storageEvent.key === STORED_SESSION_KEY || storageEvent.key === null) {
+        onStoredSessionChanged(this.readStoredSession());
+      }
+    });
+  }
+
+  /**
    * Forgets the session, on sign-out or when the backend refuses the tokens.
    */
   clearSession(): void {
