@@ -3,4 +3,49 @@
 
 .premium_panel {
   background-color: var(--color-section-even);
+
+  form {
+
+    fieldset {
+      margin-bottom: 1em;
+
+      label {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: var(--color-background);
+        padding:1em;
+        border-radius: 0.5em;
+        cursor: pointer;
+        transition: transform var(--duration-fast) var(--easing-standard);
+        margin: 0.75em;
+
+        input {
+          flex-grow: 0;
+          flex-shrink: 0;
+          aspect-ratio: 1 / 1;
+          width: 1em;
+          height: 1em;
+          font-size: 1.75em;
+          margin-right: 0.75em;
+        }
+
+        div {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 0.25em;
+
+          small {
+            margin: 0;
+          }
+        }
+
+        &:hover {
+          //background-color: var(--color-ui-element-hover);
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
 }
