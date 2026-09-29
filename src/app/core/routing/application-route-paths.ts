@@ -40,6 +40,8 @@ export const APPLICATION_ROUTE_PATHS = {
   tip: 'tips/:slug',
   privacy: 'privacy',
   cookies: 'cookies',
+  terms: 'terms',
+  refunds: 'refunds',
   sitemap: 'sitemap',
   /**
    * The operator's sign-in.
@@ -72,6 +74,8 @@ export const APPLICATION_ROUTE_LINKS = {
   tips: `/${APPLICATION_ROUTE_PATHS.tips}`,
   privacy: `/${APPLICATION_ROUTE_PATHS.privacy}`,
   cookies: `/${APPLICATION_ROUTE_PATHS.cookies}`,
+  terms: `/${APPLICATION_ROUTE_PATHS.terms}`,
+  refunds: `/${APPLICATION_ROUTE_PATHS.refunds}`,
   sitemap: `/${APPLICATION_ROUTE_PATHS.sitemap}`,
   admin: `/${APPLICATION_ROUTE_PATHS.admin}`,
   adminUsers: `/${APPLICATION_ROUTE_PATHS.adminUsers}`,

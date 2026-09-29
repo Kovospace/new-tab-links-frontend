@@ -3,7 +3,17 @@
     <ul>
       <li class="page-footer__links-item">
         <a class="page-footer__link" [routerLink]="routeLinks.privacy">{{
-          'footer.gdpr' | translate
+          'footer.privacy' | translate
+        }}</a>
+      </li>
+      <li class="page-footer__links-item">
+        <a class="page-footer__link" [routerLink]="routeLinks.terms">{{
+          'footer.terms' | translate
+        }}</a>
+      </li>
+      <li class="page-footer__links-item">
+        <a class="page-footer__link" [routerLink]="routeLinks.refunds">{{
+          'footer.refunds' | translate
         }}</a>
       </li>
       <li class="page-footer__links-item">
@@ -18,6 +28,13 @@
       </li>
     </ul>
   </nav>
+
+  <p>
+    {{ 'footer.supportLabel' | translate }}
+    <a class="page-footer__support-link" [href]="viewModel.supportEmailHref">{{
+      viewModel.supportEmailAddress
+    }}</a>
+  </p>
 
   <p class="page-footer__authorship">
     <span class="page-footer__copyright">{{ viewModel.copyrightNotice() }}</span>

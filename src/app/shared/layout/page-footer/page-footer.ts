@@ -5,7 +5,7 @@ import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route
 import { PageFooterViewModel } from './page-footer.view-model';
 
 /**
- * The bottom bar: the compliance pages, the sitemap, and who made this.
+ * The bottom bar: the legal documents, the sitemap, the support address, and who made this.
  *
  * <p>Rendered once by the application shell and shared by every page.</p>
  */

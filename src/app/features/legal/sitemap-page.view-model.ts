@@ -51,6 +51,8 @@ const SIGNED_IN_SITEMAP_ENTRIES: readonly SitemapEntry[] = [
 
 /** The compliance pages, always listed last. */
 const COMPLIANCE_SITEMAP_ENTRIES: readonly SitemapEntry[] = [
-  { labelTranslationKey: 'footer.gdpr', routerLink: APPLICATION_ROUTE_LINKS.privacy },
+  { labelTranslationKey: 'footer.privacy', routerLink: APPLICATION_ROUTE_LINKS.privacy },
+  { labelTranslationKey: 'footer.terms', routerLink: APPLICATION_ROUTE_LINKS.terms },
+  { labelTranslationKey: 'footer.refunds', routerLink: APPLICATION_ROUTE_LINKS.refunds },
   { labelTranslationKey: 'footer.cookies', routerLink: APPLICATION_ROUTE_LINKS.cookies },
 ];

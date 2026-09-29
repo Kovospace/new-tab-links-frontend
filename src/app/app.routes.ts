@@ -87,19 +87,25 @@ export const routes: Routes = [
   },
   {
     path: APPLICATION_ROUTE_PATHS.privacy,
-    data: {
-      headingTranslationKey: 'legal.gdprHeading',
-      bodyTranslationKey: 'legal.gdprBody',
-    } satisfies LegalTextRouteData,
+    data: { legalDocumentName: 'privacy' } satisfies LegalTextRouteData,
+    loadComponent: () =>
+      import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
+  },
+  {
+    path: APPLICATION_ROUTE_PATHS.terms,
+    data: { legalDocumentName: 'terms' } satisfies LegalTextRouteData,
+    loadComponent: () =>
+      import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
+  },
+  {
+    path: APPLICATION_ROUTE_PATHS.refunds,
+    data: { legalDocumentName: 'refunds' } satisfies LegalTextRouteData,
     loadComponent: () =>
       import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.cookies,
-    data: {
-      headingTranslationKey: 'legal.cookiesHeading',
-      bodyTranslationKey: 'legal.cookiesBody',
-    } satisfies LegalTextRouteData,
+    data: { legalDocumentName: 'cookies' } satisfies LegalTextRouteData,
     loadComponent: () =>
       import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
   },

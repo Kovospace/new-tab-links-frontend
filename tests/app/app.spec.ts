@@ -6,6 +6,7 @@ import { Router, provideRouter } from '@angular/router';
 import { App } from '@app/app';
 import { routes } from '@app/app.routes';
 import { TranslationService } from '@app/core/i18n/translation.service';
+import { LEGAL_OPERATOR } from '@app/core/legal/legal-operator';
 
 /** Enough of the real translation file to prove the shell is wired to it. */
 const ENGLISH_TRANSLATIONS = {
@@ -19,8 +20,11 @@ const ENGLISH_TRANSLATIONS = {
     skipToContent: 'Skip to content',
   },
   footer: {
-    gdpr: 'GDPR compliance',
-    cookies: 'Cookies compliance',
+    privacy: 'Privacy Policy',
+    terms: 'Terms of Service',
+    refunds: 'Refund Policy',
+    cookies: 'Cookies',
+    supportLabel: 'Support:',
     sitemap: 'Sitemap',
     authorName: 'Matej Kovacs',
     authorSiteLabel: 'kovo.space',
@@ -107,11 +111,24 @@ describe('App shell', () => {
     expect(authorLink?.textContent).toContain('kovo.space');
   });
 
-  it('renders the compliance and sitemap links in the footer', () => {
+  it('renders the legal documents and the sitemap in the footer', () => {
     const footerLabels = Array.from(renderedPage().querySelectorAll('.page-footer__link')).map(
       (link) => link.textContent?.trim(),
     );
 
-    expect(footerLabels).toEqual(['GDPR compliance', 'Cookies compliance', 'Sitemap']);
+    expect(footerLabels).toEqual([
+      'Privacy Policy',
+      'Terms of Service',
+      'Refund Policy',
+      'Cookies',
+      'Sitemap',
+    ]);
+  });
+
+  it('shows the support address on every page, as a mail link', () => {
+    const supportLink = renderedPage().querySelector('.page-footer__support-link');
+
+    expect(supportLink?.getAttribute('href')).toBe(`mailto:${LEGAL_OPERATOR.supportEmail}`);
+    expect(supportLink?.textContent?.trim()).toBe(LEGAL_OPERATOR.supportEmail);
   });
 });

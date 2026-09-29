@@ -25,8 +25,11 @@
     "tips": "Tipy"
   },
   "footer": {
-    "gdpr": "Ochrana osobných údajov (GDPR)",
-    "cookies": "Zásady používania cookies",
+    "privacy": "Ochrana osobných údajov",
+    "terms": "Podmienky používania",
+    "refunds": "Vrátenie peňazí",
+    "cookies": "Cookies",
+    "supportLabel": "Podpora:",
     "sitemap": "Mapa stránky",
     "authorName": "Matej Kováč",
     "authorSiteLabel": "www.kovo.space",
@@ -264,7 +267,8 @@
       },
       "proceedAction": "Pokračovať k platbe",
       "notAvailableYet": "Nákup plnej verzie zatiaľ nie je spustený. Nič sme vám nestrhli. Skúste to znova, keď platby spustíme.",
-      "subscriptionEndsWithLifetime": "Vaše ročné predplatné sa po potvrdení doživotnej licencie automaticky zruší, takže nikdy nezaplatíte za obe."
+      "subscriptionEndsWithLifetime": "Vaše ročné predplatné sa po potvrdení doživotnej licencie automaticky zruší, takže nikdy nezaplatíte za obe.",
+      "merchantOfRecordNotice": "Platbu spracúva Creem, náš predajca a Merchant of Record: na doklade je ako predávajúci uvedený Creem, ktorý zabezpečuje platbu, DPH aj faktúru."
     },
     "refund": {
       "heading": "Zmenili ste názor?",
@@ -285,12 +289,22 @@
     }
   },
   "legal": {
-    "gdprHeading": "Ochrana osobných údajov (GDPR)",
-    "gdprBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Táto stránka ponesie vyhlásenie o ochrane súkromia: čo sa ukladá, prečo, na ako dlho a ako to dať vymazať.",
-    "cookiesHeading": "Zásady používania cookies",
-    "cookiesBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Táto stránka popíše každú cookie a položku úložiska prehliadača, ktorú stránka používa, a načo slúži.",
     "sitemapHeading": "Mapa stránky",
-    "sitemapLead": "Všetky stránky tohto webu."
+    "sitemapLead": "Všetky stránky tohto webu.",
+    "loading": "Načítava sa…",
+    "loadFailed": "Dokument sa nepodarilo načítať. Skúste to znova alebo nám napíšte.",
+    "consent": {
+      "registrationLead": "Vytvorením účtu súhlasíte s",
+      "registrationTermsLabel": "Podmienkami používania",
+      "registrationJoiner": "a potvrdzujete, že ste sa oboznámili so",
+      "registrationPrivacyLabel": "Zásadami ochrany osobných údajov",
+      "registrationClosing": ".",
+      "purchaseLead": "Pokračovaním na platbu súhlasíte s",
+      "purchaseTermsLabel": "Podmienkami používania",
+      "purchaseJoiner": "a so",
+      "purchaseRefundsLabel": "Zásadami vrátenia peňazí",
+      "purchaseClosing": "."
+    }
   },
   "notFound": {
     "heading": "Stránka sa nenašla",
