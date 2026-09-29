@@ -31,6 +31,8 @@
         {{ 'account.premium.proceedAction' | translate }}
       }
     </button>
+    <app-legal-consent-notice moment="PURCHASE" />
+    <p>{{ 'account.premium.merchantOfRecordNotice' | translate }}</p>
 
     <app-form-feedback
       [failureMessage]="viewModel.submissionFailure()"

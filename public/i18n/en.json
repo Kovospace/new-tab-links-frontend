@@ -25,8 +25,11 @@
     "tips": "Tips"
   },
   "footer": {
-    "gdpr": "GDPR compliance",
-    "cookies": "Cookies compliance",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "refunds": "Refund Policy",
+    "cookies": "Cookies",
+    "supportLabel": "Support:",
     "sitemap": "Sitemap",
     "authorName": "Matej Kovac",
     "authorSiteLabel": "www.kovo.space",
@@ -264,7 +267,8 @@
       },
       "proceedAction": "Proceed to payment",
       "notAvailableYet": "Buying the full version is not switched on yet. Nothing has been charged. Please try again once payments go live.",
-      "subscriptionEndsWithLifetime": "Your yearly subscription is cancelled automatically once the lifetime purchase is confirmed, so you are never charged for both."
+      "subscriptionEndsWithLifetime": "Your yearly subscription is cancelled automatically once the lifetime purchase is confirmed, so you are never charged for both.",
+      "merchantOfRecordNotice": "Payment is handled by Creem, our reseller and Merchant of Record: Creem is the seller on your receipt and takes care of payment, VAT and invoicing."
     },
     "refund": {
       "heading": "Changed your mind?",
@@ -285,12 +289,22 @@
     }
   },
   "legal": {
-    "gdprHeading": "GDPR compliance",
-    "gdprBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. This page will carry the privacy statement: what is stored, why, for how long, and how to have it erased.",
-    "cookiesHeading": "Cookies compliance",
-    "cookiesBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. This page will describe every cookie and browser storage entry this site uses, and what each one is for.",
     "sitemapHeading": "Sitemap",
-    "sitemapLead": "Every page of this site."
+    "sitemapLead": "Every page of this site.",
+    "loading": "Loading…",
+    "loadFailed": "This document could not be loaded. Please try again, or write to us.",
+    "consent": {
+      "registrationLead": "By creating an account you agree to the",
+      "registrationTermsLabel": "Terms of Service",
+      "registrationJoiner": "and confirm you have read the",
+      "registrationPrivacyLabel": "Privacy Policy",
+      "registrationClosing": ".",
+      "purchaseLead": "By proceeding to payment you agree to the",
+      "purchaseTermsLabel": "Terms of Service",
+      "purchaseJoiner": "and the",
+      "purchaseRefundsLabel": "Refund Policy",
+      "purchaseClosing": "."
+    }
   },
   "notFound": {
     "heading": "Page not found",

@@ -1,0 +1,11 @@
+@let noticeWording = wording();
+<small>
+  {{ noticeWording.leadTranslationKey | translate }}
+  <a [routerLink]="noticeWording.firstDocumentLink">{{
+    noticeWording.firstDocumentLabelTranslationKey | translate
+  }}</a>
+  {{ noticeWording.joinerTranslationKey | translate }}
+  <a [routerLink]="noticeWording.secondDocumentLink">{{
+    noticeWording.secondDocumentLabelTranslationKey | translate
+  }}</a>{{ noticeWording.closingTranslationKey | translate }}
+</small>

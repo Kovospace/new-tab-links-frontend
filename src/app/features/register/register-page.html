@@ -69,6 +69,7 @@
           {{ 'register.submitAction' | translate }}
         }
       </button>
+      <app-legal-consent-notice moment="REGISTRATION" />
 
       <app-form-feedback
         [failureMessage]="viewModel.submissionFailure()"
@@ -107,6 +108,7 @@
     <button type="button" (click)="viewModel.registerWithGoogle()">
       {{ 'register.googleAction' | translate }}
     </button>
+    <app-legal-consent-notice moment="REGISTRATION" />
   </section>
 
   <section>

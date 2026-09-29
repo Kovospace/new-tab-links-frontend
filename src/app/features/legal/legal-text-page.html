@@ -1,6 +1,11 @@
 <article>
   <app-back-button />
 
-  <h1>{{ viewModel.headingTranslationKey | translate }}</h1>
-  <p>{{ viewModel.bodyTranslationKey | translate }}</p>
+  @if (viewModel.isLoading()) {
+    <i role="status">{{ 'legal.loading' | translate }}</i>
+  } @else if (viewModel.failureMessage()) {
+    <p role="alert">{{ viewModel.failureMessage() }}</p>
+  } @else {
+    <div [innerHTML]="viewModel.renderedHtml()"></div>
+  }
 </article>

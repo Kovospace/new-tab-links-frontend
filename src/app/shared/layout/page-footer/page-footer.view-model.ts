@@ -1,5 +1,6 @@
 import { Injectable, computed, inject } from '@angular/core';
 import { TranslationService } from '../../../core/i18n/translation.service';
+import { LEGAL_OPERATOR } from '../../../core/legal/legal-operator';
 
 /** The author's own website, linked from the footer. */
 const AUTHOR_WEBSITE_URL = 'https://kovo.space';
@@ -14,6 +15,15 @@ const AUTHOR_WEBSITE_URL = 'https://kovo.space';
 @Injectable()
 export class PageFooterViewModel {
   private readonly translationService = inject(TranslationService);
+
+  /**
+   * The support address, shown on every page: the payment provider requires a reachable one to be
+   * visible on the site, and a buyer looking for help should not have to find the right page.
+   */
+  readonly supportEmailAddress = LEGAL_OPERATOR.supportEmail;
+
+  /** The support address as a link that opens the reader's mail program. */
+  readonly supportEmailHref = `mailto:${LEGAL_OPERATOR.supportEmail}`;
 
   /** Where the author's name links to. */
   readonly authorWebsiteUrl = AUTHOR_WEBSITE_URL;

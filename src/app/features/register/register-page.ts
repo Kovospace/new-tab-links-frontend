@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-paths';
 import { FormFeedback } from '../../shared/forms/form-feedback/form-feedback';
+import { LegalConsentNotice } from '../../shared/legal/legal-consent-notice/legal-consent-notice';
 import { RegisterPageViewModel } from './register-page.view-model';
 
 /**
@@ -11,7 +12,7 @@ import { RegisterPageViewModel } from './register-page.view-model';
  */
 @Component({
   selector: 'app-register-page',
-  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, FormFeedback],
+  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, FormFeedback, LegalConsentNotice],
   providers: [RegisterPageViewModel],
   templateUrl: './register-page.html',
   styleUrl: './register-page.scss',
