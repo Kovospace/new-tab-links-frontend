@@ -2,6 +2,8 @@
 
 *Účinné od {effectiveDate}*
 
+<br>
+
 **Tento web nepoužíva cookies** a neobsahuje žiadne analytické, reklamné ani sledovacie skripty
 nikoho iného.
 

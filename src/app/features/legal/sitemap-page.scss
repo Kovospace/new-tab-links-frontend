@@ -1,1 +1,24 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
+.sitemap_page {
+
+  section {
+    padding-top: 0;
+
+    h1 {
+      margin-bottom: 0.25em;
+    }
+
+    ul {
+      margin-top: 1.25em;
+
+      li {
+        margin: 0.5em 0;
+
+        a:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+}

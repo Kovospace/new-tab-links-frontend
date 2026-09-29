@@ -2,6 +2,8 @@
 
 *Effective {effectiveDate}*
 
+<br>
+
 **This website does not use cookies**, and it contains no analytics, advertising or tracking
 scripts from anyone else.
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, ViewEncapsulation} from '@angular/core';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { BackButton } from '../../shared/layout/back-button/back-button';
 import { LegalTextPageViewModel } from './legal-text-page.view-model';
@@ -16,6 +16,7 @@ import { LegalTextPageViewModel } from './legal-text-page.view-model';
   templateUrl: './legal-text-page.html',
   styleUrl: './legal-text-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class LegalTextPage {
   /** State of the page. */

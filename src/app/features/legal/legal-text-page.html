@@ -1,11 +1,17 @@
-<article>
-  <app-back-button />
+<article class="legal_page">
 
-  @if (viewModel.isLoading()) {
-    <i role="status">{{ 'legal.loading' | translate }}</i>
-  } @else if (viewModel.failureMessage()) {
-    <p role="alert">{{ viewModel.failureMessage() }}</p>
-  } @else {
-    <div [innerHTML]="viewModel.renderedHtml()"></div>
-  }
+  <section>
+
+    <app-back-button />
+
+    @if (viewModel.isLoading()) {
+      <i role="status">{{ 'legal.loading' | translate }}</i>
+    } @else if (viewModel.failureMessage()) {
+      <p role="alert">{{ viewModel.failureMessage() }}</p>
+    } @else {
+      <div [innerHTML]="viewModel.renderedHtml()"></div>
+    }
+
+  </section>
+
 </article>
