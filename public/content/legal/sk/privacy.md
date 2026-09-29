@@ -2,7 +2,7 @@
 
 *Účinné od {effectiveDate}*
 
-Tieto zásady vysvetľujú, aké osobné údaje Tabilinks — rozšírenie prehliadača NewTabGroupedLinks
+Tieto zásady vysvetľujú, aké osobné údaje Tabilinks — rozšírenie prehliadača
 a web tabilinks.app — spracúva, prečo, ako dlho a aké máte práva. Zbierame len to, čo služba
 potrebuje, údaje nepredávame a nepoužívame ich na reklamné profilovanie.
 

@@ -2,7 +2,7 @@
 
 *Effective {effectiveDate}*
 
-This policy explains what personal data Tabilinks — the NewTabGroupedLinks browser extension and
+This policy explains what personal data Tabilinks — the browser extension and
 the website tabilinks.app — processes, why, for how long, and what rights you have. We collect as
 little as the service needs, we do not sell data, and we do not use it for advertising profiles.
 
