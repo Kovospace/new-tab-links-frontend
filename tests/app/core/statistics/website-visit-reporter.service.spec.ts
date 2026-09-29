@@ -3,12 +3,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BackendApiClient } from '@app/core/api/backend-api.client';
 import {
   REQUIRED_VISIBLE_MILLISECONDS,
+  WEBSITE_VISIT_REPORTED_ON_STORAGE_KEY,
   WebsiteVisitReporter,
 } from '@app/core/statistics/website-visit-reporter.service';
 
 /**
  * A visit is reported once, and only when the visitor behaves like a person: visible for three
- * seconds and some interaction. Robots, hidden tabs and the operator's pages are never counted.
+ * seconds and some interaction. Robots, hidden tabs and the operator's pages are never counted,
+ * and a browser that already reported today (by UTC) stays quiet until the next UTC day.
  */
 describe('WebsiteVisitReporter', () => {
   let visibilityState: DocumentVisibilityState;
@@ -23,8 +25,20 @@ describe('WebsiteVisitReporter', () => {
     TestBed.inject(WebsiteVisitReporter).watchForHumanVisit();
   }
 
+  function behaveLikeAPerson(): void {
+    startReporter();
+    globalThis.dispatchEvent(new Event('pointermove'));
+    vi.advanceTimersByTime(REQUIRED_VISIBLE_MILLISECONDS);
+  }
+
+  function storedReportedDay(): string | null {
+    return localStorage.getItem(WEBSITE_VISIT_REPORTED_ON_STORAGE_KEY);
+  }
+
   beforeEach(() => {
     vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-09-29T12:00:00.000Z'));
+    localStorage.clear();
     visibilityState = 'visible';
     Object.defineProperty(document, 'visibilityState', {
       configurable: true,
@@ -45,7 +59,9 @@ describe('WebsiteVisitReporter', () => {
 
   afterEach(() => {
     TestBed.resetTestingModule();
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
+    localStorage.clear();
     vi.useRealTimers();
     Reflect.deleteProperty(document, 'visibilityState');
     Reflect.deleteProperty(navigator, 'webdriver');
@@ -109,6 +125,45 @@ describe('WebsiteVisitReporter', () => {
     vi.advanceTimersByTime(REQUIRED_VISIBLE_MILLISECONDS);
 
     expect(fetchSpy).not.toHaveBeenCalled();
+    expect(storedReportedDay()).toBeNull();
+  });
+
+  it("remembers only today's UTC date once the visit is sent", () => {
+    behaveLikeAPerson();
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(storedReportedDay()).toBe('2026-09-29');
+    expect(Object.keys(localStorage)).toEqual([WEBSITE_VISIT_REPORTED_ON_STORAGE_KEY]);
+  });
+
+  it('does not report again on a day this browser already reported', () => {
+    localStorage.setItem(WEBSITE_VISIT_REPORTED_ON_STORAGE_KEY, '2026-09-29');
+    behaveLikeAPerson();
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(storedReportedDay()).toBe('2026-09-29');
+  });
+
+  it('reports again once the UTC day has moved on, whatever the local clock says', () => {
+    vi.setSystemTime(new Date('2026-09-30T00:30:00.000Z'));
+    localStorage.setItem(WEBSITE_VISIT_REPORTED_ON_STORAGE_KEY, '2026-09-29');
+    behaveLikeAPerson();
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(storedReportedDay()).toBe('2026-09-30');
+  });
+
+  it('still reports when storage cannot be read or written, just without remembering', () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new DOMException('blocked', 'SecurityError');
+    });
+    const setItemSpy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('blocked', 'SecurityError');
+    });
+    behaveLikeAPerson();
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(setItemSpy).toHaveBeenCalledTimes(1);
   });
 
   it('ignores a failed report', async () => {

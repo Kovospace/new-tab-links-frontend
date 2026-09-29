@@ -10,7 +10,13 @@ export const REQUIRED_VISIBLE_MILLISECONDS = 3_000;
 const INTERACTION_EVENT_TYPES = ['pointermove', 'scroll', 'keydown', 'touchstart'] as const;
 
 /**
- * Tells the backend, once per page load, that a person visited the website.
+ * The {@code localStorage} entry holding the UTC day ({@code YYYY-MM-DD}) this browser last
+ * reported a visit on — and nothing else.
+ */
+export const WEBSITE_VISIT_REPORTED_ON_STORAGE_KEY = 'newtablinks.websiteVisitReportedOn';
+
+/**
+ * Tells the backend, at most once per UTC day per browser, that a person visited the website.
  *
  * <p>Robots are not people, and the count is only worth having if it leaves them out. So the
  * visit is reported only when the visitor behaves like one: the page has been <em>visible</em> for
@@ -26,8 +32,21 @@ const INTERACTION_EVENT_TYPES = ['pointermove', 'scroll', 'keydown', 'touchstart
  * calls, for two things {@code HttpClient} cannot do: {@code keepalive}, so a visit reported as
  * the tab closes still arrives, and {@code credentials: 'omit'} with {@code no-cors}, so the
  * request carries no cookie and needs no preflight. The address still comes from the client, so
- * the backend's base URL stays in one place. No cookie and no storage here either: the backend
- * dedupes per visitor per day. Failures are ignored — a lost visit is not the visitor's problem.</p>
+ * the backend's base URL stays in one place. Failures are ignored — a lost visit is not the
+ * visitor's problem.</p>
+ *
+ * <p>A visitor is counted once per UTC day, and that is decided here, in the browser, because the
+ * backend cannot: it counts every report it gets. Telling people apart by address does not work —
+ * behind carrier-grade NAT thousands of them share one, and Chrome's frozen user agent makes them
+ * identical too, so they would collapse into a single visitor. Instead the browser remembers the
+ * UTC day it last reported on, and stays quiet for the rest of that day. The entry is only a date,
+ * the same in every browser that visited that day, so it identifies nobody. UTC because that is
+ * the day the backend files the visit under.</p>
+ *
+ * <p>The day is written as the request is sent, not when it answers — a {@code no-cors} response
+ * is opaque, so there is nothing to wait for. Where storage is unavailable (private browsing,
+ * blocked by the user) the visit is still sent, just not remembered: counting someone twice is
+ * a smaller error than not counting them at all.</p>
  */
 @Injectable({ providedIn: 'root' })
 export class WebsiteVisitReporter implements OnDestroy {
@@ -104,15 +123,21 @@ export class WebsiteVisitReporter implements OnDestroy {
   }
 
   /**
-   * Sends the visit once both signs have been seen, and stops listening.
+   * Sends the visit once both signs have been seen, unless this browser already reported one
+   * today, and stops listening.
    */
   private reportWhenBothSignsAreThere(): void {
     if (this.isFinished || !this.hasBeenVisibleLongEnough || !this.hasSeenInteraction) {
       return;
     }
     this.stopWatching();
-    if (!this.isOnOperatorPage()) {
+    if (this.isOnOperatorPage()) {
+      return;
+    }
+    const today = this.currentUtcDay();
+    if (this.readLastReportedDay() !== today) {
       this.sendVisit();
+      this.rememberReportedDay(today);
     }
   }
 
@@ -129,6 +154,43 @@ export class WebsiteVisitReporter implements OnDestroy {
         .catch(() => undefined);
     } catch {
       // Ignored: see the class comment.
+    }
+  }
+
+  /**
+   * The UTC day now, the same day the backend files the visit under.
+   *
+   * @returns the date as {@code YYYY-MM-DD}
+   */
+  private currentUtcDay(): string {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  /**
+   * The UTC day this browser last reported a visit on.
+   *
+   * @returns the stored {@code YYYY-MM-DD}, or null when nothing is stored or storage cannot be
+   *     read — either way the visit is sent
+   */
+  private readLastReportedDay(): string | null {
+    try {
+      return globalThis.localStorage?.getItem(WEBSITE_VISIT_REPORTED_ON_STORAGE_KEY) ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Remembers that today's visit has been reported. Where storage is unavailable it is simply
+   * not remembered — see the class comment.
+   *
+   * @param reportedDay the UTC day, {@code YYYY-MM-DD}
+   */
+  private rememberReportedDay(reportedDay: string): void {
+    try {
+      globalThis.localStorage?.setItem(WEBSITE_VISIT_REPORTED_ON_STORAGE_KEY, reportedDay);
+    } catch {
+      // Not remembered: the next page load reports again, which is the lesser error.
     }
   }
 

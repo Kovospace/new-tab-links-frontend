@@ -21,7 +21,7 @@ Keep it current: a new folder under `core/` or `shared/`, or a new concern, adds
 | Visitor token, username lookup | `core/auth/visitor-token.service.ts`, `core/auth/username-existence.service.ts` |
 | Operator (admin) session and calls | `core/admin/*` |
 | Admin statistics page: new tabs and website visitors per month, inline SVG bars (`GET /api/v1/admin/metrics`) | `features/admin/admin-metrics-page*`, `core/admin/admin-usage-metrics.service.ts`, `core/api/models/usage-metric.model.ts` |
-| Website visit counting — once per page load, only after 3 s visible + an interaction, never automated browsers or `/admin` | `core/statistics/website-visit-reporter.service.ts`, started in `app.config.ts` |
+| Website visit counting — once per UTC day per browser (date in `localStorage`), only after 3 s visible + an interaction, never automated browsers or `/admin` | `core/statistics/website-visit-reporter.service.ts`, started in `app.config.ts` |
 | Account and devices | `core/user/user-account.service.ts`, `core/user/user-device.service.ts` |
 | Password set, change, reset | `core/password/password.service.ts` |
 | Billing — checkout (`POST /api/v1/payments/checkouts`) and the subscription | `core/billing/premium-checkout.service.ts`, `core/billing/subscription.service.ts`, `core/api/models/subscription.model.ts` |
