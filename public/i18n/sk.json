@@ -4,6 +4,10 @@
     "sk": "Slovenčina",
     "switchLabel": "Jazyk"
   },
+  "currency": {
+    "label": "Mena",
+    "switchLabel": "Mena, v ktorej sa zobrazujú ceny"
+  },
   "site": {
     "title": "Tabilinks",
     "motto": "Vaše záložky, linky, história a obľúbené stránky na novej karte.",
@@ -45,11 +49,13 @@
         "title": "ZADARMO"
       },
       "paid": {
-        "title": "0.39€ / mesiac",
-        "billing": "* účtované ročne, t.j. 4.68€ / rok"
+        "title": "{monthlyPrice} / mesiac",
+        "titleWithoutPrice": "PRÉMIUM",
+        "billing": "* účtované ročne, t.j. {yearlyPrice} / rok"
       },
       "lifetime": {
-        "title": "14.99€ DOŽIVOTNE"
+        "title": "{price} DOŽIVOTNE",
+        "titleWithoutPrice": "DOŽIVOTNE"
       },
       "unlimitedAmount": "NEOBMEDZENE",
       "yes": "ÁNO",
@@ -252,17 +258,19 @@
     },
     "premium": {
       "heading": "Prejsť na plnú verziu",
-      "lead": "Odomknite plnú verziu. Povedzte nám, odkiaľ ste, vyberte si plán a presmerujeme vás k platobnej bráne.",
+      "lead": "Odomknite plnú verziu. Vyberte si plán a menu a presmerujeme vás k platobnej bráne.",
       "withdrawalNotice": "Do 14 dní od nákupu môžete zmeniť názor a vrátime vám celú sumu, bez udania dôvodu. Nič vám nestrhneme za dni, počas ktorých ste ju používali.",
       "planLabel": "Plán",
       "plan": {
         "YEARLY_RECURRING": {
           "label": "Ročné predplatné",
-          "description": "Obnovuje sa raz ročne. Zrušiť môžete kedykoľvek; platí vám do konca zaplateného roka."
+          "description": "Obnovuje sa raz ročne. Zrušiť môžete kedykoľvek; platí vám do konca zaplateného roka.",
+          "price": "{price} ročne"
         },
         "LIFETIME": {
           "label": "Doživotná licencia",
-          "description": "Jednorazová platba. Máte ju navždy, niet čo obnovovať ani rušiť."
+          "description": "Jednorazová platba. Máte ju navždy, niet čo obnovovať ani rušiť.",
+          "price": "{price} jednorazovo"
         }
       },
       "proceedAction": "Pokračovať k platbe",

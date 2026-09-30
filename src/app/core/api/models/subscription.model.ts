@@ -164,14 +164,16 @@ export type CheckoutPlan = 'SUBSCRIPTION' | 'LIFETIME';
  * What the website sends to start a purchase.
  *
  * <p>Mirrors {@code CheckoutCreationRequestDto}, the body of
- * {@code POST /api/v1/payments/checkouts}: the plan, and nothing else. Which product sells it is
- * the server's decision, from configuration, so no product id ever reaches a browser — and the
- * buyer's country is asked by Creem on its own page, because as merchant of record it is the
- * seller and the one that has to know.</p>
+ * {@code POST /api/v1/payments/checkouts}: the plan and the currency to pay in. Which product
+ * sells that pair is the server's decision, from configuration, so no product id ever reaches a
+ * browser. The buyer's country is still asked by Creem on its own page: as merchant of record it
+ * is the seller, and the tax is its to work out.</p>
  */
 export interface PremiumCheckoutRequest {
   /** Which plan is being bought. */
   readonly plan: CheckoutPlan;
+  /** ISO 4217 code of the currency to pay in; one the offers list for this plan. */
+  readonly currency: string;
 }
 
 /**

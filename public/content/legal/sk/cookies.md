@@ -14,11 +14,12 @@ záznamov. Číta ich iba tento web a nikam inam sa neposielajú.
 |---|---|---|---|---|
 | `newtablinks.session` | localStorage | Vaše prihlasovacie tokeny | Udržiava vás prihlásených; existuje, len kým ste prihlásení | Do odhlásenia |
 | `newtablinks.language` | localStorage | Zvolený jazyk | Zobrazuje web vo vašom jazyku | Kým ho nevymažete |
+| `newtablinks.currency` | localStorage | Zvolená mena, až keď si nejakú vyberiete | Zobrazuje ceny vo vašej mene | Kým ju nevymažete |
 | `newtablinks.websiteVisitReportedOn` | localStorage | Dnešný dátum, nič iné | Započíta váš prehliadač najviac raz denne do celkového počtu návštevníkov | Denne sa prepíše |
 | `newtablinks.adminSession` | sessionStorage | Prihlásenie prevádzkovateľa | Používa sa iba na stránkach prevádzkovateľa | Do zatvorenia karty |
 
-Prvý, druhý a štvrtý záznam sú nevyhnutné na to, o čo web žiadate. Tretí nám umožňuje vedieť, koľko
-ľudí web navštívi, bez toho, aby sme vedeli kto: uchováva sa iba denný súčet a nič, čo by
+Záznamy prihlásenia, jazyka, meny a prevádzkovateľa sú nevyhnutné na to, o čo web žiadate.
+Dátum návštevy nám umožňuje vedieť, koľko ľudí web navštívi, bez toho, aby sme vedeli kto: uchováva sa iba denný súčet a nič, čo by
 identifikovalo vás alebo váš prehliadač. Pozri [Zásady ochrany osobných údajov](/privacy).
 
 ## Iné weby
@@ -31,4 +32,5 @@ stránky a tie môžu používať cookies podľa vlastných zásad:
 ## Odstránenie záznamov
 
 Záznamy môžete kedykoľvek odstrániť odhlásením alebo vymazaním údajov tohto webu v nastaveniach
-prehliadača. Web bude fungovať ďalej; len budete odhlásení a uvidíte ho v predvolenom jazyku.
+prehliadača. Web bude fungovať ďalej; len budete odhlásení a uvidíte ho v predvolenom jazyku
+a mene.

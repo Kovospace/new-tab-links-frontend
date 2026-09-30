@@ -1,0 +1,19 @@
+@if (viewModel.isShown()) {
+  <span class="select-field">
+    <select
+      #currencySelect
+      [attr.aria-label]="'currency.switchLabel' | translate"
+      (change)="viewModel.chooseCurrency(currencySelect.value)"
+    >
+      @for (currencyOption of viewModel.currencyOptions(); track currencyOption.currency) {
+        <option
+          [value]="currencyOption.currency"
+          [selected]="currencyOption.isSelected"
+          [attr.title]="currencyOption.name"
+        >
+          {{ currencyOption.label }}
+        </option>
+      }
+    </select>
+  </span>
+}

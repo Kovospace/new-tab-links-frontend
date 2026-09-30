@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route-paths';
+import { CurrencySwitcher } from '../../billing/currency-switcher/currency-switcher';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import { PageHeaderViewModel } from './page-header.view-model';
 
@@ -17,7 +18,7 @@ import { PageHeaderViewModel } from './page-header.view-model';
  */
 @Component({
   selector: 'app-page-header',
-  imports: [RouterLink, RouterLinkActive, TranslatePipe, LanguageSwitcher],
+  imports: [RouterLink, RouterLinkActive, TranslatePipe, LanguageSwitcher, CurrencySwitcher],
   providers: [PageHeaderViewModel],
   templateUrl: './page-header.html',
   styleUrl: './page-header.scss',

@@ -53,8 +53,10 @@
     </div>
 
     <div class="home-page__downloads-paid">
-      <h3>{{ 'home.downloads.paid.title' | translate }}</h3>
-      <span>{{ 'home.downloads.paid.billing' | translate }}</span>
+      <h3>{{ viewModel.subscriptionPriceHeading() }}</h3>
+      @if (viewModel.subscriptionBillingNote(); as subscriptionBillingNote) {
+        <span>{{ subscriptionBillingNote }}</span>
+      }
 
       <h4>{{ 'home.downloads.linksCount' | translate }}</h4>
       <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
@@ -85,7 +87,7 @@
     </div>
 
     <div class="home-page__downloads-lifetime">
-      <h3>{{ 'home.downloads.lifetime.title' | translate }}</h3>
+      <h3>{{ viewModel.lifetimePriceHeading() }}</h3>
 
       <h4>{{ 'home.downloads.linksCount' | translate }}</h4>
       <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>

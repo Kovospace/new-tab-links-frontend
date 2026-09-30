@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angu
 import { ReactiveFormsModule } from '@angular/forms';
 import { PremiumPlan } from '../../../core/api/models/subscription.model';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
+import { CurrencySwitcher } from '../../../shared/billing/currency-switcher/currency-switcher';
 import { FormFeedback } from '../../../shared/forms/form-feedback/form-feedback';
 import { LegalConsentNotice } from '../../../shared/legal/legal-consent-notice/legal-consent-notice';
 import { PremiumPanelViewModel } from './premium-panel.view-model';
@@ -15,7 +16,7 @@ import { PremiumPanelViewModel } from './premium-panel.view-model';
  */
 @Component({
   selector: 'app-premium-panel',
-  imports: [ReactiveFormsModule, TranslatePipe, FormFeedback, LegalConsentNotice],
+  imports: [ReactiveFormsModule, TranslatePipe, FormFeedback, LegalConsentNotice, CurrencySwitcher],
   providers: [PremiumPanelViewModel],
   templateUrl: './premium-panel.html',
   styleUrl: './premium-panel.scss',

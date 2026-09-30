@@ -67,6 +67,10 @@ describe('App shell', () => {
     // needed here.
     httpTestingController.expectOne('/content/demo/index.json').flush({});
     httpTestingController.expectOne('/content/home-features/index.json').flush({});
+    // The header's currency picker asks for the prices; with none on sale it stays hidden.
+    httpTestingController
+      .expectOne((request) => request.url.endsWith('/api/v1/payments/offers'))
+      .flush({ suggestedCurrency: 'EUR', offers: [] });
   });
 
   afterEach(() => httpTestingController.verify());

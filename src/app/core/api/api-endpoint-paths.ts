@@ -78,6 +78,8 @@ export const API_ENDPOINT_PATHS = {
   payments: {
     checkouts: '/api/v1/payments/checkouts',
     mySubscription: '/api/v1/payments/subscription',
+    /** Every plan's price in every currency on sale, and the one to suggest; no sign-in. */
+    offers: '/api/v1/payments/offers',
   },
 
   /**

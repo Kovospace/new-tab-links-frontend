@@ -4,6 +4,10 @@
     "sk": "Slovak",
     "switchLabel": "Language"
   },
+  "currency": {
+    "label": "Currency",
+    "switchLabel": "Currency prices are shown in"
+  },
   "site": {
     "title": "Tabilinks",
     "motto": "Your bookmarks, links, history & most visited on the new tab screen.",
@@ -45,11 +49,13 @@
         "title": "FREE"
       },
       "paid": {
-        "title": "€0.39 / month",
-        "billing": "* billed annually, €4.68 per year"
+        "title": "{monthlyPrice} / month",
+        "titleWithoutPrice": "PREMIUM",
+        "billing": "* billed annually, {yearlyPrice} per year"
       },
       "lifetime": {
-        "title": "€14.99 LIFETIME"
+        "title": "{price} LIFETIME",
+        "titleWithoutPrice": "LIFETIME"
       },
       "unlimitedAmount": "UNLIMITED",
       "yes": "YES",
@@ -252,17 +258,19 @@
     },
     "premium": {
       "heading": "Go premium",
-      "lead": "Unlock the full version. Tell us where you are, pick a plan, and you will be sent to our payment provider to finish.",
+      "lead": "Unlock the full version. Pick a plan and a currency, and you will be sent to our payment provider to finish.",
       "withdrawalNotice": "You can change your mind for 14 days after buying and get all of your money back, no reason needed. Nothing is deducted for the days you used it.",
       "planLabel": "Plan",
       "plan": {
         "YEARLY_RECURRING": {
           "label": "Yearly subscription",
-          "description": "Renews once a year. Cancel whenever you like; you keep it until the year you paid for runs out."
+          "description": "Renews once a year. Cancel whenever you like; you keep it until the year you paid for runs out.",
+          "price": "{price} per year"
         },
         "LIFETIME": {
           "label": "Lifetime",
-          "description": "Paid once. Yours for good, with nothing to renew and nothing to cancel."
+          "description": "Paid once. Yours for good, with nothing to renew and nothing to cancel.",
+          "price": "{price} once"
         }
       },
       "proceedAction": "Proceed to payment",

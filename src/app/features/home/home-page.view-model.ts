@@ -4,6 +4,10 @@ import { Params } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { PremiumPlan } from '../../core/api/models/subscription.model';
 import { AuthenticationSessionStore } from '../../core/auth/authentication-session.store';
+import {
+  PremiumPricingStore,
+  monthlyEquivalentMinorUnits,
+} from '../../core/billing/premium-pricing.store';
 import { PremiumStanding } from '../../core/billing/premium-standing';
 import { PremiumStandingService } from '../../core/billing/premium-standing.service';
 import {
@@ -15,6 +19,7 @@ import {
   APPLICATION_ROUTE_LINKS,
   APPLICATION_ROUTE_QUERY_PARAMETERS,
 } from '../../core/routing/application-route-paths';
+import { formatPrice } from '../../shared/formatting/price-formatter';
 
 /**
  * The button under one offer column, ready to render.
@@ -44,6 +49,7 @@ export class HomePageViewModel {
   private readonly premiumStandingService = inject(PremiumStandingService);
   private readonly translationService = inject(TranslationService);
   private readonly homeFeaturesContentService = inject(HomeFeaturesContentService);
+  private readonly premiumPricingStore = inject(PremiumPricingStore);
 
   /** The standing as last loaded; {@code UNKNOWN} until then. */
   private readonly loadedPremiumStanding = signal<PremiumStanding>('UNKNOWN');
@@ -57,6 +63,45 @@ export class HomePageViewModel {
   private readonly premiumStanding = computed<PremiumStanding>(() =>
     this.sessionStore.isSignedIn() ? this.loadedPremiumStanding() : 'UNKNOWN',
   );
+
+  /**
+   * The subscription column's heading: its price per month in the selected currency.
+   *
+   * <p>Per month because that is how a yearly price compares with everything else a visitor pays
+   * for; the yearly amount actually charged is said right under it, in
+   * {@link subscriptionBillingNote}. Without a price — the offers not in yet, or payments off —
+   * the plan is named instead, so the column never shows an invented amount.</p>
+   */
+  readonly subscriptionPriceHeading = computed<string>(() => {
+    const offer = this.premiumPricingStore.offerFor('YEARLY_RECURRING');
+    const monthlyAmount = offer ? monthlyEquivalentMinorUnits(offer) : null;
+    if (!offer || monthlyAmount === null) {
+      return this.translationService.translate('home.downloads.paid.titleWithoutPrice');
+    }
+    return this.translationService.translate('home.downloads.paid.title', {
+      monthlyPrice: this.formatInReaderLanguage(monthlyAmount, offer.currency),
+    });
+  });
+
+  /** What the subscription actually charges, and how often; empty without a price. */
+  readonly subscriptionBillingNote = computed<string>(() => {
+    const offer = this.premiumPricingStore.offerFor('YEARLY_RECURRING');
+    return offer
+      ? this.translationService.translate('home.downloads.paid.billing', {
+          yearlyPrice: this.formatInReaderLanguage(offer.amountMinorUnits, offer.currency),
+        })
+      : '';
+  });
+
+  /** The lifetime column's heading: its one-off price, or the plan's name without one. */
+  readonly lifetimePriceHeading = computed<string>(() => {
+    const offer = this.premiumPricingStore.offerFor('LIFETIME');
+    return offer
+      ? this.translationService.translate('home.downloads.lifetime.title', {
+          price: this.formatInReaderLanguage(offer.amountMinorUnits, offer.currency),
+        })
+      : this.translationService.translate('home.downloads.lifetime.titleWithoutPrice');
+  });
 
   /**
    * The selling points, rendered from their markdown files, in the order they are shown.
@@ -168,5 +213,16 @@ export class HomePageViewModel {
       routerLink: null,
       queryParams: null,
     };
+  }
+
+  /**
+   * Spells out a price in the language the page is displayed in.
+   *
+   * @param amountMinorUnits the price in minor units
+   * @param currency ISO 4217 code
+   * @returns the formatted price
+   */
+  private formatInReaderLanguage(amountMinorUnits: number, currency: string): string {
+    return formatPrice(amountMinorUnits, currency, this.translationService.currentLanguageCode());
   }
 }
