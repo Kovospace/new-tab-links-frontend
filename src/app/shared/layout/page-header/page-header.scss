@@ -18,6 +18,16 @@ $mobile-menu-breakpoint: 533px;
     display: block;
     margin: 0.25em 0;
   }
+
+  div {
+
+    div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1em;
+    }
+  }
 }
 
 .page-header__title {
@@ -174,6 +184,7 @@ $menu-toggle-bar-travel: math.div($menu-toggle-content-height - $menu-toggle-bar
 .page-header__session {
   margin: 1em;
   text-align: right;
+  margin-bottom: 0;
 }
 
 // Geometry of the silhouette that precedes the signed-in user's name. Every length is in `em`, so
