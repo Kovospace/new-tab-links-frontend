@@ -5,6 +5,8 @@ import {
   PaymentGateUnavailableError,
   PremiumCheckoutService,
 } from '../../../core/billing/premium-checkout.service';
+import { PremiumPricingStore } from '../../../core/billing/premium-pricing.store';
+import { formatPrice } from '../../../shared/formatting/price-formatter';
 import { AbstractFormViewModel } from '../../../shared/forms/abstract-form.view-model';
 import { createFormValidationMessagesSignal } from '../../../shared/forms/form-validation-messages.signal';
 
@@ -16,6 +18,11 @@ export interface PresentedPlan {
   readonly label: string;
   /** One line saying what the plan means, in the reader's language. */
   readonly description: string;
+  /**
+   * What it costs in the selected currency, e.g. {@code €4.68 per year}; empty while the price is
+   * not known, so the option never shows an invented one.
+   */
+  readonly price: string;
 }
 
 /**
@@ -26,15 +33,17 @@ export interface PresentedPlan {
  * on its own, and because "edit my display name" and "buy a subscription" have no reason to change
  * together.</p>
  *
- * <p><strong>The buyer's country is not asked here.</strong> Creem is the merchant of record: it
- * is the legal seller, it asks for the billing country on its own page, and it decides the
- * currency and the tax from it. A country chosen on this side would be sent nowhere and mean
- * nothing.</p>
+ * <p><strong>The currency is chosen here; the country is not.</strong> The currency is the
+ * site-wide one from {@link PremiumPricingStore} — suggested from the visitor's country, changeable
+ * in the header or right in this form — and it picks which of the provider's products is bought.
+ * The billing country, and the tax that follows from it, Creem asks on its own page: it is the
+ * merchant of record and the legal seller.</p>
  */
 @Injectable()
 export class PremiumPanelViewModel extends AbstractFormViewModel {
   private readonly formBuilder = inject(FormBuilder);
   private readonly premiumCheckoutService = inject(PremiumCheckoutService);
+  private readonly premiumPricingStore = inject(PremiumPricingStore);
 
   /**
    * The purchase form.
@@ -60,12 +69,21 @@ export class PremiumPanelViewModel extends AbstractFormViewModel {
    */
   private readonly offeredPlans = signal<readonly PremiumPlan[]>(['YEARLY_RECURRING', 'LIFETIME']);
 
-  /** The plan options on offer, worded in the reader's language. */
+  /**
+   * Whether the form offers a choice of currency — the same one as the header's, repeated where
+   * the buyer is about to pay. Not with a single currency on sale, where there is nothing to pick.
+   */
+  readonly isCurrencyChoiceOffered = computed<boolean>(
+    () => this.premiumPricingStore.offeredCurrencies().length > 1,
+  );
+
+  /** The plan options on offer, worded and priced in the reader's language and currency. */
   readonly planOptions = computed<readonly PresentedPlan[]>(() =>
     this.offeredPlans().map((plan) => ({
       plan,
       label: this.translationService.translate(`account.premium.plan.${plan}.label`),
       description: this.translationService.translate(`account.premium.plan.${plan}.description`),
+      price: this.presentPrice(plan),
     })),
   );
 
@@ -120,11 +138,37 @@ export class PremiumPanelViewModel extends AbstractFormViewModel {
       return;
     }
 
+    const currency = this.premiumPricingStore.selectedCurrency();
+    if (currency === null) {
+      this.failSubmissionWith('account.premium.notAvailableYet');
+      return;
+    }
+
     this.beginSubmission();
 
-    this.premiumCheckoutService.beginCheckout(this.purchaseForm.getRawValue().plan).subscribe({
+    this.premiumCheckoutService.beginCheckout(this.purchaseForm.getRawValue().plan, currency).subscribe({
       next: (checkoutSession) => this.leaveForPaymentGate(checkoutSession.checkoutUrl),
       error: (failure: unknown) => this.reportCheckoutFailure(failure),
+    });
+  }
+
+  /**
+   * Words what a plan costs in the selected currency.
+   *
+   * @param plan the plan
+   * @returns e.g. {@code €4.68 per year}, or empty while the price is not known
+   */
+  private presentPrice(plan: PremiumPlan): string {
+    const offer = this.premiumPricingStore.offerFor(plan);
+    if (!offer) {
+      return '';
+    }
+    return this.translationService.translate(`account.premium.plan.${plan}.price`, {
+      price: formatPrice(
+        offer.amountMinorUnits,
+        offer.currency,
+        this.translationService.currentLanguageCode(),
+      ),
     });
   }
 

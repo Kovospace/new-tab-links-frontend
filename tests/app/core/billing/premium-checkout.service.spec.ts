@@ -27,33 +27,33 @@ describe('PremiumCheckoutService', () => {
   it('asks the backend for a checkout, naming the renewing plan the way the backend does', () => {
     let checkoutUrl = '';
     premiumCheckoutService
-      .beginCheckout('YEARLY_RECURRING')
+      .beginCheckout('YEARLY_RECURRING', 'EUR')
       .subscribe((checkoutSession) => (checkoutUrl = checkoutSession.checkoutUrl));
 
     const request = httpTestingController.expectOne((candidate) =>
       candidate.url.endsWith('/api/v1/payments/checkouts'),
     );
     expect(request.request.method).toBe('POST');
-    expect(request.request.body).toEqual({ plan: 'SUBSCRIPTION' });
+    expect(request.request.body).toEqual({ plan: 'SUBSCRIPTION', currency: 'EUR' });
 
     request.flush({ checkoutUrl: 'https://checkout.creem.io/ch_test' });
     expect(checkoutUrl).toBe('https://checkout.creem.io/ch_test');
   });
 
   it('sends lifetime as lifetime', () => {
-    premiumCheckoutService.beginCheckout('LIFETIME').subscribe();
+    premiumCheckoutService.beginCheckout('LIFETIME', 'USD').subscribe();
 
     const request = httpTestingController.expectOne((candidate) =>
       candidate.url.endsWith('/api/v1/payments/checkouts'),
     );
-    expect(request.request.body).toEqual({ plan: 'LIFETIME' });
+    expect(request.request.body).toEqual({ plan: 'LIFETIME', currency: 'USD' });
     request.flush({ checkoutUrl: 'https://checkout.creem.io/ch_test' });
   });
 
   it('reports a backend with no payment provider as the gate being unavailable', () => {
     let failure: unknown;
     premiumCheckoutService
-      .beginCheckout('LIFETIME')
+      .beginCheckout('LIFETIME', 'USD')
       .subscribe({ error: (error) => (failure = error) });
 
     httpTestingController
@@ -66,7 +66,7 @@ describe('PremiumCheckoutService', () => {
   it('passes every other failure on as it came', () => {
     let failure: unknown;
     premiumCheckoutService
-      .beginCheckout('LIFETIME')
+      .beginCheckout('LIFETIME', 'USD')
       .subscribe({ error: (error) => (failure = error) });
 
     httpTestingController

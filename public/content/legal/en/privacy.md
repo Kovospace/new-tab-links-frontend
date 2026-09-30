@@ -49,11 +49,19 @@ We never receive or store your card or bank details.
 - **Technical data.** Delivering pages and answering requests necessarily involves your IP address
   and browser details. The address is held briefly in memory to limit how many requests one
   source can send; we do not store it in our database.
+- **Currency suggestion.** Cloudflare tells us which country a request comes from, derived from
+  your IP address, and we use it only to show prices in the currency that fits you — euros in the
+  EU and EEA, the United Kingdom and Switzerland, US dollars elsewhere. The country is not stored or logged. Legal basis: legitimate
+  interest, Art. 6(1)(f).
 
 ## Who else receives data
 
 We use these providers, only for the purpose given:
 
+- **Cloudflare** (Cloudflare, Inc., USA) sits in front of the website and our servers, protecting
+  them from attacks and delivering pages, and forwards emails sent to our support address. It
+  processes your IP address, your requests and, for support emails, their content. Cloudflare is
+  certified under the EU–US Data Privacy Framework.
 - **Brevo** (Sendinblue SAS, France) delivers our emails — activation and password reset. It
   receives your email address and the content of the message.
 - **Google** processes your sign-in if you choose "Sign in with Google", under
@@ -63,8 +71,9 @@ We use these providers, only for the purpose given:
   [Creem's privacy policy](https://www.creem.io/privacy). It tells us only what we need to activate
   your premium features.
 
-Our servers and database run in the European Union. We do not transfer your data outside the
-European Economic Area ourselves; where Google or Creem do, they rely on their own safeguards,
+Our servers and database run in the European Union. Cloudflare may process requests outside the
+European Economic Area, relying on the EU–US Data Privacy Framework and the European Commission's
+standard contractual clauses; where Google or Creem do, they rely on their own safeguards,
 described in their policies.
 
 ## How long we keep data

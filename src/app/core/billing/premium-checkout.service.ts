@@ -55,10 +55,11 @@ export class PremiumCheckoutService {
    * error. Everything else is passed on as it came.</p>
    *
    * @param plan what is being bought
+   * @param currency ISO 4217 code of the currency to pay in
    * @returns the hosted payment page to redirect to
    */
-  beginCheckout(plan: PremiumPlan): Observable<PremiumCheckoutSession> {
-    const checkoutRequest: PremiumCheckoutRequest = { plan: toCheckoutPlan(plan) };
+  beginCheckout(plan: PremiumPlan, currency: string): Observable<PremiumCheckoutSession> {
+    const checkoutRequest: PremiumCheckoutRequest = { plan: toCheckoutPlan(plan), currency };
 
     return this.backendApiClient
       .post<PremiumCheckoutSession>(API_ENDPOINT_PATHS.payments.checkouts, checkoutRequest)
@@ -103,7 +104,7 @@ export class PremiumCheckoutService {
  * @param plan the plan as the rest of the website names it
  * @returns the same plan as {@code POST /api/v1/payments/checkouts} expects it
  */
-function toCheckoutPlan(plan: PremiumPlan): CheckoutPlan {
+export function toCheckoutPlan(plan: PremiumPlan): CheckoutPlan {
   return plan === 'LIFETIME' ? 'LIFETIME' : 'SUBSCRIPTION';
 }
 

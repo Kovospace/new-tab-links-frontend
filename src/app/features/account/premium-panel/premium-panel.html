@@ -7,12 +7,22 @@
   }
 
   <form [formGroup]="viewModel.purchaseForm" (ngSubmit)="viewModel.submitPremiumPurchase()">
+    @if (viewModel.isCurrencyChoiceOffered()) {
+      <label>
+        <span>{{ 'currency.label' | translate }}</span>
+        <app-currency-switcher />
+      </label>
+    }
+
     <fieldset>
       @for (planOption of viewModel.planOptions(); track planOption.plan) {
         <label>
           <input type="radio" formControlName="plan" [value]="planOption.plan" />
           <div>
             <span>{{ planOption.label }}</span>
+            @if (planOption.price) {
+              <strong>{{ planOption.price }}</strong>
+            }
             <small>{{ planOption.description }}</small>
           </div>
         </label>

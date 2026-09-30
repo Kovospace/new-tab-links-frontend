@@ -50,11 +50,19 @@ nových kariet, ktorý sa pripočíta k dennému súčtu a nedá sa spojiť s va
 - **Technické údaje.** Doručovanie stránok a odpovedanie na požiadavky nevyhnutne pracuje s vašou
   IP adresou a údajmi o prehliadači. Adresa sa krátko drží v pamäti na obmedzenie počtu požiadaviek
   z jedného zdroja; do databázy ju neukladáme.
+- **Návrh meny.** Cloudflare nám oznámi, z ktorej krajiny požiadavka prichádza, odvodenej z vašej
+  IP adresy, a my ju použijeme iba na zobrazenie cien vo vhodnej mene — v eurách v EÚ a EHP,
+  Spojenom kráľovstve a Švajčiarsku, inde v amerických dolároch. Krajinu neukladáme ani nezaznamenávame. Právny základ: oprávnený
+  záujem, čl. 6 ods. 1 písm. f).
 
 ## Kto ďalší údaje dostáva
 
 Využívame týchto poskytovateľov, výlučne na uvedený účel:
 
+- **Cloudflare** (Cloudflare, Inc., USA) stojí pred webom a našimi servermi, chráni ich pred
+  útokmi, doručuje stránky a preposiela e-maily zaslané na našu adresu podpory. Spracúva vašu IP
+  adresu, vaše požiadavky a pri e-mailoch podpory aj ich obsah. Cloudflare je certifikovaný podľa
+  rámca ochrany údajov EÚ – USA (Data Privacy Framework).
 - **Brevo** (Sendinblue SAS, Francúzsko) doručuje naše e-maily — aktiváciu a obnovu hesla.
   Dostáva vašu e-mailovú adresu a obsah správy.
 - **Google** spracúva prihlásenie, ak zvolíte „Prihlásiť sa cez Google“, podľa
@@ -64,9 +72,10 @@ Využívame týchto poskytovateľov, výlučne na uvedený účel:
   [zásad ochrany súkromia Creem](https://www.creem.io/privacy). Nám oznámi iba to, čo potrebujeme
   na aktiváciu prémiových funkcií.
 
-Naše servery a databáza bežia v Európskej únii. Sami vaše údaje mimo Európskeho hospodárskeho
-priestoru neprenášame; ak tak robí Google alebo Creem, opierajú sa o vlastné záruky opísané
-v ich zásadách.
+Naše servery a databáza bežia v Európskej únii. Cloudflare môže požiadavky spracúvať aj mimo
+Európskeho hospodárskeho priestoru, na základe rámca ochrany údajov EÚ – USA a štandardných
+zmluvných doložiek Európskej komisie; ak tak robí Google alebo Creem, opierajú sa o vlastné záruky
+opísané v ich zásadách.
 
 ## Ako dlho údaje uchovávame
 
