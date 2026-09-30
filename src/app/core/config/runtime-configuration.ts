@@ -85,12 +85,12 @@ export interface RuntimeConfiguration {
  */
 export const DEFAULT_RUNTIME_CONFIGURATION: RuntimeConfiguration = {
   backendBaseUrl: 'http://localhost:8080',
-  webClientDeviceName: 'NewTabLinks website',
+  webClientDeviceName: 'Tabilinks website',
   frontendApiKey: '',
   usernameCheckDebounceMilliseconds: 250,
   extensionDownload: {
     chromeWebStoreUrl: '',
-    selfHostedCrxPath: '/downloads/newtablinks.crx',
+    selfHostedCrxPath: '/downloads/tabilinks.crx',
   },
 };
 
