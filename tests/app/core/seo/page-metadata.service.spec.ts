@@ -5,7 +5,11 @@ import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { TranslationService } from '@app/core/i18n/translation.service';
 import { pageMetadataFor } from '@app/core/seo/page-metadata';
-import { PageMetadataService, stripQueryAndFragment } from '@app/core/seo/page-metadata.service';
+import {
+  PageMetadataService,
+  listAlternateAddresses,
+  stripQueryAndFragment,
+} from '@app/core/seo/page-metadata.service';
 
 @Component({ template: '', changeDetection: ChangeDetectionStrategy.OnPush })
 class BlankPage {}
@@ -134,5 +138,21 @@ describe('stripQueryAndFragment', () => {
 
   it('keeps the root a slash', () => {
     expect(stripQueryAndFragment('/?a=1')).toBe('/');
+  });
+});
+
+describe('listAlternateAddresses', () => {
+  const expectedTipsAlternates = [
+    { hreflang: 'en', address: 'https://tabilinks.app/tips' },
+    { hreflang: 'sk', address: 'https://tabilinks.app/sk/tips' },
+    { hreflang: 'x-default', address: 'https://tabilinks.app/tips' },
+  ];
+
+  it('names the page in every language and the default for everyone else', () => {
+    expect(listAlternateAddresses('/tips')).toEqual(expectedTipsAlternates);
+  });
+
+  it('gives the same answer from either language address', () => {
+    expect(listAlternateAddresses('/sk/tips')).toEqual(expectedTipsAlternates);
   });
 });

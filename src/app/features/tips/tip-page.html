@@ -7,5 +7,5 @@
     <div [innerHTML]="viewModel.renderedHtml()"></div>
   }
 
-  <a [routerLink]="viewModel.tipsListLink" class="button">{{ 'tips.backToList' | translate }}</a>
+  <a [routerLink]="viewModel.tipsListLink()" class="button">{{ 'tips.backToList' | translate }}</a>
 </article>

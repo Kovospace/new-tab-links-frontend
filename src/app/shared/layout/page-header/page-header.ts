@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
-import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route-paths';
+import { LocalizedRouteLinks } from '../../../core/routing/localized-route-links';
 import { CurrencySwitcher } from '../../billing/currency-switcher/currency-switcher';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import { PageHeaderViewModel } from './page-header.view-model';
@@ -34,5 +34,7 @@ export class PageHeader {
   protected readonly viewModel = inject(PageHeaderViewModel);
 
   /** Where the site title links back to. */
-  protected readonly homeLink = APPLICATION_ROUTE_LINKS.home;
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
+
+  protected readonly homeLink = computed(() => this.localizedRouteLinks.links().home);
 }

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
-import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-paths';
+import { LocalizedRouteLinks } from '../../core/routing/localized-route-links';
 
 /**
  * Shown for any address that matches no route.
@@ -15,5 +15,7 @@ import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-pa
 })
 export class NotFoundPage {
   /** Where the way out leads. */
-  protected readonly homeLink = APPLICATION_ROUTE_LINKS.home;
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
+
+  protected readonly homeLink = computed(() => this.localizedRouteLinks.links().home);
 }

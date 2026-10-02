@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
-import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route-paths';
+import {
+  ApplicationRouteLinks,
+  LocalizedRouteLinks,
+} from '../../../core/routing/localized-route-links';
 
 /** The moment a notice is shown at, which decides the documents it names. */
 export type LegalConsentMoment = 'REGISTRATION' | 'PURCHASE';
@@ -30,28 +33,34 @@ interface LegalConsentNoticeWording {
  * <p>The link labels are their own keys rather than the footer's, because in Slovak a document's
  * name is declined inside a sentence ("súhlasíte s Podmienkami používania") where the footer
  * names it in the nominative.</p>
+ *
+ * @param links every route's link, in the reader's language
+ * @returns the sentence for each moment
  */
-const LEGAL_CONSENT_NOTICE_WORDINGS: Readonly<Record<LegalConsentMoment, LegalConsentNoticeWording>> =
-  {
+function legalConsentNoticeWordings(
+  links: ApplicationRouteLinks,
+): Readonly<Record<LegalConsentMoment, LegalConsentNoticeWording>> {
+  return {
     REGISTRATION: {
       leadTranslationKey: 'legal.consent.registrationLead',
       firstDocumentLabelTranslationKey: 'legal.consent.registrationTermsLabel',
-      firstDocumentLink: APPLICATION_ROUTE_LINKS.terms,
+      firstDocumentLink: links.terms,
       joinerTranslationKey: 'legal.consent.registrationJoiner',
       secondDocumentLabelTranslationKey: 'legal.consent.registrationPrivacyLabel',
-      secondDocumentLink: APPLICATION_ROUTE_LINKS.privacy,
+      secondDocumentLink: links.privacy,
       closingTranslationKey: 'legal.consent.registrationClosing',
     },
     PURCHASE: {
       leadTranslationKey: 'legal.consent.purchaseLead',
       firstDocumentLabelTranslationKey: 'legal.consent.purchaseTermsLabel',
-      firstDocumentLink: APPLICATION_ROUTE_LINKS.terms,
+      firstDocumentLink: links.terms,
       joinerTranslationKey: 'legal.consent.purchaseJoiner',
       secondDocumentLabelTranslationKey: 'legal.consent.purchaseRefundsLabel',
-      secondDocumentLink: APPLICATION_ROUTE_LINKS.refunds,
+      secondDocumentLink: links.refunds,
       closingTranslationKey: 'legal.consent.purchaseClosing',
     },
   };
+}
 
 /**
  * The line under a form that says which documents the reader accepts by submitting it, each one a
@@ -73,8 +82,10 @@ export class LegalConsentNotice {
   /** The moment the notice is shown at. */
   readonly moment = input.required<LegalConsentMoment>();
 
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
+
   /** The sentence for that moment. */
   protected readonly wording = computed<LegalConsentNoticeWording>(
-    () => LEGAL_CONSENT_NOTICE_WORDINGS[this.moment()],
+    () => legalConsentNoticeWordings(this.localizedRouteLinks.links())[this.moment()],
   );
 }

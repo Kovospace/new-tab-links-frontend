@@ -1,5 +1,6 @@
+import { PlatformLocation, isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {
   DEFAULT_LANGUAGE_CODE,
@@ -7,6 +8,7 @@ import {
   SupportedLanguageCode,
   isSupportedLanguageCode,
 } from './supported-language';
+import { splitLanguagePrefix } from './localized-address';
 import {
   FlatTranslationDictionary,
   NestedTranslationFile,
@@ -34,6 +36,8 @@ const TRANSLATION_FILE_DIRECTORY = 'i18n';
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
   private readonly httpClient = inject(HttpClient);
+  private readonly platformLocation = inject(PlatformLocation);
+  private readonly isRunningInBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   /** Strings of the active language, empty until the first file has loaded. */
   private readonly activeTranslations = signal<FlatTranslationDictionary>(new Map());
@@ -53,12 +57,30 @@ export class TranslationService {
    * Loads the language the user should start in.
    *
    * <p>Called once during application start-up, before the first page renders, so that no
-   * untranslated frame is ever shown.</p>
+   * untranslated frame is ever shown. An address with a language prefix ({@code /sk/tips}) decides
+   * on its own; otherwise the reader's {@link preferredLanguageCode} does. The router has not run
+   * yet at this point, which is why the address is read from the platform.</p>
    *
    * @returns a promise that settles when the strings are in place
    */
   async loadInitialLanguage(): Promise<void> {
-    await this.changeLanguage(this.resolveInitialLanguageCode());
+    const addressLanguageCode = splitLanguagePrefix(this.platformLocation.pathname).languageCode;
+    await this.changeLanguage(addressLanguageCode ?? this.preferredLanguageCode());
+  }
+
+  /**
+   * Switches to a language unless it is already the one displayed.
+   *
+   * <p>For the route guard that follows an address's language, which runs on every entry into a
+   * public page and should not fetch the same file again each time.</p>
+   *
+   * @param languageCode the language the address asks for
+   * @returns a promise that settles when that language is in place
+   */
+  async useLanguage(languageCode: SupportedLanguageCode): Promise<void> {
+    if (languageCode !== this.activeLanguageCode() || this.activeTranslations().size === 0) {
+      await this.changeLanguage(languageCode);
+    }
   }
 
   /**
@@ -139,13 +161,20 @@ export class TranslationService {
   }
 
   /**
-   * Decides which language to start in.
+   * The language this reader would choose, for an address that does not name one.
    *
    * <p>In order: what the user chose last time, then what the browser asks for, then English.</p>
    *
-   * @returns the language to load first
+   * <p>Always the default language when rendering at build time. Node has a {@code navigator} of
+   * its own, so without this the build machine's locale could decide what language a page was
+   * published in.</p>
+   *
+   * @returns the language to show
    */
-  private resolveInitialLanguageCode(): SupportedLanguageCode {
+  preferredLanguageCode(): SupportedLanguageCode {
+    if (!this.isRunningInBrowser) {
+      return DEFAULT_LANGUAGE_CODE;
+    }
     const previouslyChosenLanguage = this.readRememberedLanguageChoice();
     if (isSupportedLanguageCode(previouslyChosenLanguage)) {
       return previouslyChosenLanguage;

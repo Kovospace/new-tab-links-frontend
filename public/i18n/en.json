@@ -458,6 +458,7 @@
   },
   "seo": {
     "titleFormat": "{page} · Tabilinks",
+    "openGraphLocale": "en_US",
     "site": {
       "title": "Tabilinks",
       "description": "Your bookmarks, links, history and most visited sites on the new tab screen. Your links, on every new tab, on every machine."

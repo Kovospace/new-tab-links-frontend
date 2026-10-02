@@ -458,6 +458,7 @@
   },
   "seo": {
     "titleFormat": "{page} · Tabilinks",
+    "openGraphLocale": "sk_SK",
     "site": {
       "title": "Tabilinks",
       "description": "Vaše záložky, odkazy, história a najnavštevovanejšie stránky na novej karte. Vaše odkazy na každej novej karte, na každom počítači."

@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendFailureTranslator } from '../../../core/api/backend-failure.translator';
-import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route-paths';
+import { LocalizedRouteLinks } from '../../../core/routing/localized-route-links';
 import { UserAccountService } from '../../../core/user/user-account.service';
 
 /**
@@ -16,6 +16,7 @@ export class DeleteAccountPanelViewModel {
   private readonly userAccountService = inject(UserAccountService);
   private readonly failureTranslator = inject(BackendFailureTranslator);
   private readonly router = inject(Router);
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
 
   private readonly isConfirming = signal(false);
   private readonly isDeleting = signal(false);
@@ -58,7 +59,7 @@ export class DeleteAccountPanelViewModel {
     this.userAccountService.deleteMyAccount().subscribe({
       next: () => {
         this.isDeleting.set(false);
-        void this.router.navigate([APPLICATION_ROUTE_LINKS.home]);
+        void this.router.navigateByUrl(this.localizedRouteLinks.links().home);
       },
       error: (failure: unknown) => {
         this.isDeleting.set(false);

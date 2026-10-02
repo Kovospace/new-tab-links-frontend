@@ -1,6 +1,9 @@
 import { Injectable, computed, inject } from '@angular/core';
 import { AuthenticationSessionStore } from '../../core/auth/authentication-session.store';
-import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-paths';
+import {
+  ApplicationRouteName,
+  LocalizedRouteLinks,
+} from '../../core/routing/localized-route-links';
 
 /**
  * One entry of the sitemap, ready to render.
@@ -12,6 +15,12 @@ export interface SitemapEntry {
   readonly routerLink: string;
 }
 
+/** A sitemap entry before its link is known, which depends on the reader's language. */
+interface UnlinkedSitemapEntry {
+  readonly labelTranslationKey: string;
+  readonly routeName: ApplicationRouteName;
+}
+
 /**
  * State behind the sitemap.
  *
@@ -21,38 +30,46 @@ export interface SitemapEntry {
 @Injectable()
 export class SitemapPageViewModel {
   private readonly sessionStore = inject(AuthenticationSessionStore);
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
 
   /** Every page the current reader can open, in reading order. */
-  readonly sitemapEntries = computed<readonly SitemapEntry[]>(() => [
-    ...PUBLIC_SITEMAP_ENTRIES,
-    ...(this.sessionStore.isSignedIn() ? SIGNED_IN_SITEMAP_ENTRIES : ANONYMOUS_SITEMAP_ENTRIES),
-    ...COMPLIANCE_SITEMAP_ENTRIES,
-  ]);
+  readonly sitemapEntries = computed<readonly SitemapEntry[]>(() => {
+    const links = this.localizedRouteLinks.links();
+    const sessionEntries = this.sessionStore.isSignedIn()
+      ? SIGNED_IN_SITEMAP_ENTRIES
+      : ANONYMOUS_SITEMAP_ENTRIES;
+    return [...PUBLIC_SITEMAP_ENTRIES, ...sessionEntries, ...COMPLIANCE_SITEMAP_ENTRIES].map(
+      ({ labelTranslationKey, routeName }) => ({
+        labelTranslationKey,
+        routerLink: links[routeName],
+      }),
+    );
+  });
 }
 
 /** Pages anyone can open. */
-const PUBLIC_SITEMAP_ENTRIES: readonly SitemapEntry[] = [
-  { labelTranslationKey: 'nav.home', routerLink: APPLICATION_ROUTE_LINKS.home },
-  { labelTranslationKey: 'nav.download', routerLink: APPLICATION_ROUTE_LINKS.download },
-  { labelTranslationKey: 'nav.tips', routerLink: APPLICATION_ROUTE_LINKS.tips },
+const PUBLIC_SITEMAP_ENTRIES: readonly UnlinkedSitemapEntry[] = [
+  { labelTranslationKey: 'nav.home', routeName: 'home' },
+  { labelTranslationKey: 'nav.download', routeName: 'download' },
+  { labelTranslationKey: 'nav.tips', routeName: 'tips' },
 ];
 
 /** Pages that only make sense without a session. */
-const ANONYMOUS_SITEMAP_ENTRIES: readonly SitemapEntry[] = [
-  { labelTranslationKey: 'nav.register', routerLink: APPLICATION_ROUTE_LINKS.register },
-  { labelTranslationKey: 'nav.login', routerLink: APPLICATION_ROUTE_LINKS.login },
+const ANONYMOUS_SITEMAP_ENTRIES: readonly UnlinkedSitemapEntry[] = [
+  { labelTranslationKey: 'nav.register', routeName: 'register' },
+  { labelTranslationKey: 'nav.login', routeName: 'login' },
 ];
 
 /** Pages that only make sense with a session. */
-const SIGNED_IN_SITEMAP_ENTRIES: readonly SitemapEntry[] = [
-  { labelTranslationKey: 'nav.devices', routerLink: APPLICATION_ROUTE_LINKS.devices },
-  { labelTranslationKey: 'nav.account', routerLink: APPLICATION_ROUTE_LINKS.account },
+const SIGNED_IN_SITEMAP_ENTRIES: readonly UnlinkedSitemapEntry[] = [
+  { labelTranslationKey: 'nav.devices', routeName: 'devices' },
+  { labelTranslationKey: 'nav.account', routeName: 'account' },
 ];
 
 /** The compliance pages, always listed last. */
-const COMPLIANCE_SITEMAP_ENTRIES: readonly SitemapEntry[] = [
-  { labelTranslationKey: 'footer.privacy', routerLink: APPLICATION_ROUTE_LINKS.privacy },
-  { labelTranslationKey: 'footer.terms', routerLink: APPLICATION_ROUTE_LINKS.terms },
-  { labelTranslationKey: 'footer.refunds', routerLink: APPLICATION_ROUTE_LINKS.refunds },
-  { labelTranslationKey: 'footer.cookies', routerLink: APPLICATION_ROUTE_LINKS.cookies },
+const COMPLIANCE_SITEMAP_ENTRIES: readonly UnlinkedSitemapEntry[] = [
+  { labelTranslationKey: 'footer.privacy', routeName: 'privacy' },
+  { labelTranslationKey: 'footer.terms', routeName: 'terms' },
+  { labelTranslationKey: 'footer.refunds', routeName: 'refunds' },
+  { labelTranslationKey: 'footer.cookies', routeName: 'cookies' },
 ];

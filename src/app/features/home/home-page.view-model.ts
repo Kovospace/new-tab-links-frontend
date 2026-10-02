@@ -19,6 +19,7 @@ import {
   APPLICATION_ROUTE_LINKS,
   APPLICATION_ROUTE_QUERY_PARAMETERS,
 } from '../../core/routing/application-route-paths';
+import { LocalizedRouteLinks } from '../../core/routing/localized-route-links';
 import { formatPrice } from '../../shared/formatting/price-formatter';
 
 /**
@@ -48,6 +49,7 @@ export class HomePageViewModel {
   private readonly sessionStore = inject(AuthenticationSessionStore);
   private readonly premiumStandingService = inject(PremiumStandingService);
   private readonly translationService = inject(TranslationService);
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
   private readonly homeFeaturesContentService = inject(HomeFeaturesContentService);
   private readonly premiumPricingStore = inject(PremiumPricingStore);
 
@@ -178,7 +180,7 @@ export class HomePageViewModel {
   private presentExtensionDownload(): PresentedOfferAction {
     return {
       label: this.translationService.translate('home.callToAction'),
-      routerLink: APPLICATION_ROUTE_LINKS.download,
+      routerLink: this.localizedRouteLinks.links().download,
       queryParams: null,
     };
   }

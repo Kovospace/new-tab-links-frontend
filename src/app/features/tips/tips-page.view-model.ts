@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { TranslationService } from '../../core/i18n/translation.service';
 import { DEFAULT_LANGUAGE_CODE } from '../../core/i18n/supported-language';
-import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-paths';
+import { LocalizedRouteLinks } from '../../core/routing/localized-route-links';
 import { TipsContentService, TipsIndex } from '../../core/tips/tips-content.service';
 
 /** One tip as the list renders it. */
@@ -23,6 +23,7 @@ export interface PresentedTipLink {
 export class TipsPageViewModel {
   private readonly tipsContentService = inject(TipsContentService);
   private readonly translationService = inject(TranslationService);
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
 
   private readonly loadedIndex = signal<TipsIndex | null>(null);
   private readonly loadFailed = signal(false);
@@ -38,7 +39,7 @@ export class TipsPageViewModel {
     return tips.map((tip) => ({
       slug: tip.slug,
       title: tip.title,
-      routerLink: `${APPLICATION_ROUTE_LINKS.tips}/${tip.slug}`,
+      routerLink: this.localizedRouteLinks.tipLink(tip.slug),
     }));
   });
 

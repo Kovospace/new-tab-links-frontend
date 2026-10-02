@@ -26,3 +26,10 @@ export const PUBLIC_SITE_ORIGIN: string = publicSite.siteOrigin;
  * route path, so a renamed route cannot leave a dead address in the sitemap.</p>
  */
 export const INDEXABLE_PAGE_PATHS: readonly string[] = publicSite.indexablePagePaths;
+
+/**
+ * The language whose addresses carry no prefix, as {@code scripts/build-crawler-files.mjs} reads it.
+ * The application's own is {@code DEFAULT_LANGUAGE_CODE}. A spec holds the two equal, since the
+ * script cannot import TypeScript.
+ */
+export const PUBLIC_SITE_DEFAULT_LANGUAGE_CODE: string = publicSite.defaultLanguageCode;

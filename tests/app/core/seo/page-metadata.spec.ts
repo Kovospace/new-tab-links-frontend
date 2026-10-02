@@ -1,3 +1,4 @@
+import { Routes } from '@angular/router';
 import { routes } from '@app/app.routes';
 import { APPLICATION_ROUTE_PATHS } from '@app/core/routing/application-route-paths';
 import { pageMetadataFor, readPageMetadata } from '@app/core/seo/page-metadata';
@@ -25,8 +26,14 @@ describe('pageMetadataFor', () => {
 });
 
 describe('routes', () => {
+  /** Every page route, the public ones once: each language group holds the same pages. */
+  const pageRoutes: Routes = [
+    ...(routes[0].children ?? []),
+    ...routes.filter((route) => route.children === undefined),
+  ];
+
   it('give every page a title, so no browser tab is left saying only "Tabilinks"', () => {
-    const routesWithoutMetadata = routes
+    const routesWithoutMetadata = pageRoutes
       .filter((route) => readPageMetadata(route.data ?? {}) === null)
       .map((route) => route.path);
 
@@ -34,12 +41,23 @@ describe('routes', () => {
   });
 
   it('index exactly the pages the sitemap lists, plus each tip', () => {
-    const indexedPaths = routes
+    const indexedPaths = pageRoutes
       .filter((route) => readPageMetadata(route.data ?? {})?.indexable)
       .map((route) => route.path);
 
     expect(indexedPaths.sort()).toEqual(
       [...INDEXABLE_PAGE_PATHS, APPLICATION_ROUTE_PATHS.tip].sort(),
     );
+  });
+
+  it('give exactly the indexed pages an address per language', () => {
+    const languageGroups = routes.filter((route) => route.children !== undefined);
+
+    expect(languageGroups.map((group) => group.path)).toEqual(['', 'sk']);
+    for (const group of languageGroups) {
+      expect(group.children?.every((route) => readPageMetadata(route.data ?? {})?.indexable)).toBe(
+        true,
+      );
+    }
   });
 });

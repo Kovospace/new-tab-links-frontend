@@ -1,8 +1,10 @@
 import { DestroyRef, Injectable, Injector, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { localizeAddress, splitLanguagePrefix } from '../i18n/localized-address';
+import { DEFAULT_LANGUAGE_CODE, SUPPORTED_LANGUAGE_CODES } from '../i18n/supported-language';
 import { TranslationService } from '../i18n/translation.service';
-import { DocumentHeadContent, DocumentHeadWriter } from './document-head.writer';
+import { AlternateAddress, DocumentHeadContent, DocumentHeadWriter } from './document-head.writer';
 import { LoadedPageDescription, PageMetadata, readPageMetadata } from './page-metadata';
 import { PUBLIC_SITE_ORIGIN } from './public-site';
 
@@ -42,7 +44,9 @@ export class PageMetadataService {
       languageCode: this.translationService.currentLanguageCode(),
       title: this.wordTitle(loadedDescription?.title ?? this.translatePageName(metadata)),
       description: loadedDescription?.description ?? this.translateDescription(metadata),
+      openGraphLocale: this.translationService.translate('seo.openGraphLocale'),
       canonicalAddress: metadata.indexable ? `${PUBLIC_SITE_ORIGIN}${this.currentPath()}` : null,
+      alternateAddresses: metadata.indexable ? listAlternateAddresses(this.currentPath()) : [],
     };
   });
 
@@ -107,4 +111,24 @@ export class PageMetadataService {
  */
 export function stripQueryAndFragment(routerUrl: string): string {
   return routerUrl.split(/[?#]/)[0] || '/';
+}
+
+/**
+ * Lists a public page's address in every language, plus the {@code x-default} search engines
+ * send a reader of any other language to: the default language's.
+ *
+ * @param currentPath the page's path in whichever language it is being shown in
+ * @returns one entry per language, then {@code x-default}
+ */
+export function listAlternateAddresses(currentPath: string): readonly AlternateAddress[] {
+  const { unprefixedAddress } = splitLanguagePrefix(currentPath);
+  const addressIn = (languageCode: (typeof SUPPORTED_LANGUAGE_CODES)[number]) =>
+    `${PUBLIC_SITE_ORIGIN}${localizeAddress(unprefixedAddress, languageCode)}`;
+  return [
+    ...SUPPORTED_LANGUAGE_CODES.map((languageCode) => ({
+      hreflang: languageCode,
+      address: addressIn(languageCode),
+    })),
+    { hreflang: 'x-default', address: addressIn(DEFAULT_LANGUAGE_CODE) },
+  ];
 }

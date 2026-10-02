@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, catchError, map, of, startWith, switchMap } from 'rxjs';
 import { SupportedLanguageCode } from '../../core/i18n/supported-language';
 import { TranslationService } from '../../core/i18n/translation.service';
-import { APPLICATION_ROUTE_LINKS } from '../../core/routing/application-route-paths';
+import { LocalizedRouteLinks } from '../../core/routing/localized-route-links';
 import { LoadedPageDescription } from '../../core/seo/page-metadata';
 import { PageMetadataService } from '../../core/seo/page-metadata.service';
 import { renderTipMarkdown } from '../../core/tips/tip-markdown-renderer';
@@ -37,6 +37,7 @@ export class TipPageViewModel {
   private readonly tipsContentService = inject(TipsContentService);
   private readonly translationService = inject(TranslationService);
   private readonly pageMetadataService = inject(PageMetadataService);
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
 
   /** The tip the address names. */
   private readonly slug = toSignal(
@@ -61,7 +62,7 @@ export class TipPageViewModel {
   );
 
   /** Where the list of every tip is. */
-  readonly tipsListLink = APPLICATION_ROUTE_LINKS.tips;
+  readonly tipsListLink = computed<string>(() => this.localizedRouteLinks.links().tips);
 
   /** Whether the tip is still being fetched. */
   readonly isLoading = computed<boolean>(() => this.state().kind === 'LOADING');

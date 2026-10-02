@@ -5,16 +5,24 @@
 // every tip is in the sitemap. Adding a tip therefore adds it to the sitemap, and adding an indexable
 // page means adding its route path to src/app/core/seo/public-site.json.
 //
-//   src/app/core/seo/public-site.json   the site's public origin and the indexable route paths
+//   src/app/core/seo/public-site.json   the public origin, the default language, the indexable paths
+//   public/i18n/<language>.json         one per language the site is translated into
 //   public/content/tips/index.json      the tips, written by build-tips-index.mjs just before this
+//
+// Every public page has an address per language: the default language's bare (/tips), every other
+// one folder down (/sk/tips). Each sitemap entry names all of them as alternates, which is how a
+// search engine learns they are one page in several languages. A tip is listed only in the
+// languages it is written in; elsewhere the site shows the English text, which is not worth a
+// second address in the index.
 //
 // robots.txt keeps crawlers out of what is private or one-time: the account and devices pages, the
 // backend's mailed and redirected addresses (they carry tokens), and the operator's /admin.
 // Disallowing a page does not hide it. That is the backend's job, and robots.txt is public.
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 
 const PUBLIC_SITE_FILE = 'src/app/core/seo/public-site.json';
 const TIPS_INDEX_FILE = 'public/content/tips/index.json';
+const TRANSLATIONS_FOLDER = 'public/i18n';
 const ROBOTS_FILE = 'public/robots.txt';
 const SITEMAP_FILE = 'public/sitemap.xml';
 
@@ -30,30 +38,70 @@ const DISALLOWED_PATH_PREFIXES = [
   '/admin',
 ];
 
-const { siteOrigin, indexablePagePaths } = JSON.parse(readFileSync(PUBLIC_SITE_FILE, 'utf8'));
+const { siteOrigin, defaultLanguageCode, indexablePagePaths } = JSON.parse(
+  readFileSync(PUBLIC_SITE_FILE, 'utf8'),
+);
 const tipsIndex = JSON.parse(readFileSync(TIPS_INDEX_FILE, 'utf8'));
+const languageCodes = readdirSync(TRANSLATIONS_FOLDER)
+  .filter((name) => name.endsWith('.json'))
+  .map((name) => name.slice(0, -'.json'.length))
+  .sort((first, second) => (first === defaultLanguageCode ? -1 : first.localeCompare(second)));
 
-function absoluteAddress(routePath) {
-  return routePath === '' ? `${siteOrigin}/` : `${siteOrigin}/${routePath}`;
+// Mirrors localizeAddress in src/app/core/i18n/localized-address.ts.
+function absoluteAddress(routePath, languageCode) {
+  const prefix = languageCode === defaultLanguageCode ? '' : `/${languageCode}`;
+  const path = routePath === '' ? '' : `/${routePath}`;
+  return `${siteOrigin}${prefix}${path || (prefix ? '' : '/')}`;
 }
 
-function tipRoutePaths() {
-  const slugs = new Set(Object.values(tipsIndex).flatMap((tips) => tips.map((tip) => tip.slug)));
-  return [...slugs].sort().map((slug) => `tips/${slug}`);
+function pageEntries() {
+  return indexablePagePaths.map((routePath) => ({ routePath, languageCodes }));
 }
 
-function sitemapEntry(routePath) {
-  return `  <url><loc>${absoluteAddress(routePath)}</loc></url>`;
+function tipEntries() {
+  const languagesBySlug = new Map();
+  for (const [languageCode, tips] of Object.entries(tipsIndex)) {
+    for (const { slug } of tips) {
+      languagesBySlug.set(slug, [...(languagesBySlug.get(slug) ?? []), languageCode]);
+    }
+  }
+  return [...languagesBySlug.keys()].sort().map((slug) => ({
+    routePath: `tips/${slug}`,
+    languageCodes: languageCodes.filter((code) => languagesBySlug.get(slug).includes(code)),
+  }));
 }
 
-const routePaths = [...indexablePagePaths, ...tipRoutePaths()];
+function alternateLinks({ routePath, languageCodes: pageLanguageCodes }) {
+  const links = pageLanguageCodes.map(
+    (code) =>
+      `    <xhtml:link rel="alternate" hreflang="${code}" href="${absoluteAddress(routePath, code)}"/>`,
+  );
+  if (pageLanguageCodes.includes(defaultLanguageCode)) {
+    const defaultAddress = absoluteAddress(routePath, defaultLanguageCode);
+    links.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${defaultAddress}"/>`);
+  }
+  return links;
+}
+
+function sitemapEntries(entry) {
+  return entry.languageCodes.flatMap((languageCode) => [
+    '  <url>',
+    `    <loc>${absoluteAddress(entry.routePath, languageCode)}</loc>`,
+    ...alternateLinks(entry),
+    '  </url>',
+  ]);
+}
+
+const entries = [...pageEntries(), ...tipEntries()];
+const addressCount = entries.reduce((count, entry) => count + entry.languageCodes.length, 0);
 
 writeFileSync(
   SITEMAP_FILE,
   [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...routePaths.map(sitemapEntry),
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
+    '        xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ...entries.flatMap(sitemapEntries),
     '</urlset>',
     '',
   ].join('\n'),
@@ -70,4 +118,4 @@ writeFileSync(
   ].join('\n'),
 );
 
-console.log(`crawler files: robots.txt, sitemap.xml with ${routePaths.length} addresses`);
+console.log(`crawler files: robots.txt, sitemap.xml with ${addressCount} addresses`);

@@ -1,7 +1,7 @@
 import { Marked, Tokens } from 'marked';
 import { buildLocalizedImageUrl } from '../i18n/localized-image.pipe';
 import { SupportedLanguageCode } from '../i18n/supported-language';
-import { APPLICATION_ROUTE_LINKS } from '../routing/application-route-paths';
+import { localizeTipLink } from '../routing/localized-route-links';
 
 /** Where a piece of the site's markdown sits, which decides what its relative addresses mean. */
 export interface SiteMarkdownRenderingOptions {
@@ -57,7 +57,7 @@ export function renderSiteMarkdown(
       if (token.type === 'image') {
         resolveImageAddress(token as Tokens.Image, options);
       } else if (token.type === 'link') {
-        resolveTipLinkAddress(token as Tokens.Link);
+        resolveTipLinkAddress(token as Tokens.Link, options);
       } else if (token.type === 'heading') {
         lowerHeading(token as Tokens.Heading, headingLevelOffset);
       }
@@ -85,13 +85,18 @@ function resolveImageAddress(image: Tokens.Image, options: SiteMarkdownRendering
 }
 
 /**
- * Points a relatively named link at a tip.
+ * Points a relatively named link at a tip, in the language the markdown is written in.
+ *
+ * <p>The markdown's language rather than the reader's: they differ only while a tip is shown in
+ * English for want of a translation, and a reader who prefers another language is redirected to
+ * that language's address on arrival anyway.</p>
  *
  * @param link the link token, changed in place
+ * @param options where the markdown sits
  */
-function resolveTipLinkAddress(link: Tokens.Link): void {
+function resolveTipLinkAddress(link: Tokens.Link, options: SiteMarkdownRenderingOptions): void {
   if (isRelative(link.href)) {
-    link.href = `${APPLICATION_ROUTE_LINKS.tips}/${link.href}`;
+    link.href = localizeTipLink(link.href, options.languageCode);
   }
 }
 
