@@ -2,7 +2,10 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IsActiveMatchOptions, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route-paths';
+import {
+  ApplicationRouteLinks,
+  LocalizedRouteLinks,
+} from '../../../core/routing/localized-route-links';
 import { AuthenticationSessionStore } from '../../../core/auth/authentication-session.store';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { TranslationService } from '../../../core/i18n/translation.service';
@@ -60,6 +63,7 @@ export class PageHeaderViewModel {
   private readonly authenticationService = inject(AuthenticationService);
   private readonly router = inject(Router);
   private readonly translationService = inject(TranslationService);
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
 
   /**
    * Whether the narrow-screen menu is currently open.
@@ -98,7 +102,9 @@ export class PageHeaderViewModel {
    * disappear rather than being disabled.</p>
    */
   readonly navigationEntries = computed<readonly NavigationEntry[]>(() =>
-    this.isSignedIn() ? SIGNED_IN_NAVIGATION_ENTRIES : ANONYMOUS_NAVIGATION_ENTRIES,
+    this.isSignedIn()
+      ? signedInNavigationEntries(this.localizedRouteLinks.links())
+      : anonymousNavigationEntries(this.localizedRouteLinks.links()),
   );
 
   /**
@@ -135,66 +141,80 @@ export class PageHeaderViewModel {
    */
   signOut(): void {
     this.authenticationService.signOut().subscribe({
-      next: () => void this.router.navigate([APPLICATION_ROUTE_LINKS.home]),
-      error: () => void this.router.navigate([APPLICATION_ROUTE_LINKS.home]),
+      next: () => void this.router.navigateByUrl(this.localizedRouteLinks.links().home),
+      error: () => void this.router.navigateByUrl(this.localizedRouteLinks.links().home),
     });
   }
 }
 
-/** What a visitor without a session is offered. */
-const ANONYMOUS_NAVIGATION_ENTRIES: readonly NavigationEntry[] = [
-  {
-    labelTranslationKey: 'nav.home',
-    routerLink: APPLICATION_ROUTE_LINKS.home,
-    activeWhen: MATCHES_ITS_OWN_PAGE,
-  },
-  {
-    labelTranslationKey: 'nav.download',
-    routerLink: APPLICATION_ROUTE_LINKS.download,
-    activeWhen: MATCHES_ITS_PAGES_BELOW,
-  },
-  {
-    labelTranslationKey: 'nav.tips',
-    routerLink: APPLICATION_ROUTE_LINKS.tips,
-    activeWhen: MATCHES_ITS_PAGES_BELOW,
-  },
-  {
-    labelTranslationKey: 'nav.register',
-    routerLink: APPLICATION_ROUTE_LINKS.register,
-    activeWhen: MATCHES_ITS_PAGES_BELOW,
-  },
-  {
-    labelTranslationKey: 'nav.login',
-    routerLink: APPLICATION_ROUTE_LINKS.login,
-    activeWhen: MATCHES_ITS_PAGES_BELOW,
-  },
-];
+/**
+ * What a visitor without a session is offered.
+ *
+ * @param links every route's link, in the reader's language
+ * @returns the entries, in display order
+ */
+function anonymousNavigationEntries(links: ApplicationRouteLinks): readonly NavigationEntry[] {
+  return [
+    {
+      labelTranslationKey: 'nav.home',
+      routerLink: links.home,
+      activeWhen: MATCHES_ITS_OWN_PAGE,
+    },
+    {
+      labelTranslationKey: 'nav.download',
+      routerLink: links.download,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
+      labelTranslationKey: 'nav.tips',
+      routerLink: links.tips,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
+      labelTranslationKey: 'nav.register',
+      routerLink: links.register,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
+      labelTranslationKey: 'nav.login',
+      routerLink: links.login,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+  ];
+}
 
-/** What a visitor holding a session is offered. */
-const SIGNED_IN_NAVIGATION_ENTRIES: readonly NavigationEntry[] = [
-  {
-    labelTranslationKey: 'nav.home',
-    routerLink: APPLICATION_ROUTE_LINKS.home,
-    activeWhen: MATCHES_ITS_OWN_PAGE,
-  },
-  {
-    labelTranslationKey: 'nav.download',
-    routerLink: APPLICATION_ROUTE_LINKS.download,
-    activeWhen: MATCHES_ITS_PAGES_BELOW,
-  },
-  {
-    labelTranslationKey: 'nav.tips',
-    routerLink: APPLICATION_ROUTE_LINKS.tips,
-    activeWhen: MATCHES_ITS_PAGES_BELOW,
-  },
-  {
-    labelTranslationKey: 'nav.devices',
-    routerLink: APPLICATION_ROUTE_LINKS.devices,
-    activeWhen: MATCHES_ITS_PAGES_BELOW,
-  },
-  {
-    labelTranslationKey: 'nav.account',
-    routerLink: APPLICATION_ROUTE_LINKS.account,
-    activeWhen: MATCHES_ITS_PAGES_BELOW,
-  },
-];
+/**
+ * What a visitor holding a session is offered.
+ *
+ * @param links every route's link, in the reader's language
+ * @returns the entries, in display order
+ */
+function signedInNavigationEntries(links: ApplicationRouteLinks): readonly NavigationEntry[] {
+  return [
+    {
+      labelTranslationKey: 'nav.home',
+      routerLink: links.home,
+      activeWhen: MATCHES_ITS_OWN_PAGE,
+    },
+    {
+      labelTranslationKey: 'nav.download',
+      routerLink: links.download,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
+      labelTranslationKey: 'nav.tips',
+      routerLink: links.tips,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
+      labelTranslationKey: 'nav.devices',
+      routerLink: links.devices,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
+      labelTranslationKey: 'nav.account',
+      routerLink: links.account,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+  ];
+}

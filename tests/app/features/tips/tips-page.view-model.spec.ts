@@ -35,7 +35,7 @@ describe('TipsPageViewModel', () => {
     viewModel.loadTips();
 
     expect(viewModel.presentedTips()).toEqual([
-      { slug: 'profiles', title: 'Profily', routerLink: '/tips/profiles' },
+      { slug: 'profiles', title: 'Profily', routerLink: '/sk/tips/profiles' },
     ]);
   });
 

@@ -138,9 +138,18 @@ Multi-stage: `node:22.22.1-alpine` builds, `nginxinc/nginx-unprivileged:1.29-alp
   the responses that set `Cache-Control`. They live in `docker/nginx/security-headers.conf` and
   are `include`d into every location that adds a header of its own. Verified by curling each
   location and checking the headers survive.
-- **The SPA fallback is load-bearing for the mailed links.** `/activate?token=…`,
-  `/reset-password?token=…` and `/auth/callback?code=…` are client-side routes with no file
-  behind them; without `try_files $uri $uri/ /index.html` every activation mail leads to a 404.
+- **The browser-only routes are load-bearing for the mailed links.** Public pages are rendered at
+  build time (`outputMode: "static"`, `src/app/app.routes.server.ts`) into `<path>/index.html`;
+  `index.html` is now the *home page*, and the shell for everything else is `index.csr.html`.
+  `location /` answers a missing file with a real 404 (the shell, via `error_page`), so
+  `/activate?token=…`, `/reset-password?token=…`, `/auth/callback?code=…` and every other
+  browser-only route must be listed in the regex location that serves `index.csr.html` with 200.
+  A route missing there still renders, but with status 404.
+- **Pages rendered at build time use `DEFAULT_RUNTIME_CONFIGURATION`**, since `config.json` does
+  not exist until the container starts, and backend calls are refused while rendering
+  (`core/rendering/backend-free-prerendering.interceptor.ts`). Anything a public page shows from
+  the runtime configuration is therefore the default in the HTML a crawler reads, and corrected
+  only once the browser runs. The download page's Chrome Web Store link is the one case so far.
 
 ## What the GitOps values file must set
 

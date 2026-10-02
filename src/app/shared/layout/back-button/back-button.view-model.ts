@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { DOCUMENT, Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route-paths';
+import { LocalizedRouteLinks } from '../../../core/routing/localized-route-links';
 
 /**
  * Where "back" goes.
@@ -21,6 +21,7 @@ import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route
 export class BackButtonViewModel {
   private readonly location = inject(Location);
   private readonly router = inject(Router);
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
   private readonly browserWindow = inject(DOCUMENT).defaultView;
 
   /**
@@ -32,7 +33,7 @@ export class BackButtonViewModel {
       return;
     }
 
-    void this.router.navigateByUrl(APPLICATION_ROUTE_LINKS.home);
+    void this.router.navigateByUrl(this.localizedRouteLinks.links().home);
   }
 
   /**

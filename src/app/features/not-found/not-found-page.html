@@ -3,6 +3,6 @@
     <h1>{{ 'notFound.heading' | translate }}</h1>
     <p>{{ 'notFound.body' | translate }}</p>
     <br>
-    <a [routerLink]="homeLink" class="button">{{ 'notFound.homeAction' | translate }}</a>
+    <a [routerLink]="homeLink()" class="button">{{ 'notFound.homeAction' | translate }}</a>
   </section>
 </article>

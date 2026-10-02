@@ -1,5 +1,6 @@
 import { Injectable, computed, inject } from '@angular/core';
 import { SupportedLanguageCode } from '../../../core/i18n/supported-language';
+import { LanguageSwitchService } from '../../../core/i18n/language-switch.service';
 import { TranslationService } from '../../../core/i18n/translation.service';
 
 /**
@@ -96,6 +97,7 @@ export interface LanguageOption {
 @Injectable()
 export class LanguageSwitcherViewModel {
   private readonly translationService = inject(TranslationService);
+  private readonly languageSwitchService = inject(LanguageSwitchService);
 
   /** Every language on offer, the active one marked. */
   readonly languageOptions = computed<readonly LanguageOption[]>(() =>
@@ -130,6 +132,6 @@ export class LanguageSwitcherViewModel {
    * @param languageCode the language the reader picked
    */
   changeLanguage(languageCode: SupportedLanguageCode): void {
-    void this.translationService.changeLanguage(languageCode);
+    void this.languageSwitchService.switchLanguage(languageCode);
   }
 }

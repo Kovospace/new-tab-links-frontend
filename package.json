@@ -7,9 +7,10 @@
     "tips:index": "node scripts/build-tips-index.mjs",
     "demo:index": "node scripts/build-demo-index.mjs",
     "home-features:index": "node scripts/build-home-features-index.mjs",
-    "prestart": "npm run config:local && npm run tips:index && npm run demo:index && npm run home-features:index",
+    "crawler-files": "node scripts/build-crawler-files.mjs",
+    "prestart": "npm run config:local && npm run tips:index && npm run demo:index && npm run home-features:index && npm run crawler-files",
     "start": "ng serve",
-    "prebuild": "npm run tips:index && npm run demo:index && npm run home-features:index",
+    "prebuild": "npm run tips:index && npm run demo:index && npm run home-features:index && npm run crawler-files",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -22,7 +23,9 @@
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
+    "@angular/platform-server": "^21.2.21",
     "@angular/router": "^21.2.0",
+    "@angular/ssr": "^21.2.21",
     "marked": "^18.0.14",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

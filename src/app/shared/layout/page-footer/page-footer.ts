@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
-import { APPLICATION_ROUTE_LINKS } from '../../../core/routing/application-route-paths';
+import { LocalizedRouteLinks } from '../../../core/routing/localized-route-links';
 import { PageFooterViewModel } from './page-footer.view-model';
 
 /**
@@ -22,5 +22,5 @@ export class PageFooter {
   protected readonly viewModel = inject(PageFooterViewModel);
 
   /** The pages the footer links to. */
-  protected readonly routeLinks = APPLICATION_ROUTE_LINKS;
+  protected readonly routeLinks = inject(LocalizedRouteLinks).links;
 }
