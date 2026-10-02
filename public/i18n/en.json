@@ -455,5 +455,84 @@
     "notFound": "There is no tip at this address.",
     "loadFailed": "This tip could not be loaded. Please try again in a moment.",
     "backToList": "All tips"
+  },
+  "seo": {
+    "titleFormat": "{page} · Tabilinks",
+    "site": {
+      "title": "Tabilinks",
+      "description": "Your bookmarks, links, history and most visited sites on the new tab screen. Your links, on every new tab, on every machine."
+    },
+    "home": {
+      "title": "Your links on every new tab",
+      "description": "Tabilinks turns Chrome's new tab page into your links, grouped the way you work, with bookmarks, history and most visited sites beside them, synced to every machine."
+    },
+    "download": {
+      "title": "Install",
+      "description": "Install the Tabilinks Chrome extension and connect it to your account to get your grouped links on every new tab, on every machine."
+    },
+    "tips": {
+      "title": "Tips",
+      "description": "Tips for getting more out of Tabilinks: the longer story behind the hints the extension shows on your new tab page."
+    },
+    "tip": {
+      "title": "Tip",
+      "description": "A tip for getting more out of Tabilinks."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "What personal data Tabilinks collects, why, how long it is kept and what rights you have over it."
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "description": "The terms under which Tabilinks, its Chrome extension and its premium plans are provided."
+    },
+    "refunds": {
+      "title": "Refund Policy",
+      "description": "When and how a Tabilinks premium purchase can be refunded."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "description": "Which cookies and browser storage Tabilinks uses, and what for."
+    },
+    "sitemap": {
+      "title": "Sitemap",
+      "description": "Every page of the Tabilinks website in one list."
+    },
+    "register": {
+      "title": "Register"
+    },
+    "login": {
+      "title": "Sign in"
+    },
+    "activateAccount": {
+      "title": "Activate your account"
+    },
+    "resetPassword": {
+      "title": "Reset your password"
+    },
+    "oauthCallback": {
+      "title": "Signing you in"
+    },
+    "devices": {
+      "title": "My devices"
+    },
+    "account": {
+      "title": "My account"
+    },
+    "purchaseThankYou": {
+      "title": "Thank you"
+    },
+    "admin": {
+      "title": "Administration"
+    },
+    "adminUsers": {
+      "title": "Accounts · Administration"
+    },
+    "adminMetrics": {
+      "title": "Statistics · Administration"
+    },
+    "notFound": {
+      "title": "Page not found"
+    }
   }
 }

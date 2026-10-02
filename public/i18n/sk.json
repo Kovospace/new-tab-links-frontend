@@ -455,5 +455,84 @@
     "notFound": "Na tejto adrese žiadny tip nie je.",
     "loadFailed": "Tip sa nepodarilo načítať. Skúste to o chvíľu znova.",
     "backToList": "Všetky tipy"
+  },
+  "seo": {
+    "titleFormat": "{page} · Tabilinks",
+    "site": {
+      "title": "Tabilinks",
+      "description": "Vaše záložky, odkazy, história a najnavštevovanejšie stránky na novej karte. Vaše odkazy na každej novej karte, na každom počítači."
+    },
+    "home": {
+      "title": "Vaše odkazy na každej novej karte",
+      "description": "Tabilinks premení novú kartu Chromu na vaše odkazy, zoskupené podľa toho, ako pracujete, so záložkami, históriou a najnavštevovanejšími stránkami, synchronizované na každý počítač."
+    },
+    "download": {
+      "title": "Inštalácia",
+      "description": "Nainštalujte si rozšírenie Tabilinks pre Chrome a prepojte ho so svojím účtom. Vaše zoskupené odkazy budete mať na každej novej karte, na každom počítači."
+    },
+    "tips": {
+      "title": "Tipy",
+      "description": "Tipy, ako z Tabilinks vyťažiť viac: podrobnejšie vysvetlenie rád, ktoré rozšírenie zobrazuje na novej karte."
+    },
+    "tip": {
+      "title": "Tip",
+      "description": "Tip, ako z Tabilinks vyťažiť viac."
+    },
+    "privacy": {
+      "title": "Ochrana osobných údajov",
+      "description": "Aké osobné údaje Tabilinks zbiera, prečo, ako dlho ich uchováva a aké máte práva."
+    },
+    "terms": {
+      "title": "Obchodné podmienky",
+      "description": "Podmienky, za ktorých sa poskytuje Tabilinks, jeho rozšírenie pre Chrome a prémiové plány."
+    },
+    "refunds": {
+      "title": "Vrátenie peňazí",
+      "description": "Kedy a ako je možné vrátiť peniaze za prémiový nákup Tabilinks."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "description": "Aké cookies a úložisko prehliadača Tabilinks používa a na čo."
+    },
+    "sitemap": {
+      "title": "Mapa stránok",
+      "description": "Všetky stránky webu Tabilinks v jednom zozname."
+    },
+    "register": {
+      "title": "Registrácia"
+    },
+    "login": {
+      "title": "Prihlásenie"
+    },
+    "activateAccount": {
+      "title": "Aktivácia účtu"
+    },
+    "resetPassword": {
+      "title": "Obnovenie hesla"
+    },
+    "oauthCallback": {
+      "title": "Prihlasujeme vás"
+    },
+    "devices": {
+      "title": "Moje zariadenia"
+    },
+    "account": {
+      "title": "Môj účet"
+    },
+    "purchaseThankYou": {
+      "title": "Ďakujeme"
+    },
+    "admin": {
+      "title": "Administrácia"
+    },
+    "adminUsers": {
+      "title": "Účty · Administrácia"
+    },
+    "adminMetrics": {
+      "title": "Štatistiky · Administrácia"
+    },
+    "notFound": {
+      "title": "Stránka sa nenašla"
+    }
   }
 }

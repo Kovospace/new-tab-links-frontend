@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { requiresAdminSession } from './core/admin/admin.guard';
 import { requiresAnonymousVisitor, requiresSignedInUser } from './core/auth/authentication.guards';
 import { APPLICATION_ROUTE_PATHS } from './core/routing/application-route-paths';
+import { PageMetadataRouteData, pageMetadataFor } from './core/seo/page-metadata';
 import { LegalTextRouteData } from './features/legal/legal-text-page.view-model';
 
 /**
@@ -17,26 +18,31 @@ import { LegalTextRouteData } from './features/legal/legal-text-page.view-model'
 export const routes: Routes = [
   {
     path: APPLICATION_ROUTE_PATHS.home,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.home, 'seo.home'),
     loadComponent: () => import('./features/home/home-page').then((module) => module.HomePage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.download,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.download, 'seo.download'),
     loadComponent: () =>
       import('./features/download/download-page').then((module) => module.DownloadPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.register,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.register, 'seo.register'),
     canActivate: [requiresAnonymousVisitor],
     loadComponent: () =>
       import('./features/register/register-page').then((module) => module.RegisterPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.login,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.login, 'seo.login'),
     canActivate: [requiresAnonymousVisitor],
     loadComponent: () => import('./features/login/login-page').then((module) => module.LoginPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.activateAccount,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.activateAccount, 'seo.activateAccount'),
     loadComponent: () =>
       import('./features/activate-account/activate-account-page').then(
         (module) => module.ActivateAccountPage,
@@ -44,6 +50,7 @@ export const routes: Routes = [
   },
   {
     path: APPLICATION_ROUTE_PATHS.resetPassword,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.resetPassword, 'seo.resetPassword'),
     loadComponent: () =>
       import('./features/reset-password/reset-password-page').then(
         (module) => module.ResetPasswordPage,
@@ -51,6 +58,7 @@ export const routes: Routes = [
   },
   {
     path: APPLICATION_ROUTE_PATHS.oauthCallback,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.oauthCallback, 'seo.oauthCallback'),
     loadComponent: () =>
       import('./features/oauth-callback/oauth-callback-page').then(
         (module) => module.OauthCallbackPage,
@@ -58,12 +66,14 @@ export const routes: Routes = [
   },
   {
     path: APPLICATION_ROUTE_PATHS.devices,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.devices, 'seo.devices'),
     canActivate: [requiresSignedInUser],
     loadComponent: () =>
       import('./features/devices/devices-page').then((module) => module.DevicesPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.account,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.account, 'seo.account'),
     canActivate: [requiresSignedInUser],
     loadComponent: () =>
       import('./features/account/account-page').then((module) => module.AccountPage),
@@ -72,6 +82,7 @@ export const routes: Routes = [
     // No guard: a buyer whose session ran out while paying still deserves the thanks, and is
     // offered the sign-in from the page rather than bounced off it.
     path: APPLICATION_ROUTE_PATHS.purchaseThankYou,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.purchaseThankYou, 'seo.purchaseThankYou'),
     loadComponent: () =>
       import('./features/purchase-thank-you/purchase-thank-you-page').then(
         (module) => module.PurchaseThankYouPage,
@@ -79,33 +90,47 @@ export const routes: Routes = [
   },
   {
     path: APPLICATION_ROUTE_PATHS.tips,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.tips, 'seo.tips'),
     loadComponent: () => import('./features/tips/tips-page').then((module) => module.TipsPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.tip,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.tip, 'seo.tip'),
     loadComponent: () => import('./features/tips/tip-page').then((module) => module.TipPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.privacy,
-    data: { legalDocumentName: 'privacy' } satisfies LegalTextRouteData,
+    data: {
+      legalDocumentName: 'privacy',
+      ...pageMetadataFor(APPLICATION_ROUTE_PATHS.privacy, 'seo.privacy'),
+    } satisfies LegalTextRouteData & PageMetadataRouteData,
     loadComponent: () =>
       import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.terms,
-    data: { legalDocumentName: 'terms' } satisfies LegalTextRouteData,
+    data: {
+      legalDocumentName: 'terms',
+      ...pageMetadataFor(APPLICATION_ROUTE_PATHS.terms, 'seo.terms'),
+    } satisfies LegalTextRouteData & PageMetadataRouteData,
     loadComponent: () =>
       import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.refunds,
-    data: { legalDocumentName: 'refunds' } satisfies LegalTextRouteData,
+    data: {
+      legalDocumentName: 'refunds',
+      ...pageMetadataFor(APPLICATION_ROUTE_PATHS.refunds, 'seo.refunds'),
+    } satisfies LegalTextRouteData & PageMetadataRouteData,
     loadComponent: () =>
       import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.cookies,
-    data: { legalDocumentName: 'cookies' } satisfies LegalTextRouteData,
+    data: {
+      legalDocumentName: 'cookies',
+      ...pageMetadataFor(APPLICATION_ROUTE_PATHS.cookies, 'seo.cookies'),
+    } satisfies LegalTextRouteData & PageMetadataRouteData,
     loadComponent: () =>
       import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
   },
@@ -113,28 +138,33 @@ export const routes: Routes = [
     // The operator's own pages. Guarded here so an expired session meets the sign-in form rather
     // than a page of failed requests; the backend is what actually refuses the calls.
     path: APPLICATION_ROUTE_PATHS.admin,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.admin, 'seo.admin'),
     loadComponent: () =>
       import('./features/admin/admin-login-page').then((module) => module.AdminLoginPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.adminUsers,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.adminUsers, 'seo.adminUsers'),
     canActivate: [requiresAdminSession],
     loadComponent: () =>
       import('./features/admin/admin-users-page').then((module) => module.AdminUsersPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.adminMetrics,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.adminMetrics, 'seo.adminMetrics'),
     canActivate: [requiresAdminSession],
     loadComponent: () =>
       import('./features/admin/admin-metrics-page').then((module) => module.AdminMetricsPage),
   },
   {
     path: APPLICATION_ROUTE_PATHS.sitemap,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.sitemap, 'seo.sitemap'),
     loadComponent: () =>
       import('./features/legal/sitemap-page').then((module) => module.SitemapPage),
   },
   {
     path: '**',
+    data: pageMetadataFor('**', 'seo.notFound'),
     loadComponent: () =>
       import('./features/not-found/not-found-page').then((module) => module.NotFoundPage),
   },
