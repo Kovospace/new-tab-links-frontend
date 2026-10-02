@@ -42,6 +42,7 @@ Keep it current: a new folder under `core/` or `shared/`, or a new concern, adds
 | Header, footer, language switcher, back button | `shared/layout/*` |
 | Providers, translations loaded before first render | `app.config.ts` |
 | nginx, caching, security headers | `docker/nginx/` |
+| Search engines and link previews: the public origin and indexable route paths (JSON so the build script reads it too), `robots.txt` and `sitemap.xml` generated at build (output gitignored), the site-wide OG tags and share image | `core/seo/public-site.{json,ts}`; `scripts/build-crawler-files.mjs`; `src/index.html`; `public/images/share/` |
 | Ad slot the extension frames (static, not a route; posts `tabilinks-ad-slot-ready`) | `public/slot/workspace-footer.html`; its frameable headers in `docker/nginx/default.conf` (`location ^~ /slot/`) |
 
 ## Files big enough to read by range

@@ -24,13 +24,15 @@ CLAUDE.md
 *.md
 
 # The local development stack: no use inside the image. scripts/ stays out too,
-# except the tips, demo and home features indexes the build's prebuild hook runs.
+# except the tips, demo and home features indexes and the crawler files the build's prebuild
+# hook runs.
 docker-compose.yml
 proxy.conf.json
 scripts/*
 !scripts/build-tips-index.mjs
 !scripts/build-demo-index.mjs
 !scripts/build-home-features-index.mjs
+!scripts/build-crawler-files.mjs
 
 # A developer's generated runtime configuration. The entrypoint writes the real
 # one at container start and nginx serves that through an alias, so a copy baked
