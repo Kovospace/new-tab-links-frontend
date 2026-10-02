@@ -1,1 +1,0 @@
-# Test tip 2
