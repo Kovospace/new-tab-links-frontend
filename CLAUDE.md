@@ -130,10 +130,10 @@ Decided (verified 2026-08-24):
 | Framework | **Angular 21.2 LTS**, standalone components, signals, zoneless |
 | Language | **TypeScript 5.9**, `strict` on |
 | Styling | **SCSS**, one file per component, hand-written and partial (see above) |
-| Routing | `@angular/router`, every route lazy |
-| HTTP | `provideHttpClient` with one functional interceptor |
+| Routing | `@angular/router`, every route lazy; public pages have an address per language (`/sk/...`) |
+| HTTP | `provideHttpClient(withFetch())` with two functional interceptors (auth; no backend calls while pre-rendering) |
 | i18n | Home-grown, JSON files in `public/i18n/`, English and Slovak |
-| Build | `@angular/build:application` (esbuild) |
+| Build | `@angular/build:application` (esbuild); public pages pre-rendered at build time (`outputMode: "static"`) |
 | Tests | **Vitest** via `ng test`, jsdom |
 | Formatting | Prettier, 100 cols, single quotes (`.prettierrc`) |
 

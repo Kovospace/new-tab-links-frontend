@@ -58,8 +58,11 @@ COPY scripts ./scripts
 
 
 ### Production build. Emits dist/new-tab-links-frontend/browser - hashed bundles,
-### index.html, and everything copied verbatim from public/ including the
-### translation files.
+### every public page rendered to <path>/index.html in every language (see
+### src/app/app.routes.server.ts), index.csr.html for the pages rendered only in
+### the browser, and everything copied verbatim from public/ including the
+### translation files. Rendering runs Node here, in the build stage only; the
+### runtime stage still serves plain files.
 #
 RUN npm run build
 
