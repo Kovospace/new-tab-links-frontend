@@ -2,12 +2,12 @@
 
 Ctrl+D normally adds the page to Chrome's own bookmarks. You can make it save the page into Tabilinks instead.
 
-Chrome does not let an extension pick its own keyboard shortcut, so you set it yourself, once:
+Open the application menu (three dots, top right) → Settings → "UI and behavior", and click "Change in Chrome…" next to "Shortcut to save a page". Then press Ctrl+D in the Tabilinks field.
 
-1. Open Chrome's shortcuts page. In the extension it is one click away: Settings → "UI and behavior" → "Shortcut to save a page" → "Change in Chrome…". You can also type `chrome://extensions/shortcuts` into the address bar - a website cannot link to it.
-2. Find Tabilinks and its "Bookmark the current page" entry.
-3. Click the pencil next to the field and press Ctrl+D.
+## Why it takes a trip to Chrome
 
-From now on, Ctrl+D opens the small Tabilinks form over the page you are on: pick a group and the page is saved. Chrome's bookmark star still works when you click it.
+Chrome does not let an extension choose or change its own keyboard shortcuts - only you can, and only on Chrome's own shortcuts page. That keeps any extension from quietly taking over keys you already rely on. So Tabilinks takes you to that page; the choice is yours.
 
-The same page lets you pick any other combination instead - the extension comes with Alt+Shift+D. If a combination is refused there, Chrome keeps it for itself or another extension already uses it; choose a different one.
+## Getting there through Chrome's menus
+
+Chrome menu (three dots, top right) → Extensions → Manage Extensions → "Keyboard shortcuts" in the left-hand menu.
