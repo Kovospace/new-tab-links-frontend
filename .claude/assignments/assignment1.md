@@ -12,7 +12,7 @@ Connected projects:
   - repo: https://github.com/Kovospace/new-tab-links-backend
 - chrome extension:
   - local: /home/kovo/IdeaProjects/NewTabGroupedLinks
-  - repo: https://github.com/K0V0/NewTabGroupedLinks
+  - repo: https://github.com/K0V0/new-tab-links-extension
 
 ## Project basics
 

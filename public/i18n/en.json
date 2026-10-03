@@ -10,9 +10,9 @@
   },
   "site": {
     "title": "Tabilinks",
-    "motto": "Your bookmarks, links, history & most visited on the new tab screen.",
+    "motto": "Your bookmarks, history & favorite pages immediately on the new tab screen.",
     "motto2": "Finally useful use of new tab page",
-    "tagline": "Your links, on every new tab, on every machine."
+    "tagline": "All Your links and history, synchronized on every new tab, on every machine and on every browser You are using. Nothing get lost, You have everything with You."
   },
   "nav": {
     "home": "Home",
@@ -41,7 +41,7 @@
   },
   "home": {
     "heading": "A new tab that finally does something useful",
-    "leadParagraph": "NewTabGroupedLinks replaces the empty new tab page with the links you actually open, arranged into groups of your own, alongside your history, your most-opened links and other configurable widgets and mini-apps.",
+    "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, arranged into workspaces and groups of your own, alongside your closed tabs history.",
     "featuresHeading": "What it does",
     "callToAction": "Get the extension",
     "downloads": {
@@ -75,7 +75,7 @@
     },
     "demo": {
       "slideshowLabel": "Screenshots of the extension",
-      "slideAlternativeText": "Screenshot {number} of {count} of the NewTabGroupedLinks new tab page",
+      "slideAlternativeText": "Screenshot {number} of {count} of the Tabilinks new tab page",
       "showSlide": "Show screenshot {number} of {count}"
     }
   },

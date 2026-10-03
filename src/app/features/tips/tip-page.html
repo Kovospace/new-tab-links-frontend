@@ -4,7 +4,7 @@
   } @else if (viewModel.failureMessage()) {
     <p role="alert">{{ viewModel.failureMessage() }}</p>
   } @else {
-    <div [innerHTML]="viewModel.renderedHtml()"></div>
+    <app-rendered-markdown [html]="viewModel.renderedHtml()" />
   }
 
   <a [routerLink]="viewModel.tipsListLink()" class="button">{{ 'tips.backToList' | translate }}</a>

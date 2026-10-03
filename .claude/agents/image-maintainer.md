@@ -27,6 +27,8 @@ beyond images and their references, stop and say so — that is the `developer` 
 2. **Convert.** `node .claude/tools/image-maintenance.mjs convert [file…]` — no files means every
    candidate. Per image it tries lossless and lossy q85 WebP, keeps the smaller, deletes the
    original, then rewrites references whose every target is now WebP, and re-runs the check.
+   A `<name>_3x.png` (or `_2x`) is a high-density original: `convert` first derives the missing
+   lower densities from it (`_1x`, `_2x`), so all of them come out as WebP.
 3. **Look at what lossy encoding did** to text-heavy screenshots: Read one or two of the files
    it reports as `lossy` and confirm the UI text is still crisp. If one is visibly smeared,
    re-encode that file lossless by hand —
@@ -68,8 +70,10 @@ Only report, never act on:
 `public/images/share/` (link previews; several crawlers still refuse WebP), favicons,
 `apple-touch-icon.png`, `public/flags/`. GIFs are left alone (they may be animated).
 
-The demo slides (`images/<language>/demo/`) are listed by `scripts/build-demo-index.mjs`, which
-already accepts `.webp`, so they have no references to rewrite.
+The demo slides (`images/<language>/demo/`) are listed by `scripts/build-demo-index.mjs`, so they
+have no references to rewrite. Each slide is `<n>_1x.webp` (1280x800), `<n>_2x.webp` and
+`<n>_3x.webp`; the owner drops in `<n>_3x.png` (3840x2400) and `convert` makes the rest. Check the
+`_1x` files come out 1280x800 (`magick identify`) and report any that do not.
 
 ## Report
 

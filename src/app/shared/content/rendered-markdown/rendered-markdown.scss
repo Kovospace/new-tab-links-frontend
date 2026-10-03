@@ -1,0 +1,89 @@
+// Not encapsulated (see RenderedMarkdown): these rules are global, so every one of them must stay
+// under .rendered-markdown - that class is all that keeps them from styling the rest of the site.
+//
+// A page adjusts the look by setting these on an element of its own template, never by writing
+// rules for the markdown's elements (its scoped rules cannot reach them):
+//
+//   --markdown-heading-1-offset    space above an <h1>                    0
+//   --markdown-heading-2-offset    space above an <h2>                    0
+//   --markdown-link-offset         margin-top of a link                   1.5em
+//   --markdown-list-indent         how far a list is indented             2em
+//   --markdown-list-spacing        space above and below a list           1em
+//   --markdown-item-spacing        space between two list items           0.25em
+//   --markdown-bullet              marker of a bulleted list              circle
+//   --markdown-numbering           marker of a numbered list              decimal
+//   --markdown-table-spacing       space below a table                    0.75em
+//   --markdown-table-cell-padding  padding of a table cell                0.5em 0.75em
+//
+// The defaults are what the tip page looked like before this file existed. Add a property here
+// when a page needs to differ in something not listed, with today's value as its default.
+
+.rendered-markdown {
+  display: block;
+
+  h1 {
+    margin-top: var(--markdown-heading-1-offset, 0);
+  }
+
+  h2 {
+    margin-top: var(--markdown-heading-2-offset, 0);
+  }
+
+  a {
+    margin-top: var(--markdown-link-offset, 1.5em);
+    display: inline-block;
+    padding: 0.125em 0.25em;
+    background-color: var(--color-accent);
+    border-radius: 0.25em;
+    transition: background-color var(--duration-fast) var(--easing-standard);
+
+    &:hover {
+      //text-decoration: underline;
+      background-color: var(--color-accent-hover);
+    }
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  ol,
+  ul {
+    margin-left: var(--markdown-list-indent, 2em);
+    margin-block: var(--markdown-list-spacing, 1em);
+  }
+
+  // The marker is drawn by each <li> from its own list-style, not by the list. reset.scss sets
+  // list-style: none on every element directly, and a value set on the <li> itself always beats
+  // one it would inherit from the <ol>/<ul> - so the style goes on the items. The child combinator
+  // keeps a bulleted list nested in a numbered one bulleted.
+  ol > li {
+    list-style: var(--markdown-numbering, decimal) outside;
+  }
+
+  ul > li {
+    list-style: var(--markdown-bullet, circle) outside;
+  }
+
+  li + li {
+    margin-top: var(--markdown-item-spacing, 0.25em);
+  }
+
+  table {
+    margin-bottom: var(--markdown-table-spacing, 0.75em);
+  }
+
+  thead {
+    background-color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  th,
+  td {
+    padding: var(--markdown-table-cell-padding, 0.5em 0.75em);
+  }
+
+  tbody tr:nth-child(2n) {
+    background-color: var(--color-panel);
+  }
+}

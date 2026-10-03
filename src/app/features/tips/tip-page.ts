@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { RenderedMarkdown } from '../../shared/content/rendered-markdown/rendered-markdown';
 import { TipPageViewModel } from './tip-page.view-model';
 
 /**
@@ -8,21 +9,16 @@ import { TipPageViewModel } from './tip-page.view-model';
  *
  * <p>Nothing to start by hand: the view-model follows the address and the language on its own.</p>
  *
- * <p><strong>Its styles are not encapsulated, on purpose.</strong> Angular scopes a component's
- * rules by stamping an attribute on every element of its template and adding it to every selector
- * — and the tip's own HTML arrives through {@code [innerHTML]}, which never gets the stamp. A rule
- * for {@code .tip ol} would compile to {@code .tip[_ngcontent-…] ol[_ngcontent-…]} and match
- * nothing the markdown produced. So the stylesheet is global, and every rule in it must stay
- * nested under {@code .tip}, the one class that keeps it from styling the rest of the site.</p>
+ * <p>How the tip's own HTML looks is {@link RenderedMarkdown}'s; this page only adjusts it through
+ * the {@code --markdown-*} custom properties, should it ever need to differ.</p>
  */
 @Component({
   selector: 'app-tip-page',
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink, TranslatePipe, RenderedMarkdown],
   providers: [TipPageViewModel],
   templateUrl: './tip-page.html',
   styleUrl: './tip-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class TipPage {
   /** State of the tip page. */

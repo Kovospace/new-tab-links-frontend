@@ -1,49 +1,10 @@
-// Styling is deliberately left to be written by hand; these are the hooks to write it against.
+// The document's markdown is styled by RenderedMarkdown; a difference for this page belongs in a
+// --markdown-* property set on .legal_page, not in a rule for the markdown's elements.
 .legal_page {
+  --markdown-heading-1-offset: 1em;
+  --markdown-heading-2-offset: 2em;
 
   section {
     padding-top: 0;
-  }
-}
-
-.legal_page strong {
-  font-weight: bold;
-}
-
-.legal_page h1 {
-  margin-top: 1em;
-}
-
-
-.legal_page h2 {
-  margin-top: 2em;
-}
-
-.legal_page table {
-  margin-bottom: 0.75em;
-
-  thead {
-    background-color: var(--color-accent);
-    font-weight: bold;
-
-    tr {
-      th {
-        padding: 0.5em 0.75em;
-        //border-bottom: 0.75em solid transparent;
-      }
-    }
-  }
-
-  tbody {
-
-    tr {
-      &:nth-child(2n) {
-        background-color: var(--color-panel);
-      }
-
-      td {
-        padding: 0.5em 0.75em;
-      }
-    }
   }
 }

@@ -28,7 +28,10 @@ describe('DemoSlideshowViewModel', () => {
   beforeEach(() => {
     vi.useFakeTimers();
     currentLanguageCode.set('en');
-    demoSlidesIndex = { en: ['3.png', '3.png', '3.png'], sk: ['3.png', '3.png', '3.png'] };
+    demoSlidesIndex = {
+      en: [{ '1': '1.webp' }, { '1': '2.webp' }, { '1': '3.webp' }],
+      sk: [{ '1': '1.webp' }, { '1': '2.webp' }, { '1': '3.webp' }],
+    };
     TestBed.configureTestingModule({
       providers: [
         DemoSlideshowViewModel,
@@ -64,9 +67,9 @@ describe('DemoSlideshowViewModel', () => {
     viewModel.startSlideshow();
 
     expect(viewModel.presentedSlides().map((slide) => slide.imageUrl)).toEqual([
-      'images/sk/demo/3.png',
-      'images/sk/demo/3.png',
-      'images/sk/demo/3.png',
+      'images/sk/demo/1.webp',
+      'images/sk/demo/2.webp',
+      'images/sk/demo/3.webp',
     ]);
     expect(activeSlidePositions()).toEqual([0]);
     expect(viewModel.trackTransform()).toBe('translateX(0%)');
@@ -74,6 +77,18 @@ describe('DemoSlideshowViewModel', () => {
     expect(
       viewModel.presentedSlides().map((slide) => slide.isHiddenFromAssistiveTechnology),
     ).toEqual([false, true, true]);
+  });
+
+  it('offers every density by its width, the 1280-pixel file as the plain source', () => {
+    demoSlidesIndex = { en: [{ '3': '1_3x.webp', '1': '1_1x.webp', '2': '1_2x.webp' }] };
+    viewModel.startSlideshow();
+
+    const [presentedSlide] = viewModel.presentedSlides();
+    expect(presentedSlide.imageUrl).toBe('images/en/demo/1_1x.webp');
+    expect(presentedSlide.imageSourceSet).toBe(
+      'images/en/demo/1_1x.webp 1280w, images/en/demo/1_2x.webp 2560w, images/en/demo/1_3x.webp 3840w',
+    );
+    expect(presentedSlide.imageSizes).toBe('(min-width: 1440px) 1280px, 100vw');
   });
 
   it('moves to the next screenshot every ten seconds, and back to the first after the last', () => {
@@ -105,15 +120,15 @@ describe('DemoSlideshowViewModel', () => {
   });
 
   it('shows the English screenshots for a language that has none yet', () => {
-    demoSlidesIndex = { en: ['3.png', '3.png'] };
+    demoSlidesIndex = { en: [{ '1': '1.webp' }, { '1': '2.webp' }] };
     currentLanguageCode.set('sk');
     viewModel.startSlideshow();
 
-    expect(viewModel.presentedSlides()[0].imageUrl).toBe('images/en/demo/3.png');
+    expect(viewModel.presentedSlides()[0].imageUrl).toBe('images/en/demo/1.webp');
   });
 
   it('offers no dots for a single screenshot, and nothing at all when the list fails', () => {
-    demoSlidesIndex = { en: ['3.png'] };
+    demoSlidesIndex = { en: [{ '1': '1.webp' }] };
     viewModel.startSlideshow();
     expect(viewModel.hasSeveralSlides()).toBe(false);
 

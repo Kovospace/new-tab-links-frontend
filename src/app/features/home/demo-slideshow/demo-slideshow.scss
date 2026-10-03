@@ -5,6 +5,14 @@
 // The screenshots are meant to share one aspect ratio. One that does not is shown whole and
 // centred in a frame as tall as the tallest, rather than cropped.
 //
+// A slide is 1280x800 where the page has room for it: the frame's border is drawn outside that
+// width rather than eating into it, so the image is shown at exactly its 1x size. Narrower, it
+// scales down and keeps 16:10.
+//
+// The dots are sized from the frame's width (container query units), not from the text: at 1280
+// pixels they are as large as before, and on a phone, where the slide is a third as wide, they
+// shrink with it instead of covering it — down to a floor that still reads as a dot.
+//
 // Timed from --duration-slow, so the reduced-motion block in design-tokens.scss turns the slide
 // into an instant switch without this file asking.
 
@@ -14,8 +22,10 @@
   margin: 0 auto;
   border: 0.25em solid var(--color-accent);
   border-radius: 1em;
+  container-type: inline-size;
 
   @media screen and (min-width: 1440px) {
+    box-sizing: content-box;
     width: 1280px;
   }
 }
@@ -31,21 +41,25 @@
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 16 / 10;
   object-fit: contain;
 }
 
 .demo-slideshow__dots {
+  // 1.75rem on a 1280-pixel frame (2.2% of its width), never under 0.5rem.
+  --demo-slideshow-dot-size: clamp(0.5rem, 2.2cqi, 1.75rem);
+
   position: absolute;
-  bottom: 1em;
+  bottom: calc(var(--demo-slideshow-dot-size) * 0.6);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.5em;
+  gap: calc(var(--demo-slideshow-dot-size) * 0.3);
 }
 
 .demo-slideshow__dot {
-  width: 1.75em;
-  height: 1.75em;
+  width: var(--demo-slideshow-dot-size);
+  height: var(--demo-slideshow-dot-size);
   border-radius: 50%;
   cursor: pointer;
   background-color: var(--color-ui-element);
@@ -53,7 +67,7 @@
     background-color var(--duration-fast) var(--easing-standard),
     transform var(--duration-fast) var(--easing-standard);
   aspect-ratio: 1 / 1;
-  border: 0.25em solid var(--color-background);
+  border: calc(var(--demo-slideshow-dot-size) / 7) solid var(--color-background);
 
   &:hover {
     background-color: var(--color-ui-element-hover);

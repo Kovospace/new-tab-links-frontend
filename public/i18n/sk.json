@@ -10,9 +10,9 @@
   },
   "site": {
     "title": "Tabilinks",
-    "motto": "Vaše záložky, linky, história a obľúbené stránky na novej karte.",
+    "motto": "Záložky, história a obľúbené stránky ihneď na novej karte.",
     "motto2": "Konečne užitočne využitý priestor novej karty.",
-    "tagline": "Vaše odkazy na každej novej karte, na každom počítači."
+    "tagline": "Všetky Vaše odkazy a história na každej novej karte, synchronizované na každom počítači a na každom prehliadači ktorý používate. Nič sa nestratí, všetko máte so sebou."
   },
   "nav": {
     "home": "Domov",
@@ -41,7 +41,7 @@
   },
   "home": {
     "heading": "Nová karta, ktorá konečne k niečomu je",
-    "leadParagraph": "NewTabGroupedLinks nahradí prázdnu novú kartu odkazmi, ktoré naozaj otvárate, usporiadanými do skupín podľa Vás, s históriou a najčastejšie otváranými odkazmi a inými konfigurovateľnými widgetmi a miniaplikáciami.",
+    "leadParagraph": "Tabilinks nahradí prázdnu nevyužívanú novú kartu odkazmi, ktoré naozaj otvárate a používate, usporiadanými do pracovných priestorov a skupín podľa Vás. Zaznamená taktiež históriu zavretých kariet.",
     "featuresHeading": "Čo to vie",
     "callToAction": "Získať rozšírenie",
     "downloads": {
@@ -75,7 +75,7 @@
     },
     "demo": {
       "slideshowLabel": "Snímky obrazovky rozšírenia",
-      "slideAlternativeText": "Snímka {number} z {count} novej karty NewTabGroupedLinks",
+      "slideAlternativeText": "Snímka {number} z {count} novej karty Tabilinks",
       "showSlide": "Zobraziť snímku {number} z {count}"
     }
   },
