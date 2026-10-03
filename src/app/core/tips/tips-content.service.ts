@@ -8,7 +8,7 @@ import {
 import { SupportedLanguageCode } from '../i18n/supported-language';
 
 /** Where the tips' markdown and its generated index are served from; they ship in {@code public/content/tips}. */
-const TIPS_CONTENT_ROOT = '/content/tips';
+export const TIPS_CONTENT_ROOT = '/content/tips';
 
 /** One tip as the list names it. */
 export interface TipSummary {

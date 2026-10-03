@@ -62,6 +62,7 @@ export class LegalDocumentsService {
           renderSiteMarkdown(fillLegalDocumentPlaceholders(loaded.markdown), {
             languageCode: loaded.languageCode,
             imageFolder: LEGAL_IMAGE_FOLDER,
+            markdownFolder: `${LEGAL_CONTENT_ROOT}/${loaded.languageCode}`,
           }),
         ),
       );

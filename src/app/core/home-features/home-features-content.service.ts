@@ -92,6 +92,7 @@ export class HomeFeaturesContentService {
           html: renderSiteMarkdown(loaded.markdown, {
             languageCode: loaded.languageCode,
             imageFolder: `${HOME_FEATURES_IMAGE_FOLDER}/${feature.slug}`,
+            markdownFolder: `${HOME_FEATURES_CONTENT_ROOT}/${loaded.languageCode}`,
             headingLevelOffset: 1,
           }),
         })),
