@@ -1,0 +1,107 @@
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="-9.5 0.5 941.5 391.5" role="img" aria-labelledby="title">
+  <title id="title">Without Tabilinks, many clicks and lots of time; with Tabilinks, one click</title>
+  <defs>
+    <!-- Mouse pointer, tip at 0,0. -->
+    <path id="pointer" d="M0 0 V26 L7 20 L12 31 L17 29 L12 18 H21 Z"
+          stroke-linejoin="round" stroke-width="2.5"/>
+    <!-- Click burst around the pointer's tip. -->
+    <g id="burst" stroke-width="3" stroke-linecap="round" fill="none">
+      <line x1="-6" y1="-6" x2="-14" y2="-14"/>
+      <line x1="0" y1="-8" x2="0" y2="-19"/>
+      <line x1="6" y1="-6" x2="14" y2="-14"/>
+      <line x1="-8" y1="0" x2="-19" y2="0"/>
+    </g>
+    <!-- Clock face, centred on 0,0, radius 64; the elapsed sector is drawn per use, then the ticks over it. -->
+    <g id="clock-face" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none">
+      <circle r="64" fill="#000"/>
+    </g>
+    <g id="clock-ticks" stroke="#fff" stroke-width="4" stroke-linecap="round">
+      <line y1="-64" y2="-52"/><line x1="64" x2="52"/><line y1="64" y2="52"/><line x1="-64" x2="-52"/>
+    </g>
+  </defs>
+
+  <!-- ===== Without: a long, winding hunt ===== -->
+  <g>
+    <rect x="20" y="30" width="370" height="280" rx="18" fill="#111" stroke="#666" stroke-width="4"/>
+    <line x1="20" y1="80" x2="390" y2="80" stroke="#666" stroke-width="4"/>
+    <circle cx="48" cy="55" r="9" fill="none" stroke="#666" stroke-width="4"/>
+    <rect x="70" y="44" width="220" height="22" rx="11" fill="none" stroke="#666" stroke-width="4"/>
+    <rect x="305" y="44" width="62" height="22" rx="11" fill="none" stroke="#666" stroke-width="4"/>
+
+    <!-- the cursor's trail, wandering between clicks -->
+    <path d="M70 130 C140 110 170 150 220 130 S300 100 330 140 C350 180 250 170 210 210
+             C170 250 110 190 80 240 C70 270 150 280 180 250"
+          fill="none" stroke="#666" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+
+    <g fill="#fff" stroke="#000">
+      <use href="#pointer" x="70" y="130"/>
+      <use href="#pointer" x="220" y="130"/>
+      <use href="#pointer" x="330" y="140"/>
+      <use href="#pointer" x="210" y="210"/>
+      <use href="#pointer" x="80" y="240"/>
+    </g>
+    <g stroke="#bbb">
+      <use href="#burst" x="70" y="130"/>
+      <use href="#burst" x="220" y="130"/>
+      <use href="#burst" x="330" y="140"/>
+      <use href="#burst" x="210" y="210"/>
+      <use href="#burst" x="80" y="240"/>
+    </g>
+
+    <!-- crossed out -->
+    <g stroke="#FF2D32" stroke-width="7" stroke-linecap="round">
+      <line x1="10" y1="20" x2="400" y2="320"/>
+      <line x1="400" y1="20" x2="10" y2="320"/>
+    </g>
+
+    <!-- a lot of time gone: 150 degrees -->
+    <g transform="translate(390 310)">
+      <use href="#clock-face"/>
+      <path d="M0 0 V-64 A64 64 0 0 1 32 55.4 Z" fill="#FF2D32" opacity="0.85"/>
+      <g stroke="#fff" stroke-width="4" stroke-linecap="round">
+        <line y2="-64"/><line x2="32" y2="55.4"/>
+      </g>
+      <use href="#clock-ticks"/>
+      <circle r="5" fill="#fff"/>
+    </g>
+  </g>
+
+  <!-- ===== With: new tab, one click ===== -->
+  <g>
+    <rect x="480" y="30" width="370" height="280" rx="18" fill="#111" stroke="#666" stroke-width="4"/>
+    <line x1="480" y1="80" x2="850" y2="80" stroke="#666" stroke-width="4"/>
+    <circle cx="508" cy="55" r="9" fill="none" stroke="#666" stroke-width="4"/>
+    <rect x="530" y="44" width="220" height="22" rx="11" fill="none" stroke="#666" stroke-width="4"/>
+    <rect x="765" y="44" width="62" height="22" rx="11" fill="none" stroke="#666" stroke-width="4"/>
+
+    <!-- the new tab button -->
+    <path d="M510 205 H535 Q545 205 545 195 V175 Q545 160 560 160 H600 Q615 160 615 175 V195 Q615 205 625 205 H650"
+          fill="none" stroke="#666" stroke-width="4" stroke-linejoin="round"/>
+    <line x1="510" y1="220" x2="650" y2="220" stroke="#666" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="580" cy="183" r="16" fill="#004fff"/>
+    <g stroke="#fff" stroke-width="4" stroke-linecap="round">
+      <line x1="572" y1="183" x2="588" y2="183"/><line x1="580" y1="175" x2="580" y2="191"/>
+    </g>
+
+    <!-- arrow -->
+    <g stroke="#4a82ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <line x1="665" y1="183" x2="720" y2="183"/>
+      <polyline points="708,172 721,183 708,194"/>
+    </g>
+
+    <!-- the one click -->
+    <use href="#pointer" x="760" y="170" fill="#fff" stroke="#000"/>
+    <use href="#burst" x="760" y="170" stroke="#4a82ff"/>
+
+    <!-- a moment: 30 degrees -->
+    <g transform="translate(850 310)">
+      <use href="#clock-face"/>
+      <path d="M0 0 V-64 A64 64 0 0 1 32 -55.4 Z" fill="#009d15"/>
+      <g stroke="#fff" stroke-width="4" stroke-linecap="round">
+        <line y2="-64"/><line x2="32" y2="-55.4"/>
+      </g>
+      <use href="#clock-ticks"/>
+      <circle r="5" fill="#fff"/>
+    </g>
+  </g>
+</svg>

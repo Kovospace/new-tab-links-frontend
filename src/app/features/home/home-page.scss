@@ -13,7 +13,7 @@
 }
 
 .home-page__feature {
-  margin-top: 4em;
+  margin-top: 5em;
   // Inherited by the point's paragraphs, which this component's scoped rules cannot reach. How
   // the point's markdown looks is RenderedMarkdown's; adjust it here with its --markdown-*
   // properties, never with a rule for the markdown's elements.
@@ -24,6 +24,7 @@
   }
 
   --markdown-link-offset: 0;
+  --markdown-image-max-width: 32em;
 }
 
 .home-page__downloads {

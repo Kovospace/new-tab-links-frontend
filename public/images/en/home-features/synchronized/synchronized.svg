@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="2 2 866 316" role="img" aria-labelledby="title">
+  <title id="title">One account and the same links in every browser</title>
+  <defs>
+    <!-- A small browser window, 220 x 110, top-left corner at 0,0; its browser's mark is drawn per use at 20,16. -->
+    <g id="window">
+      <g stroke="#666" stroke-width="4" fill="none">
+        <rect width="220" height="110" rx="14" fill="#111"/>
+        <line y1="32" x2="220" y2="32"/>
+        <rect x="38" y="9" width="166" height="14" rx="7"/>
+      </g>
+      <use href="#tile" x="14" y="52"/>
+      <use href="#tile" x="80" y="52"/>
+      <use href="#tile" x="146" y="52"/>
+      <!-- the same link, in every browser -->
+      <rect x="80" y="52" width="60" height="36" rx="8" fill="none" stroke="#4a82ff" stroke-width="4"/>
+    </g>
+    <!-- One link tile: favicon and its name; top-left corner at 0,0. -->
+    <g id="tile">
+      <rect width="60" height="36" rx="8" fill="#000" stroke="#666" stroke-width="3"/>
+      <circle cx="15" cy="18" r="6" fill="#004fff"/>
+      <line x1="27" y1="18" x2="48" y2="18" stroke="#666" stroke-width="4" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <!-- ===== The connections: every browser to the one account ===== -->
+  <g stroke="#4a82ff" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round" fill="none">
+    <path d="M240 75 C330 75 340 130 385 150"/>
+    <path d="M240 245 C330 245 340 200 385 180"/>
+    <path d="M630 75 C540 75 530 130 485 150"/>
+    <path d="M630 245 C540 245 530 200 485 180"/>
+  </g>
+
+  <!-- ===== Four different browsers, told apart only by their mark ===== -->
+  <use href="#window" x="20" y="20"/>
+  <circle cx="40" cy="36" r="8" fill="none" stroke="#666" stroke-width="4"/>
+
+  <use href="#window" x="20" y="190"/>
+  <polygon points="40,197 49,213 31,213" fill="none" stroke="#666" stroke-width="4" stroke-linejoin="round"/>
+
+  <use href="#window" x="630" y="20"/>
+  <rect x="642" y="28" width="16" height="16" rx="3" fill="none" stroke="#666" stroke-width="4"/>
+
+  <use href="#window" x="630" y="190"/>
+  <polygon points="650,197 659,206 650,215 641,206" fill="none" stroke="#666" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- ===== The one account ===== -->
+  <g transform="translate(435 165)">
+    <circle r="56" fill="#004fff"/>
+    <circle cy="-14" r="16" fill="#fff"/>
+    <path d="M-28 30 C-28 8 -14 2 0 2 C14 2 28 8 28 30 Z" fill="#fff"/>
+  </g>
+</svg>

@@ -1,5 +1,7 @@
 # Life without big corporations
 
+![Instead of a big corporation's cloud that watches you, an app from a freelancer's garage](../../../images/en/home-features/no-evil/no-evil.svg)
+
 Do you use alternative software that does not require an account with one of the big tech companies
 and their questionable practices around user data, tracking and terms of use?
 

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="90 15 538 288" role="img" aria-labelledby="title">
+  <title id="title">Namiesto cloudu veľkej korporácie, ktorý sleduje, aplikácia z garáže freelancera</title>
+  <defs>
+    <!-- A small browser window, 160 x 70, top-left corner at 0,0. -->
+    <g id="window" stroke="#666" stroke-width="4" fill="none">
+      <rect width="160" height="70" rx="12" fill="#111"/>
+      <line y1="26" x2="160" y2="26"/>
+      <circle cx="18" cy="13" r="6"/>
+      <rect x="32" y="6" width="112" height="14" rx="7"/>
+    </g>
+    <!-- The cloud's shape, filled or outlined per use. -->
+    <g id="cloud-shape">
+      <circle cx="150" cy="117" r="40"/>
+      <circle cx="207" cy="90" r="55"/>
+      <circle cx="265" cy="115" r="42"/>
+      <rect x="150" y="110" width="115" height="47"/>
+    </g>
+    <marker id="arrowhead-red" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="16" markerHeight="16"
+            markerUnits="userSpaceOnUse" orient="auto">
+      <polyline points="1,1 7,6 1,11" fill="none" stroke="#FF2D32" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- ===== The big corporation's cloud, watching ===== -->
+  <!-- outlined twice: a wide stroke under the fill leaves only the outer edge showing -->
+  <use href="#cloud-shape" fill="#666" stroke="#666" stroke-width="8"/>
+  <use href="#cloud-shape" fill="#1a1a1a"/>
+  <path d="M168 118 Q207 88 246 118 Q207 148 168 118 Z" fill="#000" stroke="#FF2D32" stroke-width="4"
+        stroke-linejoin="round"/>
+  <ellipse cx="207" cy="118" rx="5" ry="14" fill="#FF2D32"/>
+
+  <!-- your data, flowing up into it -->
+  <g stroke="#FF2D32" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 10"
+     marker-end="url(#arrowhead-red)">
+    <line x1="170" y1="208" x2="170" y2="172"/>
+    <line x1="210" y1="208" x2="210" y2="172"/>
+    <line x1="250" y1="208" x2="250" y2="172"/>
+  </g>
+  <use href="#window" x="130" y="215"/>
+
+  <!-- ===== A freelancer's garage, the light on ===== -->
+  <g transform="translate(-160 0)">
+  <rect x="605" y="95" width="150" height="65" fill="#111" stroke="#666" stroke-width="4"/>
+  <path d="M590 105 L680 45 L770 105" fill="none" stroke="#666" stroke-width="4"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="680" cy="78" r="10" fill="#004fff"/>
+  <g stroke="#666" stroke-width="3" fill="none">
+    <rect x="630" y="112" width="100" height="48"/>
+    <line x1="630" y1="124" x2="730" y2="124"/>
+    <line x1="630" y1="136" x2="730" y2="136"/>
+    <line x1="630" y1="148" x2="730" y2="148"/>
+  </g>
+
+  <!-- the extension talking only to it, privately -->
+  <line x1="680" y1="208" x2="680" y2="170" stroke="#4a82ff" stroke-width="4" stroke-linecap="round"
+        stroke-dasharray="2 10"/>
+  <use href="#window" x="600" y="215"/>
+  <g transform="translate(730 188)">
+    <path d="M0 -16 L14 -10 V2 C14 11 7 16 0 19 C-7 16 -14 11 -14 2 V-10 Z" fill="#009d15"/>
+    <polyline points="-6,1 -1,6 7,-5" fill="none" stroke="#fff" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  </g>
+</svg>

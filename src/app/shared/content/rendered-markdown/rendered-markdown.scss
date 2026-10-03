@@ -14,6 +14,7 @@
 //   --markdown-numbering           marker of a numbered list              decimal
 //   --markdown-table-spacing       space below a table                    0.75em
 //   --markdown-table-cell-padding  padding of a table cell                0.5em 0.75em
+//   --markdown-image-max-width     widest an image may be drawn           none
 //
 // The defaults are what the tip page looked like before this file existed. Add a property here
 // when a page needs to differ in something not listed, with today's value as its default.
@@ -41,6 +42,10 @@
       //text-decoration: underline;
       background-color: var(--color-accent-hover);
     }
+  }
+
+  img {
+    max-width: var(--markdown-image-max-width, none);
   }
 
   strong {

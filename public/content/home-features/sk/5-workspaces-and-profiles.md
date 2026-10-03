@@ -1,5 +1,7 @@
 #  Organizácia obsahu
 
+![Profil obsahuje pracovné priestory, pracovný priestor skupiny odkazov](../../../images/sk/home-features/workspaces-and-profiles/workspaces-and-profiles.svg)
+
 Prácu a obsah v tomto rozšírení je možné organizovať ešte pomocou pracovných priestorov a profilov.
 
 Príklady využitia a myšlienku za týmito funkcionalitami Vám poskytnú užívateľské tipy:
