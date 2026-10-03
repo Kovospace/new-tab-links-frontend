@@ -42,4 +42,26 @@ describe('renderTipMarkdown', () => {
     expect(html).toContain('href="https://example.com"');
     expect(html).toContain('href="#below"');
   });
+
+  it('resolves an image written as a path from the tip file, as an editor preview does', () => {
+    const html = renderTipMarkdown(
+      '![Menu](../../../images/sk/tips/profiles/2.png) ![Here](./1.png)',
+      'sk',
+      'profiles',
+    );
+
+    expect(html).toContain('src="/images/sk/tips/profiles/2.png"');
+    expect(html).toContain('src="/content/tips/sk/1.png"');
+  });
+
+  it('turns a link to a sibling tip file into that tip, in the language it is written in', () => {
+    const html = renderTipMarkdown(
+      '[workspaces](discover-workspaces.md) [part](./discover-workspaces.md#garage)',
+      'sk',
+      'profiles',
+    );
+
+    expect(html).toContain('href="/sk/tips/discover-workspaces"');
+    expect(html).toContain('href="/sk/tips/discover-workspaces#garage"');
+  });
 });

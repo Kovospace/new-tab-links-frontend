@@ -9,6 +9,7 @@ describe('renderSiteMarkdown', () => {
     const html = renderSiteMarkdown('![Sync](two-devices.png)', {
       languageCode: 'sk',
       imageFolder: 'home-features/synchronised-everywhere',
+      markdownFolder: '/content/home-features/sk',
     });
 
     expect(html).toContain(
@@ -20,6 +21,7 @@ describe('renderSiteMarkdown', () => {
     const html = renderSiteMarkdown('# Title\n\n## Part\n\n###### Deepest', {
       languageCode: 'en',
       imageFolder: 'home-features/x',
+      markdownFolder: '/content/home-features/en',
       headingLevelOffset: 1,
     });
 
@@ -29,8 +31,42 @@ describe('renderSiteMarkdown', () => {
   });
 
   it('leaves headings where they are without an offset', () => {
-    const html = renderSiteMarkdown('# Title', { languageCode: 'en', imageFolder: 'tips/x' });
+    const html = renderSiteMarkdown('# Title', {
+      languageCode: 'en',
+      imageFolder: 'tips/x',
+      markdownFolder: '/content/tips/en',
+    });
 
     expect(html).toContain('<h1>Title</h1>');
+  });
+
+  it('resolves an image written as a path from the markdown file against its folder', () => {
+    const html = renderSiteMarkdown('![Sync](../../../images/sk/home-features/sync/two.png)', {
+      languageCode: 'sk',
+      imageFolder: 'home-features/sync',
+      markdownFolder: '/content/home-features/sk',
+    });
+
+    expect(html).toContain('src="/images/sk/home-features/sync/two.png"');
+  });
+
+  it('turns a link to a tip file in another content folder into that tip', () => {
+    const html = renderSiteMarkdown('[profiles](../../tips/sk/discover-profiles.md)', {
+      languageCode: 'sk',
+      imageFolder: 'home-features/sync',
+      markdownFolder: '/content/home-features/sk',
+    });
+
+    expect(html).toContain('href="/sk/tips/discover-profiles"');
+  });
+
+  it('leaves a link to a markdown file that is not a tip as written', () => {
+    const html = renderSiteMarkdown('[terms](../../legal/en/terms.md)', {
+      languageCode: 'en',
+      imageFolder: 'tips/x',
+      markdownFolder: '/content/tips/en',
+    });
+
+    expect(html).toContain('href="../../legal/en/terms.md"');
   });
 });
