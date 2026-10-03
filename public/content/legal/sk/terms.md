@@ -2,7 +2,7 @@
 
 *Účinné od {effectiveDate}*
 
-Tieto podmienky upravujú používanie Tabilinks — rozšírenia prehliadača NewTabGroupedLinks a webu
+Tieto podmienky upravujú používanie Tabilinks — rozšírenia prehliadača a webu
 tabilinks.app (spolu „služba“) — ktoré poskytuje **{operatorName}**, živnostník,
 IČO {operatorRegistrationNumber}, {operatorAddress} („my“). Kontakt:
 [{supportEmail}](mailto:{supportEmail}).

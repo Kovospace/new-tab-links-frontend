@@ -1,5 +1,9 @@
 import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
-import { DemoSlidesIndex, DemoSlidesService } from '../../../core/demo/demo-slides.service';
+import {
+  DemoSlideFiles,
+  DemoSlidesIndex,
+  DemoSlidesService,
+} from '../../../core/demo/demo-slides.service';
 import { buildLocalizedImageUrl } from '../../../core/i18n/localized-image.pipe';
 import {
   DEFAULT_LANGUAGE_CODE,
@@ -13,12 +17,36 @@ export const DEMO_SLIDE_DURATION_MILLISECONDS = 5_000;
 /** Folder below {@code images/<language>/} the screenshots live in. */
 const DEMO_IMAGE_FOLDER = 'demo';
 
+/** Width of a slide on the page, in CSS pixels, and of its density-1 file in image pixels. */
+export const DEMO_SLIDE_WIDTH_PIXELS = 1280;
+
+/** Height of a slide on the page, in CSS pixels; with the width, the 16:10 every slide shares. */
+export const DEMO_SLIDE_HEIGHT_PIXELS = 800;
+
+/**
+ * How wide the slide is drawn, for the browser to pick a file before layout: 1280 pixels where the
+ * page leaves room for it (the breakpoint in {@code demo-slideshow.scss}), the viewport's width
+ * below that.
+ */
+const DEMO_SLIDE_SIZES = `(min-width: 1440px) ${DEMO_SLIDE_WIDTH_PIXELS}px, 100vw`;
+
 /**
  * One screenshot of the slideshow and the dot that selects it, ready to render.
  */
 export interface PresentedDemoSlide {
-  /** Where the screenshot is served from, in the reader's language. */
+  /** Where the screenshot is served from, in the reader's language, at its 1280x800 size. */
   readonly imageUrl: string;
+  /**
+   * Every density of the screenshot with its width in image pixels, as an {@code srcset}.
+   *
+   * <p>Widths rather than {@code 1x}/{@code 2x}/{@code 3x}, deliberately: a phone with a 3x screen
+   * draws the slide about 400 CSS pixels wide, so 1280 image pixels are plenty, and a density
+   * descriptor would send it the 3840-pixel file anyway. With widths and {@link imageSizes} the
+   * browser picks the smallest file that is sharp at the size actually drawn.</p>
+   */
+  readonly imageSourceSet: string;
+  /** How wide the screenshot is drawn, as {@code sizes}, so the browser can choose from the set. */
+  readonly imageSizes: string;
   /** What the screenshot is, for a reader who cannot see it. */
   readonly imageAlternativeText: string;
   /** What the dot does, for a reader who cannot see it. */
@@ -69,18 +97,18 @@ export class DemoSlideshowViewModel {
       : DEFAULT_LANGUAGE_CODE;
   });
 
-  /** The screenshots' file names, in the order they are shown. */
-  private readonly slideFileNames = computed<readonly string[]>(
+  /** The screenshots' files, in the order they are shown. */
+  private readonly demoSlides = computed<readonly DemoSlideFiles[]>(
     () => this.loadedDemoSlidesIndex()[this.slidesLanguageCode()] ?? [],
   );
 
   /** Every screenshot, each marked whether it is the one on screen. */
   readonly presentedSlides = computed<readonly PresentedDemoSlide[]>(() => {
-    const slideFileNames = this.slideFileNames();
-    const activeSlidePosition = this.activeSlidePosition() % Math.max(slideFileNames.length, 1);
+    const demoSlides = this.demoSlides();
+    const activeSlidePosition = this.activeSlidePosition() % Math.max(demoSlides.length, 1);
 
-    return slideFileNames.map((slideFileName, slidePosition) =>
-      this.presentSlide(slideFileName, slidePosition, slideFileNames.length, activeSlidePosition),
+    return demoSlides.map((slideFiles, slidePosition) =>
+      this.presentSlide(slideFiles, slidePosition, demoSlides.length, activeSlidePosition),
     );
   });
 
@@ -93,8 +121,14 @@ export class DemoSlideshowViewModel {
     return `translateX(${-100 * Math.max(activeSlidePosition, 0)}%)`;
   });
 
+  /** Width every slide is laid out at, so the page reserves its space before the image arrives. */
+  readonly slideWidthPixels = DEMO_SLIDE_WIDTH_PIXELS;
+
+  /** Height every slide is laid out at; with the width, the aspect ratio the image is drawn in. */
+  readonly slideHeightPixels = DEMO_SLIDE_HEIGHT_PIXELS;
+
   /** Whether there is anything to choose between, and so any dots to show. */
-  readonly hasSeveralSlides = computed<boolean>(() => this.slideFileNames().length > 1);
+  readonly hasSeveralSlides = computed<boolean>(() => this.demoSlides().length > 1);
 
   /** Label of the slideshow as a whole. */
   readonly slideshowLabel = computed<string>(() =>
@@ -130,7 +164,7 @@ export class DemoSlideshowViewModel {
    * Moves to the next screenshot, back to the first after the last.
    */
   private showNextSlide(): void {
-    const slideCount = this.slideFileNames().length;
+    const slideCount = this.demoSlides().length;
     if (slideCount > 1) {
       this.activeSlidePosition.update((slidePosition) => (slidePosition + 1) % slideCount);
     }
@@ -160,25 +194,33 @@ export class DemoSlideshowViewModel {
   /**
    * Words one screenshot and its dot.
    *
-   * @param slideFileName       the image's file name below the demo folder
+   * @param slideFiles          the screenshot's files below the demo folder, by density
    * @param slidePosition       its position in the slideshow, from zero
    * @param slideCount          how many screenshots there are
    * @param activeSlidePosition position of the one on screen now
    * @returns the screenshot, ready to render
    */
   private presentSlide(
-    slideFileName: string,
+    slideFiles: DemoSlideFiles,
     slidePosition: number,
     slideCount: number,
     activeSlidePosition: number,
   ): PresentedDemoSlide {
     const placeholderValues = { number: slidePosition + 1, count: slideCount };
 
+    const filesByDensity = Object.entries(slideFiles)
+      .flatMap(([density, fileName]) => (fileName ? [{ density: Number(density), fileName }] : []))
+      .sort((first, second) => first.density - second.density);
+
     return {
-      imageUrl: buildLocalizedImageUrl(
-        `${DEMO_IMAGE_FOLDER}/${slideFileName}`,
-        this.slidesLanguageCode(),
-      ),
+      imageUrl: this.demoImageUrl(filesByDensity[0]?.fileName ?? ''),
+      imageSourceSet: filesByDensity
+        .map(
+          ({ density, fileName }) =>
+            `${this.demoImageUrl(fileName)} ${density * DEMO_SLIDE_WIDTH_PIXELS}w`,
+        )
+        .join(', '),
+      imageSizes: DEMO_SLIDE_SIZES,
       imageAlternativeText: this.translationService.translate(
         'home.demo.slideAlternativeText',
         placeholderValues,
@@ -187,5 +229,15 @@ export class DemoSlideshowViewModel {
       isActive: slidePosition === activeSlidePosition,
       isHiddenFromAssistiveTechnology: slidePosition !== activeSlidePosition,
     };
+  }
+
+  /**
+   * Where one of the screenshots' files is served from.
+   *
+   * @param fileName the file's name below the demo folder
+   * @returns its URL, in the language whose screenshots are shown
+   */
+  private demoImageUrl(fileName: string): string {
+    return buildLocalizedImageUrl(`${DEMO_IMAGE_FOLDER}/${fileName}`, this.slidesLanguageCode());
   }
 }

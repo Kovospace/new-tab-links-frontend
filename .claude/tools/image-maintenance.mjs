@@ -20,6 +20,11 @@
 //              which must exist in EVERY language, and quoted '/images/…' literals.
 // The demo slides are not referenced by name: scripts/build-demo-index.mjs lists their folder.
 //
+// Densities: an image named <name>_<N>x.<png|jpg> with N > 1 is a high-density original. Before
+// encoding, `convert` derives every missing lower density from it — <name>_1x … <name>_<N-1>x,
+// scaled to k/N of its size with Lanczos — so dropping in one _3x export yields _1x, _2x and _3x.
+// The demo slides use this: _1x is the 1280x800 slide, _2x and _3x feed its srcset.
+//
 // Encoding: lossless and lossy (quality 85, as the demo slides were) are both tried and the smaller
 // kept. A file WebP would make bigger is left as it is and reported.
 import { execFileSync } from 'node:child_process';
@@ -269,10 +274,49 @@ function rewriteReference(reference, oldTarget) {
   return `${reference.source}:${reference.line}  ${written} → ${webpWritten}  (for ${oldTarget})`;
 }
 
+const DENSITY_PATTERN = /^(.*)_(\d)x(\.(?:png|jpe?g))$/i;
+
+/** Whether some file `<stem>_<density>x.*` exists, in any format. */
+function hasDensity(folder, stem, density) {
+  const prefix = `${stem}_${density}x.`;
+  return readdirSync(folder).some((name) => name.startsWith(prefix));
+}
+
+/**
+ * Writes every missing lower density of each high-density original, as PNG beside it.
+ *
+ * @returns the files written, to be encoded with the rest
+ */
+function deriveLowerDensities(images) {
+  const written = [];
+  for (const image of images) {
+    const match = DENSITY_PATTERN.exec(basename(image));
+    if (match === null || Number(match[2]) < 2) continue;
+    const [, stem, densityText, extension] = match;
+    const density = Number(densityText);
+    const folder = dirname(image);
+    const [width, height] = execFileSync('magick', ['identify', '-format', '%w %h', image], {
+      encoding: 'utf8',
+    })
+      .split(' ')
+      .map(Number);
+    for (let lower = 1; lower < density; lower++) {
+      if (hasDensity(folder, stem, lower)) continue;
+      const size = `${Math.round((width * lower) / density)}x${Math.round((height * lower) / density)}!`;
+      const target = join(folder, `${stem}_${lower}x${extension}`);
+      execFileSync('magick', [image, '-filter', 'Lanczos', '-resize', size, target]);
+      console.log(`derived  ${target}  ${size.slice(0, -1)} from ${basename(image)}`);
+      written.push(target);
+    }
+  }
+  return written;
+}
+
 function convert(requested) {
-  const candidates = (requested.length > 0 ? requested : listContentImages()).filter((path) =>
+  const requestedImages = (requested.length > 0 ? requested : listContentImages()).filter((path) =>
     CONVERTIBLE_EXTENSIONS.has(extname(path).toLowerCase()),
   );
+  const candidates = [...requestedImages, ...deriveLowerDensities(requestedImages)];
   const scope = resolve(IMAGES_ROOT);
   let savedBytes = 0;
   for (const image of candidates) {

@@ -4,6 +4,10 @@
       <img
         class="demo-slideshow__slide"
         [src]="presentedSlide.imageUrl"
+        [srcset]="presentedSlide.imageSourceSet"
+        [sizes]="presentedSlide.imageSizes"
+        [width]="viewModel.slideWidthPixels"
+        [height]="viewModel.slideHeightPixels"
         [alt]="presentedSlide.imageAlternativeText"
         [attr.aria-hidden]="presentedSlide.isHiddenFromAssistiveTechnology"
       />

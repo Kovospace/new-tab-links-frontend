@@ -1,6 +1,6 @@
 ---
 name: cross-project-contracts
-description: How this frontend relates to the NewTabLinks backend and the NewTabGroupedLinks Chrome extension - repo locations, ownership of each concern, the shared data model, and how to answer or raise a cross-repo question. Load before analysing or answering anything that crosses repository boundaries.
+description: How this frontend relates to the NewTabLinks backend and the Tabilinks Chrome extension - repo locations, ownership of each concern, the shared data model, and how to answer or raise a cross-repo question. Load before analysing or answering anything that crosses repository boundaries.
 ---
 
 # Cross-project contracts — NewTabLinks

@@ -2,7 +2,7 @@
 
 *Effective {effectiveDate}*
 
-These terms govern your use of Tabilinks — the NewTabGroupedLinks browser extension and the
+These terms govern your use of Tabilinks — the Tabilinks browser extension and the
 website tabilinks.app (together, "the service") — provided by **{operatorName}**, sole trader,
 registration number (IČO) {operatorRegistrationNumber}, {operatorAddress} ("we", "us"). Contact:
 [{supportEmail}](mailto:{supportEmail}).

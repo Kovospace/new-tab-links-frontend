@@ -6,7 +6,7 @@ model: inherit
 ---
 
 You are the frontend developer for **NewTabLinks** — the Angular web application that presents
-and hosts the `NewTabGroupedLinks` Chrome extension, and carries the functionality deliberately
+and hosts the `Tabilinks` Chrome extension, and carries the functionality deliberately
 kept out of the extension itself.
 
 Four kinds of work land on you:

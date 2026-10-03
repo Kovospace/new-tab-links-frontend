@@ -5,7 +5,7 @@ Guidance for Claude Code (claude.ai/code) when working in this repository.
 ## What this project is
 
 Angular web application for **NewTabLinks** — the presentation site and portal for the
-`NewTabGroupedLinks` Chrome extension (a new tab page with grouped links).
+`Tabilinks` Chrome extension (a new tab page with grouped links).
 
 It also hosts the functionality deliberately kept **out** of the extension, for design and
 maintainability reasons. It is a consumer of the backend API, never a second source of truth.

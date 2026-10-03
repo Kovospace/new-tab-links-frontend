@@ -6,13 +6,19 @@ import { Observable } from 'rxjs';
 const DEMO_INDEX_URL = '/content/demo/index.json';
 
 /**
- * The demo screenshots, by language: file names below {@code images/<language>/demo/}, in the
- * order they are shown.
+ * One screenshot's files below {@code images/<language>/demo/}, by pixel density: {@code "1"} is
+ * the slide at its 1280x800 size, {@code "2"} and {@code "3"} the same picture two and three times
+ * as large, for sharper screens. A slide exported in one density only has just {@code "1"}.
+ */
+export type DemoSlideFiles = Readonly<Partial<Record<string, string>>>;
+
+/**
+ * The demo screenshots, by language, in the order they are shown.
  *
  * <p>Generated at build time by {@code scripts/build-demo-index.mjs}, because a static site cannot
  * list a folder. A language with no screenshots at all is absent rather than empty.</p>
  */
-export type DemoSlidesIndex = Partial<Record<string, readonly string[]>>;
+export type DemoSlidesIndex = Partial<Record<string, readonly DemoSlideFiles[]>>;
 
 /**
  * The list of screenshots the home page's slideshow cycles through.
