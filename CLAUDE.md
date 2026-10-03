@@ -281,8 +281,10 @@ probes only when it is set, and `NEWTABLINKS_BACKEND_BASE_URL` pointing at the b
 ```
 .claude/
 ├── agents/developer.md                    the frontend developer agent
+├── agents/image-maintainer.md             hand-copied images → WebP, references rewritten, checks run
 ├── CODEMAP.md                             which file holds which concern; imported below Layout
 ├── tools/agent-cost.py                    what an agent run cost, and where the tokens went
+├── tools/image-maintenance.mjs            scan / convert / check for public/images/<language>/
 ├── skills/angular-code-standards/         coding rules
 ├── skills/authentication-flows/           identity, sessions, the pairing code
 ├── skills/deployment-pipeline/            image, nginx, runtime config, CI/CD
