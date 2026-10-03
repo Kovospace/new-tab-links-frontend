@@ -9,4 +9,4 @@ The tips explain the idea behind them, with examples of how to use them:
 
 And how about organising the pages you open into tab groups?
 
-[Open a subgroup's links in a tab group](../../tips/en/subgroup-links-into-tab-group.md)
+- [Open a subgroup's links in a tab group](../../tips/en/subgroup-links-into-tab-group.md)

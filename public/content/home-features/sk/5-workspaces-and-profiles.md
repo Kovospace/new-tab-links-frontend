@@ -8,6 +8,6 @@ Príklady využitia a myšlienku za týmito funkcionalitami Vám poskytnú uží
 
 A čo tak organizácia otváraných stránok do skupín kariet ? 
 
-[Zachytávanie odkazov z podskupiny do skupiny kariet](../../tips/sk/subgroup-links-into-tab-group.md)
+- [Zachytávanie odkazov z podskupiny do skupiny kariet](../../tips/sk/subgroup-links-into-tab-group.md)
 
 

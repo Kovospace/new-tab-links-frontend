@@ -1,36 +1,10 @@
-// Not encapsulated (see TipPage): these rules are global, so every one of them must stay under
-// .tip - that class is all that keeps them from styling the rest of the site. That is also what
-// lets them reach the markdown's HTML, which Angular's scoping never would.
+// The tip's markdown is styled by RenderedMarkdown; a difference for this page belongs in a
+// --markdown-* property set on .tip, not in a rule for the markdown's elements.
 .tip {
   padding: 1em;
 
+  // The back-to-list button below the tip.
   a {
     margin-top: 1.5em;
   }
-}
-
-.tip ol, .tip ul {
-  margin-left: 2em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-
-// The marker is drawn by each <li> from its own list-style, not by the list. reset.scss sets
-// list-style: none on every element directly, and a value set on the <li> itself always beats one
-// it would inherit from the <ol>/<ul> - so the style goes on the items. The child combinator keeps
-// a bulleted list nested in a numbered one bulleted.
-.tip ol > li {
-  list-style: decimal outside;
-}
-
-.tip ul > li {
-  list-style: circle outside;
-}
-
-.tip li + li {
-  margin-top: 0.25em;
-}
-
-.tip strong {
-  font-weight: bold;
 }

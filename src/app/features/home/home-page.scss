@@ -14,13 +14,16 @@
 
 .home-page__feature {
   margin-top: 3em;
-  // Inherited by the point's paragraphs: they arrive through [innerHTML], which this component's
-  // scoped rules cannot reach, so the line height is set on the item they sit in.
+  // Inherited by the point's paragraphs, which this component's scoped rules cannot reach. How
+  // the point's markdown looks is RenderedMarkdown's; adjust it here with its --markdown-*
+  // properties, never with a rule for the markdown's elements.
   line-height: 1.25em;
 
   &:first-child {
     margin-top: 0;
   }
+
+  --markdown-link-offset: 0;
 }
 
 .home-page__downloads {
