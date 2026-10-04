@@ -71,5 +71,6 @@ const COMPLIANCE_SITEMAP_ENTRIES: readonly UnlinkedSitemapEntry[] = [
   { labelTranslationKey: 'footer.privacy', routeName: 'privacy' },
   { labelTranslationKey: 'footer.terms', routeName: 'terms' },
   { labelTranslationKey: 'footer.refunds', routeName: 'refunds' },
+  { labelTranslationKey: 'footer.fairUse', routeName: 'fairUse' },
   { labelTranslationKey: 'footer.cookies', routeName: 'cookies' },
 ];

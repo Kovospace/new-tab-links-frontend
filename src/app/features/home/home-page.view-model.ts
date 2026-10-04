@@ -67,6 +67,11 @@ export class HomePageViewModel {
   );
 
   /**
+   * Where the note under the offers sends a reader who wants to know what "unlimited*" means.
+   */
+  readonly fairUsePolicyLink = computed<string>(() => this.localizedRouteLinks.links().fairUse);
+
+  /**
    * The subscription column's heading: its price per month in the selected currency.
    *
    * <p>Per month because that is how a yearly price compares with everything else a visitor pays

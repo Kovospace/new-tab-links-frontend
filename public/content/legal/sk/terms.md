@@ -34,7 +34,8 @@ prečo.
 
 - Bezplatný plán je zadarmo, má limity (napríklad na počet odkazov, pracovných priestorov,
   profilov a synchronizovaných inštalácií) a na novej karte zobrazuje malý banner.
-- **Prémium** tieto limity aj banner odstraňuje. Ponúka sa ako **ročné predplatné** alebo
+- **Prémium** tieto limity aj banner odstraňuje; to, čo označuje ako neobmedzené, podlieha
+  [Zásadám primeraného používania](/fair-use). Ponúka sa ako **ročné predplatné** alebo
   jednorazový **doživotný** nákup za ceny uvedené na [úvodnej stránke](/) v čase nákupu. Ceny sú
   vrátane DPH, ak sa uplatňuje.
 - „Doživotný“ znamená po celý čas, keď službu prevádzkujeme; nie je to sľub prevádzkovať ju

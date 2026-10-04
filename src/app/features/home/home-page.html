@@ -27,7 +27,7 @@
       <h3>{{ 'home.downloads.free.title' | translate }}</h3>
 
       <h4>{{ 'home.downloads.linksCount' | translate }}</h4>
-      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+      <p>{{ 'home.downloads.unlimitedAmountUnderFairUse' | translate }}</p>
 
       <h4>{{ 'home.downloads.devicesCount' | translate }}</h4>
       <p>5</p>
@@ -61,16 +61,16 @@
       }
 
       <h4>{{ 'home.downloads.linksCount' | translate }}</h4>
-      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+      <p>{{ 'home.downloads.unlimitedAmountUnderFairUse' | translate }}</p>
 
       <h4>{{ 'home.downloads.devicesCount' | translate }}</h4>
       <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
 
       <h4>{{ 'home.downloads.workspacesCount' | translate }}</h4>
-      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+      <p>{{ 'home.downloads.unlimitedAmountUnderFairUse' | translate }}</p>
 
       <h4>{{ 'home.downloads.profilesCount' | translate }}</h4>
-      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+      <p>{{ 'home.downloads.unlimitedAmountUnderFairUse' | translate }}</p>
 
       <h4>{{ 'home.downloads.ads' | translate }}</h4>
       <p>{{ 'home.downloads.yes' | translate }}</p>
@@ -92,16 +92,16 @@
       <h3>{{ viewModel.lifetimePriceHeading() }}</h3>
 
       <h4>{{ 'home.downloads.linksCount' | translate }}</h4>
-      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+      <p>{{ 'home.downloads.unlimitedAmountUnderFairUse' | translate }}</p>
 
       <h4>{{ 'home.downloads.devicesCount' | translate }}</h4>
       <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
 
       <h4>{{ 'home.downloads.workspacesCount' | translate }}</h4>
-      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+      <p>{{ 'home.downloads.unlimitedAmountUnderFairUse' | translate }}</p>
 
       <h4>{{ 'home.downloads.profilesCount' | translate }}</h4>
-      <p>{{ 'home.downloads.unlimitedAmount' | translate }}</p>
+      <p>{{ 'home.downloads.unlimitedAmountUnderFairUse' | translate }}</p>
 
       <h4>{{ 'home.downloads.ads' | translate }}</h4>
       <p>{{ 'home.downloads.yes' | translate }}</p>
@@ -119,4 +119,12 @@
       }
     </div>
   </section>
+
+  <p class="home-page__fup-note">
+    <small
+      >{{ 'home.downloads.fairUseNotice' | translate }}
+      <a [routerLink]="viewModel.fairUsePolicyLink()">{{ 'footer.fairUse' | translate }}</a></small
+    >
+  </p>
+
 </article>

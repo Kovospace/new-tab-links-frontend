@@ -42,6 +42,8 @@ export const APPLICATION_ROUTE_PATHS = {
   cookies: 'cookies',
   terms: 'terms',
   refunds: 'refunds',
+  /** The fair use policy: the caps behind every "unlimited" the offers promise. */
+  fairUse: 'fair-use',
   sitemap: 'sitemap',
   /**
    * The operator's sign-in.
@@ -76,6 +78,7 @@ export const APPLICATION_ROUTE_LINKS = {
   cookies: `/${APPLICATION_ROUTE_PATHS.cookies}`,
   terms: `/${APPLICATION_ROUTE_PATHS.terms}`,
   refunds: `/${APPLICATION_ROUTE_PATHS.refunds}`,
+  fairUse: `/${APPLICATION_ROUTE_PATHS.fairUse}`,
   sitemap: `/${APPLICATION_ROUTE_PATHS.sitemap}`,
   admin: `/${APPLICATION_ROUTE_PATHS.admin}`,
   adminUsers: `/${APPLICATION_ROUTE_PATHS.adminUsers}`,

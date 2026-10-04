@@ -33,7 +33,8 @@ suspend or close an account that does, after telling you why where the law allow
 
 - The free plan is free of charge, has limits (for example on the number of links, workspaces,
   profiles and synchronised installations) and shows a small banner on the new tab page.
-- **Premium** removes those limits and the banner. It is offered as a **yearly subscription** or a
+- **Premium** removes those limits and the banner; what it calls unlimited is subject to the
+  [Fair Use Policy](/fair-use). It is offered as a **yearly subscription** or a
   one-time **lifetime** purchase, at the prices shown on the [home page](/) when you buy. Prices
   include VAT where it applies.
 - "Lifetime" means for as long as we operate the service; it is not a promise to operate it for

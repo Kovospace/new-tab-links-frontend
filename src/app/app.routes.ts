@@ -70,6 +70,15 @@ const LOCALIZED_PAGE_ROUTES: Routes = [
       import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.fairUse,
+    data: {
+      legalDocumentName: 'fair-use',
+      ...pageMetadataFor(APPLICATION_ROUTE_PATHS.fairUse, 'seo.fairUse'),
+    } satisfies LegalTextRouteData & PageMetadataRouteData,
+    loadComponent: () =>
+      import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.cookies,
     data: {
       legalDocumentName: 'cookies',

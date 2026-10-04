@@ -142,3 +142,16 @@
     }
   }
 }
+
+.home-page__fup-note {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.875em;
+  display: block;
+  margin-bottom: 2em;
+  text-align: center;
+
+  a {
+    text-decoration: underline;
+  }
+}

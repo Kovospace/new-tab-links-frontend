@@ -32,6 +32,7 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "refunds": "Refund Policy",
+    "fairUse": "Fair Use Policy",
     "cookies": "Cookies",
     "supportLabel": "Support:",
     "sitemap": "Sitemap",
@@ -58,6 +59,7 @@
         "titleWithoutPrice": "LIFETIME"
       },
       "unlimitedAmount": "UNLIMITED",
+      "unlimitedAmountUnderFairUse": "UNLIMITED*",
       "yes": "YES",
       "no": "NO",
       "linksCount": "Number of links",
@@ -71,7 +73,8 @@
         "upgradeToLifetime": "Upgrade to lifetime",
         "alreadyOnLifetime": "Already on lifetime",
         "alreadyOnPremium": "Already on premium"
-      }
+      },
+      "fairUseNotice": "* Subject to our fair use policy - limits generous enough that almost nobody will ever reach them."
     },
     "demo": {
       "slideshowLabel": "Screenshots of the extension",
@@ -502,6 +505,10 @@
     "refunds": {
       "title": "Refund Policy",
       "description": "When and how a Tabilinks premium purchase can be refunded."
+    },
+    "fairUse": {
+      "title": "Fair Use Policy",
+      "description": "The fair use limits behind the unlimited links, workspaces and profiles of Tabilinks."
     },
     "cookies": {
       "title": "Cookies",

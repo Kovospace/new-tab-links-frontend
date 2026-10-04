@@ -32,6 +32,7 @@
     "privacy": "Ochrana osobných údajov",
     "terms": "Podmienky používania",
     "refunds": "Vrátenie peňazí",
+    "fairUse": "Zásady primeraného používania",
     "cookies": "Cookies",
     "supportLabel": "Podpora:",
     "sitemap": "Mapa stránky",
@@ -58,6 +59,7 @@
         "titleWithoutPrice": "DOŽIVOTNE"
       },
       "unlimitedAmount": "NEOBMEDZENE",
+      "unlimitedAmountUnderFairUse": "NEOBMEDZENE*",
       "yes": "ÁNO",
       "no": "NIE",
       "linksCount": "Počet odkazov",
@@ -71,7 +73,8 @@
         "upgradeToLifetime": "Prejsť na doživotnú licenciu",
         "alreadyOnLifetime": "Už máte doživotnú licenciu",
         "alreadyOnPremium": "Už máte plnú verziu"
-      }
+      },
+      "fairUseNotice": "* Platia zásady primeraného používania - limity také veľkorysé, že ich takmer nikto nikdy nedosiahne."
     },
     "demo": {
       "slideshowLabel": "Snímky obrazovky rozšírenia",
@@ -502,6 +505,10 @@
     "refunds": {
       "title": "Vrátenie peňazí",
       "description": "Kedy a ako je možné vrátiť peniaze za prémiový nákup Tabilinks."
+    },
+    "fairUse": {
+      "title": "Zásady primeraného používania",
+      "description": "Limity primeraného používania za neobmedzenými odkazmi, pracovnými priestormi a profilmi Tabilinks."
     },
     "cookies": {
       "title": "Cookies",

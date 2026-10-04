@@ -15,7 +15,7 @@ const LEGAL_CONTENT_ROOT = '/content/legal';
 const LEGAL_IMAGE_FOLDER = 'legal';
 
 /** Every legal document the site publishes; each is {@code <name>.md} in every language. */
-export type LegalDocumentName = 'privacy' | 'cookies' | 'terms' | 'refunds';
+export type LegalDocumentName = 'privacy' | 'cookies' | 'terms' | 'refunds' | 'fair-use';
 
 /**
  * The placeholders a legal document may use, and what each is replaced with.
@@ -32,7 +32,7 @@ const LEGAL_DOCUMENT_PLACEHOLDERS: Readonly<Record<string, string>> = {
 };
 
 /**
- * The privacy policy, the terms, the refund policy and the cookie statement — long text written
+ * The privacy policy, the terms, the refund policy, the fair use policy and the cookie statement — long text written
  * as markdown, one file per document and language, like the tips.
  *
  * <p>Markdown rather than translation keys because these are documents, with headings, lists and
