@@ -4,4 +4,4 @@ Všetky odkazy v podskupine sa dajú otvoriť naraz – tlačidlom s dvojitou š
 
 Ponuka podskupiny (ikona troch bodiek) ponúka aj možnosť „Otvoriť všetky odkazy v skupine samostatných kariet“.
 
-Alebo je možné nastaviť aj zachytávanie stránok do skupiny kariet automaticky: {give here link to public/content/tips/[locale]/subgroup-links-into-tab-group.md}
+Alebo je možné nastaviť aj zachytávanie stránok do skupiny kariet automaticky: [Zachytávanie odkazov z podskupiny do skupiny kariet](subgroup-links-into-tab-group.md)
