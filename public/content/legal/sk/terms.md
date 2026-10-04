@@ -57,7 +57,8 @@ podporu v otázkach platieb a vybavuje vrátenie peňazí.
   s dokladom od Creem alebo e-mailom na [{supportEmail}](mailto:{supportEmail}). Zrušením sa zastaví
   ďalšie obnovenie; prémium vám zostane do konca zaplateného roka.
 - Keď prémium skončí, účet sa vráti na bezplatný plán. Nič sa nemaže: obsah nad bezplatné limity
-  bude len na čítanie, kým si predplatné znova nekúpite.
+  zostane a môžete ho ďalej používať, upravovať aj mazať, no pridať ďalší nemôžete, kým nebudete
+  pod limitom alebo si predplatné znova nekúpite.
 - Ak cenu predplatného zmeníme, oznámime vám to e-mailom aspoň 30 dní pred tým, ako sa uplatní na
   vaše ďalšie obnovenie, a dovtedy ho môžete zrušiť.
 

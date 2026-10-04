@@ -23,7 +23,8 @@ ktorým ste platili, a zvyčajne dorazia do 5 až 10 pracovných dní, podľa va
 ## Čo sa stane po vrátení peňazí
 
 Prémium sa vrátením peňazí končí a účet sa vráti na bezplatný plán. Nič, čo ste vytvorili, sa
-nemaže: obsah nad bezplatné limity bude len na čítanie.
+nemaže: obsah nad bezplatné limity zostane použiteľný aj upraviteľný, no pridať k nemu nič
+nemôžete, kým nebudete pod limitmi.
 
 ## Po 14 dňoch
 

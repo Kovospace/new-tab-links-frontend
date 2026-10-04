@@ -295,7 +295,7 @@
     "cancelSubscription": {
       "heading": "Cancel subscription",
       "lead": "Cancelling stops the next renewal. You keep the full version until the period you have already paid for runs out, and nothing is refunded.",
-      "downgradeNotice": "When the period you have paid for ends, the account goes back to the free plan. Anything over its limits stays exactly where it is and is never deleted — it simply becomes read-only until you subscribe again.",
+      "downgradeNotice": "When the period you have paid for ends, the account goes back to the free plan. Anything over its limits stays exactly where it is and is never deleted — you can still use, edit and delete it, but you cannot add more until you are back under the limits or subscribe again.",
       "action": "Cancel subscription",
       "success": "Your subscription will not renew. You keep the full version until the period you have paid for ends."
     },

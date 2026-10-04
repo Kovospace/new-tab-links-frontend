@@ -23,7 +23,8 @@ paid with, through Creem, and normally reaches you within 5–10 working days, d
 ## What happens after a refund
 
 Premium ends when the refund is made, and the account returns to the free plan. Nothing you have
-created is deleted: content over the free limits becomes read-only.
+created is deleted: content over the free limits stays usable and editable, but nothing more can
+be added to it until you are back under the limits.
 
 ## After 14 days
 

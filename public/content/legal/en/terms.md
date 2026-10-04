@@ -56,7 +56,8 @@ customer service for billing questions and handles returns.
   Creem's receipt email, or by writing to [{supportEmail}](mailto:{supportEmail}). Cancelling stops
   the next renewal; you keep premium until the end of the year you paid for.
 - When premium ends, your account returns to the free plan. Nothing is deleted: content over the
-  free limits becomes read-only until you subscribe again.
+  free limits stays, and you can still use, edit and delete it, but you cannot add more of it
+  until you are back under the limit or subscribe again.
 - If we change the subscription price, we will tell you by email at least 30 days before it
   applies to your next renewal, and you can cancel before then.
 
