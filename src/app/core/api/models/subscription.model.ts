@@ -149,6 +149,17 @@ export interface SubscriptionStatus {
 
   /** An unsettled checkout, or {@code null} when there is none. */
   readonly pendingCheckout: PendingCheckout | null;
+
+  /**
+   * Whether the plan was given by an operator rather than bought.
+   *
+   * <p>A grant still names a {@link plan}: {@code LIFETIME} for one without an end,
+   * {@code YEARLY_RECURRING} for one that runs until {@link validUntil} and never renews. The
+   * plan is what decides what is left to buy; this flag is what lets the account page say where
+   * the full version came from, and keeps the purchase form from calling a grant a subscription.
+   * </p>
+   */
+  readonly grantedByOperator: boolean;
 }
 
 /**
@@ -212,4 +223,5 @@ export const NO_SUBSCRIPTION: SubscriptionStatus = {
   refundable: false,
   refundableUntil: null,
   pendingCheckout: null,
+  grantedByOperator: false,
 };

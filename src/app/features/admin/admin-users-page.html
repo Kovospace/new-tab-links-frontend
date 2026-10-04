@@ -66,7 +66,15 @@
             </label>
             <label>
               <span>{{ 'admin.field.premium' | translate }}</span>
-              <input type="checkbox" formControlName="premium" />
+              <span class="select-field">
+                <select formControlName="premiumGrant">
+                  @for (grantChoice of viewModel.availablePremiumGrantChoices; track grantChoice) {
+                    <option [value]="grantChoice">
+                      {{ 'admin.premiumGrant.' + grantChoice | translate }}
+                    </option>
+                  }
+                </select>
+              </span>
               <small>{{ 'admin.field.premiumHint' | translate }}</small>
             </label>
             <button type="submit" [disabled]="viewModel.isSubmitting()">
@@ -265,15 +273,26 @@
                 </select>
               </span>
             </label>
-            <label>
-              <span>{{ 'admin.field.premium' | translate }}</span>
-              <input type="checkbox" formControlName="premium" />
-              @if (viewModel.editedAccountHasPaidPremium()) {
+            @if (viewModel.editedAccountHasPaidPremium()) {
+              <p>
+                <span>{{ 'admin.field.premium' | translate }}</span>
                 <small>{{ 'admin.field.premiumPaidHint' | translate }}</small>
-              } @else {
+              </p>
+            } @else {
+              <label>
+                <span>{{ 'admin.field.premium' | translate }}</span>
+                <span class="select-field">
+                  <select formControlName="premiumGrant">
+                    @for (grantChoice of viewModel.availablePremiumGrantChoices; track grantChoice) {
+                      <option [value]="grantChoice">
+                        {{ 'admin.premiumGrant.' + grantChoice | translate }}
+                      </option>
+                    }
+                  </select>
+                </span>
                 <small>{{ 'admin.field.premiumHint' | translate }}</small>
-              }
-            </label>
+              </label>
+            }
             <button type="submit" [disabled]="viewModel.isSubmitting()">
               {{ 'admin.edit.saveAction' | translate }}
             </button>

@@ -2,6 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AdminUserService } from '../../core/admin/admin-user.service';
 import {
+  AdminPremiumGrantTerm,
   AdminPremiumSource,
   AdminUser,
   USER_ACCOUNT_STATUSES,
@@ -13,6 +14,21 @@ import { AbstractFormViewModel } from '../../shared/forms/abstract-form.view-mod
 
 /** Accounts per page. Enough to scan, few enough to render without thought. */
 const PAGE_SIZE = 25;
+
+/**
+ * What the operator picks for an account's full version: nothing, or a grant of some length.
+ *
+ * <p>A dropdown rather than a checkbox, because a grant now has a length and "granted" alone no
+ * longer says which.</p>
+ */
+export type AdminPremiumGrantChoice = 'NONE' | AdminPremiumGrantTerm;
+
+/** Every grant choice, in the order the dropdowns offer them. */
+export const ADMIN_PREMIUM_GRANT_CHOICES: readonly AdminPremiumGrantChoice[] = [
+  'NONE',
+  'ONE_YEAR',
+  'LIFETIME',
+];
 
 /**
  * One account as the table renders it.
@@ -68,9 +84,9 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
   /**
    * Whether the account in the edit panel is premium because it paid.
    *
-   * <p>Its premium checkbox is then locked on: taking a paid entitlement away is a refund or a
+   * <p>Its grant choice is then not offered: taking a paid entitlement away is a refund or a
    * cancellation at the payment provider, and the backend refuses it from here anyway. The panel
-   * says so instead of offering a box that could only fail.</p>
+   * says so instead of offering a dropdown that could only fail.</p>
    */
   readonly editedAccountHasPaidPremium = computed<boolean>(() =>
     isPaidPremium(this.accountBeingEdited()?.premiumSource ?? null),
@@ -114,6 +130,9 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
   /** Every status the operator may set, for the dropdowns. */
   readonly availableStatuses = USER_ACCOUNT_STATUSES;
 
+  /** Every grant the operator may give, for the dropdowns. */
+  readonly availablePremiumGrantChoices = ADMIN_PREMIUM_GRANT_CHOICES;
+
   /** The search box. */
   readonly searchForm = this.formBuilder.nonNullable.group({ query: [''] });
 
@@ -122,7 +141,7 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
     email: ['', [Validators.required, Validators.email]],
     displayName: ['', [Validators.required, Validators.maxLength(120)]],
     status: ['ACTIVE' as UserAccountStatus, [Validators.required]],
-    premium: [false],
+    premiumGrant: ['NONE' as AdminPremiumGrantChoice],
   });
 
   /** The password the operator is setting on the edited account, blank to remove it. */
@@ -144,7 +163,7 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
     displayName: ['', [Validators.required]],
     password: ['', [Validators.minLength(REGISTRATION_FIELD_CONSTRAINTS.passwordMinimumLength)]],
     status: ['ACTIVE' as UserAccountStatus, [Validators.required]],
-    premium: [false],
+    premiumGrant: ['NONE' as AdminPremiumGrantChoice],
   });
 
   /** Loads the first page. Called by the page component once it is on screen. */
@@ -191,28 +210,9 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       email: account.email,
       displayName: account.displayName,
       status: account.status,
-      premium: account.premium,
+      premiumGrant: currentPremiumGrantChoice(account),
     });
-    this.lockPremiumWhenPaid(account);
     this.passwordForm.reset();
-  }
-
-  /**
-   * Locks the premium checkbox for an account that paid, and frees it for any other.
-   *
-   * <p>Through the control rather than a {@code [disabled]} binding, which a reactive form warns
-   * about and ignores. A locked box still submits its value — {@code getRawValue} includes it — so
-   * a paid account is sent as premium, which the backend treats as "no change".</p>
-   *
-   * @param account the account just opened for editing
-   */
-  private lockPremiumWhenPaid(account: AdminUser): void {
-    const premiumField = this.editForm.controls.premium;
-    if (isPaidPremium(account.premiumSource)) {
-      premiumField.disable();
-    } else {
-      premiumField.enable();
-    }
   }
 
   /** Closes the edit panel without saving. */
@@ -228,15 +228,24 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       return;
     }
 
+    const { email, displayName, status, premiumGrant } = this.editForm.getRawValue();
+
     this.beginSubmission();
-    this.adminUserService.updateAccount(account.id, this.editForm.getRawValue()).subscribe({
-      next: () => {
-        this.completeSubmissionWith('admin.users.accountSaved');
-        this.accountBeingEdited.set(null);
-        this.loadCurrentPage();
-      },
-      error: (failure: unknown) => this.failSubmission(failure),
-    });
+    this.adminUserService
+      .updateAccount(account.id, {
+        email,
+        displayName,
+        status,
+        ...describePremiumDecision(account, premiumGrant),
+      })
+      .subscribe({
+        next: () => {
+          this.completeSubmissionWith('admin.users.accountSaved');
+          this.accountBeingEdited.set(null);
+          this.loadCurrentPage();
+        },
+        error: (failure: unknown) => this.failSubmission(failure),
+      });
   }
 
   /** Sets, or removes, the edited account's password. */
@@ -315,7 +324,7 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
   startCreatingAccount(): void {
     this.creatingAccount.set(true);
     this.accountBeingEdited.set(null);
-    this.createForm.reset({ status: 'ACTIVE' });
+    this.createForm.reset({ status: 'ACTIVE', premiumGrant: 'NONE' });
   }
 
   /** Closes the create panel without creating anything. */
@@ -330,7 +339,7 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       return;
     }
 
-    const { username, email, displayName, password, status, premium } =
+    const { username, email, displayName, password, status, premiumGrant } =
       this.createForm.getRawValue();
 
     this.beginSubmission();
@@ -340,7 +349,8 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
         email,
         displayName,
         status,
-        premium,
+        premium: premiumGrant !== 'NONE',
+        premiumGrantTerm: premiumGrant === 'NONE' ? null : premiumGrant,
         ...(password.length > 0 ? { password } : {}),
       })
       .subscribe({
@@ -388,11 +398,7 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       displayName: account.displayName,
       status: account.status,
       statusLabel: this.translationService.translate(`admin.status.${account.status}`),
-      premiumLabel: this.translationService.translate(
-        account.premium && account.premiumSource
-          ? `admin.premium.${account.premiumSource}`
-          : 'admin.premium.no',
-      ),
+      premiumLabel: this.describePremium(account),
       createdAt: formatInstantForDisplay(
         account.createdAt,
         this.translationService.currentLanguageCode(),
@@ -401,6 +407,27 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       hasFailedAttempts: account.failedLoginAttempts > 0,
       signsInThroughProviderOnly: !account.hasPassword,
     };
+  }
+
+  /**
+   * Words why an account holds the full version, and until when a grant runs.
+   *
+   * @param account the account as the backend returned it
+   * @returns e.g. "Full — granted until 3 Oct 2027", or "Free"
+   */
+  private describePremium(account: AdminUser): string {
+    if (!account.premium || account.premiumSource === null) {
+      return this.translationService.translate('admin.premium.no');
+    }
+    if (account.premiumSource === 'GRANT' && account.premiumUntil !== null) {
+      return this.translationService.translate('admin.premium.GRANT_UNTIL', {
+        date: formatInstantForDisplay(
+          account.premiumUntil,
+          this.translationService.currentLanguageCode(),
+        ),
+      });
+    }
+    return this.translationService.translate(`admin.premium.${account.premiumSource}`);
   }
 }
 
@@ -412,4 +439,46 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
  */
 function isPaidPremium(premiumSource: AdminPremiumSource | null): boolean {
   return premiumSource === 'LIFETIME' || premiumSource === 'SUBSCRIPTION';
+}
+
+/**
+ * The grant choice an account currently stands at, to seed the edit panel with.
+ *
+ * <p>A paid account reads as {@code NONE}: it holds no grant, and the panel does not offer it the
+ * choice anyway.</p>
+ *
+ * @param account the account opened for editing
+ * @returns the grant it holds, or {@code NONE}
+ */
+function currentPremiumGrantChoice(account: AdminUser): AdminPremiumGrantChoice {
+  if (!account.premium || account.premiumSource !== 'GRANT') {
+    return 'NONE';
+  }
+  return account.premiumUntil === null ? 'LIFETIME' : 'ONE_YEAR';
+}
+
+/**
+ * Turns the operator's grant choice into the two fields the update request carries.
+ *
+ * <p>A paid account is sent as premium with no term, which the backend reads as "leave it be".
+ * Otherwise a term goes only with a choice the operator actually changed: an existing grant is
+ * re-applied whenever a term arrives, so sending the unchanged one would extend a year's grant on
+ * every unrelated save.</p>
+ *
+ * @param account the account being edited, as it was loaded
+ * @param chosenGrant what the dropdown says now
+ * @returns the {@code premium} and {@code premiumGrantTerm} fields of the request
+ */
+function describePremiumDecision(
+  account: AdminUser,
+  chosenGrant: AdminPremiumGrantChoice,
+): { premium: boolean; premiumGrantTerm: AdminPremiumGrantTerm | null } {
+  if (isPaidPremium(account.premiumSource)) {
+    return { premium: true, premiumGrantTerm: null };
+  }
+  if (chosenGrant === 'NONE') {
+    return { premium: false, premiumGrantTerm: null };
+  }
+  const grantChanged = chosenGrant !== currentPremiumGrantChoice(account);
+  return { premium: true, premiumGrantTerm: grantChanged ? chosenGrant : null };
 }

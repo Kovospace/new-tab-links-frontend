@@ -33,6 +33,19 @@ describe('premium standing', () => {
     );
   });
 
+  it("leaves nothing to buy for a lifetime grant, and lifetime for a year's grant", () => {
+    const grant = (plan: SubscriptionStatus['plan']): SubscriptionStatus => ({
+      ...subscription(plan),
+      grantedByOperator: true,
+    });
+    expect(listPurchasablePlans(resolvePremiumStanding(account(true), grant('LIFETIME')))).toEqual(
+      [],
+    );
+    expect(
+      listPurchasablePlans(resolvePremiumStanding(account(true), grant('YEARLY_RECURRING'))),
+    ).toEqual(['LIFETIME']);
+  });
+
   it('counts premium with no readable plan as subscribed, so lifetime stays on offer', () => {
     expect(resolvePremiumStanding(account(true), NO_SUBSCRIPTION)).toBe('SUBSCRIBED');
   });

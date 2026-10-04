@@ -45,6 +45,14 @@ export interface AdminUser {
   readonly premium: boolean;
   /** Why the account is premium, or {@code null} when it is not. */
   readonly premiumSource: AdminPremiumSource | null;
+  /**
+   * When the full version runs out, ISO-8601, while the account holds it.
+   *
+   * <p>{@code null} when it never runs out — a lifetime purchase or a lifetime grant — and when
+   * the account is not premium at all. For a grant, this is what tells a year's grant from a
+   * lifetime one.</p>
+   */
+  readonly premiumUntil: string | null;
   readonly failedLoginAttempts: number;
   readonly createdAt: string;
   readonly updatedAt: string;
@@ -58,6 +66,15 @@ export interface AdminUser {
  * paid entitlement ends through a refund or a cancellation at the provider, never by a checkbox.</p>
  */
 export type AdminPremiumSource = 'LIFETIME' | 'SUBSCRIPTION' | 'GRANT';
+
+/**
+ * How long an operator's grant lasts, mirroring the backend's {@code PremiumGrantTerm}.
+ *
+ * <p>{@code ONE_YEAR} runs for a calendar year from the moment it is granted and is never
+ * renewed; {@code LIFETIME} has no end. The account page offers the lifetime purchase to the
+ * holder of a year's grant, and nothing to the holder of a lifetime one.</p>
+ */
+export type AdminPremiumGrantTerm = 'ONE_YEAR' | 'LIFETIME';
 
 /** One page of accounts, mirroring the backend's {@code AdminUserPageDto}. */
 export interface AdminUserPage {
@@ -82,9 +99,18 @@ export interface AdminUserUpdate {
    * Whether the account holds the full version; the operator's grant or revoke.
    *
    * <p>Sent unchanged for an account that paid: the backend refuses to revoke a paid entitlement
-   * with a 409, and the edit panel locks the checkbox so it is never asked to.</p>
+   * with a 409, and the edit panel hides the grant choice so it is never asked to.</p>
    */
   readonly premium: boolean;
+  /**
+   * How long the grant lasts, or {@code null} to leave an existing entitlement as it is.
+   *
+   * <p>Sent only when the operator changed the grant: the backend re-applies a non-null term to
+   * an existing grant, so sending the unchanged term on every save would push a year's grant a
+   * year further each time the account's email was corrected. With {@code null}, an account that
+   * is not premium yet gets a lifetime grant.</p>
+   */
+  readonly premiumGrantTerm: AdminPremiumGrantTerm | null;
 }
 
 /** An account created by the operator, mirroring {@code AdminUserCreateRequestDto}. */
@@ -97,4 +123,6 @@ export interface AdminUserCreation {
   readonly status: UserAccountStatus;
   /** Whether the new account starts with the full version. */
   readonly premium: boolean;
+  /** How long that grant lasts; {@code null} when the account starts free. */
+  readonly premiumGrantTerm: AdminPremiumGrantTerm | null;
 }

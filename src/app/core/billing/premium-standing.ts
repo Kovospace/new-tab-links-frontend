@@ -20,8 +20,12 @@ export type PremiumStanding = 'UNKNOWN' | 'FREE' | 'SUBSCRIBED' | 'LIFETIME';
  * <p>Whether the account is premium comes from {@link UserAccount.premium} and nothing else — the
  * one flag that answers that question — never from the subscription's dates. The subscription is
  * read only to tell the two kinds of premium apart. A premium account whose plan is not lifetime
- * counts as subscribed, which includes an operator's grant: it can still be upgraded to lifetime,
- * and offering that is the safe mistake.</p>
+ * counts as subscribed: it can still be upgraded to lifetime, and offering that is the safe
+ * mistake.</p>
+ *
+ * <p>An operator's grant names a plan too — {@code LIFETIME} for a grant without an end,
+ * {@code YEARLY_RECURRING} for a year — so a lifetime grant leaves nothing to buy and a year's
+ * grant is offered lifetime, exactly as if it had been paid for.</p>
  *
  * @param signedInAccount the signed-in account, or {@code null} when there is none or it has not
  *     loaded yet

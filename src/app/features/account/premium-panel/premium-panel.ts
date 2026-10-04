@@ -29,6 +29,9 @@ export class PremiumPanel {
   /** The plan to choose before the reader does, or {@code null} for the form's own default. */
   readonly preselectedPlan = input<PremiumPlan | null>(null);
 
+  /** Whether the full version the account already holds was given by an operator. */
+  readonly heldPremiumIsOperatorGrant = input<boolean>(false);
+
   /** State and behaviour of the purchase form. */
   protected readonly viewModel = inject(PremiumPanelViewModel);
 
@@ -40,5 +43,10 @@ export class PremiumPanel {
    */
   private readonly offerThePurchasablePlans = effect(() =>
     this.viewModel.offerPlans(this.purchasablePlans(), this.preselectedPlan()),
+  );
+
+  /** Keeps the form's wording of what lifetime replaces in step with the page. */
+  private readonly describeTheHeldPremium = effect(() =>
+    this.viewModel.describeHeldPremium(this.heldPremiumIsOperatorGrant()),
   );
 }

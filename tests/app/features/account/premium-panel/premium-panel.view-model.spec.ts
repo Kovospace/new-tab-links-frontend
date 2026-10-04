@@ -128,6 +128,15 @@ describe('PremiumPanelViewModel', () => {
     );
   });
 
+  it("tells the holder of a year's grant that lifetime replaces it, not a subscription", () => {
+    viewModel.describeHeldPremium(true);
+    viewModel.offerPlans(['LIFETIME'], null);
+
+    expect(viewModel.subscriptionCancellationNotice()).toBe(
+      'account.premium.grantReplacedByLifetime',
+    );
+  });
+
   it('chooses the plan a link preselected', () => {
     viewModel.offerPlans(['YEARLY_RECURRING', 'LIFETIME'], 'LIFETIME');
 

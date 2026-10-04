@@ -10,11 +10,19 @@
   @if (viewModel.hasAccount()) {
     <app-profile-panel [currentDisplayName]="viewModel.currentDisplayName()" />
 
+    @if (viewModel.operatorGrantNotice(); as operatorGrantNotice) {
+      <section>
+        <h1>{{ 'account.grant.heading' | translate }}</h1>
+        <p>{{ operatorGrantNotice }}</p>
+      </section>
+    }
+
     @if (viewModel.canPurchasePremium()) {
       <app-premium-panel
         [id]="premiumPanelAnchor"
         [purchasablePlans]="viewModel.purchasablePlans()"
         [preselectedPlan]="viewModel.preselectedPremiumPlan()"
+        [heldPremiumIsOperatorGrant]="viewModel.holdsOperatorGrant()"
       />
     }
 
