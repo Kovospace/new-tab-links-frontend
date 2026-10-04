@@ -295,7 +295,7 @@
     "cancelSubscription": {
       "heading": "Zrušenie predplatného",
       "lead": "Zrušením zastavíte ďalšie obnovenie. Plnú verziu máte do konca už zaplateného obdobia a nič sa nevracia.",
-      "downgradeNotice": "Po skončení zaplateného obdobia sa účet vráti na bezplatný plán. Čokoľvek nad jeho limity zostane presne tam, kde je, a nikdy sa nezmaže — len sa uzamkne na čítanie, kým si predplatné znova neaktivujete.",
+      "downgradeNotice": "Po skončení zaplateného obdobia sa účet vráti na bezplatný plán. Čokoľvek nad jeho limity zostane presne tam, kde je, a nikdy sa nezmaže — môžete to ďalej používať, upravovať aj mazať, no pridať ďalšie nemôžete, kým nebudete pod limitmi alebo si predplatné znova neaktivujete.",
       "action": "Zrušiť predplatné",
       "success": "Vaše predplatné sa už neobnoví. Plnú verziu máte do konca zaplateného obdobia."
     },
