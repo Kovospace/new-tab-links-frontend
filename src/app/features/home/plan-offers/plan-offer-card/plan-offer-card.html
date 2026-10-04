@@ -1,0 +1,23 @@
+@let presentedOffer = offer();
+<div class="plan-offer-card" [class]="presentedOffer.variantClass">
+  <h3>{{ presentedOffer.heading }}</h3>
+  @if (presentedOffer.billingNote) {
+    <span>{{ presentedOffer.billingNote }}</span>
+  }
+
+  @for (feature of presentedOffer.features; track feature.label) {
+    <h4>{{ feature.label }}</h4>
+    <p>{{ feature.value }}</p>
+  }
+
+  @if (presentedOffer.action.routerLink) {
+    <a
+      class="plan-offer-card__call-to-action"
+      [routerLink]="presentedOffer.action.routerLink"
+      [queryParams]="presentedOffer.action.queryParams"
+      >{{ presentedOffer.action.label }}</a
+    >
+  } @else {
+    <strong>{{ presentedOffer.action.label }}</strong>
+  }
+</div>

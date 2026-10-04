@@ -10,17 +10,19 @@ import { AuthenticationSessionStore } from '@app/core/auth/authentication-sessio
 import { PremiumPricingStore } from '@app/core/billing/premium-pricing.store';
 import { PremiumStanding } from '@app/core/billing/premium-standing';
 import { PremiumStandingService } from '@app/core/billing/premium-standing.service';
-import { HomeFeaturesContentService } from '@app/core/home-features/home-features-content.service';
 import { TranslationService } from '@app/core/i18n/translation.service';
-import { HomePageViewModel, PresentedOfferAction } from '@app/features/home/home-page.view-model';
+import {
+  PlanOffersViewModel,
+  PresentedOfferAction,
+} from '@app/features/home/plan-offers/plan-offers.view-model';
 
 /**
  * What the button under each offer says and where it leads, for every premium standing.
  */
-describe('HomePageViewModel', () => {
+describe('PlanOffersViewModel', () => {
   const isSignedIn = signal(true);
   let standing: PremiumStanding;
-  let viewModel: HomePageViewModel;
+  let viewModel: PlanOffersViewModel;
   const pricedOffers = signal<readonly PremiumOffer[]>([]);
 
   const offers = (): Record<'free' | 'subscription' | 'lifetime', PresentedOfferAction> => ({
@@ -39,7 +41,7 @@ describe('HomePageViewModel', () => {
     pricedOffers.set([]);
     TestBed.configureTestingModule({
       providers: [
-        HomePageViewModel,
+        PlanOffersViewModel,
         provideHttpClient(),
         provideHttpClientTesting(),
         {
@@ -53,13 +55,9 @@ describe('HomePageViewModel', () => {
         },
         { provide: AuthenticationSessionStore, useValue: { isSignedIn } },
         { provide: PremiumStandingService, useValue: { loadPremiumStanding: () => of(standing) } },
-        {
-          provide: HomeFeaturesContentService,
-          useValue: { loadRenderedHomeFeatures: () => of([]) },
-        },
       ],
     });
-    viewModel = TestBed.inject(HomePageViewModel);
+    viewModel = TestBed.inject(PlanOffersViewModel);
   });
 
   it('offers the extension everywhere to a visitor nobody knows', () => {
@@ -116,6 +114,24 @@ describe('HomePageViewModel', () => {
     for (const action of Object.values(offers())) {
       expect(action.routerLink).toBeNull();
     }
+  });
+
+  it('draws the three columns in order, each with its lines and its button', () => {
+    loadWith('FREE');
+
+    const columns = viewModel.presentedOffers();
+    expect(columns.map((column) => column.variantClass)).toEqual([
+      'plan-offer-card--free',
+      'plan-offer-card--subscription',
+      'plan-offer-card--lifetime',
+    ]);
+    expect(columns[0].features.find((feature) => feature.value === '2')?.label).toBe(
+      'home.downloads.workspacesCount',
+    );
+    expect(columns[2].features.find((feature) => feature.value === '500')?.label).toBe(
+      'home.downloads.closedTabsCount',
+    );
+    expect(columns[1].action).toEqual(offers().subscription);
   });
 
   it('forgets the standing the moment the visitor signs out', () => {

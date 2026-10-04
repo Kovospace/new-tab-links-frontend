@@ -1,0 +1,32 @@
+// The row of offer columns and the note under it. Each column styles itself, in
+// plan-offer-card.scss.
+
+.plan-offers {
+  font-size: 0.75em;
+  width: 100%;
+  margin-top: 4em;
+  margin-bottom: 2em;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-evenly;
+
+  @media (max-width: 959px) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.plan-offers__fair-use-note {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.875em;
+  display: block;
+  margin-bottom: 2em;
+  text-align: center;
+
+  a {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,12 @@
+<section class="plan-offers">
+  @for (presentedOffer of viewModel.presentedOffers(); track presentedOffer.variant) {
+    <app-plan-offer-card [offer]="presentedOffer" />
+  }
+</section>
+
+<p class="plan-offers__fair-use-note">
+  <small
+    >{{ 'home.downloads.fairUseNotice' | translate }}
+    <a [routerLink]="viewModel.fairUsePolicyLink()">{{ 'footer.fairUse' | translate }}</a></small
+  >
+</p>
