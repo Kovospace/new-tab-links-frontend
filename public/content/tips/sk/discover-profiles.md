@@ -17,11 +17,11 @@ Príklad takého nastavenia:
 
 Aktuálny profil vidíte vpravo hore na novej karte:
 
-![Tlačidlo s aktuálnym profilom](../../../images/sk/tips/discover-profiles/1.webp)
+![Tlačidlo s aktuálnym profilom vpravo hore na novej karte](../../../images/sk/tips/discover-profiles/profiles-location_1x.webp)
 
 Kliknutím naň sa medzi profilmi prepnete. V tom istom menu profil aj vytvoríte, exportujete,
 importujete či spravujete:
 
-![Menu profilov](../../../images/sk/tips/discover-profiles/2.webp)
+![Tlačidlo s aktuálnym profilom](../../../images/sk/tips/discover-profiles/profiles-detail_1x.webp)
 
 Viac o pracovných priestoroch: [Objavte pracovné priestory](discover-workspaces.md)

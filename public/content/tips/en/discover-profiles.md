@@ -17,11 +17,11 @@ Imagine example setup like this:
 
 You can see the current profile at the top right of the new tab:
 
-![Current profile button](../../../images/en/tips/discover-profiles/1.webp)
+![The current profile button, at the top right of the new tab](../../../images/en/tips/discover-profiles/profiles-location_1x.webp)
 
 Click it to switch between profiles. The same menu also lets you create, export, import and
 manage profiles:
 
-![Profiles menu](../../../images/en/tips/discover-profiles/2.webp)
+![The current profile button](../../../images/en/tips/discover-profiles/profiles-detail_1x.webp)
 
 Learn more about concept of workspaces: [Discover workspaces](discover-workspaces.md)
