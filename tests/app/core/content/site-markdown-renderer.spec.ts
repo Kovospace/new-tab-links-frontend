@@ -17,6 +17,42 @@ describe('renderSiteMarkdown', () => {
     );
   });
 
+  it('gives an image named _1x a srcset of its 2x and 3x siblings', () => {
+    const html = renderSiteMarkdown('![Menu](open-menu_1x.webp)', {
+      languageCode: 'sk',
+      imageFolder: 'tips/profiles',
+      markdownFolder: '/content/tips/sk',
+    });
+
+    expect(html).toContain('src="/images/sk/tips/profiles/open-menu_1x.webp"');
+    expect(html).toContain(
+      'srcset="/images/sk/tips/profiles/open-menu_1x.webp 1x, ' +
+        '/images/sk/tips/profiles/open-menu_2x.webp 2x, ' +
+        '/images/sk/tips/profiles/open-menu_3x.webp 3x"',
+    );
+    expect(html).toContain('alt="Menu"');
+  });
+
+  it('gives a _1x image written as a path from the file the same srcset', () => {
+    const html = renderSiteMarkdown('![Menu](../../../images/sk/tips/profiles/open-menu_1x.webp)', {
+      languageCode: 'sk',
+      imageFolder: 'tips/profiles',
+      markdownFolder: '/content/tips/sk',
+    });
+
+    expect(html).toContain('/images/sk/tips/profiles/open-menu_3x.webp 3x');
+  });
+
+  it('leaves an image without _1x in its name without a srcset', () => {
+    const html = renderSiteMarkdown('![Menu](open-menu.webp) ![Big](open-menu_2x.webp)', {
+      languageCode: 'sk',
+      imageFolder: 'tips/profiles',
+      markdownFolder: '/content/tips/sk',
+    });
+
+    expect(html).not.toContain('srcset');
+  });
+
   it('pushes every heading down by the offset, never past h6', () => {
     const html = renderSiteMarkdown('# Title\n\n## Part\n\n###### Deepest', {
       languageCode: 'en',

@@ -1,4 +1,4 @@
-import { Marked, Tokens } from 'marked';
+import { Marked, Renderer, Tokens } from 'marked';
 import { buildLocalizedImageUrl } from '../i18n/localized-image.pipe';
 import { SupportedLanguageCode } from '../i18n/supported-language';
 import { localizeTipLink } from '../routing/localized-route-links';
@@ -32,6 +32,12 @@ export interface SiteMarkdownRenderingOptions {
 const DEEPEST_HEADING_LEVEL = 6;
 
 /**
+ * An image address naming the 1x copy of a set of densities: {@code <name>_1x.<ext>}, with any
+ * query or fragment after it. The _2x and _3x copies sit beside it under the same name.
+ */
+const RETINA_IMAGE_ADDRESS = /^(.*)_1x(\.[^./?#]+)([?#].*)?$/;
+
+/**
  * Turns a piece of the site's markdown — a tip, a home page point — into HTML.
  *
  * <p>Two kinds of address are resolved on the way, so the markdown can stay short and portable:</p>
@@ -58,6 +64,11 @@ const DEEPEST_HEADING_LEVEL = 6;
  *
  * <p>Absolute paths, full URLs and in-page anchors are left exactly as written.</p>
  *
+ * <p>An image whose file name ends in {@code _1x} — {@code ![Menu](open-menu_1x.webp)} — is one of
+ * three densities, and is rendered with a {@code srcset} naming its {@code _2x} and {@code _3x}
+ * beside it, so a retina display picks the sharper copy. The image-maintenance tool derives all
+ * three from a single {@code _3x} export.</p>
+ *
  * <p>The HTML is not trusted by being ours: it is bound with {@code [innerHTML]}, which Angular
  * sanitises, so a script or an event handler in a markdown file is dropped rather than run.</p>
  *
@@ -71,6 +82,7 @@ export function renderSiteMarkdown(
 ): string {
   const headingLevelOffset = options.headingLevelOffset ?? 0;
   const renderer = new Marked({
+    renderer: { image: renderImageWithDensities },
     walkTokens: (token) => {
       if (token.type === 'image') {
         resolveImageAddress(token as Tokens.Image, options);
@@ -102,6 +114,38 @@ function resolveImageAddress(image: Tokens.Image, options: SiteMarkdownRendering
     );
     image.href = `/${localizedPath.replace(/^\/+/, '')}`;
   }
+}
+
+/**
+ * Renders an image, adding a density {@code srcset} when it names the 1x copy of a set.
+ *
+ * <p>Any other image is rendered exactly as marked would. The address has already been resolved by
+ * {@link resolveImageAddress}, so the siblings are derived from the final path.</p>
+ *
+ * @param image the image token
+ * @returns its HTML
+ */
+function renderImageWithDensities(this: Renderer, image: Tokens.Image): string {
+  const html = Renderer.prototype.image.call(this, image);
+  const retina = RETINA_IMAGE_ADDRESS.exec(image.href);
+  if (retina === null) {
+    return html;
+  }
+  const [, stem, extension, suffix = ''] = retina;
+  const srcset = [1, 2, 3]
+    .map((density) => `${stem}_${density}x${extension}${suffix} ${density}x`)
+    .join(', ');
+  return html.replace(/^<img /, `<img srcset="${escapeAttribute(srcset)}" `);
+}
+
+/**
+ * Escapes text for a double-quoted HTML attribute.
+ *
+ * @param value the text
+ * @returns it, safe between double quotes
+ */
+function escapeAttribute(value: string): string {
+  return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }
 
 /**

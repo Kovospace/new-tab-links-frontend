@@ -24,6 +24,8 @@
 // encoding, `convert` derives every missing lower density from it — <name>_1x … <name>_<N-1>x,
 // scaled to k/N of its size with Lanczos — so dropping in one _3x export yields _1x, _2x and _3x.
 // The demo slides use this: _1x is the 1280x800 slide, _2x and _3x feed its srcset.
+// Markdown uses it too: an image written as <name>_1x.<ext> is rendered with a srcset of its _2x
+// and _3x, so write the _1x name in the markdown and drop in the _3x export.
 //
 // Encoding: lossless and lossy (quality 85, as the demo slides were) are both tried and the smaller
 // kept. A file WebP would make bigger is left as it is and reported.
@@ -111,6 +113,18 @@ function resolveMarkdownImage(address, markdownFile, language, imageFolder) {
   return join(IMAGES_ROOT, language, imageFolder, path);
 }
 
+/**
+ * A markdown image named <name>_1x.<ext> is rendered with a srcset of its _2x and _3x
+ * (site-markdown-renderer.ts), so those two are referenced by it as well: `check` reports either
+ * one missing, and neither as unused.
+ */
+function withRetinaSiblings(target) {
+  const retina = /^(.*)_1x(\.[^./]+)$/.exec(target);
+  return retina === null
+    ? [target]
+    : [target, `${retina[1]}_2x${retina[2]}`, `${retina[1]}_3x${retina[2]}`];
+}
+
 /** The line a piece of text first appears on, 1-based. */
 function lineOf(text, needle) {
   const index = text.indexOf(needle);
@@ -132,7 +146,7 @@ function collectMarkdownReferences() {
             source: file,
             line: lineOf(markdown, `(${address}`),
             written: address,
-            targets: [posix.normalize(target)],
+            targets: withRetinaSiblings(posix.normalize(target)),
           });
         }
       }

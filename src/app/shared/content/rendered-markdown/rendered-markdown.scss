@@ -46,6 +46,9 @@
 
   img {
     max-width: var(--markdown-image-max-width, none);
+    margin: 0.5em;
+    border: 0.25em solid var(--color-accent);
+    border-radius: 0.75em;
   }
 
   strong {
