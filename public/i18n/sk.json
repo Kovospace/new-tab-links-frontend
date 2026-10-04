@@ -65,6 +65,7 @@
       "linksCount": "Počet odkazov",
       "workspacesCount": "Pracovné plochy",
       "profilesCount": "Profily",
+      "closedTabsCount": "História zatvorených kariet",
       "devicesCount": "Synchronizované inštalácie",
       "ads": "BEZ reklamného pruhu",
       "action": {
@@ -205,6 +206,7 @@
     "columnFirstSeen": "Prvé použitie",
     "columnLastUsed": "Posledné použitie",
     "columnState": "Stav",
+    "columnSync": "Synchronizácia",
     "columnActions": "Akcie",
     "stateSignedIn": "Prihlásené",
     "stateSignedOut": "Odhlásené",
@@ -224,7 +226,32 @@
     "connectCodeHint": "Na interpunkcii ani veľkosti písmen nezáleží.",
     "copyCodeAction": "Skopírovať kód",
     "copyCodeConfirmation": "Skopírované.",
-    "copyCodeFailure": "Kód sa nepodarilo skopírovať. Označte ho a skopírujte ručne."
+    "copyCodeFailure": "Kód sa nepodarilo skopírovať. Označte ho a skopírujte ručne.",
+    "sync": {
+      "SYNCHRONISED": "Synchronizované",
+      "PARTIAL": "Čiastočne - nad limit",
+      "NOT_SYNCHRONISED": "Nesynchronizované - nad limit",
+      "UNKNOWN": "Zatiaľ bez hlásenia"
+    },
+    "inventoryState": {
+      "SYNCHRONISED": "Synchronizované",
+      "LOCAL_ONLY_FREE_LIMIT": "Len na tomto zariadení - nad limit bezplatného plánu",
+      "LOCAL_ONLY_FAIR_USE": "Len na tomto zariadení - nad limit primeraného používania",
+      "EXAMPLE": "Ukážkové dáta - nesynchronizujú sa, kým ich neupravíte",
+      "UNKNOWN": "Neznáme"
+    },
+    "detail": {
+      "heading": "Zariadenie",
+      "headingForDevice": "{deviceName} ({browserName})",
+      "lead": "Čo táto inštalácia obsahuje a čo z toho sa synchronizuje s vaším účtom. Dáta, ktoré sa nesynchronizujú, zostávajú na zariadení a nikdy sa nemažú.",
+      "backToDevices": "Späť na moje zariadenia",
+      "noReport": "Toto zariadenie ešte nenahlásilo, čo obsahuje. Rozšírenia to hlásia po synchronizácii; prehliadač, v ktorom ste sa prihlásili len na web, to nehlási nikdy.",
+      "reportedAt": "Nahlásené {date}",
+      "columnWorkspace": "Pracovný priestor",
+      "columnSync": "Synchronizácia",
+      "columnGroups": "Skupiny",
+      "columnLinks": "Odkazy"
+    }
   },
   "account": {
     "heading": "Účet",
@@ -535,6 +562,9 @@
     },
     "devices": {
       "title": "Moje zariadenia"
+    },
+    "deviceDetail": {
+      "title": "Zariadenie"
     },
     "account": {
       "title": "Môj účet"

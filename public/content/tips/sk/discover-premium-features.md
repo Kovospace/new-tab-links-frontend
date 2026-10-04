@@ -7,7 +7,7 @@ Objavte niektoré výhody platenej verzie, ktoré na domovskej stránke nespomí
 - Neobmedzený\* počet odkazov
 - Neobmedzený\* počet pracovných priestorov
 - Neobmedzený\* počet profilov
-- Neobmedzený počet synchronizovaných zariadení
+- Neobmedzený\* počet synchronizovaných zariadení
 - Žiadny reklamný pruh
 
 _\* Platia [Zásady primeraného používania](/fair-use)._

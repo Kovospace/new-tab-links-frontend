@@ -4,7 +4,8 @@
 
 ## Prečo vôbec nejaké zásady
 
-Prémium sľubuje neobmedzený počet odkazov, pracovných priestorov a profilov a pre ľudí, pre
+Prémium sľubuje neobmedzený počet odkazov, pracovných priestorov, profilov a synchronizovaných
+inštalácií a pre ľudí, pre
 ktorých je určené - pre niekoho, kto si usporadúva odkazy, ktoré naozaj používa - tento sľub platí.
 Limity nižšie existujú len preto, aby sa služba nedala použiť ako hromadné úložisko, plniť
 skriptom alebo zaťažovať tak, že by sa spomalila pre všetkých ostatných.
@@ -16,19 +17,29 @@ Tabilinks používate tak, ako je zamýšľané, môžete tu prestať čítať.
 
 | Čo | Limit |
 |---|---|
-| Odkazy v jednom pracovnom priestore | 500 |
-| Pracovné priestory | 50 |
 | Profily na účet | 50 |
+| Pracovné priestory v jednom profile | 50 |
+| Skupiny v jednom pracovnom priestore | 25 |
+| Podskupiny v jednej skupine | 25 |
+| Odkazy v jednom pracovnom priestore | 500 |
 | Zatvorené karty uchovávané v histórii | 500 |
+| Synchronizované inštalácie | 100 |
 
-Limit odkazov v pracovnom priestore platí pre každý plán vrátane bezplatného. Bezplatný plán má
-vlastné, nižšie limity na pracovné priestory a profily, uvedené na [úvodnej stránke](/).
+Limity skupín, podskupín a odkazov platia pre každý plán vrátane bezplatného. Bezplatný plán má
+vlastné, nižšie limity na profily, pracovné priestory, inštalácie a históriu zatvorených kariet,
+uvedené na [úvodnej stránke](/).
 
 ## Čo sa stane, keď limit dosiahnete
 
-Ďalšiu položku daného druhu nepridáte, kým niektorú neodstránite. Nič, čo už máte, sa nezmaže ani
-nezmení. História zatvorených kariet uchováva 500 najnovších kariet; staršie uvoľnia miesto
-novším.
+Ďalšiu položku daného druhu tam, kde ste limit dosiahli, nepridáte, kým niektorú neodstránite:
+do plného pracovného priestoru už nepridáte odkaz, ostatných pracovných priestorov sa to však
+netýka. Nič, čo už máte, sa nezmaže ani nezmení. História zatvorených kariet uchováva 500
+najnovších kariet; staršie uvoľnia miesto novším.
+
+Dáta sa nad limit môžu dostať aj tak - napríklad keď k jednému účtu pripojíte dve inštalácie,
+ktoré ste používali oddelene. Takéto dáta sa nikdy nemažú: zostanú na zariadení, ktoré ich má, a
+nesynchronizujú sa. Stránka [Moje zariadenia](/devices) ukazuje pre každé zariadenie, čo sa
+synchronizuje a čo nie.
 
 ## Ak naozaj potrebujete viac
 

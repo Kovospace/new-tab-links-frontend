@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { API_ENDPOINT_PATHS } from '../api/api-endpoint-paths';
 import { BackendApiClient } from '../api/backend-api.client';
 import { ExtensionConnectCode } from '../api/models/authentication-request.model';
+import { DeviceInventory } from '../api/models/device-inventory.model';
 import { UserDevice } from '../api/models/user-device.model';
 
 /**
@@ -23,6 +24,18 @@ export class UserDeviceService {
    */
   loadMyDevices(): Observable<readonly UserDevice[]> {
     return this.backendApiClient.get<readonly UserDevice[]>(API_ENDPOINT_PATHS.user.myDevices);
+  }
+
+  /**
+   * Fetches what one installation last reported it holds, synchronised or not.
+   *
+   * @param deviceId identifier of the device
+   * @returns its inventory; fails with 404 when it has never reported
+   */
+  loadDeviceInventory(deviceId: string): Observable<DeviceInventory> {
+    return this.backendApiClient.get<DeviceInventory>(
+      API_ENDPOINT_PATHS.user.myDeviceInventory(deviceId),
+    );
   }
 
   /**

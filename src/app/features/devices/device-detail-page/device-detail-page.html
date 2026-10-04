@@ -1,0 +1,48 @@
+<article>
+  <section>
+    <a [routerLink]="viewModel.devicesLink">{{ 'devices.detail.backToDevices' | translate }}</a>
+
+    <h1>{{ viewModel.heading() }}</h1>
+    <i>{{ 'devices.detail.lead' | translate }}</i>
+
+    @if (viewModel.loadFailure()) {
+      <u role="alert">{{ viewModel.loadFailure() }}</u>
+    }
+
+    @if (viewModel.isLoading()) {
+      <i role="status">{{ 'form.submitting' | translate }}</i>
+    } @else if (viewModel.hasNoReport()) {
+      <p>{{ 'devices.detail.noReport' | translate }}</p>
+    } @else {
+      <p>{{ viewModel.reportedAtLabel() }}</p>
+
+      @for (profile of viewModel.presentedProfiles(); track $index) {
+        <section>
+          <h2>{{ profile.name }}</h2>
+          <p>{{ profile.syncLabel }}</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">{{ 'devices.detail.columnWorkspace' | translate }}</th>
+                <th scope="col">{{ 'devices.detail.columnSync' | translate }}</th>
+                <th scope="col">{{ 'devices.detail.columnGroups' | translate }}</th>
+                <th scope="col">{{ 'devices.detail.columnLinks' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (workspace of profile.workspaces; track $index) {
+                <tr>
+                  <td>{{ workspace.name }}</td>
+                  <td>{{ workspace.syncLabel }}</td>
+                  <td>{{ workspace.groupCountLabel }}</td>
+                  <td>{{ workspace.linkCountLabel }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </section>
+      }
+    }
+  </section>
+</article>

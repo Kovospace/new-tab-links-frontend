@@ -31,6 +31,7 @@ opened new tabs, which is added to a daily total and cannot be linked to you.
 | Password | Stored only as a one-way hash; nobody can read it back | Contract, Art. 6(1)(b) |
 | Google account identifier and email, if you sign in with Google | To recognise you when you sign in with Google | Contract, Art. 6(1)(b) |
 | Your devices: a device name and the browser name, when each was last used | To keep each installation signed in and to let you see and sign out your devices | Contract, Art. 6(1)(b) |
+| What each installation of the extension holds: the names of its profiles and workspaces, how many groups, subgroups and links each workspace has, and whether it synchronises - including data that does not synchronise. Never a link, its address or a group name | To show you on the website, device by device, what synchronises and what stays on the device over a limit | Contract, Art. 6(1)(b) |
 | Sign-in tokens, activation and reset codes | Stored only as hashes, to keep you signed in and to confirm emailed links | Contract, Art. 6(1)(b) |
 | Your synchronised content: workspaces, profiles, groups, links, their titles and descriptions, recently closed tabs (address, title, icon address, device name) | The synchronisation and backup you use the account for | Contract, Art. 6(1)(b) |
 | Premium status: plan, paid-until date, amount and currency charged, and the payment provider's customer, order and subscription identifiers | To give you the premium features you paid for | Contract, Art. 6(1)(b) |

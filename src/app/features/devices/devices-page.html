@@ -60,6 +60,11 @@
             </th>
             <th scope="col">
               <div class="devices-page__column-header-content">
+                {{ 'devices.columnSync' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="devices-page__column-header-content">
                 {{ 'devices.columnActions' | translate }}
               </div>
             </th>
@@ -83,6 +88,11 @@
               </td>
               <td class="devices-page__cell">
                 <div class="devices-page__cell-content">{{ presentedDevice.stateLabel }}</div>
+              </td>
+              <td class="devices-page__cell">
+                <div class="devices-page__cell-content">
+                  <a [routerLink]="presentedDevice.detailLink">{{ presentedDevice.syncLabel }}</a>
+                </div>
               </td>
               <td class="devices-page__cell">
                 @if (presentedDevice.isSignOutOffered) {

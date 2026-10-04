@@ -175,6 +175,15 @@ export const routes: Routes = [
       import('./features/devices/devices-page').then((module) => module.DevicesPage),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.deviceDetail,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.deviceDetail, 'seo.deviceDetail'),
+    canActivate: [requiresSignedInUser],
+    loadComponent: () =>
+      import('./features/devices/device-detail-page/device-detail-page').then(
+        (module) => module.DeviceDetailPage,
+      ),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.account,
     data: pageMetadataFor(APPLICATION_ROUTE_PATHS.account, 'seo.account'),
     canActivate: [requiresSignedInUser],

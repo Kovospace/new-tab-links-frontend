@@ -1,11 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { BackendFailureTranslator } from '../../core/api/backend-failure.translator';
-import { UserDevice } from '../../core/api/models/user-device.model';
+import { DeviceSyncSummary, UserDevice } from '../../core/api/models/user-device.model';
+import { buildDeviceDetailLink } from '../../core/routing/application-route-paths';
 import { TranslationService } from '../../core/i18n/translation.service';
 import { UserDeviceService } from '../../core/user/user-device.service';
 import { formatInstantForDisplay } from '../../shared/formatting/instant-formatter';
 import { createSelfClearingMessage } from '../../shared/messaging/self-clearing-message';
+
+/** Every synchronisation summary this build has wording for; anything else reads as unknown. */
+const WORDED_SYNC_SUMMARIES: readonly DeviceSyncSummary[] = [
+  'SYNCHRONISED',
+  'PARTIAL',
+  'NOT_SYNCHRONISED',
+  'UNKNOWN',
+];
 
 /** Status the backend answers with when the device is not there to be removed. */
 const DEVICE_ALREADY_GONE_STATUS = 404;
@@ -34,6 +43,10 @@ export interface PresentedDevice {
   readonly lastUsedLabel: string;
   /** Whether the device still holds a usable session, in words. */
   readonly stateLabel: string;
+  /** How much of what the device holds synchronises, in words. */
+  readonly syncLabel: string;
+  /** Where its detail page is: which of its profiles and workspaces synchronise. */
+  readonly detailLink: string;
   /** Whether signing out is worth offering — a signed-out device has nothing to revoke. */
   readonly isSignOutOffered: boolean;
   /**
@@ -103,6 +116,10 @@ export class DevicesPageViewModel {
       stateLabel: this.translationService.translate(
         device.signedIn ? 'devices.stateSignedIn' : 'devices.stateSignedOut',
       ),
+      syncLabel: this.translationService.translate(
+        `devices.sync.${wordableSyncSummary(device.syncSummary)}`,
+      ),
+      detailLink: buildDeviceDetailLink(device.id),
       isSignOutOffered: device.signedIn,
       isRemovalOffered: !device.signedIn,
     }));
@@ -280,4 +297,19 @@ export class DevicesPageViewModel {
  */
 function isDeviceAlreadyGone(failure: unknown): boolean {
   return failure instanceof HttpErrorResponse && failure.status === DEVICE_ALREADY_GONE_STATUS;
+}
+
+/**
+ * Narrows a summary to one this build has wording for.
+ *
+ * <p>The backend may grow the set; a summary this build has never heard of is shown as unknown
+ * rather than as its raw constant.</p>
+ *
+ * @param syncSummary the summary as the backend sent it
+ * @returns the same summary, or {@code UNKNOWN}
+ */
+function wordableSyncSummary(syncSummary: DeviceSyncSummary | undefined): DeviceSyncSummary {
+  return syncSummary !== undefined && WORDED_SYNC_SUMMARIES.includes(syncSummary)
+    ? syncSummary
+    : 'UNKNOWN';
 }
