@@ -14,6 +14,8 @@ const REPORTED_DEVICES: readonly UserDevice[] = [
     firstSeenAt: '2026-01-05T08:00:00Z',
     lastUsedAt: '2026-08-24T10:15:30Z',
     signedIn: true,
+    syncSummary: 'PARTIAL',
+    inventoryReportedAt: '2026-08-24T10:15:30Z',
   },
   {
     id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
@@ -22,6 +24,8 @@ const REPORTED_DEVICES: readonly UserDevice[] = [
     firstSeenAt: '2025-11-02T19:30:00Z',
     lastUsedAt: '2025-12-24T21:00:00Z',
     signedIn: false,
+    syncSummary: 'UNKNOWN',
+    inventoryReportedAt: null,
   },
 ];
 
@@ -30,6 +34,7 @@ const DEVICE_TRANSLATIONS = {
   devices: {
     stateSignedIn: 'Signed in',
     stateSignedOut: 'Signed out',
+    sync: { PARTIAL: 'Partially', UNKNOWN: 'No report yet' },
     removeSuccess: 'That device was removed from the list.',
     removeWarning: '{deviceName} ({browserName}) stops being listed.',
   },
@@ -101,6 +106,20 @@ describe('DevicesPageViewModel', () => {
     expect(firstDevice.stateLabel).toBe('Signed in');
     expect(firstDevice.firstSeenLabel).toContain('2026');
     expect(firstDevice.lastUsedLabel).toContain('2026');
+  });
+
+  it('words how much of each device synchronises, and links to its detail page', () => {
+    viewModel.loadDevices();
+    respondWithDevices([
+      ...REPORTED_DEVICES,
+      { ...REPORTED_DEVICES[0], id: 'cccc', syncSummary: 'SOMETHING_NEWER' as never },
+    ]);
+
+    const [partial, unreported, unknownToThisBuild] = viewModel.presentedDevices();
+    expect(partial.syncLabel).toBe('Partially');
+    expect(partial.detailLink).toBe('/devices/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
+    expect(unreported.syncLabel).toBe('No report yet');
+    expect(unknownToThisBuild.syncLabel).toBe('No report yet');
   });
 
   it('offers signing out only for a device that still holds a session', () => {

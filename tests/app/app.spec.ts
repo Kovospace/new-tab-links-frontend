@@ -23,6 +23,7 @@ const ENGLISH_TRANSLATIONS = {
     privacy: 'Privacy Policy',
     terms: 'Terms of Service',
     refunds: 'Refund Policy',
+    fairUse: 'Fair Use Policy',
     cookies: 'Cookies',
     supportLabel: 'Support:',
     sitemap: 'Sitemap',
@@ -124,6 +125,7 @@ describe('App shell', () => {
       'Privacy Policy',
       'Terms of Service',
       'Refund Policy',
+      'Fair Use Policy',
       'Cookies',
       'Sitemap',
     ]);

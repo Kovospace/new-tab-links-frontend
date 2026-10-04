@@ -59,6 +59,15 @@ export const API_ENDPOINT_PATHS = {
     myDevice: (deviceId: string): string => `/api/v1/users/me/devices/${deviceId}`,
 
     /**
+     * Builds the path of what one installation last reported it holds.
+     *
+     * @param deviceId identifier of the device, as listed by {@code myDevices}
+     * @returns the path of that device's inventory
+     */
+    myDeviceInventory: (deviceId: string): string =>
+      `/api/v1/users/me/devices/${deviceId}/inventory`,
+
+    /**
      * Query parameter deciding which kind of deletion {@code DELETE myDevice} performs.
      *
      * <p>Absent or {@code false} — the default — revokes the device's tokens and keeps the row,

@@ -70,6 +70,15 @@ const LOCALIZED_PAGE_ROUTES: Routes = [
       import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.fairUse,
+    data: {
+      legalDocumentName: 'fair-use',
+      ...pageMetadataFor(APPLICATION_ROUTE_PATHS.fairUse, 'seo.fairUse'),
+    } satisfies LegalTextRouteData & PageMetadataRouteData,
+    loadComponent: () =>
+      import('./features/legal/legal-text-page').then((module) => module.LegalTextPage),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.cookies,
     data: {
       legalDocumentName: 'cookies',
@@ -164,6 +173,15 @@ export const routes: Routes = [
     canActivate: [requiresSignedInUser],
     loadComponent: () =>
       import('./features/devices/devices-page').then((module) => module.DevicesPage),
+  },
+  {
+    path: APPLICATION_ROUTE_PATHS.deviceDetail,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.deviceDetail, 'seo.deviceDetail'),
+    canActivate: [requiresSignedInUser],
+    loadComponent: () =>
+      import('./features/devices/device-detail-page/device-detail-page').then(
+        (module) => module.DeviceDetailPage,
+      ),
   },
   {
     path: APPLICATION_ROUTE_PATHS.account,

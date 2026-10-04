@@ -32,6 +32,7 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "refunds": "Refund Policy",
+    "fairUse": "Fair Use Policy",
     "cookies": "Cookies",
     "supportLabel": "Support:",
     "sitemap": "Sitemap",
@@ -58,11 +59,13 @@
         "titleWithoutPrice": "LIFETIME"
       },
       "unlimitedAmount": "UNLIMITED",
+      "unlimitedAmountUnderFairUse": "UNLIMITED*",
       "yes": "YES",
       "no": "NO",
       "linksCount": "Number of links",
       "workspacesCount": "Workspaces",
       "profilesCount": "Profiles",
+      "closedTabsCount": "Closed tabs history",
       "devicesCount": "Synchronised installations",
       "ads": "NO ad banner",
       "action": {
@@ -71,7 +74,8 @@
         "upgradeToLifetime": "Upgrade to lifetime",
         "alreadyOnLifetime": "Already on lifetime",
         "alreadyOnPremium": "Already on premium"
-      }
+      },
+      "fairUseNotice": "* Subject to our fair use policy - limits generous enough that almost nobody will ever reach them."
     },
     "demo": {
       "slideshowLabel": "Screenshots of the extension",
@@ -202,6 +206,7 @@
     "columnFirstSeen": "First used",
     "columnLastUsed": "Last used",
     "columnState": "State",
+    "columnSync": "Synchronisation",
     "columnActions": "Actions",
     "stateSignedIn": "Signed in",
     "stateSignedOut": "Signed out",
@@ -221,7 +226,32 @@
     "connectCodeHint": "Punctuation and letter case are ignored when you type it.",
     "copyCodeAction": "Copy the code",
     "copyCodeConfirmation": "Copied.",
-    "copyCodeFailure": "The code could not be copied. Select it and copy it by hand."
+    "copyCodeFailure": "The code could not be copied. Select it and copy it by hand.",
+    "sync": {
+      "SYNCHRONISED": "Synchronised",
+      "PARTIAL": "Partially - over the limit",
+      "NOT_SYNCHRONISED": "Not synchronised - over the limit",
+      "UNKNOWN": "No report yet"
+    },
+    "inventoryState": {
+      "SYNCHRONISED": "Synchronised",
+      "LOCAL_ONLY_FREE_LIMIT": "Only on this device - over the free plan limit",
+      "LOCAL_ONLY_FAIR_USE": "Only on this device - over a Fair Use limit",
+      "EXAMPLE": "Example data - not synchronised until edited",
+      "UNKNOWN": "Unknown"
+    },
+    "detail": {
+      "heading": "Device",
+      "headingForDevice": "{deviceName} ({browserName})",
+      "lead": "What this installation holds, and which of it synchronises with your account. Data that does not synchronise stays on the device and is never deleted.",
+      "backToDevices": "Back to my devices",
+      "noReport": "This device has not reported what it holds yet. Extensions report after they synchronise; a browser where you only signed in to the website never does.",
+      "reportedAt": "Reported {date}",
+      "columnWorkspace": "Workspace",
+      "columnSync": "Synchronisation",
+      "columnGroups": "Groups",
+      "columnLinks": "Links"
+    }
   },
   "account": {
     "heading": "Account",
@@ -292,7 +322,7 @@
     "cancelSubscription": {
       "heading": "Cancel subscription",
       "lead": "Cancelling stops the next renewal. You keep the full version until the period you have already paid for runs out, and nothing is refunded.",
-      "downgradeNotice": "When the period you have paid for ends, the account goes back to the free plan. Anything over its limits stays exactly where it is and is never deleted — it simply becomes read-only until you subscribe again.",
+      "downgradeNotice": "When the period you have paid for ends, the account goes back to the free plan. Anything over its limits stays exactly where it is and is never deleted — you can still use, edit and delete it, but you cannot add more until you are back under the limits or subscribe again.",
       "action": "Cancel subscription",
       "success": "Your subscription will not renew. You keep the full version until the period you have paid for ends."
     },
@@ -503,6 +533,10 @@
       "title": "Refund Policy",
       "description": "When and how a Tabilinks premium purchase can be refunded."
     },
+    "fairUse": {
+      "title": "Fair Use Policy",
+      "description": "The fair use limits behind the unlimited links, workspaces and profiles of Tabilinks."
+    },
     "cookies": {
       "title": "Cookies",
       "description": "Which cookies and browser storage Tabilinks uses, and what for."
@@ -528,6 +562,9 @@
     },
     "devices": {
       "title": "My devices"
+    },
+    "deviceDetail": {
+      "title": "Device"
     },
     "account": {
       "title": "My account"

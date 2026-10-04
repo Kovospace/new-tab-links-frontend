@@ -8,8 +8,10 @@
   margin: 0.25em 0;
 }
 
-.page-footer__link {
-
+.page-footer__link,
+.page-footer__author-link,
+.page-footer__support-link
+{
   &:hover {
     text-decoration: underline;
   }
@@ -17,11 +19,4 @@
 
 .page-footer__authorship {
   margin-top: 0.5em;
-}
-
-.page-footer__author-link {
-
-  &:hover {
-    text-decoration: underline;
-  }
 }

@@ -32,6 +32,7 @@
     "privacy": "Ochrana osobných údajov",
     "terms": "Podmienky používania",
     "refunds": "Vrátenie peňazí",
+    "fairUse": "Zásady primeraného používania",
     "cookies": "Cookies",
     "supportLabel": "Podpora:",
     "sitemap": "Mapa stránky",
@@ -58,11 +59,13 @@
         "titleWithoutPrice": "DOŽIVOTNE"
       },
       "unlimitedAmount": "NEOBMEDZENE",
+      "unlimitedAmountUnderFairUse": "NEOBMEDZENE*",
       "yes": "ÁNO",
       "no": "NIE",
       "linksCount": "Počet odkazov",
       "workspacesCount": "Pracovné plochy",
       "profilesCount": "Profily",
+      "closedTabsCount": "História zatvorených kariet",
       "devicesCount": "Synchronizované inštalácie",
       "ads": "BEZ reklamného pruhu",
       "action": {
@@ -71,7 +74,8 @@
         "upgradeToLifetime": "Prejsť na doživotnú licenciu",
         "alreadyOnLifetime": "Už máte doživotnú licenciu",
         "alreadyOnPremium": "Už máte plnú verziu"
-      }
+      },
+      "fairUseNotice": "* Platia zásady primeraného používania - limity také veľkorysé, že ich takmer nikto nikdy nedosiahne."
     },
     "demo": {
       "slideshowLabel": "Snímky obrazovky rozšírenia",
@@ -202,6 +206,7 @@
     "columnFirstSeen": "Prvé použitie",
     "columnLastUsed": "Posledné použitie",
     "columnState": "Stav",
+    "columnSync": "Synchronizácia",
     "columnActions": "Akcie",
     "stateSignedIn": "Prihlásené",
     "stateSignedOut": "Odhlásené",
@@ -221,7 +226,32 @@
     "connectCodeHint": "Na interpunkcii ani veľkosti písmen nezáleží.",
     "copyCodeAction": "Skopírovať kód",
     "copyCodeConfirmation": "Skopírované.",
-    "copyCodeFailure": "Kód sa nepodarilo skopírovať. Označte ho a skopírujte ručne."
+    "copyCodeFailure": "Kód sa nepodarilo skopírovať. Označte ho a skopírujte ručne.",
+    "sync": {
+      "SYNCHRONISED": "Synchronizované",
+      "PARTIAL": "Čiastočne - nad limit",
+      "NOT_SYNCHRONISED": "Nesynchronizované - nad limit",
+      "UNKNOWN": "Zatiaľ bez hlásenia"
+    },
+    "inventoryState": {
+      "SYNCHRONISED": "Synchronizované",
+      "LOCAL_ONLY_FREE_LIMIT": "Len na tomto zariadení - nad limit bezplatného plánu",
+      "LOCAL_ONLY_FAIR_USE": "Len na tomto zariadení - nad limit primeraného používania",
+      "EXAMPLE": "Ukážkové dáta - nesynchronizujú sa, kým ich neupravíte",
+      "UNKNOWN": "Neznáme"
+    },
+    "detail": {
+      "heading": "Zariadenie",
+      "headingForDevice": "{deviceName} ({browserName})",
+      "lead": "Čo táto inštalácia obsahuje a čo z toho sa synchronizuje s vaším účtom. Dáta, ktoré sa nesynchronizujú, zostávajú na zariadení a nikdy sa nemažú.",
+      "backToDevices": "Späť na moje zariadenia",
+      "noReport": "Toto zariadenie ešte nenahlásilo, čo obsahuje. Rozšírenia to hlásia po synchronizácii; prehliadač, v ktorom ste sa prihlásili len na web, to nehlási nikdy.",
+      "reportedAt": "Nahlásené {date}",
+      "columnWorkspace": "Pracovný priestor",
+      "columnSync": "Synchronizácia",
+      "columnGroups": "Skupiny",
+      "columnLinks": "Odkazy"
+    }
   },
   "account": {
     "heading": "Účet",
@@ -292,7 +322,7 @@
     "cancelSubscription": {
       "heading": "Zrušenie predplatného",
       "lead": "Zrušením zastavíte ďalšie obnovenie. Plnú verziu máte do konca už zaplateného obdobia a nič sa nevracia.",
-      "downgradeNotice": "Po skončení zaplateného obdobia sa účet vráti na bezplatný plán. Čokoľvek nad jeho limity zostane presne tam, kde je, a nikdy sa nezmaže — len sa uzamkne na čítanie, kým si predplatné znova neaktivujete.",
+      "downgradeNotice": "Po skončení zaplateného obdobia sa účet vráti na bezplatný plán. Čokoľvek nad jeho limity zostane presne tam, kde je, a nikdy sa nezmaže — môžete to ďalej používať, upravovať aj mazať, no pridať ďalšie nemôžete, kým nebudete pod limitmi alebo si predplatné znova neaktivujete.",
       "action": "Zrušiť predplatné",
       "success": "Vaše predplatné sa už neobnoví. Plnú verziu máte do konca zaplateného obdobia."
     },
@@ -503,6 +533,10 @@
       "title": "Vrátenie peňazí",
       "description": "Kedy a ako je možné vrátiť peniaze za prémiový nákup Tabilinks."
     },
+    "fairUse": {
+      "title": "Zásady primeraného používania",
+      "description": "Limity primeraného používania za neobmedzenými odkazmi, pracovnými priestormi a profilmi Tabilinks."
+    },
     "cookies": {
       "title": "Cookies",
       "description": "Aké cookies a úložisko prehliadača Tabilinks používa a na čo."
@@ -528,6 +562,9 @@
     },
     "devices": {
       "title": "Moje zariadenia"
+    },
+    "deviceDetail": {
+      "title": "Zariadenie"
     },
     "account": {
       "title": "Môj účet"

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { ExtensionConnectPanel } from './extension-connect-panel/extension-connect-panel';
 import { DevicesPageViewModel } from './devices-page.view-model';
@@ -8,7 +9,7 @@ import { DevicesPageViewModel } from './devices-page.view-model';
  */
 @Component({
   selector: 'app-devices-page',
-  imports: [TranslatePipe, ExtensionConnectPanel],
+  imports: [RouterLink, TranslatePipe, ExtensionConnectPanel],
   providers: [DevicesPageViewModel],
   templateUrl: './devices-page.html',
   styleUrl: './devices-page.scss',

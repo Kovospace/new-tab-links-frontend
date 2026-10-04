@@ -27,6 +27,8 @@ export const APPLICATION_ROUTE_PATHS = {
   /** Fixed by the backend's {@code newtablinks.web.oauth-callback-path}. */
   oauthCallback: 'auth/callback',
   devices: 'devices',
+  /** One device: what it holds and how much of it synchronises. Linked from the device list. */
+  deviceDetail: 'devices/:deviceId',
   account: 'account',
   /**
    * Where the payment provider sends a buyer back after paying. Fixed by the backend's
@@ -42,6 +44,8 @@ export const APPLICATION_ROUTE_PATHS = {
   cookies: 'cookies',
   terms: 'terms',
   refunds: 'refunds',
+  /** The fair use policy: the caps behind every "unlimited" the offers promise. */
+  fairUse: 'fair-use',
   sitemap: 'sitemap',
   /**
    * The operator's sign-in.
@@ -76,11 +80,24 @@ export const APPLICATION_ROUTE_LINKS = {
   cookies: `/${APPLICATION_ROUTE_PATHS.cookies}`,
   terms: `/${APPLICATION_ROUTE_PATHS.terms}`,
   refunds: `/${APPLICATION_ROUTE_PATHS.refunds}`,
+  fairUse: `/${APPLICATION_ROUTE_PATHS.fairUse}`,
   sitemap: `/${APPLICATION_ROUTE_PATHS.sitemap}`,
   admin: `/${APPLICATION_ROUTE_PATHS.admin}`,
   adminUsers: `/${APPLICATION_ROUTE_PATHS.adminUsers}`,
   adminMetrics: `/${APPLICATION_ROUTE_PATHS.adminMetrics}`,
 } as const;
+
+/**
+ * Builds the link of one device's detail page.
+ *
+ * <p>Not localised: the device pages are signed-in pages with a single address.</p>
+ *
+ * @param deviceId identifier of the device
+ * @returns such as {@code /devices/3f2a…}
+ */
+export function buildDeviceDetailLink(deviceId: string): string {
+  return `${APPLICATION_ROUTE_LINKS.devices}/${encodeURIComponent(deviceId)}`;
+}
 
 /**
  * Query parameters a link may carry into a route.

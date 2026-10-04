@@ -36,6 +36,7 @@ Keep it current: a new folder under `core/` or `shared/`, or a new concern, adds
 | Home page demo slideshow: numbered screenshots in `public/images/<lang>/demo/` as `<n>_1x/_2x/_3x.webp` (1280x800 and its 2x, 3x; `image-maintainer` derives them from a `_3x.png`), served as a width `srcset`; 5 s per slide; dots sized from the frame's width | `features/home/demo-slideshow/`; `core/demo/demo-slides.service.ts`; index built by `scripts/build-demo-index.mjs` (`prestart`/`prebuild`, output gitignored) |
 | Return from the payment provider; waits for the webhook to make the account premium | `features/purchase-thank-you/` (path pinned by the backend's `checkout.success-path`) |
 | Extension pairing code | `features/devices/extension-connect-panel/` |
+| What each installation holds and how much of it synchronises (the extension reports it; the website only reads): the sync column on `/devices` and the detail page `/devices/<id>` | `features/devices/device-detail-page/`, `core/api/models/device-inventory.model.ts`, `UserDeviceService.loadDeviceInventory`; the design is `.claude/assignments/account-limits-handling.md` |
 | Route paths (three pinned by the backend) | `core/routing/application-route-paths.ts`, wired in `app.routes.ts` |
 | Environment-dependent values | `core/config/runtime-configuration.ts` (+ `docker/entrypoint/40-write-runtime-config.sh`, `Dockerfile`) |
 | Translation | `core/i18n/translation.service.ts`, pipes beside it; strings in `public/i18n/{en,sk}.json` |
