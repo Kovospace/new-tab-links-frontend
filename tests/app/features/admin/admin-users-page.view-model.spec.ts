@@ -16,7 +16,11 @@ describe('AdminUsersPageViewModel premium', () => {
   let viewModel: AdminUsersPageViewModel;
   let updateAccount: ReturnType<typeof vi.fn>;
 
-  const account = (id: string, premiumSource: AdminPremiumSource | null): AdminUser => ({
+  const account = (
+    id: string,
+    premiumSource: AdminPremiumSource | null,
+    premiumUntil: string | null = null,
+  ): AdminUser => ({
     id,
     username: id,
     email: `${id}@example.com`,
@@ -25,6 +29,7 @@ describe('AdminUsersPageViewModel premium', () => {
     hasPassword: true,
     premium: premiumSource !== null,
     premiumSource,
+    premiumUntil,
     failedLoginAttempts: 0,
     createdAt: '2026-09-27T10:00:00Z',
     updatedAt: '2026-09-27T10:00:00Z',
@@ -33,8 +38,9 @@ describe('AdminUsersPageViewModel premium', () => {
   const accounts = [
     account('free', null),
     account('lifetime', 'LIFETIME'),
-    account('subscriber', 'SUBSCRIPTION'),
+    account('subscriber', 'SUBSCRIPTION', '2027-01-01T00:00:00Z'),
     account('granted', 'GRANT'),
+    account('granted-year', 'GRANT', '2027-10-04T10:00:00Z'),
   ];
 
   beforeEach(() => {
@@ -46,7 +52,7 @@ describe('AdminUsersPageViewModel premium', () => {
           provide: AdminUserService,
           useValue: {
             listAccounts: () =>
-              of({ users: accounts, page: 0, size: 20, totalUsers: 4, totalPages: 1 }),
+              of({ users: accounts, page: 0, size: 20, totalUsers: 5, totalPages: 1 }),
             updateAccount,
           },
         },
@@ -65,34 +71,65 @@ describe('AdminUsersPageViewModel premium', () => {
       'admin.premium.LIFETIME',
       'admin.premium.SUBSCRIPTION',
       'admin.premium.GRANT',
+      'admin.premium.GRANT_UNTIL',
     ]);
   });
 
-  it('locks the premium box for an account that paid, and sends it unchanged', () => {
+  it('offers no grant to an account that paid, and sends it unchanged', () => {
     viewModel.editAccount('lifetime');
 
     expect(viewModel.editedAccountHasPaidPremium()).toBe(true);
-    expect(viewModel.editForm.controls.premium.disabled).toBe(true);
 
     viewModel.saveEditedAccount();
     expect(updateAccount).toHaveBeenCalledWith(
       'lifetime',
-      expect.objectContaining({ premium: true }),
+      expect.objectContaining({ premium: true, premiumGrantTerm: null }),
     );
   });
 
-  it('leaves the box free for a granted or free account', () => {
+  it('opens a grant at the length it was given', () => {
+    viewModel.editAccount('granted');
+    expect(viewModel.editForm.controls.premiumGrant.value).toBe('LIFETIME');
+
+    viewModel.editAccount('granted-year');
+    expect(viewModel.editForm.controls.premiumGrant.value).toBe('ONE_YEAR');
+
+    viewModel.editAccount('free');
+    expect(viewModel.editForm.controls.premiumGrant.value).toBe('NONE');
+  });
+
+  it('sends no term for an unchanged grant, so a save never extends it', () => {
+    viewModel.editAccount('granted-year');
+    viewModel.saveEditedAccount();
+
+    expect(updateAccount).toHaveBeenCalledWith(
+      'granted-year',
+      expect.objectContaining({ premium: true, premiumGrantTerm: null }),
+    );
+  });
+
+  it('sends the new term when the operator changes the grant', () => {
+    viewModel.editAccount('granted-year');
+    viewModel.editForm.controls.premiumGrant.setValue('LIFETIME');
+    viewModel.saveEditedAccount();
+
+    expect(updateAccount).toHaveBeenCalledWith(
+      'granted-year',
+      expect.objectContaining({ premium: true, premiumGrantTerm: 'LIFETIME' }),
+    );
+  });
+
+  it('takes a grant back when the operator chooses none', () => {
     viewModel.editAccount('lifetime');
     viewModel.editAccount('granted');
 
     expect(viewModel.editedAccountHasPaidPremium()).toBe(false);
-    expect(viewModel.editForm.controls.premium.enabled).toBe(true);
 
-    viewModel.editForm.controls.premium.setValue(false);
+    viewModel.editForm.controls.premiumGrant.setValue('NONE');
     viewModel.saveEditedAccount();
     expect(updateAccount).toHaveBeenCalledWith(
       'granted',
-      expect.objectContaining({ premium: false }),
+      expect.objectContaining({ premium: false, premiumGrantTerm: null }),
     );
   });
 });

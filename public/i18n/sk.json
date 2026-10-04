@@ -276,7 +276,8 @@
       "proceedAction": "Pokračovať k platbe",
       "notAvailableYet": "Nákup plnej verzie zatiaľ nie je spustený. Nič sme vám nestrhli. Skúste to znova, keď platby spustíme.",
       "subscriptionEndsWithLifetime": "Vaše ročné predplatné sa po potvrdení doživotnej licencie automaticky zruší, takže nikdy nezaplatíte za obe.",
-      "merchantOfRecordNotice": "Platbu spracúva Creem, náš predajca a Merchant of Record: na doklade je ako predávajúci uvedený Creem, ktorý zabezpečuje platbu, DPH aj faktúru."
+      "merchantOfRecordNotice": "Platbu spracúva Creem, náš predajca a Merchant of Record: na doklade je ako predávajúci uvedený Creem, ktorý zabezpečuje platbu, DPH aj faktúru.",
+      "grantReplacedByLifetime": "Po potvrdení nákupu nahradí doživotná licencia váš pridelený rok."
     },
     "refund": {
       "heading": "Zmenili ste názor?",
@@ -294,6 +295,11 @@
       "downgradeNotice": "Po skončení zaplateného obdobia sa účet vráti na bezplatný plán. Čokoľvek nad jeho limity zostane presne tam, kde je, a nikdy sa nezmaže — len sa uzamkne na čítanie, kým si predplatné znova neaktivujete.",
       "action": "Zrušiť predplatné",
       "success": "Vaše predplatné sa už neobnoví. Plnú verziu máte do konca zaplateného obdobia."
+    },
+    "grant": {
+      "heading": "Plná verzia pridelená",
+      "lifetime": "Administrátor vám pridelil plnú verziu doživotne. Nie je čo kupovať ani obnovovať.",
+      "until": "Administrátor vám pridelil plnú verziu do {date}. Neobnovuje sa; ak si ju chcete ponechať natrvalo, kúpte si nižšie doživotnú licenciu."
     }
   },
   "legal": {
@@ -375,7 +381,7 @@
       "password": "Heslo",
       "status": "Stav",
       "premium": "Plná verzia",
-      "premiumHint": "Udelí plnú verziu ručne, bez platby — pri riešení podpory alebo pre testovací účet. Odškrtnutím sa pridelenie odoberie.",
+      "premiumHint": "Udelí plnú verziu ručne, bez platby — pri riešení podpory alebo pre testovací účet. Jeden rok plynie od uloženia a neobnovuje sa; opätovný výber pri existujúcom ročnom pridelení ho nepredĺži. Voľba „Nepridelená“ pridelenie odoberie.",
       "failedAttempts": "Neúspešné prihlásenia",
       "createdAt": "Vytvorený",
       "actions": "Akcie",
@@ -390,7 +396,8 @@
       "no": "Zadarmo",
       "LIFETIME": "Plná — doživotná (zaplatená)",
       "SUBSCRIPTION": "Plná — predplatné (zaplatené)",
-      "GRANT": "Plná — pridelená"
+      "GRANT": "Plná — pridelená doživotne",
+      "GRANT_UNTIL": "Plná — pridelená do {date}"
     },
     "create": {
       "heading": "Vytvoriť účet",
@@ -430,6 +437,11 @@
         "title": "Návštevníci webu",
         "explanation": "Ľudia, ktorí navštívili tento web, raz za osobu a deň (UTC). Roboty a automatizované prehliadače sa nepočítajú."
       }
+    },
+    "premiumGrant": {
+      "NONE": "Nepridelená",
+      "ONE_YEAR": "Pridelená na jeden rok",
+      "LIFETIME": "Pridelená doživotne"
     }
   },
   "purchaseThankYou": {

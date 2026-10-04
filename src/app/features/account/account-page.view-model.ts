@@ -98,6 +98,35 @@ export class AccountPageViewModel {
   readonly canPurchasePremium = computed<boolean>(() => this.purchasablePlans().length > 0);
 
   /**
+   * Whether the full version the account holds was given by an operator rather than bought.
+   *
+   * <p>Only while the account is premium: a grant that has run out is history, not news.</p>
+   */
+  readonly holdsOperatorGrant = computed<boolean>(
+    () => (this.loadedAccount()?.premium ?? false) && this.loadedSubscription().grantedByOperator,
+  );
+
+  /**
+   * What the account page says about an operator's grant, or empty when there is none.
+   *
+   * <p>A lifetime grant says only that — there is nothing to buy, and the reader should know why
+   * no offer is shown. A year's grant says when it ends, because the purchase form below offers
+   * lifetime and the reader is deciding whether they need it.</p>
+   */
+  readonly operatorGrantNotice = computed<string>(() => {
+    if (!this.holdsOperatorGrant()) {
+      return '';
+    }
+    const grantedUntil = this.loadedSubscription().validUntil;
+    if (grantedUntil === null) {
+      return this.translationService.translate('account.grant.lifetime');
+    }
+    return this.translationService.translate('account.grant.until', {
+      date: formatInstantForDisplay(grantedUntil, this.translationService.currentLanguageCode()),
+    });
+  });
+
+  /**
    * The plan a link asked for, through {@link APPLICATION_ROUTE_QUERY_PARAMETERS.accountPremiumPlan}.
    *
    * <p>Read once: the page is opened with it, and nothing on the page changes it afterwards.</p>

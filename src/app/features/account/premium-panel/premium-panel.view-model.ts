@@ -69,6 +69,9 @@ export class PremiumPanelViewModel extends AbstractFormViewModel {
    */
   private readonly offeredPlans = signal<readonly PremiumPlan[]>(['YEARLY_RECURRING', 'LIFETIME']);
 
+  /** Whether what the reader already holds is an operator's grant rather than a subscription. */
+  private readonly heldPremiumIsOperatorGrant = signal(false);
+
   /**
    * Whether the form offers a choice of currency — the same one as the header's, repeated where
    * the buyer is about to pay. Not with a single currency on sale, where there is nothing to pick.
@@ -95,12 +98,29 @@ export class PremiumPanelViewModel extends AbstractFormViewModel {
    * subscription once the lifetime purchase is confirmed, and someone who did not expect it would
    * otherwise go looking for the cancel button — or cancel it themselves, and wonder whether that
    * voided the purchase.</p>
+   *
+   * <p>The holder of an operator's year-long grant is offered lifetime the same way, but has no
+   * subscription and nothing to be charged twice for; they are told the grant is replaced.</p>
    */
-  readonly subscriptionCancellationNotice = computed<string>(() =>
-    this.offeredPlans().includes('YEARLY_RECURRING')
-      ? ''
-      : this.translationService.translate('account.premium.subscriptionEndsWithLifetime'),
-  );
+  readonly subscriptionCancellationNotice = computed<string>(() => {
+    if (this.offeredPlans().includes('YEARLY_RECURRING')) {
+      return '';
+    }
+    return this.translationService.translate(
+      this.heldPremiumIsOperatorGrant()
+        ? 'account.premium.grantReplacedByLifetime'
+        : 'account.premium.subscriptionEndsWithLifetime',
+    );
+  });
+
+  /**
+   * Says whether the full version the reader already holds was given by an operator.
+   *
+   * @param isOperatorGrant {@code true} for a grant, {@code false} for a purchase or nothing
+   */
+  describeHeldPremium(isOperatorGrant: boolean): void {
+    this.heldPremiumIsOperatorGrant.set(isOperatorGrant);
+  }
 
   /**
    * Narrows the form to the plans the account can buy, and chooses one of them.

@@ -276,7 +276,8 @@
       "proceedAction": "Proceed to payment",
       "notAvailableYet": "Buying the full version is not switched on yet. Nothing has been charged. Please try again once payments go live.",
       "subscriptionEndsWithLifetime": "Your yearly subscription is cancelled automatically once the lifetime purchase is confirmed, so you are never charged for both.",
-      "merchantOfRecordNotice": "Payment is handled by Creem, our reseller and Merchant of Record: Creem is the seller on your receipt and takes care of payment, VAT and invoicing."
+      "merchantOfRecordNotice": "Payment is handled by Creem, our reseller and Merchant of Record: Creem is the seller on your receipt and takes care of payment, VAT and invoicing.",
+      "grantReplacedByLifetime": "Your granted year is replaced by the lifetime licence once the purchase is confirmed."
     },
     "refund": {
       "heading": "Changed your mind?",
@@ -294,6 +295,11 @@
       "downgradeNotice": "When the period you have paid for ends, the account goes back to the free plan. Anything over its limits stays exactly where it is and is never deleted — it simply becomes read-only until you subscribe again.",
       "action": "Cancel subscription",
       "success": "Your subscription will not renew. You keep the full version until the period you have paid for ends."
+    },
+    "grant": {
+      "heading": "Full version granted",
+      "lifetime": "An administrator has granted you the full version for life. There is nothing to buy and nothing to renew.",
+      "until": "An administrator has granted you the full version until {date}. It does not renew; buy the lifetime licence below to keep it for good."
     }
   },
   "legal": {
@@ -375,7 +381,7 @@
       "password": "Password",
       "status": "Status",
       "premium": "Full version",
-      "premiumHint": "Grants the full version by hand, with no payment — for a support case or a test account. Unticking takes the grant back.",
+      "premiumHint": "Grants the full version by hand, with no payment — for a support case or a test account. One year runs from the moment it is saved and is not renewed; choosing it again on an existing year-long grant does not extend it. \"Not granted\" takes the grant back.",
       "failedAttempts": "Failed sign-ins",
       "createdAt": "Created",
       "actions": "Actions",
@@ -390,7 +396,8 @@
       "no": "Free",
       "LIFETIME": "Full — lifetime (paid)",
       "SUBSCRIPTION": "Full — subscription (paid)",
-      "GRANT": "Full — granted"
+      "GRANT": "Full — granted for life",
+      "GRANT_UNTIL": "Full — granted until {date}"
     },
     "create": {
       "heading": "Create an account",
@@ -430,6 +437,11 @@
         "title": "Website visitors",
         "explanation": "People who visited this website, once per person per day (UTC). Robots and automated browsers are not counted."
       }
+    },
+    "premiumGrant": {
+      "NONE": "Not granted",
+      "ONE_YEAR": "Granted for one year",
+      "LIFETIME": "Granted for life"
     }
   },
   "purchaseThankYou": {
