@@ -4,6 +4,10 @@ Discover and start to use workspaces.
 
 The idea behind workspace is something like "General topic" or supergroup for current internet session or continous block of it.
 
+![Workspaces at the top left of the new tab](../../../images/en/tips/discover-workspaces/workspaces-location_1x.webp)
+
+![The workspace switcher with the button to add a new one](../../../images/en/tips/discover-workspaces/workspaces-detail_1x.webp)
+
 Imagine You have a multiple hobbies and interests like for example:
 - Vintage cars & motorcycles
 - Music / Band
