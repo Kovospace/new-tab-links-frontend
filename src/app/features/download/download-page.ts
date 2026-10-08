@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { LocalizedImageSrcsetPipe } from '../../core/i18n/localized-image-srcset.pipe';
 import { LocalizedImagePipe } from '../../core/i18n/localized-image.pipe';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { DownloadPageViewModel } from './download-page.view-model';
@@ -9,7 +10,7 @@ import { DownloadPageViewModel } from './download-page.view-model';
  */
 @Component({
   selector: 'app-download-page',
-  imports: [TranslatePipe, LocalizedImagePipe],
+  imports: [TranslatePipe, LocalizedImagePipe, LocalizedImageSrcsetPipe],
   providers: [DownloadPageViewModel],
   templateUrl: './download-page.html',
   styleUrl: './download-page.scss',

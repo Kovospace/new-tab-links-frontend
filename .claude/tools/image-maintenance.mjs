@@ -26,6 +26,8 @@
 // The demo slides use this: _1x is the 1280x800 slide, _2x and _3x feed its srcset.
 // Markdown uses it too: an image written as <name>_1x.<ext> is rendered with a srcset of its _2x
 // and _3x, so write the _1x name in the markdown and drop in the _3x export.
+// Templates the same: '<name>_1x.<ext>' | localizedImageSrcset names its _2x and _3x, so a _1x
+// path in code references all three.
 //
 // Encoding: lossless and lossy (quality 85, as the demo slides were) are both tried and the smaller
 // kept. A file WebP would make bigger is left as it is and reported.
@@ -187,7 +189,9 @@ function collectCodeReferences() {
           source: file,
           line: text.slice(0, match.index).split('\n').length,
           written: match[2],
-          targets: languages.map((language) => join(IMAGES_ROOT, language, below)),
+          targets: languages.flatMap((language) =>
+            withRetinaSiblings(join(IMAGES_ROOT, language, below)),
+          ),
         });
       }
     }
