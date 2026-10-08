@@ -89,11 +89,7 @@
       "webStoreHeading": "Chrome Web Store",
       "webStoreText": "Odporúčaný spôsob inštalácie. Aktualizácie prichádzajú automaticky.",
       "webStoreAction": "Otvoriť v Chrome Web Store",
-      "webStoreUnavailable": "Záznam v obchode zatiaľ nie je zverejnený.",
-      "crxHeading": "Zabalené rozšírenie (.crx)",
-      "crxText": "Hosťované tu. Načítajte ho cez chrome://extensions so zapnutým režimom pre vývojárov.",
-      "crxAction": "Stiahnuť súbor .crx",
-      "crxUnavailable": "Zabalené rozšírenie zatiaľ nie je k dispozícii."
+      "webStoreUnavailable": "Záznam v obchode zatiaľ nie je zverejnený."
     },
     "registerAction": {
       "heading": "...A ak chcete využívať synchronizácie / zálohy",

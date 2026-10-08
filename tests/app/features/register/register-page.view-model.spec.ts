@@ -29,7 +29,7 @@ const CONFIGURATION_WITH_API_KEY = {
   webClientDeviceName: 'NewTabLinks (production)',
   frontendApiKey: 'the-shared-frontend-key',
   usernameCheckDebounceMilliseconds: DEBOUNCE_MILLISECONDS,
-  extensionDownload: { chromeWebStoreUrl: '', selfHostedCrxPath: '' },
+  extensionDownload: { chromeWebStoreUrl: '' },
 };
 
 /** The same deployment with no key configured, which is also what `ng serve` gets. */

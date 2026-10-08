@@ -65,14 +65,6 @@ export interface RuntimeConfiguration {
      * its "not published yet" wording instead of a dead link, which is the current state.</p>
      */
     readonly chromeWebStoreUrl: string;
-
-    /**
-     * The packaged extension this site hosts itself.
-     *
-     * <p>Set from {@code NEWTABLINKS_SELF_HOSTED_CRX_PATH}. Served from {@code public/}, so it is
-     * a path on this origin rather than a full URL. Empty disables the offer.</p>
-     */
-    readonly selfHostedCrxPath: string;
   };
 }
 
@@ -90,7 +82,6 @@ export const DEFAULT_RUNTIME_CONFIGURATION: RuntimeConfiguration = {
   usernameCheckDebounceMilliseconds: 250,
   extensionDownload: {
     chromeWebStoreUrl: '',
-    selfHostedCrxPath: '/downloads/tabilinks.crx',
   },
 };
 

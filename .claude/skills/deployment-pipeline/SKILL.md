@@ -64,7 +64,6 @@ docker run -e NEWTABLINKS_BACKEND_BASE_URL=https://api.example
 | `NEWTABLINKS_FRONTEND_API_KEY` | `frontendApiKey` | empty (username check never runs) |
 | `NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS` | `usernameCheckDebounceMilliseconds` | `250` |
 | `NEWTABLINKS_CHROME_WEB_STORE_URL` | `extensionDownload.chromeWebStoreUrl` | empty (offer hidden) |
-| `NEWTABLINKS_SELF_HOSTED_CRX_PATH` | `extensionDownload.selfHostedCrxPath` | `/downloads/newtablinks.crx` |
 
 Rules that hold this together:
 

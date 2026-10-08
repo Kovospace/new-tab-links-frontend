@@ -206,7 +206,6 @@ services:
       # they have to be identical or the username check is refused.
       NEWTABLINKS_FRONTEND_API_KEY: ${FRONTEND_API_KEY:-local-development-frontend-key}
       NEWTABLINKS_CHROME_WEB_STORE_URL: ''
-      NEWTABLINKS_SELF_HOSTED_CRX_PATH: /downloads/newtablinks.crx
     healthcheck:
       # nginx serves /healthz for exactly this; the Helm chart probes it too.
       test: ['CMD-SHELL', 'wget -q -O /dev/null http://127.0.0.1:8080/healthz']

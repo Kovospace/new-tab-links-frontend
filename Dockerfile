@@ -123,8 +123,7 @@ ENV NEWTABLINKS_BACKEND_BASE_URL="http://localhost:8080" \
     NEWTABLINKS_WEB_CLIENT_DEVICE_NAME="Tabilinks website" \
     NEWTABLINKS_FRONTEND_API_KEY="" \
     NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS="250" \
-    NEWTABLINKS_CHROME_WEB_STORE_URL="" \
-    NEWTABLINKS_SELF_HOSTED_CRX_PATH="/downloads/tabilinks.crx"
+    NEWTABLINKS_CHROME_WEB_STORE_URL=""
 
 
 ### The base image already declares the entrypoint that runs /docker-entrypoint.d

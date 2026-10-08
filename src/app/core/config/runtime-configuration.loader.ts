@@ -39,8 +39,8 @@ export async function loadRuntimeConfiguration(): Promise<RuntimeConfiguration> 
 /**
  * Lays the loaded values over the defaults.
  *
- * <p>Nested one level deep, because {@code extensionDownload} is a group and a deployment that
- * sets only one of its two members must not lose the other.</p>
+ * <p>Nested one level deep, because {@code extensionDownload} is a group: a file that names the
+ * group without all of its members must not lose the defaults of the ones it leaves out.</p>
  *
  * @param loadedConfiguration whatever the file contained
  * @returns a complete configuration

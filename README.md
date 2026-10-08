@@ -167,7 +167,6 @@ stay on the right side of the backend's minimum interval. See the `authenticatio
 | `NEWTABLINKS_FRONTEND_API_KEY`       | _(empty)_                    | Shared key admitting this site to the backend's username-existence check, which the registration form makes while someone types. Must equal the backend's `FRONTEND_API_KEY` exactly; empty means the check never runs. Readable by anyone — see below.       |
 | `NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS` | `250`                    | How long typing has to stop before the registration form looks a username up. Must stay **above** the backend's `VISITOR_TOKEN_MINIMUM_REQUEST_INTERVAL` (200ms), or real typing is answered with 429. Must be a whole number of milliseconds; anything else is refused at start-up and 250 is used. |
 | `NEWTABLINKS_CHROME_WEB_STORE_URL`   | _(empty)_                    | Chrome Web Store listing linked from the download page. Empty shows "not published yet" instead of a dead link.                                                                            |
-| `NEWTABLINKS_SELF_HOSTED_CRX_PATH`   | `/downloads/newtablinks.crx` | Path to the packaged extension this site hosts itself. Empty hides that offer.                                                                                                             |
 
 Every variable is optional. A container started with none of them behaves exactly like a
 developer's machine, and so does `npm start` — the dev server has no `config.json` and falls back

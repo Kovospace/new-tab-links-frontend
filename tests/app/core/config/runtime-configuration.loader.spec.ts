@@ -64,20 +64,11 @@ describe('loadRuntimeConfiguration', () => {
     expect(loaded.extensionDownload).toEqual(DEFAULT_RUNTIME_CONFIGURATION.extensionDownload);
   });
 
-  it('keeps the other half of a group when only one member is set', async () => {
-    stubFetchWith(() =>
-      jsonResponse({
-        extensionDownload: { chromeWebStoreUrl: 'https://chromewebstore.google.com/detail/xyz' },
-      }),
-    );
+  it('keeps the defaults of a group the file names without its members', async () => {
+    stubFetchWith(() => jsonResponse({ extensionDownload: {} }));
 
     const loaded = await loadRuntimeConfiguration();
 
-    expect(loaded.extensionDownload.chromeWebStoreUrl).toBe(
-      'https://chromewebstore.google.com/detail/xyz',
-    );
-    expect(loaded.extensionDownload.selfHostedCrxPath).toBe(
-      DEFAULT_RUNTIME_CONFIGURATION.extensionDownload.selfHostedCrxPath,
-    );
+    expect(loaded.extensionDownload).toEqual(DEFAULT_RUNTIME_CONFIGURATION.extensionDownload);
   });
 });

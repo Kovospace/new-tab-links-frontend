@@ -26,7 +26,6 @@ NEWTABLINKS_WEB_CLIENT_DEVICE_NAME="${NEWTABLINKS_WEB_CLIENT_DEVICE_NAME:-Tabili
 NEWTABLINKS_FRONTEND_API_KEY="${NEWTABLINKS_FRONTEND_API_KEY:-}"
 NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS="${NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS:-250}"
 NEWTABLINKS_CHROME_WEB_STORE_URL="${NEWTABLINKS_CHROME_WEB_STORE_URL:-}"
-NEWTABLINKS_SELF_HOSTED_CRX_PATH="${NEWTABLINKS_SELF_HOSTED_CRX_PATH:-/downloads/newtablinks.crx}"
 
 ### The debounce is written into config.json as a JSON *number*, unquoted, so an
 ### unset or non-numeric value would produce a file the browser cannot parse -
@@ -53,8 +52,7 @@ cat > "$CONFIGURATION_FILE" <<EOF
   "frontendApiKey": "$(escape_for_json "$NEWTABLINKS_FRONTEND_API_KEY")",
   "usernameCheckDebounceMilliseconds": ${NEWTABLINKS_USERNAME_CHECK_DEBOUNCE_MS},
   "extensionDownload": {
-    "chromeWebStoreUrl": "$(escape_for_json "$NEWTABLINKS_CHROME_WEB_STORE_URL")",
-    "selfHostedCrxPath": "$(escape_for_json "$NEWTABLINKS_SELF_HOSTED_CRX_PATH")"
+    "chromeWebStoreUrl": "$(escape_for_json "$NEWTABLINKS_CHROME_WEB_STORE_URL")"
   }
 }
 EOF

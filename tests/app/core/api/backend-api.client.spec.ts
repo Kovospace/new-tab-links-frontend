@@ -10,7 +10,7 @@ const DEPLOYED_CONFIGURATION = {
   webClientDeviceName: 'NewTabLinks (production)',
   frontendApiKey: 'the-shared-frontend-key',
   usernameCheckDebounceMilliseconds: 250,
-  extensionDownload: { chromeWebStoreUrl: '', selfHostedCrxPath: '/downloads/tabilinks.crx' },
+  extensionDownload: { chromeWebStoreUrl: '' },
 };
 
 describe('BackendApiClient', () => {

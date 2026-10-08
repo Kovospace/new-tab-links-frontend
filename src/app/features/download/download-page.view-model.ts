@@ -24,9 +24,12 @@ export interface DownloadOption {
 /**
  * State behind the download page.
  *
- * <p>Neither download target exists yet, and the page has to cope with that without showing a
- * dead link. Deciding whether an option can be offered is done here, so the template only picks
- * between two blocks of markup and never inspects a URL.</p>
+ * <p>A deployment may not have a store listing to link to, and the page has to cope with that
+ * without showing a dead link. Deciding whether an option can be offered is done here, so the
+ * template only picks between two blocks of markup and never inspects a URL.</p>
+ *
+ * <p>There is no self-hosted {@code .crx}: Chrome on Windows and macOS refuses to install, or
+ * disables, an extension that does not come from the Web Store, so the offer could not work.</p>
  */
 @Injectable()
 export class DownloadPageViewModel {
@@ -41,14 +44,6 @@ export class DownloadPageViewModel {
       'download.downloadAction.webStoreUnavailable',
       this.extensionDownload.chromeWebStoreUrl,
       true,
-    ),
-    buildDownloadOption(
-      'download.downloadAction.crxHeading',
-      'download.downloadAction.crxText',
-      'download.downloadAction.crxAction',
-      'download.downloadAction.crxUnavailable',
-      this.extensionDownload.selfHostedCrxPath,
-      false,
     ),
   ];
 }

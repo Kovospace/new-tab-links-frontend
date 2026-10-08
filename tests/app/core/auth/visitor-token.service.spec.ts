@@ -18,7 +18,7 @@ const DEPLOYED_CONFIGURATION = {
   webClientDeviceName: 'NewTabLinks (production)',
   frontendApiKey: 'the-shared-frontend-key',
   usernameCheckDebounceMilliseconds: 250,
-  extensionDownload: { chromeWebStoreUrl: '', selfHostedCrxPath: '' },
+  extensionDownload: { chromeWebStoreUrl: '' },
 };
 
 /** A path standing in for whichever metered endpoint is being called. */

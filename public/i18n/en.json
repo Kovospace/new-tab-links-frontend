@@ -89,11 +89,7 @@
       "webStoreHeading": "Chrome Web Store",
       "webStoreText": "The recommended way to install. Updates arrive automatically.",
       "webStoreAction": "Open in Chrome Web Store",
-      "webStoreUnavailable": "The store listing is not published yet.",
-      "crxHeading": "Packaged extension (.crx)",
-      "crxText": "Hosted here. Load it through chrome://extensions with Developer Mode enabled.",
-      "crxAction": "Download the .crx file",
-      "crxUnavailable": "The packaged download is not available yet."
+      "webStoreUnavailable": "The store listing is not published yet."
     },
     "registerAction": {
       "heading": "...Or if you want synchronisation and backups",
