@@ -3,6 +3,7 @@ import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
 import { renderSiteMarkdown } from '../content/site-markdown-renderer';
 import { LocalizedMarkdownService } from '../content/localized-markdown.service';
 import { DEFAULT_LANGUAGE_CODE, SupportedLanguageCode } from '../i18n/supported-language';
+import { ImageVersionStore } from '../images/image-version.store';
 
 /**
  * Where the home page's points and their generated index are served from; they ship in
@@ -46,6 +47,7 @@ export interface RenderedHomeFeature {
 @Injectable({ providedIn: 'root' })
 export class HomeFeaturesContentService {
   private readonly localizedMarkdownService = inject(LocalizedMarkdownService);
+  private readonly imageVersionStore = inject(ImageVersionStore);
 
   /**
    * Fetches and renders every point, in order, in the reader's language where it exists.
@@ -94,6 +96,7 @@ export class HomeFeaturesContentService {
             imageFolder: `${HOME_FEATURES_IMAGE_FOLDER}/${feature.slug}`,
             markdownFolder: `${HOME_FEATURES_CONTENT_ROOT}/${loaded.languageCode}`,
             headingLevelOffset: 1,
+            versionImageUrl: this.imageVersionStore.versionImageUrl,
           }),
         })),
         catchError(() => of(null)),

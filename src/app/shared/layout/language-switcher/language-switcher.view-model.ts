@@ -1,4 +1,5 @@
 import { Injectable, computed, inject } from '@angular/core';
+import { ImageUrlVersioner, ImageVersionStore } from '../../../core/images/image-version.store';
 import { SupportedLanguageCode } from '../../../core/i18n/supported-language';
 import { LanguageSwitchService } from '../../../core/i18n/language-switch.service';
 import { TranslationService } from '../../../core/i18n/translation.service';
@@ -6,8 +7,9 @@ import { TranslationService } from '../../../core/i18n/translation.service';
 /**
  * Where the flag images live, relative to the site root.
  *
- * <p>Served straight from {@code public/}, which the build copies verbatim, and cached for a week
- * by the nginx rule that already covers {@code .png}.</p>
+ * <p>Served straight from {@code public/}, which the build copies verbatim, and cached by the nginx
+ * rule that covers every image; the version each address carries keeps a redrawn flag from being
+ * shown from cache.</p>
  *
  * <p>The artwork is the official 1:1 flag from <em>lipis/flag-icons</em> (MIT; the flags
  * themselves are public domain), rasterised from its 512&times;512 SVG. To add a language, or to
@@ -51,14 +53,18 @@ function buildFlagImageUrl(languageCode: SupportedLanguageCode, widthInPixels: n
 /**
  * Builds the {@code srcset} offering every density of one language's flag.
  *
- * @param languageCode language the flag belongs to
+ * @param languageCode    language the flag belongs to
+ * @param versionImageUrl gives each file's address its version
  * @returns a srcset naming each file against the density it is meant for
  */
-function buildFlagImageSourceSet(languageCode: SupportedLanguageCode): string {
-  return FLAG_IMAGE_DENSITIES.map(
-    (density) =>
-      `${buildFlagImageUrl(languageCode, FLAG_IMAGE_WIDTH_IN_PIXELS * density)} ${density}x`,
-  ).join(', ');
+function buildFlagImageSourceSet(
+  languageCode: SupportedLanguageCode,
+  versionImageUrl: ImageUrlVersioner,
+): string {
+  return FLAG_IMAGE_DENSITIES.map((density) => {
+    const fileUrl = buildFlagImageUrl(languageCode, FLAG_IMAGE_WIDTH_IN_PIXELS * density);
+    return `${versionImageUrl(fileUrl)} ${density}x`;
+  }).join(', ');
 }
 
 /**
@@ -98,14 +104,20 @@ export interface LanguageOption {
 export class LanguageSwitcherViewModel {
   private readonly translationService = inject(TranslationService);
   private readonly languageSwitchService = inject(LanguageSwitchService);
+  private readonly imageVersionStore = inject(ImageVersionStore);
 
   /** Every language on offer, the active one marked. */
   readonly languageOptions = computed<readonly LanguageOption[]>(() =>
     this.translationService.availableLanguageCodes().map((languageCode) => ({
       languageCode,
       languageName: this.translationService.translate(`language.${languageCode}`),
-      flagImageUrl: buildFlagImageUrl(languageCode, FLAG_IMAGE_WIDTH_IN_PIXELS),
-      flagImageSourceSet: buildFlagImageSourceSet(languageCode),
+      flagImageUrl: this.imageVersionStore.versionImageUrl(
+        buildFlagImageUrl(languageCode, FLAG_IMAGE_WIDTH_IN_PIXELS),
+      ),
+      flagImageSourceSet: buildFlagImageSourceSet(
+        languageCode,
+        this.imageVersionStore.versionImageUrl,
+      ),
       isActive: languageCode === this.translationService.currentLanguageCode(),
     })),
   );

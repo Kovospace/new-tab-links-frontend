@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Pipe, PipeTransform, effect, inject } from '@angular/core';
+import { ImageUrlVersioner, ImageVersionStore } from '../images/image-version.store';
 import { buildLocalizedImageUrl } from './localized-image.pipe';
 import { SupportedLanguageCode } from './supported-language';
 import { TranslationService } from './translation.service';
@@ -22,11 +23,13 @@ const IMAGE_DENSITIES = [1, 2, 3] as const;
  * @param imagePath    path of the 1x copy below the language folder, such as
  *                     {@code install/standart-login-menu_1x.webp}
  * @param languageCode language whose folder to take the copies from
+ * @param versionImageUrl gives each copy's address its version, which each copy has of its own
  * @returns the {@code srcset} naming the 1x, 2x and 3x copies
  */
 export function buildLocalizedImageSrcset(
   imagePath: string,
   languageCode: SupportedLanguageCode,
+  versionImageUrl: ImageUrlVersioner,
 ): string {
   const singleDensity = SINGLE_DENSITY_IMAGE_PATH.exec(imagePath);
   if (singleDensity === null) {
@@ -34,10 +37,10 @@ export function buildLocalizedImageSrcset(
   }
   const [, stem, extension] = singleDensity;
 
-  return IMAGE_DENSITIES.map(
-    (density) =>
-      `${buildLocalizedImageUrl(`${stem}_${density}x${extension}`, languageCode)} ${density}x`,
-  ).join(', ');
+  return IMAGE_DENSITIES.map((density) => {
+    const copyUrl = buildLocalizedImageUrl(`${stem}_${density}x${extension}`, languageCode);
+    return `${versionImageUrl(copyUrl)} ${density}x`;
+  }).join(', ');
 }
 
 /**
@@ -63,6 +66,7 @@ export function buildLocalizedImageSrcset(
 @Pipe({ name: 'localizedImageSrcset', pure: false })
 export class LocalizedImageSrcsetPipe implements PipeTransform {
   private readonly translationService = inject(TranslationService);
+  private readonly imageVersionStore = inject(ImageVersionStore);
   private readonly hostViewChangeDetector = inject(ChangeDetectorRef);
 
   /** Marks the host view for checking whenever the active language changes. */
@@ -78,6 +82,10 @@ export class LocalizedImageSrcsetPipe implements PipeTransform {
    * @returns the {@code srcset} of that image in the language now being displayed
    */
   transform(imagePath: string): string {
-    return buildLocalizedImageSrcset(imagePath, this.translationService.currentLanguageCode());
+    return buildLocalizedImageSrcset(
+      imagePath,
+      this.translationService.currentLanguageCode(),
+      this.imageVersionStore.versionImageUrl,
+    );
   }
 }

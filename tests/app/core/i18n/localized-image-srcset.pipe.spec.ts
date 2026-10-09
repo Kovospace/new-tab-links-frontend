@@ -7,6 +7,10 @@ import {
   buildLocalizedImageSrcset,
 } from '@app/core/i18n/localized-image-srcset.pipe';
 import { TranslationService } from '@app/core/i18n/translation.service';
+import { ImageUrlVersioner } from '@app/core/images/image-version.store';
+
+/** Leaves every address as it is, for the tests that are not about versions. */
+const unversioned: ImageUrlVersioner = (imageUrl) => imageUrl;
 
 /** A component doing exactly what a real template does: binding a 1x path through the pipe. */
 @Component({
@@ -19,15 +23,27 @@ class LocalizedImageSrcsetHost {}
 
 describe('buildLocalizedImageSrcset', () => {
   it('names the 1x, 2x and 3x copies in the language folder', () => {
-    expect(buildLocalizedImageSrcset('install/login-menu_1x.webp', 'sk')).toBe(
+    expect(buildLocalizedImageSrcset('install/login-menu_1x.webp', 'sk', unversioned)).toBe(
       'images/sk/install/login-menu_1x.webp 1x, ' +
         'images/sk/install/login-menu_2x.webp 2x, ' +
         'images/sk/install/login-menu_3x.webp 3x',
     );
   });
 
+  it('versions each copy on its own, since each is a file of its own', () => {
+    expect(
+      buildLocalizedImageSrcset('install/login-menu_1x.webp', 'sk', (imageUrl) =>
+        imageUrl.endsWith('_2x.webp') ? `${imageUrl}?v=two` : imageUrl,
+      ),
+    ).toBe(
+      'images/sk/install/login-menu_1x.webp 1x, ' +
+        'images/sk/install/login-menu_2x.webp?v=two 2x, ' +
+        'images/sk/install/login-menu_3x.webp 3x',
+    );
+  });
+
   it('offers nothing for an image that is not the 1x copy of a set', () => {
-    expect(buildLocalizedImageSrcset('install/login-menu.webp', 'sk')).toBe('');
+    expect(buildLocalizedImageSrcset('install/login-menu.webp', 'sk', unversioned)).toBe('');
   });
 });
 

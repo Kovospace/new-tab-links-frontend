@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Pipe, PipeTransform, effect, inject } from '@angular/core';
+import { ImageVersionStore } from '../images/image-version.store';
 import { SupportedLanguageCode } from './supported-language';
 import { TranslationService } from './translation.service';
 
@@ -65,6 +66,7 @@ export function buildLocalizedImageUrl(
 @Pipe({ name: 'localizedImage', pure: false })
 export class LocalizedImagePipe implements PipeTransform {
   private readonly translationService = inject(TranslationService);
+  private readonly imageVersionStore = inject(ImageVersionStore);
   private readonly hostViewChangeDetector = inject(ChangeDetectorRef);
 
   /**
@@ -83,9 +85,11 @@ export class LocalizedImagePipe implements PipeTransform {
    *
    * @param imagePath path below the language folder, such as
    *                  {@code install/my-devices-screen.png}
-   * @returns the URL of that image in the language now being displayed
+   * @returns the URL of that image in the language now being displayed, carrying its version
    */
   transform(imagePath: string): string {
-    return buildLocalizedImageUrl(imagePath, this.translationService.currentLanguageCode());
+    return this.imageVersionStore.versionImageUrl(
+      buildLocalizedImageUrl(imagePath, this.translationService.currentLanguageCode()),
+    );
   }
 }

@@ -3,6 +3,7 @@ import { Observable, map } from 'rxjs';
 import { LocalizedMarkdownService } from '../content/localized-markdown.service';
 import { renderSiteMarkdown } from '../content/site-markdown-renderer';
 import { SupportedLanguageCode } from '../i18n/supported-language';
+import { ImageVersionStore } from '../images/image-version.store';
 import { LEGAL_DOCUMENTS_EFFECTIVE_DATE, LEGAL_OPERATOR } from './legal-operator';
 
 /**
@@ -42,6 +43,7 @@ const LEGAL_DOCUMENT_PLACEHOLDERS: Readonly<Record<string, string>> = {
 @Injectable({ providedIn: 'root' })
 export class LegalDocumentsService {
   private readonly localizedMarkdownService = inject(LocalizedMarkdownService);
+  private readonly imageVersionStore = inject(ImageVersionStore);
 
   /**
    * Fetches one document in the reader's language, or in English until it is translated, with
@@ -63,6 +65,7 @@ export class LegalDocumentsService {
             languageCode: loaded.languageCode,
             imageFolder: LEGAL_IMAGE_FOLDER,
             markdownFolder: `${LEGAL_CONTENT_ROOT}/${loaded.languageCode}`,
+            versionImageUrl: this.imageVersionStore.versionImageUrl,
           }),
         ),
       );

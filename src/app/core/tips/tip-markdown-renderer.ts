@@ -1,5 +1,6 @@
 import { renderSiteMarkdown } from '../content/site-markdown-renderer';
 import { SupportedLanguageCode } from '../i18n/supported-language';
+import { ImageUrlVersioner } from '../images/image-version.store';
 import { TIPS_CONTENT_ROOT } from './tips-content.service';
 
 /**
@@ -15,16 +16,19 @@ import { TIPS_CONTENT_ROOT } from './tips-content.service';
  * @param markdown the tip's markdown
  * @param languageCode the language the markdown is written in
  * @param slug the tip's address below {@code /tips}
+ * @param versionImageUrl gives each image address the version of its file
  * @returns the rendered HTML
  */
 export function renderTipMarkdown(
   markdown: string,
   languageCode: SupportedLanguageCode,
   slug: string,
+  versionImageUrl: ImageUrlVersioner,
 ): string {
   return renderSiteMarkdown(markdown, {
     languageCode,
     imageFolder: `tips/${slug}`,
     markdownFolder: `${TIPS_CONTENT_ROOT}/${languageCode}`,
+    versionImageUrl,
   });
 }

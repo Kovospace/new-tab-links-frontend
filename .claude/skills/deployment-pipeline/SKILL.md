@@ -126,6 +126,12 @@ Multi-stage: `node:22.22.1-alpine` builds, `nginxinc/nginx-unprivileged:1.29-alp
 - **Tips' markdown is served from `/content/`, not `/tips/`.** `/tips` is a client-side route, and
   a folder of the same name would be caught by the SPA fallback's `$uri/` before `index.html`.
   `/content/` is `no-cache` like `/i18n/`, and serves `.md` as `text/markdown; charset=utf-8`.
+- **Images are cached by version, not by name.** `scripts/build-image-versions.mjs` (prebuild,
+  whitelisted in `.dockerignore` like the other index scripts) hashes every file under
+  `public/images/` and `public/flags/` into `/content/image-versions.json`, and the site appends
+  `?v=<hash>` to every image address it builds. nginx's `map $arg_v` gives a versioned request
+  `max-age=31536000, immutable` and a bare one a week. A replaced screenshot therefore shows up
+  on the next deploy; without the version, browsers kept the old one for up to a week.
 - **`COPY --chmod` is not used** — it requires BuildKit. The shared pipeline builds with buildx,
   but a plain `docker build` has to work too, so the mode is set with an explicit `RUN chmod`
   inside a short `USER root` block.
@@ -175,6 +181,7 @@ curl -s localhost:8099/config.json          # what the entrypoint wrote
 curl -s localhost:8099/healthz              # what the probes will hit
 curl -s -o /dev/null -w '%{http_code}\n' localhost:8099/auth/callback   # SPA fallback -> 200
 curl -sD - -o /dev/null localhost:8099/i18n/en.json | grep -i cache     # no-cache
+curl -sD - -o /dev/null 'localhost:8099/flags/sk-48.png?v=x' | grep -i cache   # a year, immutable
 
 # does the browser really use the configured backend? point it at a stub that
 # logs requests, then load a page that calls the backend on open:

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, catchError, map, of, startWith, switchMap } from 'rxjs';
 import { SupportedLanguageCode } from '../../core/i18n/supported-language';
 import { TranslationService } from '../../core/i18n/translation.service';
+import { ImageVersionStore } from '../../core/images/image-version.store';
 import { LocalizedRouteLinks } from '../../core/routing/localized-route-links';
 import { LoadedPageDescription } from '../../core/seo/page-metadata';
 import { PageMetadataService } from '../../core/seo/page-metadata.service';
@@ -38,6 +39,7 @@ export class TipPageViewModel {
   private readonly translationService = inject(TranslationService);
   private readonly pageMetadataService = inject(PageMetadataService);
   private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
+  private readonly imageVersionStore = inject(ImageVersionStore);
 
   /** The tip the address names. */
   private readonly slug = toSignal(
@@ -109,7 +111,12 @@ export class TipPageViewModel {
     return this.tipsContentService.loadTipMarkdown(slug, languageCode).pipe(
       map((loaded): TipPageState => ({
         kind: 'SHOWN',
-        html: renderTipMarkdown(loaded.markdown, loaded.languageCode, slug),
+        html: renderTipMarkdown(
+          loaded.markdown,
+          loaded.languageCode,
+          slug,
+          this.imageVersionStore.versionImageUrl,
+        ),
         pageDescription: describeTipMarkdown(loaded.markdown),
       })),
       catchError((failure: unknown) =>

@@ -11,6 +11,7 @@ import { authenticationInterceptor } from './core/auth/authentication.intercepto
 import { RUNTIME_CONFIGURATION, RuntimeConfiguration } from './core/config/runtime-configuration';
 import { backendFreePrerenderingInterceptor } from './core/rendering/backend-free-prerendering.interceptor';
 import { TranslationService } from './core/i18n/translation.service';
+import { ImageVersionStore } from './core/images/image-version.store';
 import { PageMetadataService } from './core/seo/page-metadata.service';
 import { WebsiteVisitReporter } from './core/statistics/website-visit-reporter.service';
 import { routes } from './app.routes';
@@ -58,6 +59,9 @@ export function buildApplicationConfiguration(
        * translation keys is ever shown.
        */
       provideAppInitializer(() => inject(TranslationService).loadInitialLanguage()),
+
+      // Every image address carries its content hash, so a replaced image is never shown from cache.
+      provideAppInitializer(() => inject(ImageVersionStore).loadImageVersions()),
 
       // Titles and describes every page for search engines, following navigation and language.
       provideAppInitializer(() => inject(PageMetadataService).followNavigation()),

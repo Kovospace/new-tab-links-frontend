@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { renderSiteMarkdown } from '@app/core/content/site-markdown-renderer';
+import { ImageUrlVersioner } from '@app/core/images/image-version.store';
+
+/** Leaves every address as it is, for the tests that are not about versions. */
+const unversioned: ImageUrlVersioner = (imageUrl) => imageUrl;
 
 /**
  * What the shared renderer adds beyond a tip's: its own image folder, and headings pushed down.
@@ -10,6 +14,7 @@ describe('renderSiteMarkdown', () => {
       languageCode: 'sk',
       imageFolder: 'home-features/synchronised-everywhere',
       markdownFolder: '/content/home-features/sk',
+      versionImageUrl: unversioned,
     });
 
     expect(html).toContain(
@@ -22,6 +27,7 @@ describe('renderSiteMarkdown', () => {
       languageCode: 'sk',
       imageFolder: 'tips/profiles',
       markdownFolder: '/content/tips/sk',
+      versionImageUrl: unversioned,
     });
 
     expect(html).toContain('src="/images/sk/tips/profiles/open-menu_1x.webp"');
@@ -38,6 +44,7 @@ describe('renderSiteMarkdown', () => {
       languageCode: 'sk',
       imageFolder: 'tips/profiles',
       markdownFolder: '/content/tips/sk',
+      versionImageUrl: unversioned,
     });
 
     expect(html).toContain('/images/sk/tips/profiles/open-menu_3x.webp 3x');
@@ -48,9 +55,34 @@ describe('renderSiteMarkdown', () => {
       languageCode: 'sk',
       imageFolder: 'tips/profiles',
       markdownFolder: '/content/tips/sk',
+      versionImageUrl: unversioned,
     });
 
     expect(html).not.toContain('srcset');
+  });
+
+  it('gives src and every srcset entry the version of the file it names', () => {
+    const versions: Record<string, string> = {
+      'images/sk/tips/profiles/open-menu_1x.webp': 'aaa',
+      'images/sk/tips/profiles/open-menu_2x.webp': 'bbb',
+      'images/sk/tips/profiles/open-menu_3x.webp': 'ccc',
+    };
+    const html = renderSiteMarkdown('![Menu](open-menu_1x.webp)', {
+      languageCode: 'sk',
+      imageFolder: 'tips/profiles',
+      markdownFolder: '/content/tips/sk',
+      versionImageUrl: (imageUrl) => {
+        const version = versions[imageUrl.replace(/^\/+/, '')];
+        return version === undefined ? imageUrl : `${imageUrl}?v=${version}`;
+      },
+    });
+
+    expect(html).toContain('src="/images/sk/tips/profiles/open-menu_1x.webp?v=aaa"');
+    expect(html).toContain(
+      'srcset="/images/sk/tips/profiles/open-menu_1x.webp?v=aaa 1x, ' +
+        '/images/sk/tips/profiles/open-menu_2x.webp?v=bbb 2x, ' +
+        '/images/sk/tips/profiles/open-menu_3x.webp?v=ccc 3x"',
+    );
   });
 
   it('pushes every heading down by the offset, never past h6', () => {
@@ -58,6 +90,7 @@ describe('renderSiteMarkdown', () => {
       languageCode: 'en',
       imageFolder: 'home-features/x',
       markdownFolder: '/content/home-features/en',
+      versionImageUrl: unversioned,
       headingLevelOffset: 1,
     });
 
@@ -71,6 +104,7 @@ describe('renderSiteMarkdown', () => {
       languageCode: 'en',
       imageFolder: 'tips/x',
       markdownFolder: '/content/tips/en',
+      versionImageUrl: unversioned,
     });
 
     expect(html).toContain('<h1>Title</h1>');
@@ -81,6 +115,7 @@ describe('renderSiteMarkdown', () => {
       languageCode: 'sk',
       imageFolder: 'home-features/sync',
       markdownFolder: '/content/home-features/sk',
+      versionImageUrl: unversioned,
     });
 
     expect(html).toContain('src="/images/sk/home-features/sync/two.png"');
@@ -91,6 +126,7 @@ describe('renderSiteMarkdown', () => {
       languageCode: 'sk',
       imageFolder: 'home-features/sync',
       markdownFolder: '/content/home-features/sk',
+      versionImageUrl: unversioned,
     });
 
     expect(html).toContain('href="/sk/tips/discover-profiles"');
@@ -101,6 +137,7 @@ describe('renderSiteMarkdown', () => {
       languageCode: 'en',
       imageFolder: 'tips/x',
       markdownFolder: '/content/tips/en',
+      versionImageUrl: unversioned,
     });
 
     expect(html).toContain('href="../../legal/en/terms.md"');

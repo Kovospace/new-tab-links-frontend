@@ -1,5 +1,6 @@
 import { Marked, Renderer, Tokens } from 'marked';
 import { buildLocalizedImageUrl } from '../i18n/localized-image.pipe';
+import { ImageUrlVersioner } from '../images/image-version.store';
 import { SupportedLanguageCode } from '../i18n/supported-language';
 import { localizeTipLink } from '../routing/localized-route-links';
 
@@ -26,6 +27,11 @@ export interface SiteMarkdownRenderingOptions {
    * an {@code <h2>}, or the page would have several.</p>
    */
   readonly headingLevelOffset?: number;
+  /**
+   * Gives each image address the version of the file it names, so a replaced screenshot is not
+   * shown from a browser's cache; {@code ImageVersionStore.versionImageUrl}.
+   */
+  readonly versionImageUrl: ImageUrlVersioner;
 }
 
 /** The deepest heading HTML has. */
@@ -69,6 +75,10 @@ const RETINA_IMAGE_ADDRESS = /^(.*)_1x(\.[^./?#]+)([?#].*)?$/;
  * beside it, so a retina display picks the sharper copy. The image-maintenance tool derives all
  * three from a single {@code _3x} export.</p>
  *
+ * <p>Every image address that ends up naming one of this site's images — in {@code src} and in
+ * each {@code srcset} entry, since every density is a file of its own — carries that file's
+ * version, through {@link SiteMarkdownRenderingOptions.versionImageUrl}.</p>
+ *
  * <p>The HTML is not trusted by being ours: it is bound with {@code [innerHTML]}, which Angular
  * sanitises, so a script or an event handler in a markdown file is dropped rather than run.</p>
  *
@@ -82,7 +92,11 @@ export function renderSiteMarkdown(
 ): string {
   const headingLevelOffset = options.headingLevelOffset ?? 0;
   const renderer = new Marked({
-    renderer: { image: renderImageWithDensities },
+    renderer: {
+      image(image: Tokens.Image): string {
+        return renderVersionedImage.call(this, image, options.versionImageUrl);
+      },
+    },
     walkTokens: (token) => {
       if (token.type === 'image') {
         resolveImageAddress(token as Tokens.Image, options);
@@ -117,23 +131,30 @@ function resolveImageAddress(image: Tokens.Image, options: SiteMarkdownRendering
 }
 
 /**
- * Renders an image, adding a density {@code srcset} when it names the 1x copy of a set.
+ * Renders an image with its version, adding a density {@code srcset} when it names the 1x copy of
+ * a set.
  *
- * <p>Any other image is rendered exactly as marked would. The address has already been resolved by
- * {@link resolveImageAddress}, so the siblings are derived from the final path.</p>
+ * <p>Any other image is rendered as marked would, its address versioned. The address has already
+ * been resolved by {@link resolveImageAddress}, so the siblings are derived from the final path —
+ * before versioning, because each sibling is a different file with a version of its own.</p>
  *
  * @param image the image token
+ * @param versionImageUrl gives an image address its version
  * @returns its HTML
  */
-function renderImageWithDensities(this: Renderer, image: Tokens.Image): string {
-  const html = Renderer.prototype.image.call(this, image);
+function renderVersionedImage(
+  this: Renderer,
+  image: Tokens.Image,
+  versionImageUrl: ImageUrlVersioner,
+): string {
+  const html = Renderer.prototype.image.call(this, { ...image, href: versionImageUrl(image.href) });
   const retina = RETINA_IMAGE_ADDRESS.exec(image.href);
   if (retina === null) {
     return html;
   }
   const [, stem, extension, suffix = ''] = retina;
   const srcset = [1, 2, 3]
-    .map((density) => `${stem}_${density}x${extension}${suffix} ${density}x`)
+    .map((density) => `${versionImageUrl(`${stem}_${density}x${extension}${suffix}`)} ${density}x`)
     .join(', ');
   return html.replace(/^<img /, `<img srcset="${escapeAttribute(srcset)}" `);
 }

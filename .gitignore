@@ -52,5 +52,6 @@ yarn-error.log*
 /public/content/tips/index.json
 /public/content/demo/index.json
 /public/content/home-features/index.json
+/public/content/image-versions.json
 /public/robots.txt
 /public/sitemap.xml

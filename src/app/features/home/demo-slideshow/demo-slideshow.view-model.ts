@@ -5,6 +5,7 @@ import {
   DemoSlidesService,
 } from '../../../core/demo/demo-slides.service';
 import { buildLocalizedImageUrl } from '../../../core/i18n/localized-image.pipe';
+import { ImageVersionStore } from '../../../core/images/image-version.store';
 import {
   DEFAULT_LANGUAGE_CODE,
   SupportedLanguageCode,
@@ -78,6 +79,7 @@ export interface PresentedDemoSlide {
 export class DemoSlideshowViewModel {
   private readonly demoSlidesService = inject(DemoSlidesService);
   private readonly translationService = inject(TranslationService);
+  private readonly imageVersionStore = inject(ImageVersionStore);
   private readonly destroyRef = inject(DestroyRef);
 
   /** The list as loaded; empty until it arrives, and if it never does. */
@@ -235,9 +237,11 @@ export class DemoSlideshowViewModel {
    * Where one of the screenshots' files is served from.
    *
    * @param fileName the file's name below the demo folder
-   * @returns its URL, in the language whose screenshots are shown
+   * @returns its URL, in the language whose screenshots are shown, carrying its version
    */
   private demoImageUrl(fileName: string): string {
-    return buildLocalizedImageUrl(`${DEMO_IMAGE_FOLDER}/${fileName}`, this.slidesLanguageCode());
+    return this.imageVersionStore.versionImageUrl(
+      buildLocalizedImageUrl(`${DEMO_IMAGE_FOLDER}/${fileName}`, this.slidesLanguageCode()),
+    );
   }
 }
