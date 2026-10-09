@@ -326,6 +326,11 @@
       "heading": "Full version granted",
       "lifetime": "An administrator has granted you the full version for life. There is nothing to buy and nothing to renew.",
       "until": "An administrator has granted you the full version until {date}. It does not renew; buy the lifetime licence below to keep it for good."
+    },
+    "lifetime": {
+      "heading": "Lifetime full version",
+      "held": "You own the lifetime full version. It is yours for good — there is nothing to buy and nothing to renew.",
+      "heldSince": "You own the lifetime full version, bought on {date}. It is yours for good — there is nothing to buy and nothing to renew."
     }
   },
   "legal": {

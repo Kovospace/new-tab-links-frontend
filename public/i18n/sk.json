@@ -326,6 +326,11 @@
       "heading": "Plná verzia pridelená",
       "lifetime": "Administrátor vám pridelil plnú verziu doživotne. Nie je čo kupovať ani obnovovať.",
       "until": "Administrátor vám pridelil plnú verziu do {date}. Neobnovuje sa; ak si ju chcete ponechať natrvalo, kúpte si nižšie doživotnú licenciu."
+    },
+    "lifetime": {
+      "heading": "Doživotná plná verzia",
+      "held": "Vlastníte doživotnú plnú verziu. Je vaša natrvalo — nie je čo kupovať ani obnovovať.",
+      "heldSince": "Vlastníte doživotnú plnú verziu, zakúpenú {date}. Je vaša natrvalo — nie je čo kupovať ani obnovovať."
     }
   },
   "legal": {

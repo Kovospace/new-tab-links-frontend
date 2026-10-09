@@ -26,10 +26,10 @@
             <small>{{ planOption.description }}</small>
           </div>
         </label>
-        <br>
+        <br />
       }
       @if (viewModel.fieldValidationMessages()['plan']; as validationMessage) {
-        <br>
+        <br />
         <em>{{ validationMessage }}</em>
       }
     </fieldset>
@@ -42,7 +42,7 @@
       }
     </button>
 
-    <br><br>
+    <br /><br />
     <app-legal-consent-notice moment="PURCHASE" />
 
     <p>{{ 'account.premium.merchantOfRecordNotice' | translate }}</p>

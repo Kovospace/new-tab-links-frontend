@@ -166,10 +166,12 @@ export class PremiumPanelViewModel extends AbstractFormViewModel {
 
     this.beginSubmission();
 
-    this.premiumCheckoutService.beginCheckout(this.purchaseForm.getRawValue().plan, currency).subscribe({
-      next: (checkoutSession) => this.leaveForPaymentGate(checkoutSession.checkoutUrl),
-      error: (failure: unknown) => this.reportCheckoutFailure(failure),
-    });
+    this.premiumCheckoutService
+      .beginCheckout(this.purchaseForm.getRawValue().plan, currency)
+      .subscribe({
+        next: (checkoutSession) => this.leaveForPaymentGate(checkoutSession.checkoutUrl),
+        error: (failure: unknown) => this.reportCheckoutFailure(failure),
+      });
   }
 
   /**

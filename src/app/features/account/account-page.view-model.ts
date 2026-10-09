@@ -34,6 +34,16 @@ export interface PresentedAccountDetails {
 }
 
 /**
+ * What the account page says about the full version the reader already holds.
+ */
+export interface HeldPremiumNotice {
+  /** The section's heading. */
+  readonly heading: string;
+  /** The sentence under it. */
+  readonly text: string;
+}
+
+/**
  * State behind the account page.
  *
  * <p>Owns only what the whole page shares: the account itself and the read-only facts drawn from
@@ -107,23 +117,28 @@ export class AccountPageViewModel {
   );
 
   /**
-   * What the account page says about an operator's grant, or empty when there is none.
+   * What the account page says about the full version the reader holds, or {@code null} when
+   * there is nothing to say.
    *
-   * <p>A lifetime grant says only that — there is nothing to buy, and the reader should know why
-   * no offer is shown. A year's grant says when it ends, because the purchase form below offers
-   * lifetime and the reader is deciding whether they need it.</p>
+   * <p>An operator's grant says where the full version came from: a lifetime grant says only
+   * that — there is nothing to buy, and the reader should know why no offer is shown — and a
+   * year's grant says when it ends, because the purchase form below offers lifetime and the reader
+   * is deciding whether they need it.</p>
+   *
+   * <p>A purchased lifetime licence is said too, for the same reason as a lifetime grant: the
+   * purchase form disappears once there is nothing left to buy, and an account page that then
+   * says nothing about the full version leaves the buyer wondering whether it is there at all. A
+   * subscriber needs no notice of their own — the purchase form and the cancel panel below are
+   * already about their subscription.</p>
    */
-  readonly operatorGrantNotice = computed<string>(() => {
-    if (!this.holdsOperatorGrant()) {
-      return '';
+  readonly heldPremiumNotice = computed<HeldPremiumNotice | null>(() => {
+    if (this.holdsOperatorGrant()) {
+      return this.describeOperatorGrant(this.loadedSubscription().validUntil);
     }
-    const grantedUntil = this.loadedSubscription().validUntil;
-    if (grantedUntil === null) {
-      return this.translationService.translate('account.grant.lifetime');
+    if (this.premiumStanding() === 'LIFETIME') {
+      return this.describePurchasedLifetime(this.loadedSubscription().startedAt);
     }
-    return this.translationService.translate('account.grant.until', {
-      date: formatInstantForDisplay(grantedUntil, this.translationService.currentLanguageCode()),
-    });
+    return null;
   });
 
   /**
@@ -202,6 +217,44 @@ export class AccountPageViewModel {
       ),
     };
   });
+
+  /**
+   * Words an operator's grant.
+   *
+   * @param grantedUntil when the grant ends, ISO-8601, or {@code null} for one without an end
+   * @returns the notice to show
+   */
+  private describeOperatorGrant(grantedUntil: string | null): HeldPremiumNotice {
+    const heading = this.translationService.translate('account.grant.heading');
+    if (grantedUntil === null) {
+      return { heading, text: this.translationService.translate('account.grant.lifetime') };
+    }
+    return {
+      heading,
+      text: this.translationService.translate('account.grant.until', {
+        date: formatInstantForDisplay(grantedUntil, this.translationService.currentLanguageCode()),
+      }),
+    };
+  }
+
+  /**
+   * Words a lifetime licence the reader bought.
+   *
+   * @param purchasedAt when it was bought, ISO-8601, or {@code null} when the backend did not say
+   * @returns the notice to show
+   */
+  private describePurchasedLifetime(purchasedAt: string | null): HeldPremiumNotice {
+    const heading = this.translationService.translate('account.lifetime.heading');
+    if (purchasedAt === null) {
+      return { heading, text: this.translationService.translate('account.lifetime.held') };
+    }
+    return {
+      heading,
+      text: this.translationService.translate('account.lifetime.heldSince', {
+        date: formatInstantForDisplay(purchasedAt, this.translationService.currentLanguageCode()),
+      }),
+    };
+  }
 
   /**
    * Fetches the signed-in account.

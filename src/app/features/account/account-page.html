@@ -10,10 +10,10 @@
   @if (viewModel.hasAccount()) {
     <app-profile-panel [currentDisplayName]="viewModel.currentDisplayName()" />
 
-    @if (viewModel.operatorGrantNotice(); as operatorGrantNotice) {
+    @if (viewModel.heldPremiumNotice(); as heldPremiumNotice) {
       <section>
-        <h1>{{ 'account.grant.heading' | translate }}</h1>
-        <p>{{ operatorGrantNotice }}</p>
+        <h1>{{ heldPremiumNotice.heading }}</h1>
+        <p>{{ heldPremiumNotice.text }}</p>
       </section>
     }
 
