@@ -92,7 +92,7 @@
       "webStoreUnavailable": "The store listing is not published yet."
     },
     "registerAction": {
-      "heading": "...Or if you want synchronisation and backups",
+      "heading": "...And if you want synchronisation and backups",
       "heading2": "1. Register and sign in",
       "leadText": "Register the ordinary way (the registration form, then the activation link sent to your e-mail), or use Google",
       "registerButton": "Register",
