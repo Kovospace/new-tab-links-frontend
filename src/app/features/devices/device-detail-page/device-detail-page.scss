@@ -1,1 +1,40 @@
-// One device's detail page. Unstyled for now: the owner writes the look by hand.
+// One device's detail page. Only what is actually styled has a rule here.
+
+// Each profile's workspaces table, arranged exactly like the devices and admin tables: the cells
+// themselves are left as plain elements and every rule addresses the wrapper `div` inside them.
+.device-detail-page__table {
+  margin: 1.5em 0;
+
+  thead {
+    tr {
+      background-color: var(--color-panel);
+    }
+  }
+}
+
+// Header and stripes are painted on the row, so a row keeps one height when a cell wraps.
+.device-detail-page__row {
+  vertical-align: middle;
+
+  &:nth-child(even) {
+    background-color: var(--color-panel);
+  }
+}
+
+.device-detail-page__column-header-content,
+.device-detail-page__cell-content {
+  display: flex;
+  align-items: center;
+  min-height: 3em;
+  margin: 0.25em 0;
+  padding: 0.25em 0.75em;
+
+  & > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+
+.device-detail-page__column-header-content {
+  font-weight: bold;
+}

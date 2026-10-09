@@ -1,6 +1,6 @@
 <article>
   <section>
-    <a [routerLink]="viewModel.devicesLink">{{ 'devices.detail.backToDevices' | translate }}</a>
+    <a [routerLink]="viewModel.devicesLink" class="button">{{ 'devices.detail.backToDevices' | translate }}</a>
 
     <h1>{{ viewModel.heading() }}</h1>
     <i>{{ 'devices.detail.lead' | translate }}</i>
@@ -18,25 +18,58 @@
 
       @for (profile of viewModel.presentedProfiles(); track $index) {
         <section>
+
           <h2>{{ profile.name }}</h2>
           <p>{{ profile.syncLabel }}</p>
 
-          <table>
+          <!--
+            Every cell holds one wrapper element and every rule addresses that wrapper rather than
+            the cell — the same arrangement as the devices table, whose template says why.
+          -->
+          <table class="device-detail-page__table">
             <thead>
-              <tr>
-                <th scope="col">{{ 'devices.detail.columnWorkspace' | translate }}</th>
-                <th scope="col">{{ 'devices.detail.columnSync' | translate }}</th>
-                <th scope="col">{{ 'devices.detail.columnGroups' | translate }}</th>
-                <th scope="col">{{ 'devices.detail.columnLinks' | translate }}</th>
+              <tr class="device-detail-page__row">
+                <th scope="col">
+                  <div class="device-detail-page__column-header-content">
+                    {{ 'devices.detail.columnWorkspace' | translate }}
+                  </div>
+                </th>
+                <th scope="col">
+                  <div class="device-detail-page__column-header-content">
+                    {{ 'devices.detail.columnSync' | translate }}
+                  </div>
+                </th>
+                <th scope="col">
+                  <div class="device-detail-page__column-header-content">
+                    {{ 'devices.detail.columnGroups' | translate }}
+                  </div>
+                </th>
+                <th scope="col">
+                  <div class="device-detail-page__column-header-content">
+                    {{ 'devices.detail.columnLinks' | translate }}
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody>
               @for (workspace of profile.workspaces; track $index) {
-                <tr>
-                  <td>{{ workspace.name }}</td>
-                  <td>{{ workspace.syncLabel }}</td>
-                  <td>{{ workspace.groupCountLabel }}</td>
-                  <td>{{ workspace.linkCountLabel }}</td>
+                <tr class="device-detail-page__row">
+                  <td>
+                    <div class="device-detail-page__cell-content">{{ workspace.name }}</div>
+                  </td>
+                  <td>
+                    <div class="device-detail-page__cell-content">{{ workspace.syncLabel }}</div>
+                  </td>
+                  <td>
+                    <div class="device-detail-page__cell-content">
+                      {{ workspace.groupCountLabel }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="device-detail-page__cell-content">
+                      {{ workspace.linkCountLabel }}
+                    </div>
+                  </td>
                 </tr>
               }
             </tbody>
