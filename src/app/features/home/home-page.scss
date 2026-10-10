@@ -35,7 +35,8 @@
 
 
 .home-page__feature {
-  margin-top: 5em;
+  margin-top: 4.25em;
+  font-size: 1.125em;
   // Inherited by the point's paragraphs, which this component's scoped rules cannot reach. How
   // the point's markdown looks is RenderedMarkdown's; adjust it here with its --markdown-*
   // properties, never with a rule for the markdown's elements.

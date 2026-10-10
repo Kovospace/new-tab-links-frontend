@@ -7,3 +7,5 @@ Uložili ste si nejaký odkaz v Chrome a cez Google synchronizáciu ho nájdete 
 Nie je problém, aj preto bolo toto rozšírenie stvorené.
 
 Hovorí sa tomu síce "Chrome rozšírenie" ale pravda je že tento formát dnes podporuje veľká časť najpoužívanejších prehliadačov. 
+
+- [Registrácia / prihlásenie, zapnutie synchronizácie](https://tabilinks.app/sk/download)
