@@ -41,8 +41,36 @@
     "copyrightNotice": "© {year} {author}"
   },
   "home": {
-    "heading": "Nová karta, ktorá konečne k niečomu je",
-    "leadParagraph": "Tabilinks nahradí prázdnu nevyužívanú novú kartu odkazmi, ktoré naozaj otvárate a používate, usporiadanými do pracovných priestorov a skupín podľa Vás. Zaznamená taktiež históriu zavretých kariet.",
+    "heading": "Nová karta, ktorá konečne k niečomu je !",
+    "leadParagraph": "Tabilinks nahradí prázdnu nevyužívanú novú kartu odkazmi, ktoré naozaj otvárate a používate, v profiloch, usporiadanými do pracovných priestorov a skupín podľa Vás.",
+    "leadParagraph2": "Zaznamená taktiež históriu zavretých kariet.",
+    "pitchSections": {
+      "audience": {
+        "heading": "Pre koho je vhodné Tabilinks ?",
+        "lead": "Toto rozšírenie je vhodné úplne pre každého, ale najviac ho ocenia ľudia ktorí:",
+        "points": [
+          "Majú veľa záložiek a nechcú ďalšie \"Opera dlaždice\"",
+          "Chcú mať v záložkách organizáciu, disciplínu a poriadok",
+          "Pracujú vo viacero prehliadačoch, aj práve konkurenčných značiek",
+          "Pracujú na viacero zariadeniach",
+          "Chcú mať všetko okamžite zálohované a synchronizované, bez ohľadu na značku prehliadača a operačný systém - alebo naopak, ostať offline",
+          "Potrebujú ukladať záložky rýchlo tam, kde by mali patriť",
+          "Potom ich ale chcú ešte rýchlejšie nájsť"
+        ]
+      },
+      "advantages": {
+        "heading": "V čom sme lepší od konkurencie ?",
+        "lead": "Oproti iným rozšíreniam s ronvakým alebo podobným zameraním pre novú kartu:",
+        "points": [
+          "Flexibilná logická hierarchia organizácie obsahu aj pre náročného používateľa - Užívateľ > Profil > Pracovný priestor > Skupina > Podskupina > Link",
+          "Dostačujúca a plnohodnotná verzia zadarmo pre veľkú väčšinu používateľov",
+          "Veľmi prívetivá cena pre profesionálnych používateľov",
+          "Synchronizácia medzi zariadeniami aj rôznymi prehliadačmi",
+          "Možnosť ale používať aj v \"ostrovnom\" režime - žiadna registrácia a osobné údaje ani na naše servery",
+          "Zaznamená tiež históriu zavretých kariet, rovnako synchronizovaná v prípade pripojenia účtu"
+        ]
+      }
+    },
     "featuresHeading": "Čo to vie",
     "callToAction": "Získať rozšírenie",
     "downloads": {

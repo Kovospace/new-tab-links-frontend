@@ -9,6 +9,10 @@
 // width rather than eating into it, so the image is shown at exactly its 1x size. Narrower, it
 // scales down and keeps 16:10.
 //
+// A page limits how tall the slideshow may be by setting --demo-slideshow-max-height on an
+// ancestor. A parent's max-height cannot do it: the slide's height follows from its width, so the
+// limit is turned into a width here instead.
+//
 // The dots are sized from the frame's width (container query units), not from the text: at 1280
 // pixels they are as large as before, and on a phone, where the slide is a third as wide, they
 // shrink with it instead of covering it — down to a floor that still reads as a dot.
@@ -23,10 +27,11 @@
   border: 0.25em solid var(--color-accent);
   border-radius: 1em;
   container-type: inline-size;
+  // Never wider than its container, its 1x size, or what fits the height a page allows it.
+  width: min(100%, 1280px, calc(var(--demo-slideshow-max-height, 100vh) * 16 / 10));
 
   @media screen and (min-width: 1440px) {
     box-sizing: content-box;
-    width: 1280px;
   }
 }
 
@@ -46,39 +51,46 @@
 }
 
 .demo-slideshow__dots {
-  // 1.75rem on a 1280-pixel frame (2.2% of its width), never under 0.5rem.
-  --demo-slideshow-dot-size: clamp(0.5rem, 2.2cqi, 1.75rem);
-
   position: absolute;
-  bottom: calc(var(--demo-slideshow-dot-size) * 0.6);
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 1em;
+  left: 0;
+  right: 0;
   display: flex;
-  gap: calc(var(--demo-slideshow-dot-size) * 0.3);
-}
+  gap: 2.5%;
+  align-items: center;
+  justify-content: center;
 
-.demo-slideshow__dot {
-  width: var(--demo-slideshow-dot-size);
-  height: var(--demo-slideshow-dot-size);
-  border-radius: 50%;
-  cursor: pointer;
-  background-color: var(--color-ui-element);
-  transition:
-    background-color var(--duration-fast) var(--easing-standard),
-    transform var(--duration-fast) var(--easing-standard);
-  aspect-ratio: 1 / 1;
-  border: calc(var(--demo-slideshow-dot-size) / 7) solid var(--color-background);
+  .demo-slideshow__dot {
+    padding: 0;
+    margin: 0;
+    width: 7.5%;
+    height: 7.5%;
+    max-width: 2em;
+    max-height: 2em;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: var(--color-ui-element);
+    transition:
+      background-color var(--duration-fast) var(--easing-standard),
+      transform var(--duration-fast) var(--easing-standard);
+    aspect-ratio: 1 / 1;
+    border: 0.125em solid var(--color-background);
 
-  &:hover {
-    background-color: var(--color-ui-element-hover);
+    &:hover {
+      background-color: var(--color-ui-element-hover);
+    }
+
+    &--active {
+      background-color: var(--color-accent);
+      transform: scale(1.5);
+    }
+
+    &--active:hover {
+      background-color: var(--color-accent-hover);
+    }
   }
 
-  &--active {
-    background-color: var(--color-accent);
-    transform: scale(1.5);
-  }
-
-  &--active:hover {
-    background-color: var(--color-accent-hover);
+  @media screen and (max-width: 533px) {
+    //gap: 0.125em;
   }
 }

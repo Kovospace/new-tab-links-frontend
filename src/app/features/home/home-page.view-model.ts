@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, computed, inject } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import {
@@ -6,6 +6,28 @@ import {
   RenderedHomeFeature,
 } from '../../core/home-features/home-features-content.service';
 import { TranslationService } from '../../core/i18n/translation.service';
+
+/**
+ * The translation keys of the short pitch sections under the page heading, in the order shown.
+ *
+ * <p>Each names a group in {@code public/i18n/<code>.json} holding a {@code heading}, a
+ * {@code lead} and {@code points}, an array with one entry per bullet. Adding a section is a new
+ * group in both translation files and one entry here; the template needs nothing.</p>
+ */
+const PITCH_SECTION_TRANSLATION_KEYS = [
+  'home.pitchSections.audience',
+  'home.pitchSections.advantages',
+] as const;
+
+/** One pitch section, worded and ready to bind. */
+export interface PresentedPitchSection {
+  /** The section's heading. */
+  readonly heading: string;
+  /** The sentence introducing the points. */
+  readonly lead: string;
+  /** The bulleted points, in the order the translation file lists them. */
+  readonly points: readonly string[];
+}
 
 /**
  * State behind the home page.
@@ -17,6 +39,16 @@ import { TranslationService } from '../../core/i18n/translation.service';
 export class HomePageViewModel {
   private readonly translationService = inject(TranslationService);
   private readonly homeFeaturesContentService = inject(HomeFeaturesContentService);
+
+  /**
+   * The pitch sections, worded in the reader's language.
+   *
+   * <p>Plain JSON rather than markdown like the selling points below: a heading, a sentence and a
+   * list need no formatting, and follow a language switch through the translation signal.</p>
+   */
+  readonly presentedPitchSections = computed<readonly PresentedPitchSection[]>(() =>
+    PITCH_SECTION_TRANSLATION_KEYS.map((sectionKey) => this.presentPitchSection(sectionKey)),
+  );
 
   /**
    * The selling points, rendered from their markdown files, in the order they are shown.
@@ -33,4 +65,18 @@ export class HomePageViewModel {
     ),
     { initialValue: [] as readonly RenderedHomeFeature[] },
   );
+
+  /**
+   * Words one pitch section.
+   *
+   * @param sectionKey the translation key of the section's group
+   * @returns the section's heading, lead and points in the active language
+   */
+  private presentPitchSection(sectionKey: string): PresentedPitchSection {
+    return {
+      heading: this.translationService.translate(`${sectionKey}.heading`),
+      lead: this.translationService.translate(`${sectionKey}.lead`),
+      points: this.translationService.translateToParagraphs(`${sectionKey}.points`),
+    };
+  }
 }

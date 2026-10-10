@@ -12,6 +12,28 @@
   margin-bottom: 0.75em;
 }
 
+.home-page__demo {
+  --demo-slideshow-max-height: 80vh;
+  margin: 0;
+  padding: 0 1em;
+}
+
+.home-page__point {
+  position: relative;
+  font-size: 1.25em;
+  line-height: 1.25em;
+  padding-left: 1em;
+  margin: 0.25em 0;
+  display: block;
+
+  &::before {
+    position: absolute;
+    content: '•';
+    left: 0.25em;
+  }
+}
+
+
 .home-page__feature {
   margin-top: 5em;
   // Inherited by the point's paragraphs, which this component's scoped rules cannot reach. How

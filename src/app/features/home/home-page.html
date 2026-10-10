@@ -1,15 +1,35 @@
 <article>
+
   <section>
     <h1>{{ 'home.heading' | translate }}</h1>
-    <p class="home-page__tagline">{{ 'site.tagline' | translate }}</p>
-    <p class="home-page__lead">{{ 'home.leadParagraph' | translate }}</p>
-    <!--    <a class="home-page__call-to-action button" [routerLink]="downloadLink">{{-->
-    <!--      'home.callToAction' | translate-->
-    <!--    }}</a>-->
+    <p class="home-page__tagline">
+      {{ 'site.tagline' | translate }}
+    </p>
+    <p class="home-page__tagline">
+      {{ 'home.leadParagraph' | translate }}
+    </p>
+    <p class="home-page__tagline">
+      {{ 'home.leadParagraph2' | translate }}
+    </p>
   </section>
 
   <section class="home-page__demo">
     <app-demo-slideshow />
+  </section>
+
+  <section>
+    @for (pitchSection of viewModel.presentedPitchSections(); track $index; let isFirst = $first) {
+      @if (!isFirst) {
+        <br>
+      }
+      <h2>{{ pitchSection.heading }}</h2>
+      <p class="home-page__lead">{{ pitchSection.lead }}</p>
+      <ul>
+        @for (point of pitchSection.points; track $index) {
+          <li class="home-page__point">{{ point }}</li>
+        }
+      </ul>
+    }
   </section>
 
   <section>
@@ -23,4 +43,5 @@
   </section>
 
   <app-plan-offers />
+
 </article>

@@ -43,6 +43,31 @@
   "home": {
     "heading": "A new tab that finally does something useful",
     "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, arranged into workspaces and groups of your own, alongside your closed tabs history.",
+    "leadParagraph2": "History of closed tabs is recorded too.",
+    "pitchSections": {
+      "audience": {
+        "heading": "Who is Tabilinks for?",
+        "lead": "Anyone can use it, but it is most appreciated by people who:",
+        "points": [
+          "Have a lot of bookmarks",
+          "Want their bookmarks organised and tidy",
+          "Work in more than one browser, even from different vendors",
+          "Work on more than one device",
+          "Want their links in plain sight, saving every needless click and trip through the bookmarks menu",
+          "Need to file a bookmark into the right category quickly"
+        ]
+      },
+      "advantages": {
+        "heading": "What makes us better than the competition?",
+        "lead": "Compared with other new tab extensions:",
+        "points": [
+          "Links, bookmarks, history and most visited sites in one place, right on the new tab",
+          "Synchronisation across devices and different browsers",
+          "Workspaces and groups – every area of your work has links of its own",
+          "Keeps a history of closed tabs"
+        ]
+      }
+    },
     "featuresHeading": "What it does",
     "callToAction": "Get the extension",
     "downloads": {
