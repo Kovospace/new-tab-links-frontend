@@ -60,14 +60,15 @@
       },
       "advantages": {
         "heading": "V čom sme lepší od konkurencie ?",
-        "lead": "Oproti iným rozšíreniam s ronvakým alebo podobným zameraním pre novú kartu:",
+        "lead": "Oproti iným rozšíreniam s rovnakým alebo podobným zameraním pre novú kartu:",
         "points": [
           "Flexibilná logická hierarchia organizácie obsahu aj pre náročného používateľa - Užívateľ > Profil > Pracovný priestor > Skupina > Podskupina > Link",
           "Dostačujúca a plnohodnotná verzia zadarmo pre veľkú väčšinu používateľov",
           "Veľmi prívetivá cena pre profesionálnych používateľov",
           "Synchronizácia medzi zariadeniami aj rôznymi prehliadačmi",
           "Možnosť ale používať aj v \"ostrovnom\" režime - žiadna registrácia a osobné údaje ani na naše servery",
-          "Zaznamená tiež históriu zavretých kariet, rovnako synchronizovaná v prípade pripojenia účtu"
+          "Zaznamená tiež históriu zavretých kariet, rovnako synchronizovaná v prípade pripojenia účtu",
+          "Chceme aplikáciu držať čo najjednoduchšou, bez zbytočných widgetov, reminderov, poznámok a iného balastu ktorý je duplicitný v každej druhej aplikácií podobnej kategórie. Radšej zrýchlime a zjednodušíme nejaké workflow alebo use case ako pridať ďalšiu zbytočnú funkciu."
         ]
       }
     },

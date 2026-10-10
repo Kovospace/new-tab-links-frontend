@@ -41,30 +41,34 @@
     "copyrightNotice": "© {year} {author}"
   },
   "home": {
-    "heading": "A new tab that finally does something useful",
-    "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, arranged into workspaces and groups of your own, alongside your closed tabs history.",
-    "leadParagraph2": "History of closed tabs is recorded too.",
+    "heading": "A new tab that finally does something useful!",
+    "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, in profiles, arranged into workspaces and groups of your own.",
+    "leadParagraph2": "It also keeps a history of your closed tabs.",
     "pitchSections": {
       "audience": {
         "heading": "Who is Tabilinks for?",
         "lead": "Anyone can use it, but it is most appreciated by people who:",
         "points": [
-          "Have a lot of bookmarks",
-          "Want their bookmarks organised and tidy",
-          "Work in more than one browser, even from different vendors",
+          "Have a lot of bookmarks and do not want yet another set of \"Opera speed dial\" tiles",
+          "Want organisation, discipline and order in their bookmarks",
+          "Work in more than one browser, especially from competing vendors",
           "Work on more than one device",
-          "Want their links in plain sight, saving every needless click and trip through the bookmarks menu",
-          "Need to file a bookmark into the right category quickly"
+          "Want everything backed up and synchronised straight away, whatever their browser and operating system - or, the other way round, to stay offline",
+          "Need to save bookmarks quickly, right where they belong",
+          "And then want to find them again even faster"
         ]
       },
       "advantages": {
         "heading": "What makes us better than the competition?",
-        "lead": "Compared with other new tab extensions:",
+        "lead": "Compared with other new tab extensions with the same or a similar focus:",
         "points": [
-          "Links, bookmarks, history and most visited sites in one place, right on the new tab",
+          "A flexible, logical hierarchy for organising content, even for the most demanding user - User > Profile > Workspace > Group > Subgroup > Link",
+          "A free version that is complete and enough for the vast majority of users",
+          "A very friendly price for professional users",
           "Synchronisation across devices and different browsers",
-          "Workspaces and groups – every area of your work has links of its own",
-          "Keeps a history of closed tabs"
+          "Yet it can also be used in \"island\" mode - no registration, and no personal data on our servers",
+          "It also keeps a history of closed tabs, synchronised too once an account is connected",
+          "We want to keep the application as simple as possible, without useless widgets, reminders, notes and simmilar ballast duplicated in every second application of this kind. We will rather speed up workflow or use case or improve existing things than adding another useless function."
         ]
       }
     },
