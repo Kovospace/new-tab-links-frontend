@@ -71,6 +71,7 @@ const FREE_PLAN_FEATURES: readonly [string, string][] = [
   ['home.downloads.workspacesCount', '2'],
   ['home.downloads.profilesCount', '1'],
   ['home.downloads.closedTabsCount', '25'],
+  ['home.downloads.browsingHistoryCount', '50'],
   ['home.downloads.ads', 'home.downloads.no'],
 ];
 
@@ -81,6 +82,7 @@ const PREMIUM_PLAN_FEATURES: readonly [string, string][] = [
   ['home.downloads.workspacesCount', 'home.downloads.unlimitedAmountUnderFairUse'],
   ['home.downloads.profilesCount', 'home.downloads.unlimitedAmountUnderFairUse'],
   ['home.downloads.closedTabsCount', '500'],
+  ['home.downloads.browsingHistoryCount', '1000'],
   ['home.downloads.ads', 'home.downloads.yes'],
 ];
 
