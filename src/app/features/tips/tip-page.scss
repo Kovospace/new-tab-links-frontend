@@ -1,6 +1,7 @@
 // The tip's markdown is styled by RenderedMarkdown; a difference for this page belongs in a
 // --markdown-* property set on .tip, not in a rule for the markdown's elements.
 .tip {
+  --markdown-image-max-height: 80vh;
   padding: 1em;
 
   // The back-to-list button below the tip.
