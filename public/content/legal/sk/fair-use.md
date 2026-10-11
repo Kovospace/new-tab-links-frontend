@@ -23,18 +23,20 @@ Tabilinks používate tak, ako je zamýšľané, môžete tu prestať čítať.
 | Podskupiny v jednej skupine | 25 |
 | Odkazy v jednom pracovnom priestore | 500 |
 | Zatvorené karty uchovávané v histórii | 500 |
+| Navštívené stránky uchovávané v histórii prehliadania | 1000 |
 | Synchronizované inštalácie | 100 |
 
 Limity skupín, podskupín a odkazov platia pre každý plán vrátane bezplatného. Bezplatný plán má
-vlastné, nižšie limity na profily, pracovné priestory, inštalácie a históriu zatvorených kariet,
-uvedené na [úvodnej stránke](/).
+vlastné, nižšie limity na profily, pracovné priestory, inštalácie, históriu zatvorených kariet a
+históriu prehliadania, uvedené na [úvodnej stránke](/).
 
 ## Čo sa stane, keď limit dosiahnete
 
 Ďalšiu položku daného druhu tam, kde ste limit dosiahli, nepridáte, kým niektorú neodstránite:
 do plného pracovného priestoru už nepridáte odkaz, ostatných pracovných priestorov sa to však
 netýka. Nič, čo už máte, sa nezmaže ani nezmení. História zatvorených kariet uchováva 500
-najnovších kariet; staršie uvoľnia miesto novším.
+najnovších kariet a história prehliadania 1000 naposledy navštívených stránok; staršie uvoľnia
+miesto novším.
 
 Dáta sa nad limit môžu dostať aj tak - napríklad keď k jednému účtu pripojíte dve inštalácie,
 ktoré ste používali oddelene. Takéto dáta sa nikdy nemažú: zostanú na zariadení, ktoré ich má, a

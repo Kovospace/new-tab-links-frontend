@@ -131,6 +131,12 @@ describe('PlanOffersViewModel', () => {
     expect(columns[2].features.find((feature) => feature.value === '500')?.label).toBe(
       'home.downloads.closedTabsCount',
     );
+    expect(columns[0].features.find((feature) => feature.value === '50')?.label).toBe(
+      'home.downloads.browsingHistoryCount',
+    );
+    expect(columns[2].features.find((feature) => feature.value === '1000')?.label).toBe(
+      'home.downloads.browsingHistoryCount',
+    );
     expect(columns[1].action).toEqual(offers().subscription);
   });
 

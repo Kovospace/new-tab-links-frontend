@@ -96,6 +96,7 @@
       "workspacesCount": "Workspaces",
       "profilesCount": "Profiles",
       "closedTabsCount": "Closed tabs history",
+      "browsingHistoryCount": "Browsing history (visited pages)",
       "devicesCount": "Synchronised installations",
       "ads": "NO ad banner",
       "action": {
