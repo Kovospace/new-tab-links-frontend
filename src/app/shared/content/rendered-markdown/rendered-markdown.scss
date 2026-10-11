@@ -14,7 +14,8 @@
 //   --markdown-numbering           marker of a numbered list              decimal
 //   --markdown-table-spacing       space below a table                    0.75em
 //   --markdown-table-cell-padding  padding of a table cell                0.5em 0.75em
-//   --markdown-image-max-width     widest an image may be drawn           none
+//   --markdown-image-max-width     widest an image may be drawn           the column's width
+//   --markdown-image-max-height    tallest an image may be drawn          none
 //
 // The defaults are what the tip page looked like before this file existed. Add a property here
 // when a page needs to differ in something not listed, with today's value as its default.
@@ -44,8 +45,12 @@
     }
   }
 
+  // Never wider than the column, whatever a page asks for - a screenshot wider than a phone's
+  // screen would otherwise run off its edge. The 1em is the image's own margin on both sides.
+  // Width and height stay auto, so whichever limit applies, the image keeps its proportions.
   img {
-    max-width: var(--markdown-image-max-width, none);
+    max-width: min(var(--markdown-image-max-width, 100%), 100% - 1em);
+    max-height: var(--markdown-image-max-height, none);
     margin: 0.5em;
     border: 0.25em solid var(--color-accent);
     border-radius: 0.75em;
