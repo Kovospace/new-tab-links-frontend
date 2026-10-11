@@ -40,11 +40,17 @@ recorded.
 | Your devices: a device name and the browser name, when each was last used | To keep each installation signed in and to let you see and sign out your devices | Contract, Art. 6(1)(b) |
 | What each installation of the extension holds: the names of its profiles and workspaces, how many groups, subgroups and links each workspace has, and whether it synchronises - including data that does not synchronise. Never a link, its address or a group name | To show you on the website, device by device, what synchronises and what stays on the device over a limit | Contract, Art. 6(1)(b) |
 | Sign-in tokens, activation and reset codes | Stored only as hashes, to keep you signed in and to confirm emailed links | Contract, Art. 6(1)(b) |
-| Your synchronised content: workspaces, profiles, groups, links, their titles and descriptions, recently closed tabs (address, title, icon address, device name) | The synchronisation and backup you use the account for | Contract, Art. 6(1)(b) |
+| Your synchronised content: workspaces, profiles, groups, links, their titles and descriptions; recently closed tabs (address, title, icon address, device name, time closed) unless you turned them off; and, only if you turned it on, your browsing history - the most recent visited pages (address, title, icon address, device name, time visited), at most 50 on a free account and 1000 on premium. The tabs currently open in your browser are never sent | The synchronisation and backup you use the account for | Contract, Art. 6(1)(b) |
 | Premium status: plan, paid-until date, amount and currency charged, and the payment provider's customer, order and subscription identifiers | To give you the premium features you paid for | Contract, Art. 6(1)(b) |
 | A count of failed sign-in attempts | To protect your account from password guessing | Legitimate interest, Art. 6(1)(f) |
 
 We never receive or store your card or bank details.
+
+You can also sign in without synchronising, by unticking "Synchronise this browser" when you sign
+in or in the extension's menu - for example to use premium on a browser whose links should stay on
+it. That browser then exchanges with us only what keeps it signed in: your sign-in, its device
+name, its inventory as described above, and whether your account is premium. Your links, closed
+tabs and history stay in the browser.
 
 ## Visitors of the website
 
@@ -113,6 +119,12 @@ live in.
 ## Other things you should know
 
 - We make no automated decisions with legal or similar effect on you.
+- The extension regularly asks our server whether your account is premium. If our server cannot
+  be reached for a long time while you are premium, it checks whether your internet connection
+  works by requesting https://www.gstatic.com/generate_204 (Google) and
+  https://1.1.1.1/cdn-cgi/trace (Cloudflare). Nothing about you is sent with those requests,
+  beyond what any request to a server reveals, such as your IP address, and they are never made
+  while our server answers.
 - Free versions of the extension show a small banner at the bottom of the new tab page. Today it
   shows only our own offer of premium; if a third-party advertising network is ever added, this
   policy will be updated first.

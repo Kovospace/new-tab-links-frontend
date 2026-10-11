@@ -40,11 +40,17 @@ z prehliadača pri vykreslení panela a nikde sa neukladá ani neodosiela.
 | Vaše zariadenia: názov zariadenia a prehliadača, kedy bolo naposledy použité | Aby každá inštalácia zostala prihlásená a aby ste mohli svoje zariadenia vidieť a odhlásiť | Zmluva, čl. 6 ods. 1 písm. b) |
 | Čo obsahuje každá inštalácia rozšírenia: názvy jej profilov a pracovných priestorov, koľko skupín, podskupín a odkazov má každý pracovný priestor a či sa synchronizuje - vrátane dát, ktoré sa nesynchronizujú. Nikdy nie odkaz, jeho adresa ani názov skupiny | Aby sme vám na webe ukázali pre každé zariadenie, čo sa synchronizuje a čo zostáva na zariadení nad limitom | Zmluva, čl. 6 ods. 1 písm. b) |
 | Prihlasovacie tokeny, aktivačné a obnovovacie kódy | Uložené iba ako hash, na udržanie prihlásenia a overenie odkazov z e-mailov | Zmluva, čl. 6 ods. 1 písm. b) |
-| Synchronizovaný obsah: pracovné priestory, profily, skupiny, odkazy, ich názvy a popisy, nedávno zatvorené karty (adresa, názov, adresa ikony, názov zariadenia) | Synchronizácia a záloha, na ktoré účet používate | Zmluva, čl. 6 ods. 1 písm. b) |
+| Synchronizovaný obsah: pracovné priestory, profily, skupiny, odkazy, ich názvy a popisy; nedávno zatvorené karty (adresa, názov, adresa ikony, názov zariadenia, čas zatvorenia), pokiaľ ste ich nevypli; a len ak ste ju zapli, vaša história prehliadania - naposledy navštívené stránky (adresa, názov, adresa ikony, názov zariadenia, čas návštevy), najviac 50 pri bezplatnom účte a 1000 pri premium. Karty práve otvorené vo vašom prehliadači sa nikdy neodosielajú | Synchronizácia a záloha, na ktoré účet používate | Zmluva, čl. 6 ods. 1 písm. b) |
 | Stav prémia: plán, dátum platnosti, zaplatená suma a mena, identifikátory zákazníka, objednávky a predplatného u platobného poskytovateľa | Aby ste dostali prémiové funkcie, za ktoré ste zaplatili | Zmluva, čl. 6 ods. 1 písm. b) |
 | Počet neúspešných pokusov o prihlásenie | Ochrana účtu pred hádaním hesla | Oprávnený záujem, čl. 6 ods. 1 písm. f) |
 
 Údaje o vašej karte ani bankovom účte nikdy nedostávame ani neukladáme.
+
+Prihlásiť sa môžete aj bez synchronizácie - zrušením voľby „Synchronizovať tento prehliadač“ pri
+prihlásení alebo v menu rozšírenia, napríklad ak chcete používať premium v prehliadači, ktorého
+odkazy v ňom majú zostať. Taký prehliadač si s nami vymieňa iba to, čo ho udržiava prihláseným:
+vaše prihlásenie, názov zariadenia, jeho prehľad opísaný vyššie a to, či je váš účet prémiový.
+Vaše odkazy, zatvorené karty a história zostávajú v prehliadači.
 
 ## Návštevníci webu
 
@@ -114,6 +120,11 @@ krajiny EÚ, v ktorej žijete.
 ## Ďalšie informácie
 
 - Nerobíme žiadne automatizované rozhodnutia s právnym alebo podobným účinkom.
+- Rozšírenie sa pravidelne pýta nášho servera, či je váš účet prémiový. Ak je náš server dlhší čas
+  nedostupný a máte premium, overí, či funguje vaše internetové pripojenie, a to požiadavkami na
+  https://www.gstatic.com/generate_204 (Google) a https://1.1.1.1/cdn-cgi/trace (Cloudflare). S
+  týmito požiadavkami sa o vás nič neposiela okrem toho, čo prezradí každá požiadavka na server,
+  napríklad IP adresa, a nikdy sa neodosielajú, kým náš server odpovedá.
 - Bezplatná verzia rozšírenia zobrazuje v spodnej časti novej karty malý banner. Dnes ukazuje iba
   našu vlastnú ponuku prémia; ak by sa niekedy pridala reklamná sieť tretej strany, tieto zásady
   najprv aktualizujeme.
