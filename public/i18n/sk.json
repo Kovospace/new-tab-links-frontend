@@ -26,7 +26,8 @@
     "skipToContent": "Preskočiť na obsah",
     "openMenu": "Otvoriť ponuku",
     "closeMenu": "Zavrieť ponuku",
-    "tips": "Tipy"
+    "tips": "Tipy",
+    "comparison": "Porovnanie"
   },
   "footer": {
     "privacy": "Ochrana osobných údajov",
@@ -110,7 +111,66 @@
       "slideshowLabel": "Snímky obrazovky rozšírenia",
       "slideAlternativeText": "Snímka {number} z {count} novej karty Tabilinks",
       "showSlide": "Zobraziť snímku {number} z {count}"
-    }
+    },
+    "comparisonLink": "Pozrite sa, ako si Tabilinks stojí oproti iným rozšíreniam pre novú kartu"
+  },
+  "comparison": {
+    "heading": "Ako si Tabilinks stojí oproti konkurencii",
+    "lead": "Tabilinks vedľa iných rozšírení pre Chrome, ktoré dávajú Vaše odkazy na novú kartu. Každý riadok popisuje rozšírenie tak, ako sme ho našli na jeho stránke v Chrome Web Store a v rozšírení samotnom.",
+    "checkedOn": "Naposledy overené {date}. Rozšírenia sa menia - kliknite na názov a na stránke obchodu uvidíte, ako je to dnes.",
+    "tableCaption": "Funkcie, obmedzenia bezplatnej verzie a ceny rozšírení pre novú kartu",
+    "columns": {
+      "extension": "Rozšírenie",
+      "profiles": "Profily",
+      "workspaces": "Pracovné priestory",
+      "groups": "Skupiny",
+      "subgroups": "Podskupiny",
+      "synchronisation": "Synchronizácia",
+      "offlineUse": "Funguje offline",
+      "freeVersionLimits": "Obmedzenia bezplatnej verzie",
+      "price": "Cena"
+    },
+    "support": {
+      "yes": "Áno",
+      "no": "Nie",
+      "partial": "Čiastočne",
+      "unknown": "Nezistené"
+    },
+    "freeLimits": {
+      "none": "Bez obmedzení",
+      "unknown": "Nezistené",
+      "tabilinks": "1 profil, 2 pracovné priestory, 5 synchronizovaných inštalácií",
+      "oneLicence": "1 licencia",
+      "twoWorkspacesLimitedLinks": "2 pracovné priestory, obmedzený počet odkazov",
+      "noSynchronisation": "Bez synchronizácie",
+      "everSyncFreeAccount": "15 000 synchronizovaných položiek (záložky a dlaždice zo všetkých prehliadačov), 500 „súkromných dlaždíc“"
+    },
+    "prices": {
+      "free": "Zadarmo",
+      "unknown": "Nezistené",
+      "monthly": "{price} mesačne",
+      "yearly": "{price} ročne",
+      "lifetime": "{price} doživotne",
+      "tabilinks": "Zadarmo; prémium {yearlyPrice} ročne alebo {lifetimePrice} doživotne",
+      "tabilinksWithoutPrice": "Zadarmo; prémium je voliteľné"
+    },
+    "notes": {
+      "tabilinksWithoutAccount": "Funguje aj bez účtu: žiadna registrácia a na naše servery sa nič nedostane, kým sa neprihlásite.",
+      "requiresRegistration": "Bez predchádzajúcej registrácie sa nedá používať.",
+      "workspacesCalledGrupa": "V rozšírení sa volajú „Grupa“.",
+      "groupsCalledSections": "V rozšírení sa volajú „sekcie“.",
+      "chromeBookmarkFolders": "Zobrazuje vlastné záložky Chromu; skupiny sú jeho priečinky záložiek.",
+      "chromeSyncOnly": "Synchronizuje sa len cez synchronizáciu záložiek Chromu, teda len medzi prehliadačmi Chrome.",
+      "cloudOfYourChoice": "Synchronizuje sa cez cloudové úložisko podľa Vášho výberu, aj Vaše vlastné.",
+      "speedDialTiles": "Dlaždice rýchlej voľby v štýle prehliadača Opera.",
+      "groupsCannotBeReordered": "Poradie skupín sa nedá meniť.",
+      "workspacesCalledGroup": "V rozšírení sa volajú „Group“.",
+      "synchronisationOnlyInPro": "Len v platenej verzii Pro.",
+      "registrationAddsNothing": "Funguje bez registrácie; samotná registrácia nič nepridá.",
+      "synchronisationThroughEverSync": "Cez EverSync, samostatné rozšírenie, ktoré treba nainštalovať navyše; stačí bezplatný účet."
+    },
+    "footnotesHeading": "Poznámky",
+    "corrections": "Je tu niečo zastarané alebo nesprávne? Napíšte nám a opravíme to:"
   },
   "download": {
     "downloadAction": {
@@ -546,6 +606,10 @@
     "tips": {
       "title": "Tipy",
       "description": "Tipy, ako z Tabilinks vyťažiť viac: podrobnejšie vysvetlenie rád, ktoré rozšírenie zobrazuje na novej karte."
+    },
+    "comparison": {
+      "title": "Porovnanie s inými rozšíreniami",
+      "description": "Profily, pracovné priestory, skupiny, podskupiny, synchronizácia, obmedzenia bezplatnej verzie a ceny Tabilinks a iných rozšírení pre novú kartu v Chrome, vedľa seba."
     },
     "tip": {
       "title": "Tip",

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { RenderedMarkdown } from '../../shared/content/rendered-markdown/rendered-markdown';
 import { DemoSlideshow } from './demo-slideshow/demo-slideshow';
@@ -13,7 +14,7 @@ import { PlanOffers } from './plan-offers/plan-offers';
  */
 @Component({
   selector: 'app-home-page',
-  imports: [TranslatePipe, DemoSlideshow, RenderedMarkdown, PlanOffers],
+  imports: [RouterLink, TranslatePipe, DemoSlideshow, RenderedMarkdown, PlanOffers],
   providers: [HomePageViewModel],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',

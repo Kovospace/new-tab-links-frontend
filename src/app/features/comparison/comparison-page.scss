@@ -1,0 +1,42 @@
+// Styling is deliberately left to be written by hand; these are the hooks to write it against.
+//
+// What is here is only what makes the table readable at all after reset.scss: the shading of the
+// devices table, cell padding, and a scroller so nine columns never widen the page on a phone.
+
+.comparison-page__table-scroller {
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.comparison-page__table {
+  thead tr {
+    background-color: var(--color-panel);
+  }
+}
+
+.comparison-page__caption {
+  text-align: left;
+  margin-bottom: 0.5em;
+}
+
+.comparison-page__row:nth-child(even) {
+  background-color: var(--color-panel);
+}
+
+.comparison-page__row--tabilinks {
+  font-weight: bold;
+}
+
+.comparison-page__cell {
+  padding: 0.5em 0.75em;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.comparison-page__footnote {
+  margin: 0.25em 0;
+}
+
+.comparison-page__corrections {
+  margin-top: 1em;
+}

@@ -40,6 +40,8 @@ export const APPLICATION_ROUTE_PATHS = {
   tips: 'tips',
   /** One tip; the slug is its markdown file's name. */
   tip: 'tips/:slug',
+  /** Tabilinks next to other new tab extensions. */
+  comparison: 'compare',
   privacy: 'privacy',
   cookies: 'cookies',
   terms: 'terms',
@@ -76,6 +78,7 @@ export const APPLICATION_ROUTE_LINKS = {
   account: `/${APPLICATION_ROUTE_PATHS.account}`,
   purchaseThankYou: `/${APPLICATION_ROUTE_PATHS.purchaseThankYou}`,
   tips: `/${APPLICATION_ROUTE_PATHS.tips}`,
+  comparison: `/${APPLICATION_ROUTE_PATHS.comparison}`,
   privacy: `/${APPLICATION_ROUTE_PATHS.privacy}`,
   cookies: `/${APPLICATION_ROUTE_PATHS.cookies}`,
   terms: `/${APPLICATION_ROUTE_PATHS.terms}`,

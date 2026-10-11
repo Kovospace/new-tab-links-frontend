@@ -52,6 +52,7 @@ const PUBLIC_SITEMAP_ENTRIES: readonly UnlinkedSitemapEntry[] = [
   { labelTranslationKey: 'nav.home', routeName: 'home' },
   { labelTranslationKey: 'nav.download', routeName: 'download' },
   { labelTranslationKey: 'nav.tips', routeName: 'tips' },
+  { labelTranslationKey: 'nav.comparison', routeName: 'comparison' },
 ];
 
 /** Pages that only make sense without a session. */

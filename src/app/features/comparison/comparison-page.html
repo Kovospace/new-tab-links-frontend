@@ -1,0 +1,73 @@
+<article>
+  <section>
+    <app-back-button />
+
+    <h1>{{ 'comparison.heading' | translate }}</h1>
+    <p>{{ 'comparison.lead' | translate }}</p>
+    <p>{{ viewModel.checkedOnNotice() }}</p>
+
+    <!-- Scrolls sideways on its own on a narrow screen, so the page never does. -->
+    <div class="comparison-page__table-scroller">
+      <table class="comparison-page__table">
+        <caption class="comparison-page__caption">
+          {{
+            'comparison.tableCaption' | translate
+          }}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col" class="comparison-page__cell">
+              {{ 'comparison.columns.extension' | translate }}
+            </th>
+            @for (columnHeader of viewModel.dataColumnHeaders(); track $index) {
+              <th scope="col" class="comparison-page__cell">{{ columnHeader }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of viewModel.presentedRows(); track row.name) {
+            <tr
+              class="comparison-page__row"
+              [class.comparison-page__row--tabilinks]="row.isTabilinks"
+            >
+              <th scope="row" class="comparison-page__cell">
+                @if (row.storeUrl) {
+                  <a [href]="row.storeUrl" rel="nofollow noopener noreferrer" target="_blank">{{
+                    row.name
+                  }}</a>
+                } @else {
+                  {{ row.name }}
+                }
+                @if (row.nameFootnoteMarker) {
+                  <sup> (*{{ row.nameFootnoteMarker }})</sup>
+                }
+              </th>
+              @for (cell of row.cells; track $index) {
+                <td class="comparison-page__cell">
+                  {{ cell.text }}
+                  @if (cell.footnoteMarker) {
+                    <sup>(*{{ cell.footnoteMarker }})</sup>
+                  }
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <h2>{{ 'comparison.footnotesHeading' | translate }}</h2>
+    <ol>
+      @for (footnote of viewModel.presentedFootnotes(); track footnote.number) {
+        <li class="comparison-page__footnote">
+          <sup>(*{{ footnote.number }})</sup> {{ footnote.text }}
+        </li>
+      }
+    </ol>
+
+    <p class="comparison-page__corrections">
+      {{ 'comparison.corrections' | translate }}
+      <a [href]="viewModel.supportEmailHref">{{ viewModel.supportEmail }}</a>
+    </p>
+  </section>
+</article>

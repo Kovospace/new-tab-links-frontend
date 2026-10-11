@@ -43,6 +43,12 @@ const LOCALIZED_PAGE_ROUTES: Routes = [
     loadComponent: () => import('./features/tips/tip-page').then((module) => module.TipPage),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.comparison,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.comparison, 'seo.comparison'),
+    loadComponent: () =>
+      import('./features/comparison/comparison-page').then((module) => module.ComparisonPage),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.privacy,
     data: {
       legalDocumentName: 'privacy',

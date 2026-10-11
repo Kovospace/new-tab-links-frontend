@@ -6,6 +6,7 @@ import {
   RenderedHomeFeature,
 } from '../../core/home-features/home-features-content.service';
 import { TranslationService } from '../../core/i18n/translation.service';
+import { LocalizedRouteLinks } from '../../core/routing/localized-route-links';
 
 /**
  * The translation keys of the short pitch sections under the page heading, in the order shown.
@@ -39,6 +40,10 @@ export interface PresentedPitchSection {
 export class HomePageViewModel {
   private readonly translationService = inject(TranslationService);
   private readonly homeFeaturesContentService = inject(HomeFeaturesContentService);
+  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
+
+  /** The comparison with other extensions, linked under the "better than the competition" points. */
+  readonly comparisonLink = computed<string>(() => this.localizedRouteLinks.links().comparison);
 
   /**
    * The pitch sections, worded in the reader's language.

@@ -26,7 +26,8 @@
     "skipToContent": "Skip to content",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "tips": "Tips"
+    "tips": "Tips",
+    "comparison": "Comparison"
   },
   "footer": {
     "privacy": "Privacy Policy",
@@ -110,7 +111,66 @@
       "slideshowLabel": "Screenshots of the extension",
       "slideAlternativeText": "Screenshot {number} of {count} of the Tabilinks new tab page",
       "showSlide": "Show screenshot {number} of {count}"
-    }
+    },
+    "comparisonLink": "See how Tabilinks compares with other new tab extensions"
+  },
+  "comparison": {
+    "heading": "How Tabilinks compares",
+    "lead": "Tabilinks next to other Chrome extensions that put your links on the new tab page. Every row describes an extension as we found it on its Chrome Web Store page and in the extension itself.",
+    "checkedOn": "Last checked on {date}. Extensions change - follow a name to its store page to see how it is today.",
+    "tableCaption": "Features, free version limits and prices of new tab extensions",
+    "columns": {
+      "extension": "Extension",
+      "profiles": "Profiles",
+      "workspaces": "Workspaces",
+      "groups": "Groups",
+      "subgroups": "Subgroups",
+      "synchronisation": "Synchronisation",
+      "offlineUse": "Works offline",
+      "freeVersionLimits": "Free version limits",
+      "price": "Price"
+    },
+    "support": {
+      "yes": "Yes",
+      "no": "No",
+      "partial": "Partly",
+      "unknown": "Not found"
+    },
+    "freeLimits": {
+      "none": "No limits",
+      "unknown": "Not found",
+      "tabilinks": "1 profile, 2 workspaces, 5 synchronised installations",
+      "oneLicence": "1 licence",
+      "twoWorkspacesLimitedLinks": "2 workspaces, a limited number of links",
+      "noSynchronisation": "No synchronisation",
+      "everSyncFreeAccount": "15,000 synchronised items (bookmarks and dials, across all browsers), 500 \"private dials\""
+    },
+    "prices": {
+      "free": "Free",
+      "unknown": "Not found",
+      "monthly": "{price} per month",
+      "yearly": "{price} per year",
+      "lifetime": "{price} for life",
+      "tabilinks": "Free; premium {yearlyPrice} per year or {lifetimePrice} for life",
+      "tabilinksWithoutPrice": "Free; premium is optional"
+    },
+    "notes": {
+      "tabilinksWithoutAccount": "Works without an account too: no registration, and nothing reaches our servers until you sign in.",
+      "requiresRegistration": "Cannot be used without registering first.",
+      "workspacesCalledGrupa": "Called \"Grupa\" in the extension.",
+      "groupsCalledSections": "Called \"sections\" in the extension.",
+      "chromeBookmarkFolders": "Shows Chrome's own bookmarks; groups are its bookmark folders.",
+      "chromeSyncOnly": "Synchronised only through Chrome's own bookmark sync, so only between Chrome browsers.",
+      "cloudOfYourChoice": "Synchronises through a cloud storage of your choice, your own included.",
+      "speedDialTiles": "Speed dial tiles in the style of the Opera browser.",
+      "groupsCannotBeReordered": "Groups cannot be reordered.",
+      "workspacesCalledGroup": "Called \"Group\" in the extension.",
+      "synchronisationOnlyInPro": "Only in the paid Pro version.",
+      "registrationAddsNothing": "Works without registration; registering adds nothing on its own.",
+      "synchronisationThroughEverSync": "Through EverSync, a separate extension that has to be installed as well; a free account is enough."
+    },
+    "footnotesHeading": "Notes",
+    "corrections": "Is something here out of date or wrong? Write to us and we will correct it:"
   },
   "download": {
     "downloadAction": {
@@ -546,6 +606,10 @@
     "tips": {
       "title": "Tips",
       "description": "Tips for getting more out of Tabilinks: the longer story behind the hints the extension shows on your new tab page."
+    },
+    "comparison": {
+      "title": "Compared with other new tab extensions",
+      "description": "Profiles, workspaces, groups, subgroups, synchronisation, free version limits and prices of Tabilinks and other Chrome new tab extensions, side by side."
     },
     "tip": {
       "title": "Tip",
