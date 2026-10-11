@@ -23,6 +23,13 @@ The extension works without an account. Your links, groups and settings then sta
 browser's own storage and are never sent to us. The extension reports only an anonymous count of
 opened new tabs, which is added to a daily total and cannot be linked to you.
 
+- The side panel on the new tab page lists the tabs open in your browser; that list is read from
+the browser when the panel is drawn and is never stored or sent anywhere. 
+- Recently closed tabs are recorded by default, and browsing history only if you turn it on; both are kept in your
+browser's storage, and both can be turned off in Settings → Privacy, which also deletes what was
+recorded. 
+- Incognito windows are not recorded unless you allow the extension there.
+
 ## What we process when you have an account
 
 | Data | Why | Legal basis (GDPR) |
@@ -86,6 +93,9 @@ described in their policies.
 - Visitor tokens are deleted when they expire; activation and reset codes stop working when they
   expire or are used.
 - Daily statistics contain no personal data and are kept indefinitely.
+- Recently closed tabs and browsing history roll: the oldest entries are deleted as new ones
+  arrive. Turning either off in Settings → Privacy deletes it at once, on every device and on
+  our servers.
 - Invoices and payment records are kept by Creem, as the seller, for as long as tax law requires.
 
 ## Your rights

@@ -23,6 +23,13 @@ Rozšírenie funguje aj bez účtu. Vaše odkazy, skupiny a nastavenia potom zos
 vášho prehliadača a nikdy sa k nám neposielajú. Rozšírenie odosiela iba anonymný počet otvorených
 nových kariet, ktorý sa pripočíta k dennému súčtu a nedá sa spojiť s vami.
 
+- Bočný panel na novej karte zobrazuje karty otvorené vo vašom prehliadači; tento zoznam sa číta
+z prehliadača pri vykreslení panela a nikde sa neukladá ani neodosiela. 
+- Nedávno zatvorené karty sa zaznamenávajú predvolene, história prehliadania len ak ju zapnete; oboje sa uchováva v
+úložisku vášho prehliadača a oboje sa dá vypnúť v Nastaveniach → Súkromie, čím sa zaznamenané
+údaje aj vymažú. 
+- Okná v režime inkognito sa nezaznamenávajú, pokiaľ tam rozšírenie nepovolíte.
+
 ## Čo spracúvame, ak máte účet
 
 | Údaje | Prečo | Právny základ (GDPR) |
@@ -87,6 +94,9 @@ opísané v ich zásadách.
 - Tokeny návštevníkov sa mažú po uplynutí platnosti; aktivačné a obnovovacie kódy prestanú platiť
   po uplynutí lehoty alebo po použití.
 - Denné štatistiky neobsahujú osobné údaje a uchovávame ich bez obmedzenia.
+- Nedávno zatvorené karty a história prehliadania sa priebežne obmieňajú: najstaršie záznamy sa
+  mažú, ako pribúdajú nové. Vypnutím ktoréhokoľvek v Nastaveniach → Súkromie sa vymaže hneď, na
+  všetkých zariadeniach aj na našich serveroch.
 - Faktúry a záznamy o platbách uchováva Creem ako predávajúci tak dlho, ako vyžadujú daňové
   predpisy.
 
