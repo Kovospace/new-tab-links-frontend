@@ -1,0 +1,67 @@
+{
+  "change-background": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "ctrl-d-saves-here": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "disable-ads": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "discover-history": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "discover-premium-features": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "discover-profiles": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "discover-workspaces": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "hide-tips": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "lets-begin": {
+    "status": "pull-request",
+    "url": "https://github.com/Kovospace/new-tab-links-extension/pull/71",
+    "recorded": "2026-10-11"
+  },
+  "open-all-subgroups-link": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "roll-the-subgroup": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "saving-from-webpage": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "set-size": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "subgroup-links-into-tab-group": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "use-drag-and-drop": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  },
+  "use-searchbar": {
+    "status": "in-extension",
+    "recorded": "2026-10-11"
+  }
+}

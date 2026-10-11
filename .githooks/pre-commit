@@ -1,0 +1,8 @@
+#!/bin/sh
+# Warns, never blocks: a tip committed here should also reach the Chrome extension's tips bar.
+# The next Claude Code session in this repo picks it up and has extension-developer open the PR.
+# Enabled once per clone with: git config core.hooksPath .githooks
+node .claude/tools/extension-tips.mjs check --staged >/dev/null 2>&1 && exit 0
+echo "note: $(node .claude/tools/extension-tips.mjs check --staged 2>&1)" >&2
+echo "      the next Claude Code session here will sync them to the extension" >&2
+exit 0

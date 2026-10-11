@@ -108,6 +108,17 @@ backend's storage does has to read it. Unlike the others it is **not** listed in
 `additionalDirectories` (the backend's does list it) — so if a read of that path is refused from
 here, that missing entry is why.
 
+## Tips reach the extension too
+
+The extension's tips bar (`src/ui/tips/tips.json` there) teases the tips written here and links to
+them. `.claude/extension-tips.json` lists every tip it has been dealt with for. A tip committed
+under `public/content/tips/en/` and missing from that list is new. A `SessionStart` hook and a
+`PostToolUse` hook on `git commit` tell the session so, with the steps: mark the tip in progress,
+spawn `extension-developer` in the background with `.claude/tools/extension-tips.mjs brief`, and
+record the pull request it opens. The git `pre-commit` hook in `.githooks/` only warns, because
+commits made outside Claude Code cannot start an agent. It needs `git config core.hooksPath
+.githooks` once per clone. A tip that must never reach the extension is recorded as `excluded`.
+
 ## Developing against real backend data
 
 `docker-compose.yml` is the default loop and needs no secrets. When real data, real mail or the
@@ -285,6 +296,8 @@ probes only when it is set, and `NEWTABLINKS_BACKEND_BASE_URL` pointing at the b
 ├── agents/image-maintainer.md             hand-copied images → WebP, references rewritten, checks run
 ├── CODEMAP.md                             which file holds which concern; imported below Layout
 ├── tools/agent-cost.py                    what an agent run cost, and where the tokens went
+├── tools/extension-tips.mjs              which tips the extension has; brief for syncing new ones
+├── extension-tips.json                    that list
 ├── tools/image-maintenance.mjs            scan / convert / check for public/images/<language>/
 ├── skills/angular-code-standards/         coding rules
 ├── skills/authentication-flows/           identity, sessions, the pairing code
