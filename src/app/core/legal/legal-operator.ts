@@ -26,4 +26,4 @@ export const LEGAL_OPERATOR = {
  *
  * <p>Raise it whenever the wording of any of them changes in substance.</p>
  */
-export const LEGAL_DOCUMENTS_EFFECTIVE_DATE = '2026-09-29';
+export const LEGAL_DOCUMENTS_EFFECTIVE_DATE = '2026-10-11';
