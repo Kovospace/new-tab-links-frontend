@@ -6,7 +6,7 @@ Tapetu si vyberiete v nastaveniach rozšírenia, v sekcii „Vzhľad a správani
 
 Obrázok sa uloží len v zariadení, kde ste ho nastavili, a do ostatných zariadení sa nesynchronizuje.
 
-![Nastavenie pozadia](../../../images/sk/tips/set-background/pozadie_nastavenia_1x.webp)
+![Nastavenie pozadia](../../../images/sk/tips/change-background/pozadie_nastavenia_1x.webp)
 
-![Nastavenie pozadia](../../../images/sk/tips/set-background/pozadie_priklad_1x.webp)
+![Nastavenie pozadia](../../../images/sk/tips/change-background/pozadie_priklad_1x.webp)
 
