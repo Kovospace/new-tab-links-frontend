@@ -5,9 +5,9 @@ Objavte pracovné priestory a začnite ich používať.
 Pracovný priestor je niečo ako „hlavná téma“ či nadskupina pre aktuálne prehliadanie internetu
 alebo jeho súvislý úsek.
 
-![Pracovné priestory vľavo hore na novej karte](../../../images/sk/tips/discover-workspaces/workspaces-location_1x.webp)
+![Pracovné priestory vľavo hore na novej karte](../../../images/sk/tips/discover-workspaces/pracovne-plochy-lokacia_1x.webp)
 
-![Prepínač pracovných priestorov s tlačidlom na pridanie nového](../../../images/sk/tips/discover-workspaces/workspaces-detail_1x.webp)
+![Prepínač pracovných priestorov s tlačidlom na pridanie nového](../../../images/sk/tips/discover-workspaces/pracovne-plochy_1x.webp)
 
 Predstavte si, že máte viacero koníčkov a záujmov, napríklad:
 

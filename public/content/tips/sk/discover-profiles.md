@@ -17,11 +17,21 @@ Príklad takého nastavenia:
 
 Aktuálny profil vidíte vpravo hore na novej karte:
 
-![Tlačidlo s aktuálnym profilom vpravo hore na novej karte](../../../images/sk/tips/discover-profiles/profiles-location_1x.webp)
+![Tlačidlo s aktuálnym profilom vpravo hore na novej karte](../../../images/sk/tips/discover-profiles/profil-lokacia_1x.webp)
 
 Kliknutím naň sa medzi profilmi prepnete. V tom istom menu profil aj vytvoríte, exportujete,
 importujete či spravujete:
 
-![Tlačidlo s aktuálnym profilom](../../../images/sk/tips/discover-profiles/profiles-detail_1x.webp)
+![Tlačidlo s aktuálnym profilom](../../../images/sk/tips/discover-profiles/profil_1x.webp)
 
-Viac o pracovných priestoroch: [Objavte pracovné priestory](discover-workspaces.md)
+![Menu s profilmi](../../../images/sk/tips/discover-profiles/profil-menu_1x.webp)
+
+**Export / inport** - profil je možné exportovať do súboru a nahrať zo súboru. V prípade že nahrávate ten istý profil ale novší (upravený inde), prepíše sa.
+
+**Vytvoriť nový profil** - vytvorí nový profil ak to dovoľuje limit.
+
+**Spavovať profily** - spustí správcu profilov, kde je možné profily premenovať alebo mazať.
+
+![Správca profilov](../../../images/sk/tips/discover-profiles/profil-manage_1x.webp)
+
+Ďalší tip / lekcia o pracovných priestoroch: [Objavte pracovné priestory](discover-workspaces.md)
