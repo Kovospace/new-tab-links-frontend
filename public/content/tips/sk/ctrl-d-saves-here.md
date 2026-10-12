@@ -11,3 +11,5 @@ Chrome nedovoľuje rozšíreniu zvoliť ani zmeniť vlastné klávesové skratky
 ## Cesta cez menu Chromu
 
 Menu Chromu (tri bodky vpravo hore) → Rozšírenia → Spravovať rozšírenia → „Klávesové skratky“ v ľavom menu.
+
+![75% velkosť](../../../images/sk/tips/ctrl-d-saves-here/skratka-nastavenia_1x.webp)

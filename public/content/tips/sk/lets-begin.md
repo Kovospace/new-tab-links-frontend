@@ -10,9 +10,10 @@ Odteraz uvidíte takéto odkazy vždy, keď otvoríte novú kartu.
 
 ![Nová karta s ukážkovými odkazmi](../../../images/sk/tips/lets-begin/2_1x.webp)
 
-Panel s ikonami na pravom okraji sú Vaše zavreté karty. Presuňte myš na tento okraj a chvíľu ju
-tam podržte (predvolene 0,3 sekundy, túto hodnotu si neskôr môžete zmeniť v nastaveniach) a panel
-sa rozbalí.
+Panel s ikonami na pravom okraji sú Vaše otvorené karty, história zavretých kariet a história navštívených stránok.
+
+Presuňte myš na tento okraj a chvíľu ju tam podržte (predvolene 0,3 sekundy, túto hodnotu si neskôr môžete zmeniť v nastaveniach)
+a panel sa rozbalí.
 
 ![Nová karta s rozbalenou históriou zavretých kariet](../../../images/sk/tips/lets-begin/3_1x.webp)
 

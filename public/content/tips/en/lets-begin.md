@@ -10,7 +10,9 @@ From now on, links like these are what you will see every time you open a new ta
 
 ![New tab screen with example links](../../../images/en/tips/lets-begin/2_1x.webp)
 
-The panel of icons on the right edge holds your closed tabs. Move the mouse to that edge and keep it
+The panel of icons on the right edge holds your open tabs, closed tabs and history. 
+
+Move the mouse to that edge and keep it
 there for a moment (0.3 seconds by default; you can change this later in the settings) and the panel
 will unfold.
 
