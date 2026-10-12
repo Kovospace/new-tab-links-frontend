@@ -1,9 +1,13 @@
-# Catch links from subgroup into tab group
+# Catch links from a subgroup into a tab group
 
-Each subgroup can be configured to automatically place its links into a tab group when you open them.
+Each subgroup can be set up so that its links are placed into a tab group automatically when you open them.
 
-That setting can be turned on in the subgroup's menu (three dot icon) by checking "Catch links into tab group".
+Turn this on in the subgroup's menu (three dot icon) by checking "Catch links into tab group".
 
-You can also change the color of that tab group with "Grouped tabs color" if you do not like the current one.
+![Subgroup menu - catch links into tab group](../../../images/en/tips/subgroup-links-into-tab-group/podskupina-zachytavat-do-kariet_1x.webp)
 
-The color of the left side of the subgroup shows the tab group color.
+If you do not like the current color of that tab group, change it with "Grouped tabs color".
+
+The color of the subgroup's left edge matches the color of the tab group.
+
+![Subgroup menu - change the color](../../../images/en/tips/subgroup-links-into-tab-group/podskupina-farba-kariet_1x.webp)

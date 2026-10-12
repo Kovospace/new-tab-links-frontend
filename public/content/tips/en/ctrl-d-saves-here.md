@@ -11,3 +11,5 @@ Chrome does not let an extension choose or change its own keyboard shortcuts - o
 ## Getting there through Chrome's menus
 
 Chrome menu (three dots, top right) → Extensions → Manage Extensions → "Keyboard shortcuts" in the left-hand menu.
+
+![The save page shortcut in the settings](../../../images/en/tips/ctrl-d-saves-here/skratka-nastavenia_1x.webp)

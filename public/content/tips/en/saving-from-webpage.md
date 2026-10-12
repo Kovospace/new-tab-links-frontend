@@ -1,7 +1,14 @@
-# Saving webpage currently visiting
+# Save the page you are viewing
 
-To save webpage that You are currently browsing to some collection use context menu option **Save this page to tabilinks**.
+To save the page you are browsing right now, use the context menu action **Save this page to Tabilinks**.
 
-Or assign keyboard shortcut to save one more click (most of the time you can reassign default browser CTRL + D too). 
-This is however action that requires You to perform simple configuration, see the
-[Save pages with Ctrl+D](ctrl-d-saves-here.md)
+Or you can set up a keyboard shortcut (in most cases even remap the default CTRL + D).
+That takes a little configuration, described here: [Save pages with Ctrl+D](ctrl-d-saves-here.md)
+
+An example of quick saving - you fill in nothing, the link is saved straight into a group or subgroup:
+
+![Quick saving into a group or subgroup](../../../images/sk/tips/saving-from-webpage/1_1x.webp)
+
+The standard save dialog, opened by the keyboard shortcut or by the extension's button in the browser's top bar:
+
+![The standard save dialog](../../../images/sk/tips/saving-from-webpage/2_1x.webp)
