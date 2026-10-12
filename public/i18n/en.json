@@ -56,7 +56,8 @@
           "Work on more than one device",
           "Want everything backed up and synchronised straight away, whatever their browser and operating system - or, the other way round, to stay offline",
           "Need to save bookmarks quickly, right where they belong",
-          "And then want to find them again even faster"
+          "And then want to find them again even faster",
+          "Sometimes need to find something they visited before - but cannot remember on which computer or in which browser"
         ]
       },
       "advantages": {
@@ -66,10 +67,10 @@
           "A flexible, logical hierarchy for organising content, even for the most demanding user - User > Profile > Workspace > Group > Subgroup > Link",
           "A free version that is complete and enough for the vast majority of users",
           "A very friendly price for professional users",
-          "Synchronisation across devices and different browsers",
+          "Synchronisation across devices and different browsers - including the history of closed tabs and visited pages (if enabled)",
           "Yet it can also be used in \"island\" mode - no registration, and no personal data on our servers",
-          "It also keeps a history of closed tabs, synchronised too once an account is connected",
-          "We want to keep the application as simple as possible, without useless widgets, reminders, notes and simmilar ballast duplicated in every second application of this kind. We will rather speed up workflow or use case or improve existing things than adding another useless function."
+          "A registered and connected account can choose what is and is not recorded and synchronised",
+          "We want to keep the application as simple as possible, without the useless widgets, reminders, notes and similar ballast duplicated in every other application of this kind. We would rather speed up and simplify a workflow or use case than add yet another useless feature."
         ]
       }
     },
