@@ -9,3 +9,5 @@ The extension can be drawn light or dark. Choose which in the extension settings
 The change applies straight away, in every new tab you have open.
 
 This setting is not synchronized; it is remembered only in the browser where you set it.
+
+![Themes comparation](../../../images/en/tips/choose-theme/1_1x.webp)
