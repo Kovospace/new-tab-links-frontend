@@ -1,8 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Router, provideRouter } from '@angular/router';
-import { Component } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { AuthenticationSessionStore } from '@app/core/auth/authentication-session.store';
 import { TokenPair } from '@app/core/api/models/token-pair.model';
 import { PageHeaderViewModel } from '@app/shared/layout/page-header/page-header.view-model';
@@ -16,10 +15,6 @@ const ISSUED_TOKEN_PAIR: TokenPair = {
   username: 'kovo',
 };
 
-/** Somewhere for the router to actually navigate to, so a real NavigationEnd is emitted. */
-@Component({ template: '' })
-class ArbitraryRoutedPage {}
-
 describe('PageHeaderViewModel', () => {
   let viewModel: PageHeaderViewModel;
   let sessionStore: AuthenticationSessionStore;
@@ -31,7 +26,7 @@ describe('PageHeaderViewModel', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideRouter([{ path: 'somewhere-else', component: ArbitraryRoutedPage }]),
+        provideRouter([]),
         PageHeaderViewModel,
       ],
     });
@@ -107,32 +102,9 @@ describe('PageHeaderViewModel', () => {
     expect(viewModel.signedInUserLabel()).toBe('Matej');
   });
 
-  it('starts with the narrow-screen menu closed', () => {
-    expect(viewModel.isMobileMenuOpen()).toBe(false);
-  });
+  it('says who a signed-in user is signed in as', () => {
+    sessionStore.startSession(ISSUED_TOKEN_PAIR);
 
-  it('opens and closes the narrow-screen menu on each press of the button', () => {
-    viewModel.toggleMobileMenu();
-    expect(viewModel.isMobileMenuOpen()).toBe(true);
-
-    viewModel.toggleMobileMenu();
-    expect(viewModel.isMobileMenuOpen()).toBe(false);
-  });
-
-  it('names the button after what pressing it will do', () => {
-    expect(viewModel.mobileMenuToggleLabel()).toBe('nav.openMenu');
-
-    viewModel.toggleMobileMenu();
-
-    expect(viewModel.mobileMenuToggleLabel()).toBe('nav.closeMenu');
-  });
-
-  it('closes the menu once a navigation completes, so it cannot cover the new page', async () => {
-    viewModel.toggleMobileMenu();
-    expect(viewModel.isMobileMenuOpen()).toBe(true);
-
-    await TestBed.inject(Router).navigate(['/somewhere-else']);
-
-    expect(viewModel.isMobileMenuOpen()).toBe(false);
+    expect(viewModel.signedInStatus()).toBe('nav.signedInAs');
   });
 });

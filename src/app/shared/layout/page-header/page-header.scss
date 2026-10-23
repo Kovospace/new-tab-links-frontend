@@ -1,174 +1,61 @@
-// Styling is deliberately left to be written by hand; these are the hooks to write it against.
-
-@use 'sass:math';
-
-// The width at or below which the top bar collapses behind one button.
+// One flex row: the language switcher on the left, the navigation in the middle, who is signed in
+// on the right. The two sides share the leftover width equally, so the navigation stays centred
+// whatever either side holds — including nothing, on the right, for an anonymous visitor.
 //
-// A Sass variable rather than a custom property, and it has to be: `@media (max-width: var(--x))`
-// is invalid CSS and fails silently — the query simply never matches and nothing is logged. This
-// is resolved at build time instead.
-$mobile-menu-breakpoint: 533px;
+// Narrow, the same three stack into a column; nothing is hidden or moved behind a button.
 
-// Title and menu button. Left alone on a wide screen, where the button is not rendered and this
-// is an ordinary block containing one link, exactly as the title was before it had a wrapper.
-.page-header__bar {
-  //padding: 1em;
+// A Sass variable, not a custom property: `@media (max-width: var(--x))` is invalid CSS and fails
+// silently — the query simply never matches.
+$narrow-screen-breakpoint: 533px;
 
-  .page-header__motto {
-    display: block;
-    margin: 0.25em 0;
-  }
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 1em;
+  //background-color: var(--color-accent);
 
-  div {
-
-    div {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 1em;
-    }
+  @media (max-width: $narrow-screen-breakpoint) {
+    flex-direction: column;
+    padding: 0.5em;
   }
 }
 
-.home_pager__title {
-  font-weight: bold;
-  font-size: 2.25em;
-  position: relative;
-
-  em {
-    color: var(--color-text);
-    background-color: var(--color-accent);
-    padding: 0 0.125em;
-    border-top-left-radius: 0.25em;
-    border-top-right-radius: 0.25em;
-    margin-right: 0.0625em;
-  }
-
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 0.125em;
-    background-color: var(--color-accent);
-  }
-
-  @media (max-width: $mobile-menu-breakpoint) {
-
-    em {
-      background-color: var(--color-panel);
-    }
-
-    &::after {
-      background-color: var(--color-panel);
-    }
-  }
+.page-header__start,
+.page-header__end {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
 }
 
-// Geometry of the button, named because the cross below is derived from it. Change any of these
-// and the two arms still meet exactly in the middle; nothing has to be re-measured by hand.
-$menu-toggle-width: 3em;
-$menu-toggle-height: 3em;
-$menu-toggle-bar-height: 0.25em;
-$menu-toggle-button-padding: 0.5em;
-$menu-toggle-border-width: 0.125em;
+.page-header__end {
+  justify-content: flex-end;
 
-// The box the three bars are actually laid out in, which is *not* the button's height.
-//
-// `reset.scss` sets `box-sizing: border-box` on everything, so the height above is the whole
-// button — padding and border included — and the content box left for the bars is what remains
-// once both are taken off, twice each. Padding therefore makes the hamburger smaller rather than
-// the button bigger, and any travel measured from the full height overshoots the centre by
-// exactly the padding and border it forgot.
-$menu-toggle-content-height: $menu-toggle-height - 2 * $menu-toggle-button-padding - 2 *
-  $menu-toggle-border-width;
-
-// How far the outer bars travel to reach the centre: from the middle of the top bar to the middle
-// of the content box. `space-between` puts the outer bars flush against its edges, so this is half
-// of what is left once one bar's own height is taken off.
-$menu-toggle-bar-travel: math.div($menu-toggle-content-height - $menu-toggle-bar-height, 2);
-
-// Three lines and nothing else — the accessible name comes from `aria-label` in the template.
-// Hidden until the viewport is narrow enough for a menu to exist at all.
-.page-header__menu-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: $menu-toggle-width;
-  height: $menu-toggle-height;
-  cursor: pointer;
-  padding: $menu-toggle-button-padding;
-  border: $menu-toggle-border-width solid var(--color-text);
-  border-radius: 0.5em;
-  transition: background-color var(--duration-fast) var(--easing-standard);
-}
-
-.page-header__menu-toggle:hover {
-  background-color: var(--color-accent-hover);
-}
-
-// `reset.scss` removed every border and background, so each bar is drawn from scratch.
-//
-// Both properties are transitioned on every bar, in both directions, which is what makes the
-// close animation the exact reverse of the open one without a second rule saying so.
-.page-header__menu-toggle-bar {
-  display: block;
-  width: 100%;
-  height: $menu-toggle-bar-height;
-  background-color: var(--color-text);
-  transition:
-    transform var(--duration-fast) var(--easing-standard),
-    opacity var(--duration-fast) var(--easing-standard);
-}
-
-// Open: the middle bar fades out and the outer two meet in the centre and cross.
-//
-// Order matters in the transform — `translateY` is applied first, then `rotate`, so each bar
-// slides to the middle of the button and turns about that point. Rotating first would swing it
-// about its resting place at the edge and the arms would not meet.
-
-.page-header__menu-toggle--open {
-  &:hover {
-    background-color: var(--color-accent-danger-hover);
+  @media (max-width: $narrow-screen-breakpoint) {
+    justify-content: center;
   }
-
-  .page-header__menu-toggle-bar--top {
-    transform: translateY($menu-toggle-bar-travel) rotate(45deg);
-  }
-
-  .page-header__menu-toggle-bar--middle {
-    opacity: 0;
-  }
-
-  .page-header__menu-toggle-bar--bottom {
-    transform: translateY(-$menu-toggle-bar-travel) rotate(-45deg);
-  }
-}
-
-// Everything the button reveals. `display: contents` takes both elements out of the layout tree on
-// a wide screen, so the navigation and the session block below position themselves against the
-// header exactly as they did before these wrappers were introduced.
-.page-header__collapsible,
-.page-header__collapsible-content {
-  display: contents;
 }
 
 .page-header__navigation {
-  padding: 0 0.5em;
   font-size: 1.5em;
-  background-color: var(--color-accent);
 }
 
 .page-header__navigation-list {
-  margin: 0 auto;
-  display: table;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: var(--color-accent);
+  border-radius: 0.5em;
+  overflow: hidden;
+
+  @media (max-width: $narrow-screen-breakpoint) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .page-header__navigation-item {
-  display: inline-block;
-  padding: 0.5em;
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
@@ -176,171 +63,18 @@ $menu-toggle-bar-travel: math.div($menu-toggle-content-height - $menu-toggle-bar
   background-color: var(--color-accent-hover);
 }
 
+.page-header__navigation-link {
+  display: inline-block;
+  padding: 0.5em;
+}
+
 .page-header__navigation-link--active {
   text-decoration: underline;
   font-weight: bold;
 }
 
-.page-header__session {
-  margin: 1em;
-  text-align: right;
-  margin-bottom: 0;
-}
-
-// Geometry of the silhouette that precedes the signed-in user's name. Every length is in `em`, so
-// the whole figure scales with the label's own font size and nothing has to be re-measured if that
-// changes.
-//
-// It is drawn rather than typed because every Unicode glyph of a person lives in the emoji blocks:
-// the emoji font paints those, in its own fixed colours, so they ignore `currentColor` and stay
-// the same shade whatever the surrounding text does. Two pseudo-elements cost nothing, obey the
-// colour, and — carrying no text — say nothing to a screen reader, which is right for decoration.
-$user-icon-width: 1em;
-$user-icon-gap: 0.35em;
-$user-icon-head-diameter: 0.4em;
-$user-icon-shoulders-width: 0.78em;
-$user-icon-shoulders-height: 0.36em;
-$user-icon-neck-gap: 0.06em;
-
-// How far the shoulders sit above the bottom of the inline box. That edge is the font's descender
-// rather than the baseline, so this inset is what lifts the figure back onto the baseline; it is
-// the one number to nudge if the silhouette rides high or low against the name.
-$user-icon-baseline-inset: 0.16em;
-
-.page-header__user-label {
-  position: relative;
-  font-weight: bold;
-  margin-right: 0.5em;
-  font-size: 1.25em;
-
-  // The room the silhouette is drawn into. It is padding rather than a margin on the shapes
-  // themselves because they are taken out of the flow — without it they would be painted over the
-  // first letters of the name.
-  padding-left: $user-icon-width + $user-icon-gap;
-
-  // Both halves are the same colour as the text and positioned against the label, and both are
-  // horizontally centred in that padding; only their size and their rounding differ.
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    background-color: currentColor;
-  }
-
-  // The head: a circle, centred in the padding.
-  &::before {
-    left: math.div($user-icon-width - $user-icon-head-diameter, 2);
-    bottom: $user-icon-baseline-inset + $user-icon-shoulders-height + $user-icon-neck-gap;
-    width: $user-icon-head-diameter;
-    height: $user-icon-head-diameter;
-    border-radius: 50%;
-  }
-
-  // The shoulders: the top half of an ellipse, flat along the bottom.
-  //
-  // The slash form is what makes it an ellipse rather than a stadium — the horizontal radii come
-  // first, the vertical ones after, so each top corner is rounded by half the width across and the
-  // full height down, and the two curves meet in one arc at the top instead of running into a
-  // straight edge between them.
-  &::after {
-    left: math.div($user-icon-width - $user-icon-shoulders-width, 2);
-    bottom: $user-icon-baseline-inset;
-    width: $user-icon-shoulders-width;
-    height: $user-icon-shoulders-height;
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  }
-}
-
-// ---------------------------------------------------------------------------------------------
-// Narrow screens
-//
-// The same markup, laid out as a menu behind one button. Nothing above is overridden that does
-// not have to be: the navigation keeps its colour, its hover and its transition, and only the
-// things that cannot work in a narrow column — the centred table, the side-by-side items — are
-// replaced.
-// ---------------------------------------------------------------------------------------------
-@media (max-width: $mobile-menu-breakpoint) {
-  // Title on one side, button on the other.
-  .page-header__bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5em;
-    gap: 0.5em;
-    background-color: var(--color-accent);
-  }
-
-  .page-header__menu-toggle {
-    display: flex;
-    flex-grow: 0;
-    flex-shrink: 0;
-  }
-
-  // Closed is the default, and it is animated open rather than switched on.
-  //
-  // `height: auto` cannot be transitioned — there is no number for the browser to interpolate
-  // towards — and `display: none` cannot be either. The way round both is a one-row grid whose
-  // track goes from `0fr` to `1fr`: those *are* interpolatable, and `1fr` resolves to exactly the
-  // content's natural height, so the menu animates to whatever size it happens to need. No
-  // guessed `max-height`, and no height measured in TypeScript.
-  //
-  // `visibility` is what keeps this honest. Collapsing to zero height would otherwise leave every
-  // link inside still focusable by tab and still read out by a screen reader — visible to
-  // everyone except the person looking at the page. `visibility: hidden` removes it from both,
-  // exactly as `display: none` did, and unlike `display` it can be transitioned: going hidden it
-  // waits until the collapse has finished, going visible it applies at once. So the animation is
-  // seen in full in both directions and nothing is reachable while it is closed.
-  .page-header__collapsible {
-    display: grid;
-    grid-template-rows: 0fr;
-    visibility: hidden;
-    transition:
-      grid-template-rows var(--duration-fast) var(--easing-standard),
-      visibility var(--duration-fast) var(--easing-standard);
-  }
-
-  .page-header__collapsible--open {
-    grid-template-rows: 1fr;
-    visibility: visible;
-  }
-
-  // The grid item. `overflow: hidden` is what lets the track be smaller than the content, and so
-  // is what makes the collapse look like a wipe rather than the content squashing.
-  .page-header__collapsible-content {
-    display: block;
-    overflow: hidden;
-  }
-
-  .page-header__navigation {
-    padding-bottom: 0.5em;
-  }
-
-  // One entry per line, each filling the width so the whole row is a usable target rather than
-  // just the few characters of the label.
-  .page-header__navigation-list {
-    display: block;
-    margin: 0;
-  }
-
-  .page-header__navigation-item {
-    display: block;
-    border-radius: 0.5em;
-  }
-
-  .page-header__navigation-link {
-    display: block;
-  }
-
-  // The session block and the language switcher stack under the navigation instead of sitting
-  // beside it.
-  .page-header__session {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5em;
-    padding: 0.75em;
-    padding-bottom: 1em;
-    background-color: var(--color-panel);
-    border-radius: 0.5em;
-  }
+// `reset.scss` leaves a button invisible; this one reads as an underlined word.
+.page-header__sign-out {
+  cursor: pointer;
+  text-decoration: underline;
 }

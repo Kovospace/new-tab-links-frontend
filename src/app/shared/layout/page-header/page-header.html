@@ -1,86 +1,33 @@
-<header>
+<header class="page-header">
 
-  <div class="page-header__bar">
-
-<!--    <div>-->
-<!--      <a class="page-header__title" [routerLink]="homeLink()"><em>Tabi</em>links</a>-->
-<!--      <br />-->
-<!--      <span class="page-header__motto">{{ 'site.motto' | translate }}</span>-->
-<!--      &lt;!&ndash;      <span class="page-header__motto">{{ 'site.motto2' | translate }}</span>&ndash;&gt;-->
-<!--      <div>-->
-<!--        <app-language-switcher />-->
-<!--        <app-currency-switcher />-->
-<!--      </div>-->
-<!--    </div>-->
-
-    <!--
-      Shown only on a narrow screen; the stylesheet hides it otherwise. `aria-expanded` and
-      `aria-controls` are what turn three decorative lines into a control a screen reader can
-      describe, and the label comes from the view-model because it changes with the state.
-    -->
-    <button
-      class="page-header__menu-toggle"
-      [class.page-header__menu-toggle--open]="viewModel.isMobileMenuOpen()"
-      type="button"
-      [attr.aria-label]="viewModel.mobileMenuToggleLabel()"
-      [attr.aria-expanded]="viewModel.isMobileMenuOpen()"
-      aria-controls="page-header-menu"
-      (click)="viewModel.toggleMobileMenu()"
-    >
-      <span
-        class="page-header__menu-toggle-bar page-header__menu-toggle-bar--top"
-        aria-hidden="true"
-      ></span>
-      <span
-        class="page-header__menu-toggle-bar page-header__menu-toggle-bar--middle"
-        aria-hidden="true"
-      ></span>
-      <span
-        class="page-header__menu-toggle-bar page-header__menu-toggle-bar--bottom"
-        aria-hidden="true"
-      ></span>
-    </button>
+  <div class="page-header__start">
+    <app-language-switcher />
   </div>
 
-  <!--
-    Everything the menu button reveals. Two nested elements rather than one, because animating an
-    element to its natural height needs a grid track to animate and a separate child to clip the
-    overflow while it does — see the stylesheet. On a wide screen both are removed from the layout
-    entirely (`display: contents`), so what is inside lays itself out as if neither existed.
-  -->
-  <div
-    class="page-header__collapsible"
-    [class.page-header__collapsible--open]="viewModel.isMobileMenuOpen()"
-    id="page-header-menu"
-  >
-    <div class="page-header__collapsible-content">
-      <nav class="page-header__navigation" [attr.aria-label]="'site.title' | translate">
-        <ul class="page-header__navigation-list">
-          @for (
-            navigationEntry of viewModel.navigationEntries();
-            track navigationEntry.routerLink
-          ) {
-            <li class="page-header__navigation-item">
-              <a
-                class="page-header__navigation-link"
-                [routerLink]="navigationEntry.routerLink"
-                routerLinkActive="page-header__navigation-link--active"
-                [routerLinkActiveOptions]="navigationEntry.activeWhen"
-                >{{ navigationEntry.labelTranslationKey | translate }}</a
-              >
-            </li>
-          }
-        </ul>
-      </nav>
-
-      @if (viewModel.isSignedIn()) {
-        <div class="page-header__session">
-          <span class="page-header__user-label">{{ viewModel.signedInUserLabel() }}</span>
-          <button type="button" (click)="viewModel.signOut()">
-            {{ 'nav.logout' | translate }}
-          </button>
-        </div>
+  <nav class="page-header__navigation" [attr.aria-label]="'site.title' | translate">
+    <ul class="page-header__navigation-list">
+      @for (navigationEntry of viewModel.navigationEntries(); track navigationEntry.routerLink) {
+        <li class="page-header__navigation-item">
+          <a
+            class="page-header__navigation-link"
+            [routerLink]="navigationEntry.routerLink"
+            routerLinkActive="page-header__navigation-link--active"
+            [routerLinkActiveOptions]="navigationEntry.activeWhen"
+            >{{ navigationEntry.labelTranslationKey | translate }}</a
+          >
+        </li>
       }
-    </div>
+    </ul>
+  </nav>
+
+  <div class="page-header__end">
+    @if (viewModel.isSignedIn()) {
+      <span>{{ viewModel.signedInStatus() }}</span>
+      <!-- The only way to sign out anywhere on the site, so it stays beside the name. -->
+      <button class="page-header__sign-out" type="button" (click)="viewModel.signOut()">
+        {{ 'nav.logout' | translate }}
+      </button>
+    }
   </div>
+
 </header>

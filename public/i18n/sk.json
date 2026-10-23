@@ -23,10 +23,9 @@
     "devices": "Moje zariadenia",
     "account": "Účet",
     "logout": "Odhlásiť sa",
+    "signedInAs": "Prihlásený ako {name}",
     "back": "Späť",
     "skipToContent": "Preskočiť na obsah",
-    "openMenu": "Otvoriť ponuku",
-    "closeMenu": "Zavrieť ponuku",
     "tips": "Tipy",
     "comparison": "Porovnanie"
   },

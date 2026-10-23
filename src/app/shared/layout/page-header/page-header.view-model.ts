@@ -1,7 +1,5 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { IsActiveMatchOptions, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { Injectable, computed, inject } from '@angular/core';
+import { IsActiveMatchOptions, Router } from '@angular/router';
 import {
   ApplicationRouteLinks,
   LocalizedRouteLinks,
@@ -65,34 +63,16 @@ export class PageHeaderViewModel {
   private readonly translationService = inject(TranslationService);
   private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
 
-  /**
-   * Whether the narrow-screen menu is currently open.
-   *
-   * <p>Held here rather than in the component because it is state the view merely reflects, and
-   * because it has to be readable by the label below and writable by the navigation subscription.
-   * On a wide screen it is simply ignored: the menu is always visible there, and no width is
-   * measured in TypeScript — the stylesheet alone decides which layout applies.</p>
-   */
-  private readonly mobileMenuOpen = signal(false);
-
-  /** Whether the narrow-screen menu is open, for the template to reflect. */
-  readonly isMobileMenuOpen = this.mobileMenuOpen.asReadonly();
-
-  /**
-   * What the menu button announces to assistive technology.
-   *
-   * <p>The button carries no text of its own — it is three lines — so this is the only thing that
-   * names it. It says what pressing it will <em>do</em>, which is why it flips with the state.</p>
-   */
-  readonly mobileMenuToggleLabel = computed<string>(() =>
-    this.translationService.translate(this.mobileMenuOpen() ? 'nav.closeMenu' : 'nav.openMenu'),
-  );
-
   /** Whether the visitor holds a session, which is what the top bar changes shape for. */
   readonly isSignedIn = this.sessionStore.isSignedIn;
 
   /** Name to greet the signed-in user by; empty when nobody is signed in. */
   readonly signedInUserLabel = this.sessionStore.signedInUserLabel;
+
+  /** The right-hand side of the bar for a signed-in user: who they are signed in as. */
+  readonly signedInStatus = computed<string>(() =>
+    this.translationService.translate('nav.signedInAs', { name: this.signedInUserLabel() }),
+  );
 
   /**
    * The navigation entries to render, in order.
@@ -106,32 +86,6 @@ export class PageHeaderViewModel {
       ? signedInNavigationEntries(this.localizedRouteLinks.links())
       : anonymousNavigationEntries(this.localizedRouteLinks.links()),
   );
-
-  /**
-   * Closes the narrow-screen menu whenever a navigation completes.
-   *
-   * <p>Every way of leaving the page is covered by this one subscription — tapping an entry, the
-   * browser's back button, or a redirect the application performs itself — where handling the
-   * click alone would leave the menu covering the page it just navigated to.</p>
-   */
-  constructor() {
-    this.router.events
-      .pipe(
-        filter((routerEvent) => routerEvent instanceof NavigationEnd),
-        takeUntilDestroyed(),
-      )
-      .subscribe(() => this.closeMobileMenu());
-  }
-
-  /** Opens the narrow-screen menu if it is closed, closes it if it is open. */
-  toggleMobileMenu(): void {
-    this.mobileMenuOpen.update((isOpen) => !isOpen);
-  }
-
-  /** Closes the narrow-screen menu, whatever state it was in. */
-  closeMobileMenu(): void {
-    this.mobileMenuOpen.set(false);
-  }
 
   /**
    * Ends the session and returns the visitor to the home page.

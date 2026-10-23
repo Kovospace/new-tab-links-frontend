@@ -2,13 +2,10 @@
 // The few rules that are here are the ones that make a flag round and mark which one is chosen —
 // without them the switcher is not readable at all, since `reset.scss` leaves buttons invisible.
 
-$mobile-menu-breakpoint: 533px;
-
 .language-switcher {
   display: inline-flex;
   align-items: center;
   gap: 0.75em;
-  margin-top: 0.5em;
 }
 
 // Each language is a button with nothing in it but its flag.
@@ -16,7 +13,7 @@ $mobile-menu-breakpoint: 533px;
   display: block;
   cursor: pointer;
   border-radius: 50%;
-  border: 0.25em solid var(--color-ui-element);
+  border: 0.25em solid var(--color-background);
   background-color: var(--color-background);
   overflow: hidden;
   transition: transform var(--duration-fast) var(--easing-standard);
@@ -27,6 +24,7 @@ $mobile-menu-breakpoint: 533px;
   transform: scale(1.2);
 }
 
+// The switcher sits on the accent-coloured top bar, where an accent border would vanish.
 .language-switcher__option--active {
   border-color: var(--color-accent);
 }
@@ -45,11 +43,4 @@ $mobile-menu-breakpoint: 533px;
   width: 2.5em;
   height: 2.5em;
   object-fit: cover;
-}
-
-@media (max-width: $mobile-menu-breakpoint) {
-
-  .language-switcher__option--active {
-    border-color: var(--color-accent-selected);
-  }
 }

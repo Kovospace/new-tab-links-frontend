@@ -1,40 +1,26 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
-import { LocalizedRouteLinks } from '../../../core/routing/localized-route-links';
-import { CurrencySwitcher } from '../../billing/currency-switcher/currency-switcher';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import { PageHeaderViewModel } from './page-header.view-model';
 
 /**
- * The top bar: the site title, the navigation, and the language switcher.
+ * The top bar: the language switcher, the navigation, and who is signed in.
  *
  * <p>Rendered once by the application shell and shared by every page.</p>
  *
- * <p>Below a narrow width the same markup collapses behind one button, the navigation and the
- * language switcher moving inside it. Which layout applies is decided entirely by the stylesheet;
- * nothing here measures the viewport, so there is no width duplicated between CSS and TypeScript
- * and no resize listener to keep in step.</p>
+ * <p>One row on a wide screen, one column on a narrow one, and nothing in between: the stylesheet
+ * alone decides, so there is no menu button, no open state and no width measured here.</p>
  */
 @Component({
   selector: 'app-page-header',
-  imports: [RouterLink, RouterLinkActive, TranslatePipe, LanguageSwitcher, CurrencySwitcher],
+  imports: [RouterLink, RouterLinkActive, TranslatePipe, LanguageSwitcher],
   providers: [PageHeaderViewModel],
   templateUrl: './page-header.html',
   styleUrl: './page-header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    // Escape closes the open menu, which is what a keyboard user expects of anything that
-    // covers the page. Harmless when it is already closed, and on a wide screen.
-    '(document:keydown.escape)': 'viewModel.closeMobileMenu()',
-  },
 })
 export class PageHeader {
   /** State and behaviour of the top bar. */
   protected readonly viewModel = inject(PageHeaderViewModel);
-
-  /** Where the site title links back to. */
-  private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
-
-  protected readonly homeLink = computed(() => this.localizedRouteLinks.links().home);
 }
