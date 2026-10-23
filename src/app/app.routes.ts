@@ -27,6 +27,11 @@ const LOCALIZED_PAGE_ROUTES: Routes = [
     loadComponent: () => import('./features/home/home-page').then((module) => module.HomePage),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.tour,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.tour, 'seo.tour'),
+    loadComponent: () => import('./features/tour/tour-page').then((module) => module.TourPage),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.download,
     data: pageMetadataFor(APPLICATION_ROUTE_PATHS.download, 'seo.download'),
     loadComponent: () =>

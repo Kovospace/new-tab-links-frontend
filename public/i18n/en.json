@@ -10,12 +10,15 @@
   },
   "site": {
     "title": "Tabilinks",
-    "motto": "Your bookmarks, history & favorite pages immediately on the new tab screen.",
-    "motto2": "Finally useful use of new tab page",
+    "motto": "Your bookmarks & history.",
+    "motto2": "Organized & accessible.",
+    "explanation": "Your most used functions of web browser in one of the most underutilized and overlooked screens",
+    "explanation2": "The new tab",
     "tagline": "All Your links and history, synchronized on every new tab, on every machine and on every browser You are using. Nothing get lost, You have everything with You."
   },
   "nav": {
     "home": "Home",
+    "tour": "Tour",
     "download": "Install",
     "register": "Register",
     "login": "Login",
@@ -41,7 +44,19 @@
     "authorSiteLabel": "www.kovo.space",
     "copyrightNotice": "© {year} {author}"
   },
+  "tour": {
+    "heading": "Take the tour"
+  },
   "home": {
+    "addToChrome": "Add to Chrome",
+    "takeTheTour": "Take the tour",
+    "themeShowcase": {
+      "lightLabel": "Light",
+      "darkLabel": "Dark",
+      "lightAlt": "Tabilinks on the new tab in the light theme",
+      "darkAlt": "The same new tab in the dark theme",
+      "sliderLabel": "Compare the light and the dark theme"
+    },
     "heading": "A new tab that finally does something useful!",
     "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, in profiles, arranged into workspaces and groups of your own.",
     "leadParagraph2": "It also keeps a history of your closed tabs.",
@@ -596,6 +611,10 @@
     "site": {
       "title": "Tabilinks",
       "description": "Your bookmarks, links, history and most visited sites on the new tab screen. Your links, on every new tab, on every machine."
+    },
+    "tour": {
+      "title": "Tour",
+      "description": "A walkthrough of Tabilinks: profiles, workspaces, groups and links on your new tab page, bookmarks and history beside them, synced to every machine."
     },
     "home": {
       "title": "Your links on every new tab",

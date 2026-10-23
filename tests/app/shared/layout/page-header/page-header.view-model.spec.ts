@@ -45,6 +45,7 @@ describe('PageHeaderViewModel', () => {
 
     expect(offeredLabels).toEqual([
       'nav.home',
+      'nav.tour',
       'nav.download',
       'nav.tips',
       'nav.register',
@@ -61,6 +62,7 @@ describe('PageHeaderViewModel', () => {
 
     expect(pathMatching).toEqual({
       'nav.home': 'exact',
+      'nav.tour': 'subset',
       'nav.download': 'subset',
       'nav.tips': 'subset',
       'nav.register': 'subset',
@@ -78,6 +80,7 @@ describe('PageHeaderViewModel', () => {
 
     expect(offeredLabels).toEqual([
       'nav.home',
+      'nav.tour',
       'nav.download',
       'nav.tips',
       'nav.devices',

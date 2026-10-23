@@ -1,0 +1,42 @@
+<div class="theme-showcase">
+  <img
+    class="theme-showcase__screenshot"
+    [src]="'theme-showcase/light_1x.webp' | localizedImage"
+    [srcset]="'theme-showcase/light_1x.webp' | localizedImageSrcset"
+    [width]="screenshotWidthPixels"
+    [height]="screenshotHeightPixels"
+    [alt]="'home.themeShowcase.lightAlt' | translate"
+    draggable="false"
+  />
+  <img
+    class="theme-showcase__screenshot theme-showcase__screenshot--dark"
+    [src]="'theme-showcase/dark_1x.webp' | localizedImage"
+    [srcset]="'theme-showcase/dark_1x.webp' | localizedImageSrcset"
+    [width]="screenshotWidthPixels"
+    [height]="screenshotHeightPixels"
+    [alt]="'home.themeShowcase.darkAlt' | translate"
+    [style.clip-path]="viewModel.darkScreenshotClipPath()"
+    draggable="false"
+  />
+
+  <div class="theme-showcase__divider" [style.left]="viewModel.dividerLeft()" aria-hidden="true">
+    <span class="theme-showcase__handle">⇔</span>
+  </div>
+
+  <span class="theme-showcase__label theme-showcase__label--light" aria-hidden="true">
+    {{ 'home.themeShowcase.lightLabel' | translate }}
+  </span>
+  <span class="theme-showcase__label theme-showcase__label--dark" aria-hidden="true">
+    {{ 'home.themeShowcase.darkLabel' | translate }}
+  </span>
+
+  <input
+    class="theme-showcase__slider"
+    type="range"
+    min="0"
+    max="100"
+    [value]="viewModel.dividerPositionPercent()"
+    [attr.aria-label]="'home.themeShowcase.sliderLabel' | translate"
+    (input)="onSliderInput($event)"
+  />
+</div>

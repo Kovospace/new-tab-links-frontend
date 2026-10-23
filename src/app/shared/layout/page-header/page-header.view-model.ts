@@ -161,6 +161,11 @@ function anonymousNavigationEntries(links: ApplicationRouteLinks): readonly Navi
       activeWhen: MATCHES_ITS_OWN_PAGE,
     },
     {
+      labelTranslationKey: 'nav.tour',
+      routerLink: links.tour,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
       labelTranslationKey: 'nav.download',
       routerLink: links.download,
       activeWhen: MATCHES_ITS_PAGES_BELOW,
@@ -195,6 +200,11 @@ function signedInNavigationEntries(links: ApplicationRouteLinks): readonly Navig
       labelTranslationKey: 'nav.home',
       routerLink: links.home,
       activeWhen: MATCHES_ITS_OWN_PAGE,
+    },
+    {
+      labelTranslationKey: 'nav.tour',
+      routerLink: links.tour,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
     },
     {
       labelTranslationKey: 'nav.download',

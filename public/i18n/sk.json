@@ -16,6 +16,7 @@
   },
   "nav": {
     "home": "Domov",
+    "tour": "Prehliadka",
     "download": "Inštalácia",
     "register": "Registrácia",
     "login": "Prihlásenie",
@@ -41,7 +42,19 @@
     "authorSiteLabel": "www.kovo.space",
     "copyrightNotice": "© {year} {author}"
   },
+  "tour": {
+    "heading": "Prehliadka"
+  },
   "home": {
+    "addToChrome": "Pridať do Chromu",
+    "takeTheTour": "Prehliadka",
+    "themeShowcase": {
+      "lightLabel": "Svetlá",
+      "darkLabel": "Tmavá",
+      "lightAlt": "Tabilinks na novej karte vo svetlej téme",
+      "darkAlt": "Tá istá nová karta v tmavej téme",
+      "sliderLabel": "Porovnať svetlú a tmavú tému"
+    },
     "heading": "Nová karta, ktorá konečne k niečomu je !",
     "leadParagraph": "Tabilinks nahradí prázdnu nevyužívanú novú kartu odkazmi, ktoré naozaj otvárate a používate, v profiloch, usporiadanými do pracovných priestorov a skupín podľa Vás.",
     "leadParagraph2": "Zaznamená taktiež históriu zavretých kariet.",
@@ -596,6 +609,10 @@
     "site": {
       "title": "Tabilinks",
       "description": "Vaše záložky, odkazy, história a najnavštevovanejšie stránky na novej karte. Vaše odkazy na každej novej karte, na každom počítači."
+    },
+    "tour": {
+      "title": "Prehliadka",
+      "description": "Prehliadka Tabilinks: profily, pracovné priestory, skupiny a odkazy na novej karte, záložky a história vedľa nich, synchronizované na každý počítač."
     },
     "home": {
       "title": "Vaše odkazy na každej novej karte",

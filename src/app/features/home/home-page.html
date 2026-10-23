@@ -1,20 +1,68 @@
-<article>
+<article class="home-page">
 
   <section>
-    <h1>{{ 'home.heading' | translate }}</h1>
-    <p class="home-page__tagline">
-      {{ 'site.tagline' | translate }}
-    </p>
-    <p class="home-page__tagline">
-      {{ 'home.leadParagraph' | translate }}
-    </p>
-    <p class="home-page__tagline">
-      {{ 'home.leadParagraph2' | translate }}
-    </p>
+<!--    <div>-->
+      <a class="home-page__title" href=""><em>Tabi</em>links</a>
+      <br /> <br />
+      <span class="home-page__motto">{{ 'site.motto' | translate }}</span>
+      <br /> <br />
+      <span class="home-page__motto">{{ 'site.motto2' | translate }}</span>
+      <br /> <br/>
+      <span class="home-page__explanation">
+        {{ 'site.explanation' | translate }} - <b>{{ 'site.explanation2' | translate }}</b>
+      </span>
+      <br /> <br />
+      <p class="home-page__actions">
+        @if (viewModel.isChromeWebStorePublished) {
+          <a
+            class="button"
+            [href]="viewModel.chromeWebStoreUrl"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {{ 'home.addToChrome' | translate }}
+          </a>
+        } @else {
+          <span
+            class="button home-page__unavailable-action"
+            aria-disabled="true"
+            [title]="'download.downloadAction.webStoreUnavailable' | translate"
+          >
+            {{ 'home.addToChrome' | translate }}
+          </span>
+        }
+        <a class="button" [routerLink]="viewModel.tourLink()">
+          {{ 'home.takeTheTour' | translate }}
+        </a>
+      </p>
+<!--    </div>-->
+<!--    <div>-->
+<!---->
+<!--    </div>-->
   </section>
 
+  <!--      <a class="page-header__title" [routerLink]="homeLink()"><em>Tabi</em>links</a>-->
+  <!--      <br />-->
+  <!--      <span class="page-header__motto">{{ 'site.motto' | translate }}</span>-->
+  <!--      &lt;!&ndash;      <span class="page-header__motto">{{ 'site.motto2' | translate }}</span>&ndash;&gt;-->
+
+<!--  <section>-->
+<!--    <h1>{{ 'home.heading' | translate }}</h1>-->
+<!--    <p class="home-page__tagline">-->
+<!--      {{ 'site.tagline' | translate }}-->
+<!--    </p>-->
+<!--    <p class="home-page__tagline">-->
+<!--      {{ 'home.leadParagraph' | translate }}-->
+<!--    </p>-->
+<!--    <p class="home-page__tagline">-->
+<!--      {{ 'home.leadParagraph2' | translate }}-->
+<!--    </p>-->
+<!--  </section>-->
+
   <section class="home-page__demo">
-    <app-demo-slideshow />
+    <!-- The slideshow is switched off; the light-and-dark comparison replaces it. -->
+    <!-- <app-demo-slideshow /> -->
+    <app-theme-showcase />
   </section>
 
   <section>

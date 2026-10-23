@@ -17,6 +17,8 @@
  */
 export const APPLICATION_ROUTE_PATHS = {
   home: '',
+  /** The walkthrough of what the extension does; "Take the tour" on the home page opens it. */
+  tour: 'tour',
   download: 'download',
   register: 'register',
   login: 'login',
@@ -70,6 +72,7 @@ export const APPLICATION_ROUTE_PATHS = {
  */
 export const APPLICATION_ROUTE_LINKS = {
   home: '/',
+  tour: `/${APPLICATION_ROUTE_PATHS.tour}`,
   download: `/${APPLICATION_ROUTE_PATHS.download}`,
   register: `/${APPLICATION_ROUTE_PATHS.register}`,
   login: `/${APPLICATION_ROUTE_PATHS.login}`,

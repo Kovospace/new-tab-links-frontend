@@ -50,6 +50,7 @@ export class SitemapPageViewModel {
 /** Pages anyone can open. */
 const PUBLIC_SITEMAP_ENTRIES: readonly UnlinkedSitemapEntry[] = [
   { labelTranslationKey: 'nav.home', routeName: 'home' },
+  { labelTranslationKey: 'nav.tour', routeName: 'tour' },
   { labelTranslationKey: 'nav.download', routeName: 'download' },
   { labelTranslationKey: 'nav.tips', routeName: 'tips' },
   { labelTranslationKey: 'nav.comparison', routeName: 'comparison' },

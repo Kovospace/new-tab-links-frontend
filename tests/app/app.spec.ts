@@ -13,6 +13,7 @@ const ENGLISH_TRANSLATIONS = {
   site: { title: 'Tabilinks', tagline: 'Your links, everywhere.' },
   nav: {
     home: 'Home',
+    tour: 'Tour',
     download: 'Download',
     tips: 'Tips',
     register: 'Register',
@@ -64,9 +65,7 @@ describe('App shell', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
-    // The home page's demo slideshow and its selling points ask for their indexes; neither is
-    // needed here.
-    httpTestingController.expectOne('/content/demo/index.json').flush({});
+    // The home page's selling points ask for their index; it is not needed here.
     httpTestingController.expectOne('/content/home-features/index.json').flush({});
     // The header's currency picker asks for the prices; with none on sale it stays hidden.
     httpTestingController
@@ -85,15 +84,15 @@ describe('App shell', () => {
     // The wordmark, not a translated string: the header spells it as `<em>Tabi</em>links` so the
     // first half can be styled, and it reads the same in every language. Asserting textContent
     // rather than the markup is what keeps that styling free to change.
-    expect(renderedPage().querySelector('.page-header__title')?.textContent).toContain('Tabilinks');
+    expect(renderedPage().querySelector('.home-page__title')?.textContent).toContain('Tabilinks');
   });
 
-  it('offers an anonymous visitor the five public destinations', () => {
+  it('offers an anonymous visitor the six public destinations', () => {
     const navigationLabels = Array.from(
       renderedPage().querySelectorAll('.page-header__navigation-link'),
     ).map((link) => link.textContent?.trim());
 
-    expect(navigationLabels).toEqual(['Home', 'Download', 'Tips', 'Register', 'Login']);
+    expect(navigationLabels).toEqual(['Home', 'Tour', 'Download', 'Tips', 'Register', 'Login']);
   });
 
   it('renders the routed home page inside the shell', () => {

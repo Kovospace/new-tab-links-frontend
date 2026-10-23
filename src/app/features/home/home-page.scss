@@ -1,5 +1,71 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
 
+.home-page {
+  text-align: center;
+}
+
+.home-page__title {
+  font-weight: bold;
+  font-size: 6em;
+  position: relative;
+
+  em {
+    color: var(--color-text);
+    background-color: var(--color-accent);
+    padding: 0 0.125em;
+    border-top-left-radius: 0.25em;
+    border-top-right-radius: 0.25em;
+    margin-right: 0.0625em;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0.125em;
+    background-color: var(--color-accent);
+  }
+
+  //@media (max-width: $mobile-menu-breakpoint) {
+  //
+  //  em {
+  //    background-color: var(--color-panel);
+  //  }
+  //
+  //  &::after {
+  //    background-color: var(--color-panel);
+  //  }
+  //}
+}
+
+.home-page__motto {
+  font-size: 4em;
+  font-weight: bold;
+}
+
+.home-page__explanation {
+  display: block;
+  margin: 0 auto;
+  font-size: 2em;
+  color: var(--color-text-muted);
+  max-width: 75vw;
+}
+
+
+.home-page__actions {
+  font-size: 1.5em;
+}
+
+// "Add to Chrome" while the store listing is unpublished: still in place, but plainly not a link.
+.home-page__unavailable-action,
+.home-page__unavailable-action:hover {
+  background-color: var(--color-ui-element);
+  cursor: not-allowed;
+}
+
 .home-page__tagline {
   line-height: 1.25em;
   font-size: 1.25em;
@@ -13,7 +79,7 @@
 }
 
 .home-page__demo {
-  --demo-slideshow-max-height: 80vh;
+  --theme-showcase-max-height: 80vh;
   margin: 0;
   padding: 0 1em;
 }

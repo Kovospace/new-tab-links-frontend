@@ -1,0 +1,97 @@
+// The light screenshot sets the frame's size; the dark one is laid exactly over it and clipped by
+// the view-model left of the divider. An invisible range input covers everything and does the
+// dragging, so nothing else in the frame needs to catch the pointer.
+//
+// Sized like the demo slideshow it replaced: 1280 pixels at most, its 1x size, and no taller than
+// what a page allows through --theme-showcase-max-height, turned into a width because the height
+// follows from it.
+
+.theme-showcase {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 0.25em solid var(--color-accent);
+  border-radius: 1em;
+  user-select: none;
+  width: min(100%, 1280px, calc(var(--theme-showcase-max-height, 100vh) * 16 / 10));
+
+  @media screen and (min-width: 1440px) {
+    box-sizing: content-box;
+  }
+}
+
+.theme-showcase__screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+
+  &--dark {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+}
+
+.theme-showcase__divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0.25em;
+  transform: translateX(-50%);
+  background-color: var(--color-accent);
+  pointer-events: none;
+}
+
+.theme-showcase__handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  font-size: 1.25em;
+  font-weight: bold;
+  color: var(--color-text);
+  background-color: var(--color-accent);
+}
+
+.theme-showcase__label {
+  position: absolute;
+  bottom: 0.75em;
+  padding: 0.125em 0.5em;
+  border-radius: 0.25em;
+  font-weight: bold;
+  pointer-events: none;
+
+  &--light {
+    left: 0.75em;
+    color: var(--color-background);
+    background-color: var(--color-text);
+  }
+
+  &--dark {
+    right: 0.75em;
+    color: var(--color-text);
+    background-color: var(--color-background);
+  }
+}
+
+.theme-showcase__slider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+}
+
+// The slider is invisible, so a keyboard reader's focus is shown on the whole frame instead.
+.theme-showcase:has(.theme-showcase__slider:focus-visible) {
+  outline: 0.25em solid var(--color-focus-ring);
+  outline-offset: 0.25em;
+}

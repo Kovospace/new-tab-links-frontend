@@ -5,6 +5,7 @@ import {
   HomeFeaturesContentService,
   RenderedHomeFeature,
 } from '../../core/home-features/home-features-content.service';
+import { RUNTIME_CONFIGURATION } from '../../core/config/runtime-configuration';
 import { TranslationService } from '../../core/i18n/translation.service';
 import { LocalizedRouteLinks } from '../../core/routing/localized-route-links';
 
@@ -41,6 +42,27 @@ export class HomePageViewModel {
   private readonly translationService = inject(TranslationService);
   private readonly homeFeaturesContentService = inject(HomeFeaturesContentService);
   private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
+  private readonly runtimeConfiguration = inject(RUNTIME_CONFIGURATION);
+
+  /**
+   * The Chrome Web Store listing "Add to Chrome" opens, empty while it is not published.
+   *
+   * <p>Read from the runtime configuration, like the download page's, so the button follows the
+   * store link the deployment sets rather than one compiled in.</p>
+   */
+  readonly chromeWebStoreUrl = this.runtimeConfiguration.extensionDownload.chromeWebStoreUrl;
+
+  /**
+   * Whether "Add to Chrome" can link to the store.
+   *
+   * <p>The button goes to the store and nowhere else. While the listing is unpublished it is still
+   * shown, greyed out and linking nowhere, so the hero keeps its shape and turns live the moment a
+   * deployment sets the address.</p>
+   */
+  readonly isChromeWebStorePublished = this.chromeWebStoreUrl.length > 0;
+
+  /** The tour page, which "Take the tour" opens. */
+  readonly tourLink = computed<string>(() => this.localizedRouteLinks.links().tour);
 
   /** The comparison with other extensions, linked under the "better than the competition" points. */
   readonly comparisonLink = computed<string>(() => this.localizedRouteLinks.links().comparison);

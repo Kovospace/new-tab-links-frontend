@@ -12,7 +12,7 @@ $mobile-menu-breakpoint: 533px;
 // Title and menu button. Left alone on a wide screen, where the button is not rendered and this
 // is an ordinary block containing one link, exactly as the title was before it had a wrapper.
 .page-header__bar {
-  padding: 1em;
+  //padding: 1em;
 
   .page-header__motto {
     display: block;
@@ -30,7 +30,7 @@ $mobile-menu-breakpoint: 533px;
   }
 }
 
-.page-header__title {
+.home_pager__title {
   font-weight: bold;
   font-size: 2.25em;
   position: relative;
