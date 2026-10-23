@@ -117,6 +117,8 @@
   --color-ui-element-danger-hover: #ff4a4e;
 
   --color-section-even: #111;
+  // A band of the accent so dim it reads as a tint of the page rather than as colour.
+  --color-section-accent-dim: #050e26;
   --color-section-even-danger: #701011;
 
   // State. Kept apart from the accent because they carry meaning rather than identity, and

@@ -1,6 +1,6 @@
-# Saves time
+![Without Tabilinks, many clicks and lots of time; with Tabilinks, one click](../../../images/en/home-features/saving-time/saving-time.svg#left)
 
-![Without Tabilinks, many clicks and lots of time; with Tabilinks, one click](../../../images/en/home-features/saving-time/saving-time.svg)
+# Saves time
 
 No typing addresses, clicking through the browser's menus or digging through folders on the bookmarks bar.
 Open a new tab and it is one click on the link you can see.

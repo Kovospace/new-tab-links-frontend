@@ -1,9 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
-import { renderSiteMarkdown } from '../content/site-markdown-renderer';
+import {
+  ImagePlacement,
+  SiteMarkdownRenderingOptions,
+  renderSiteMarkdown,
+} from '../content/site-markdown-renderer';
 import { LocalizedMarkdownService } from '../content/localized-markdown.service';
 import { DEFAULT_LANGUAGE_CODE, SupportedLanguageCode } from '../i18n/supported-language';
 import { ImageVersionStore } from '../images/image-version.store';
+import { separateHomeFeaturePicture } from './home-feature-picture';
 
 /**
  * Where the home page's points and their generated index are served from; they ship in
@@ -30,11 +35,17 @@ export interface HomeFeatureSummary {
  */
 export type HomeFeaturesIndex = Partial<Record<string, readonly HomeFeatureSummary[]>>;
 
-/** One point, rendered. */
+/**
+ * One point, rendered, its picture apart from its text so the page can set them side by side.
+ */
 export interface RenderedHomeFeature {
   readonly slug: string;
-  /** The point's markdown as HTML, its {@code #} title an {@code <h2>} under the page's own. */
-  readonly html: string;
+  /** The point's picture as HTML; empty when the point has none. */
+  readonly pictureHtml: string;
+  /** The rest of the point as HTML, its {@code #} title an {@code <h2>} under the page's own. */
+  readonly textHtml: string;
+  /** The side the picture asked for with {@code #left} or {@code #right}; {@code null} if none. */
+  readonly picturePlacement: ImagePlacement | null;
 }
 
 /**
@@ -89,16 +100,25 @@ export class HomeFeaturesContentService {
     return this.localizedMarkdownService
       .loadMarkdown(HOME_FEATURES_CONTENT_ROOT, feature.fileName, languageCode)
       .pipe(
-        map((loaded): RenderedHomeFeature => ({
-          slug: feature.slug,
-          html: renderSiteMarkdown(loaded.markdown, {
+        map((loaded): RenderedHomeFeature => {
+          const renderingOptions: SiteMarkdownRenderingOptions = {
             languageCode: loaded.languageCode,
             imageFolder: `${HOME_FEATURES_IMAGE_FOLDER}/${feature.slug}`,
             markdownFolder: `${HOME_FEATURES_CONTENT_ROOT}/${loaded.languageCode}`,
             headingLevelOffset: 1,
             versionImageUrl: this.imageVersionStore.versionImageUrl,
-          }),
-        })),
+          };
+          const separated = separateHomeFeaturePicture(loaded.markdown);
+          return {
+            slug: feature.slug,
+            pictureHtml:
+              separated.pictureMarkdown === ''
+                ? ''
+                : renderSiteMarkdown(separated.pictureMarkdown, renderingOptions),
+            textHtml: renderSiteMarkdown(separated.textMarkdown, renderingOptions),
+            picturePlacement: separated.picturePlacement,
+          };
+        }),
         catchError(() => of(null)),
       );
   }

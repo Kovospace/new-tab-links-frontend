@@ -66,6 +66,28 @@
   </section>
 
   <section>
+    <br /> <br />
+    <span class="home-page__motto">{{ 'site.highlights' | translate }}</span>
+    <br /> <br /> <br /> <br />
+    <ul>
+      @for (presentedFeature of viewModel.presentedFeatures(); track presentedFeature.slug) {
+        <li
+          class="home-page__feature"
+          [class.home-page__feature--picture-on-right]="presentedFeature.isPictureOnRight"
+        >
+          @if (presentedFeature.hasPicture) {
+            <app-rendered-markdown
+              class="home-page__feature-picture"
+              [html]="presentedFeature.pictureHtml"
+            />
+          }
+          <app-rendered-markdown class="home-page__feature-text" [html]="presentedFeature.textHtml" />
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section>
     @for (pitchSection of viewModel.presentedPitchSections(); track $index; let isFirst = $first) {
       @if (!isFirst) {
         <br>
@@ -82,16 +104,6 @@
     <p class="home-page__lead">
       <a [routerLink]="viewModel.comparisonLink()" class="button">{{ 'home.comparisonLink' | translate }}</a>
     </p>
-  </section>
-
-  <section>
-    <ul>
-      @for (presentedFeature of viewModel.presentedFeatures(); track presentedFeature.slug) {
-        <li class="home-page__feature">
-          <app-rendered-markdown [html]="presentedFeature.html" />
-        </li>
-      }
-    </ul>
   </section>
 
   <app-plan-offers />

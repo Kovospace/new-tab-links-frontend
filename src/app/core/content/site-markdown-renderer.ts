@@ -44,6 +44,49 @@ const DEEPEST_HEADING_LEVEL = 6;
 const RETINA_IMAGE_ADDRESS = /^(.*)_1x(\.[^./?#]+)([?#].*)?$/;
 
 /**
+ * Where an image may ask to be floated, written as its address's fragment —
+ * {@code ![Menu](open-menu_1x.webp#left)} — and the class each one renders as.
+ *
+ * <p>A fragment because markdown's image syntax has no other place for it that an editor's preview
+ * still understands: a preview ignores the fragment and shows the image, where an attribute syntax
+ * such as {@code {.left}} would show up as text after it.</p>
+ */
+const IMAGE_PLACEMENT_CLASSES = {
+  left: 'rendered-markdown__image--left',
+  right: 'rendered-markdown__image--right',
+} as const;
+
+/** A side an image can ask for with its address's fragment. */
+export type ImagePlacement = keyof typeof IMAGE_PLACEMENT_CLASSES;
+
+/** The fragment ending an image address, without its {@code #}. */
+const IMAGE_ADDRESS_FRAGMENT = /#([^#]*)$/;
+
+/**
+ * Reads the side an image address asks for ({@code #left}, {@code #right}) and takes it off.
+ *
+ * <p>Exported because the home page's points read the same fragment to decide which side of a
+ * point its picture goes, rather than floating it.</p>
+ *
+ * @param imageAddress an image address as written or resolved
+ * @returns the address without a recognised placement fragment, and that placement — {@code null}
+ *          when the address names none, in which case the address is returned as it was
+ */
+export function readImagePlacement(imageAddress: string): {
+  readonly address: string;
+  readonly placement: ImagePlacement | null;
+} {
+  const fragment = IMAGE_ADDRESS_FRAGMENT.exec(imageAddress);
+  if (fragment === null || !Object.hasOwn(IMAGE_PLACEMENT_CLASSES, fragment[1])) {
+    return { address: imageAddress, placement: null };
+  }
+  return {
+    address: imageAddress.slice(0, fragment.index),
+    placement: fragment[1] as ImagePlacement,
+  };
+}
+
+/**
  * Turns a piece of the site's markdown — a tip, a home page point — into HTML.
  *
  * <p>Two kinds of address are resolved on the way, so the markdown can stay short and portable:</p>
@@ -69,6 +112,11 @@ const RETINA_IMAGE_ADDRESS = /^(.*)_1x(\.[^./?#]+)([?#].*)?$/;
  * </ul>
  *
  * <p>Absolute paths, full URLs and in-page anchors are left exactly as written.</p>
+ *
+ * <p>An image whose address ends in {@code #left} or {@code #right} —
+ * {@code ![Menu](open-menu_1x.webp#left)} — is floated to that side, the text flowing beside it.
+ * The fragment is taken off the address and becomes a class; any other fragment is left as
+ * written.</p>
  *
  * <p>An image whose file name ends in {@code _1x} — {@code ![Menu](open-menu_1x.webp)} — is one of
  * three densities, and is rendered with a {@code srcset} naming its {@code _2x} and {@code _3x}
@@ -147,8 +195,13 @@ function renderVersionedImage(
   image: Tokens.Image,
   versionImageUrl: ImageUrlVersioner,
 ): string {
-  const html = Renderer.prototype.image.call(this, { ...image, href: versionImageUrl(image.href) });
-  const retina = RETINA_IMAGE_ADDRESS.exec(image.href);
+  const { address, placement } = readImagePlacement(image.href);
+  const html = addImageAttribute(
+    Renderer.prototype.image.call(this, { ...image, href: versionImageUrl(address) }),
+    'class',
+    placement === null ? '' : IMAGE_PLACEMENT_CLASSES[placement],
+  );
+  const retina = RETINA_IMAGE_ADDRESS.exec(address);
   if (retina === null) {
     return html;
   }
@@ -156,7 +209,26 @@ function renderVersionedImage(
   const srcset = [1, 2, 3]
     .map((density) => `${versionImageUrl(`${stem}_${density}x${extension}${suffix}`)} ${density}x`)
     .join(', ');
-  return html.replace(/^<img /, `<img srcset="${escapeAttribute(srcset)}" `);
+  return addImageAttribute(html, 'srcset', srcset);
+}
+
+/**
+ * Adds an attribute to the {@code <img>} marked rendered.
+ *
+ * @param imageHtml the rendered image
+ * @param attributeName the attribute's name
+ * @param attributeValue its value; nothing is added when it is empty
+ * @returns the image with the attribute
+ */
+function addImageAttribute(
+  imageHtml: string,
+  attributeName: string,
+  attributeValue: string,
+): string {
+  if (attributeValue.length === 0) {
+    return imageHtml;
+  }
+  return imageHtml.replace(/^<img /, `<img ${attributeName}="${escapeAttribute(attributeValue)}" `);
 }
 
 /**

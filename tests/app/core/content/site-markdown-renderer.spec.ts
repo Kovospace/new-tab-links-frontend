@@ -85,6 +85,44 @@ describe('renderSiteMarkdown', () => {
     );
   });
 
+  it('floats an image whose address ends in #left, keeping its srcset and version', () => {
+    const html = renderSiteMarkdown('![Menu](open-menu_1x.webp#left)', {
+      languageCode: 'en',
+      imageFolder: 'tips/profiles',
+      markdownFolder: '/content/tips/en',
+      versionImageUrl: (imageUrl) => `${imageUrl}?v=1`,
+    });
+
+    expect(html).toContain('class="rendered-markdown__image--left"');
+    expect(html).toContain('src="/images/en/tips/profiles/open-menu_1x.webp?v=1"');
+    expect(html).toContain('/images/en/tips/profiles/open-menu_3x.webp?v=1 3x');
+    expect(html).not.toContain('#left');
+  });
+
+  it('floats an image whose address ends in #right', () => {
+    const html = renderSiteMarkdown('![Menu](../../../images/en/tips/x/menu.webp#right)', {
+      languageCode: 'en',
+      imageFolder: 'tips/x',
+      markdownFolder: '/content/tips/en',
+      versionImageUrl: unversioned,
+    });
+
+    expect(html).toContain('class="rendered-markdown__image--right"');
+    expect(html).toContain('src="/images/en/tips/x/menu.webp"');
+  });
+
+  it('leaves any other fragment on the address and adds no class', () => {
+    const html = renderSiteMarkdown('![Menu](menu.webp#middle)', {
+      languageCode: 'en',
+      imageFolder: 'tips/x',
+      markdownFolder: '/content/tips/en',
+      versionImageUrl: unversioned,
+    });
+
+    expect(html).toContain('src="/images/en/tips/x/menu.webp#middle"');
+    expect(html).not.toContain('class=');
+  });
+
   it('pushes every heading down by the offset, never past h6', () => {
     const html = renderSiteMarkdown('# Title\n\n## Part\n\n###### Deepest', {
       languageCode: 'en',

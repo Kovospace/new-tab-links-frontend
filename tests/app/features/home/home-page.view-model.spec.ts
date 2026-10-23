@@ -2,7 +2,10 @@ import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { HomeFeaturesContentService } from '@app/core/home-features/home-features-content.service';
+import {
+  HomeFeaturesContentService,
+  RenderedHomeFeature,
+} from '@app/core/home-features/home-features-content.service';
 import { TranslationService } from '@app/core/i18n/translation.service';
 import { HomePageViewModel } from '@app/features/home/home-page.view-model';
 
@@ -13,6 +16,7 @@ import { HomePageViewModel } from '@app/features/home/home-page.view-model';
 describe('HomePageViewModel', () => {
   const translations = signal<ReadonlyMap<string, string | readonly string[]>>(new Map());
   let viewModel: HomePageViewModel;
+  let renderedFeatures: readonly RenderedHomeFeature[] = [];
 
   const lookUp = (key: string): readonly string[] => {
     const value = translations().get(key);
@@ -20,6 +24,7 @@ describe('HomePageViewModel', () => {
   };
 
   beforeEach(() => {
+    renderedFeatures = [];
     translations.set(
       new Map<string, string | readonly string[]>([
         ['home.pitchSections.audience.heading', 'Who is it for?'],
@@ -40,7 +45,7 @@ describe('HomePageViewModel', () => {
         },
         {
           provide: HomeFeaturesContentService,
-          useValue: { loadRenderedHomeFeatures: () => of([]) },
+          useValue: { loadRenderedHomeFeatures: () => of(renderedFeatures) },
         },
       ],
     });
@@ -68,5 +73,42 @@ describe('HomePageViewModel', () => {
     );
 
     expect(viewModel.presentedPitchSections()[0].heading).toBe('Pre koho?');
+  });
+
+  it('alternates the pictures left and right unless a picture asked for a side', () => {
+    const feature = (
+      slug: string,
+      picturePlacement: RenderedHomeFeature['picturePlacement'],
+    ): RenderedHomeFeature => ({
+      slug,
+      pictureHtml: '<p><img></p>',
+      textHtml: '',
+      picturePlacement,
+    });
+    renderedFeatures = [
+      feature('first', null),
+      feature('second', null),
+      feature('third', 'right'),
+      feature('fourth', 'left'),
+    ];
+    viewModel = TestBed.inject(HomePageViewModel);
+    TestBed.tick();
+
+    expect(viewModel.presentedFeatures().map((presented) => presented.isPictureOnRight)).toEqual([
+      false,
+      true,
+      true,
+      false,
+    ]);
+  });
+
+  it('marks a point without a picture as text alone', () => {
+    renderedFeatures = [
+      { slug: 'plain', pictureHtml: '', textHtml: '<h2>Plain</h2>', picturePlacement: null },
+    ];
+    viewModel = TestBed.inject(HomePageViewModel);
+    TestBed.tick();
+
+    expect(viewModel.presentedFeatures()[0].hasPicture).toBe(false);
   });
 });

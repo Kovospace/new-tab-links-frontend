@@ -1,5 +1,8 @@
 // Styling is deliberately left to be written by hand; these are the hooks to write it against.
 
+// A Sass variable: custom properties are invalid in media queries.
+$narrow-screen-breakpoint: 533px;
+
 .home-page {
   text-align: center;
 }
@@ -100,6 +103,11 @@
 }
 
 
+// How wide a point's picture is drawn at most. The pictures are SVGs with a viewBox and no width of
+// their own, so they fill whatever they are given: the picture's column is this wide, plus the 1em
+// of margin RenderedMarkdown puts around an image, rather than half the row.
+$feature-picture-max-width: 32em;
+
 .home-page__feature {
   margin-top: 4.25em;
   font-size: 1.125em;
@@ -107,11 +115,68 @@
   // the point's markdown looks is RenderedMarkdown's; adjust it here with its --markdown-*
   // properties, never with a rule for the markdown's elements.
   line-height: 1.25em;
+  text-align: left;
 
   &:first-child {
     margin-top: 0;
   }
 
   --markdown-link-offset: 0;
-  --markdown-image-max-width: 32em;
+  --markdown-image-max-width: #{$feature-picture-max-width};
+  --markdown-floated-image-max-width: #{$feature-picture-max-width};
+
+  // The picture on one side, the text on the other, both centred on each other vertically. The
+  // two halves share the width; a point without a picture is its text alone, at full width.
+  display: flex;
+  align-items: center;
+  gap: 2em;
+
+  // Every point is padded, not just the tinted ones, so the text of all of them lines up.
+  padding: 1.5em;
+  border-radius: 1em;
+
+  &:nth-child(odd) {
+    background-color: var(--color-section-accent-dim);
+  }
+}
+
+// The view-model decides the side: the one the picture asked for with #left or #right, otherwise
+// alternating. Narrow, the picture is always above its text.
+.home-page__feature--picture-on-right {
+  flex-direction: row-reverse;
+}
+
+.home-page__feature-picture,
+.home-page__feature-text {
+  min-width: 0;
+}
+
+.home-page__feature-text {
+  flex: 1 1 0;
+}
+
+// As wide as the picture and no wider, the text taking everything else. Never more than half the
+// row, so on a middling screen the picture shrinks before the text is squeezed into a strip.
+.home-page__feature-picture {
+  flex: 0 1 $feature-picture-max-width + 1em;
+  max-width: 50%;
+  text-align: center;
+}
+
+// After the side rules above, which it has to override. In a column both halves take the full
+// width: centred, each would shrink to its content, and the picture's percentage width would have
+// nothing to resolve against.
+@media (max-width: $narrow-screen-breakpoint) {
+  .home-page__feature,
+  .home-page__feature--picture-on-right {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .home-page__feature-picture,
+  .home-page__feature-text {
+    flex: 0 0 auto;
+    max-width: none;
+  }
 }

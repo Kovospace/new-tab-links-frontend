@@ -21,6 +21,21 @@ const PITCH_SECTION_TRANSLATION_KEYS = [
   'home.pitchSections.advantages',
 ] as const;
 
+/**
+ * One selling point, ready to bind: its picture on one side, its text on the other.
+ */
+export interface PresentedHomeFeature {
+  readonly slug: string;
+  /** The picture as HTML; empty when the point has none, and then the text takes the full width. */
+  readonly pictureHtml: string;
+  /** The text as HTML. */
+  readonly textHtml: string;
+  /** Whether the point has a picture to draw beside its text. */
+  readonly hasPicture: boolean;
+  /** Whether the picture goes on the right of the text rather than the left. */
+  readonly isPictureOnRight: boolean;
+}
+
 /** One pitch section, worded and ready to bind. */
 export interface PresentedPitchSection {
   /** The section's heading. */
@@ -84,13 +99,23 @@ export class HomePageViewModel {
    * text on the site, and a newer fetch cancels an older one. Empty until they arrive — the page
    * around them needs nothing from them, so there is nothing to wait for.</p>
    */
-  readonly presentedFeatures = toSignal(
+  private readonly renderedFeatures = toSignal(
     toObservable(this.translationService.currentLanguageCode).pipe(
       switchMap((languageCode) =>
         this.homeFeaturesContentService.loadRenderedHomeFeatures(languageCode),
       ),
     ),
     { initialValue: [] as readonly RenderedHomeFeature[] },
+  );
+
+  /**
+   * The selling points with the side of each picture decided.
+   *
+   * <p>A picture that asked for a side ({@code #left}, {@code #right}) gets it; the others
+   * alternate, left first, so a page of points zig-zags without any file having to say so.</p>
+   */
+  readonly presentedFeatures = computed<readonly PresentedHomeFeature[]>(() =>
+    this.renderedFeatures().map((feature, position) => presentHomeFeature(feature, position)),
   );
 
   /**
@@ -106,4 +131,23 @@ export class HomePageViewModel {
       points: this.translationService.translateToParagraphs(`${sectionKey}.points`),
     };
   }
+}
+
+/**
+ * Decides which side of its text a point's picture is drawn.
+ *
+ * @param feature the rendered point
+ * @param position the point's place in the list, from 0
+ * @returns the point, ready to bind
+ */
+function presentHomeFeature(feature: RenderedHomeFeature, position: number): PresentedHomeFeature {
+  const isPictureOnRight =
+    feature.picturePlacement === null ? position % 2 === 1 : feature.picturePlacement === 'right';
+  return {
+    slug: feature.slug,
+    pictureHtml: feature.pictureHtml,
+    textHtml: feature.textHtml,
+    hasPicture: feature.pictureHtml.length > 0,
+    isPictureOnRight,
+  };
 }

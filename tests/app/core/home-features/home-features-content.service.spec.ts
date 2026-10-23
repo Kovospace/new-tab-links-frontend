@@ -46,7 +46,8 @@ describe('HomeFeaturesContentService', () => {
     httpTestingController.expectOne('/content/home-features/en/2-sync.md').flush('# Sync');
 
     expect(rendered?.map((feature) => feature.slug)).toEqual(['groups', 'sync']);
-    expect(rendered?.[0].html).toContain('<h2>Groups</h2>');
+    expect(rendered?.[0].textHtml).toContain('<h2>Groups</h2>');
+    expect(rendered?.[0].pictureHtml).toBe('');
   });
 
   it('uses the English list, and English files, for a language with none written', () => {
@@ -60,7 +61,10 @@ describe('HomeFeaturesContentService', () => {
     httpTestingController.expectOne('/content/home-features/en/2-sync.md').flush('# Sync');
 
     expect(rendered?.length).toBe(2);
-    expect(rendered?.[0].html).toContain('src="/images/en/home-features/groups/columns.png"');
+    expect(rendered?.[0].pictureHtml).toContain(
+      'src="/images/en/home-features/groups/columns.png"',
+    );
+    expect(rendered?.[0].textHtml).not.toContain('<img');
   });
 
   it('leaves out a point that cannot be loaded', () => {

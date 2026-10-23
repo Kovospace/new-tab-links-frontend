@@ -16,12 +16,30 @@
 //   --markdown-table-cell-padding  padding of a table cell                0.5em 0.75em
 //   --markdown-image-max-width     widest an image may be drawn           the column's width
 //   --markdown-image-max-height    tallest an image may be drawn          none
+//   --markdown-floated-image-max-width  widest a #left/#right image may be  50%
 //
 // The defaults are what the tip page looked like before this file existed. Add a property here
 // when a page needs to differ in something not listed, with today's value as its default.
+//
+// An image whose markdown address ends in #left or #right is floated to that side, the text
+// flowing beside it (see site-markdown-renderer.ts). A heading never wraps around one, and the
+// block contains its own floats so none leaks into what follows the markdown. Narrow, there is no
+// room for text beside an image, so it is drawn in the flow like any other.
+
+$narrow-screen-breakpoint: 533px;
 
 .rendered-markdown {
-  display: block;
+  display: flow-root;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    clear: both;
+    display: inline-block;
+  }
 
   h1 {
     margin-top: var(--markdown-heading-1-offset, 0);
@@ -54,6 +72,32 @@
     margin: 0.5em;
     border: 0.25em solid var(--color-accent);
     border-radius: 0.75em;
+  }
+
+  .rendered-markdown__image--left,
+  .rendered-markdown__image--right {
+    max-width: min(var(--markdown-floated-image-max-width, 50%), 100% - 1em);
+  }
+
+  // The side touching the column's edge loses its margin, so the image lines up with the text.
+  .rendered-markdown__image--left {
+    float: left;
+    margin-left: 0;
+  }
+
+  .rendered-markdown__image--right {
+    float: right;
+    margin-right: 0;
+  }
+
+  // After the two above, which it has to override.
+  @media (max-width: $narrow-screen-breakpoint) {
+    .rendered-markdown__image--left,
+    .rendered-markdown__image--right {
+      float: none;
+      max-width: min(var(--markdown-image-max-width, 100%), 100% - 1em);
+      margin: 0.5em;
+    }
   }
 
   strong {
