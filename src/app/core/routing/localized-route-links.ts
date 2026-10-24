@@ -44,6 +44,20 @@ export function localizeTipLink(slug: string, languageCode: SupportedLanguageCod
 }
 
 /**
+ * Builds the link of one release in one language.
+ *
+ * @param version the release's version, its markdown file name
+ * @param languageCode the language the release should open in
+ * @returns such as {@code /sk/changelog/0.3.0}
+ */
+export function localizeReleaseLink(version: string, languageCode: SupportedLanguageCode): string {
+  return localizeAddress(
+    `${APPLICATION_ROUTE_LINKS.changelog}/${encodeURIComponent(version)}`,
+    languageCode,
+  );
+}
+
+/**
  * The links to bind in templates and navigate to from view-models, in the reader's language.
  *
  * <p>Use this rather than {@link APPLICATION_ROUTE_LINKS} wherever a link may point at a public
@@ -67,5 +81,15 @@ export class LocalizedRouteLinks {
    */
   tipLink(slug: string): string {
     return localizeTipLink(slug, this.translationService.currentLanguageCode());
+  }
+
+  /**
+   * The link of one release, in the reader's language.
+   *
+   * @param version the release's version
+   * @returns the release's link
+   */
+  releaseLink(version: string): string {
+    return localizeReleaseLink(version, this.translationService.currentLanguageCode());
   }
 }

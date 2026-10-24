@@ -17,8 +17,9 @@ export const PUBLIC_SITE_ORIGIN: string = publicSite.siteOrigin;
 
 /**
  * The route paths of every page a search engine should index, as written in
- * {@code APPLICATION_ROUTE_PATHS}. A tip ({@code tips/:slug}) is indexable too, but is listed per
- * slug from the tips index rather than here.
+ * {@code APPLICATION_ROUTE_PATHS}. A tip ({@code tips/:slug}) and a release
+ * ({@code changelog/:version}) are indexable too, but are listed per slug or version from their
+ * content indexes rather than here.
  *
  * <p>Everything else is left out on purpose: sign-in and registration are thin forms, the account
  * and devices pages are private, the backend's mailed and redirected addresses carry one-time

@@ -1,0 +1,24 @@
+<article>
+  <h1>{{ 'changelog.heading' | translate }}</h1>
+
+  @if (viewModel.isLoading()) {
+    <i role="status">{{ 'changelog.loading' | translate }}</i>
+  } @else if (viewModel.isEmpty()) {
+    <p>{{ 'changelog.empty' | translate }}</p>
+  } @else {
+    @for (release of viewModel.presentedReleases(); track release.version) {
+      <section>
+        <h2>
+          <a [routerLink]="release.routerLink">{{ release.version }}</a>
+        </h2>
+        <p>{{ release.releasedOnLine }}</p>
+        <ul>
+          @for (highlight of release.highlights; track $index) {
+            <li>{{ highlight }}</li>
+          }
+        </ul>
+        <a [routerLink]="release.routerLink">{{ 'changelog.readMore' | translate }}</a>
+      </section>
+    }
+  }
+</article>

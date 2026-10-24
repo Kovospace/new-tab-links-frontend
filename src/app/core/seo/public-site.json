@@ -1,5 +1,5 @@
 {
   "siteOrigin": "https://tabilinks.app",
   "defaultLanguageCode": "en",
-  "indexablePagePaths": ["", "tour", "download", "tips", "faq", "compare", "privacy", "terms", "refunds", "fair-use", "cookies", "sitemap"]
+  "indexablePagePaths": ["", "tour", "download", "changelog", "tips", "faq", "compare", "privacy", "terms", "refunds", "fair-use", "cookies", "sitemap"]
 }

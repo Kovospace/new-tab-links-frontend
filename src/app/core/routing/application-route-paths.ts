@@ -20,6 +20,10 @@ export const APPLICATION_ROUTE_PATHS = {
   /** The walkthrough of what the extension does; "Take the tour" on the home page opens it. */
   tour: 'tour',
   download: 'download',
+  /** Every released version of the extension, newest first; after Install in the header. */
+  changelog: 'changelog',
+  /** One release; the version is its markdown file's name. */
+  release: 'changelog/:version',
   register: 'register',
   login: 'login',
   /** Fixed by the backend's {@code newtablinks.web.activation-path}. */
@@ -76,6 +80,7 @@ export const APPLICATION_ROUTE_LINKS = {
   home: '/',
   tour: `/${APPLICATION_ROUTE_PATHS.tour}`,
   download: `/${APPLICATION_ROUTE_PATHS.download}`,
+  changelog: `/${APPLICATION_ROUTE_PATHS.changelog}`,
   register: `/${APPLICATION_ROUTE_PATHS.register}`,
   login: `/${APPLICATION_ROUTE_PATHS.login}`,
   resetPassword: `/${APPLICATION_ROUTE_PATHS.resetPassword}`,

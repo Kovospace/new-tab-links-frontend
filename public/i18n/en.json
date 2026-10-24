@@ -25,6 +25,7 @@
     "home": "Home",
     "tour": "Tour",
     "download": "Install",
+    "changelog": "Changelog",
     "register": "Register",
     "login": "Login",
     "devices": "My Devices",
@@ -612,6 +613,17 @@
     "loading": "Loading…",
     "loadFailed": "The questions could not be loaded. Try again in a moment."
   },
+  "changelog": {
+    "heading": "Changelog",
+    "loading": "Loading…",
+    "empty": "No release notes have been published yet.",
+    "notFound": "There is no release at this address.",
+    "loadFailed": "The release notes could not be loaded. Try again in a moment.",
+    "backToList": "All releases",
+    "releasedOn": "Released {date}",
+    "readMore": "Read the full notes",
+    "releaseTitle": "Version {version}"
+  },
   "seo": {
     "titleFormat": "{page} · Tabilinks",
     "openGraphLocale": "en_US",
@@ -630,6 +642,14 @@
     "download": {
       "title": "Install",
       "description": "Install the Tabilinks Chrome extension and connect it to your account to get your grouped links on every new tab, on every machine."
+    },
+    "changelog": {
+      "title": "Changelog",
+      "description": "Every Tabilinks release: version, release date and the most important changes, with the full notes and screenshots for each."
+    },
+    "release": {
+      "title": "Release",
+      "description": "Release notes of a Tabilinks version."
     },
     "tips": {
       "title": "Tips",

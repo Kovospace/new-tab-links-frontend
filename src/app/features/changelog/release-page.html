@@ -1,0 +1,11 @@
+<article>
+  @if (viewModel.isLoading()) {
+    <i role="status">{{ 'changelog.loading' | translate }}</i>
+  } @else if (viewModel.failureMessage()) {
+    <p role="alert">{{ viewModel.failureMessage() }}</p>
+  } @else {
+    <app-rendered-markdown [html]="viewModel.renderedHtml()" />
+  }
+
+  <a [routerLink]="viewModel.changelogLink()">{{ 'changelog.backToList' | translate }}</a>
+</article>
