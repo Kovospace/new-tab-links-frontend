@@ -600,6 +600,9 @@
     "lead": "The longer story behind the tips the extension shows on your new tab page.",
     "loading": "Loading…",
     "empty": "No tips have been written yet.",
+    "searchLabel": "Search tips",
+    "searchPlaceholder": "Search titles and text…",
+    "noMatches": "No tip matches your search.",
     "notFound": "There is no tip at this address.",
     "loadFailed": "This tip could not be loaded. Please try again in a moment.",
     "backToList": "All tips"

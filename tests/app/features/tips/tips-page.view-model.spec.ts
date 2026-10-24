@@ -17,8 +17,11 @@ describe('TipsPageViewModel', () => {
   beforeEach(() => {
     currentLanguageCode.set('en');
     index = {
-      en: [{ slug: 'profiles', title: 'Profiles' }],
-      sk: [{ slug: 'profiles', title: 'Profily' }],
+      en: [
+        { slug: 'profiles', title: 'Profiles', text: 'Keep work and home apart.' },
+        { slug: 'history', title: 'Discover history', text: 'Recently closed tabs.' },
+      ],
+      sk: [{ slug: 'profiles', title: 'Profily', text: 'Oddeľte prácu a domov.' }],
     };
     TestBed.configureTestingModule({
       providers: [
@@ -40,7 +43,7 @@ describe('TipsPageViewModel', () => {
   });
 
   it('shows the English list for a language with no tips written yet', () => {
-    index = { en: [{ slug: 'profiles', title: 'Profiles' }] };
+    index = { en: [{ slug: 'profiles', title: 'Profiles', text: '' }] };
     currentLanguageCode.set('sk');
     viewModel.loadTips();
 
@@ -54,5 +57,22 @@ describe('TipsPageViewModel', () => {
 
     expect(viewModel.isLoading()).toBe(false);
     expect(viewModel.isEmpty()).toBe(true);
+  });
+
+  it('narrows the list to the tips whose title or text matches the search', () => {
+    viewModel.loadTips();
+    viewModel.searchTips('closed');
+
+    expect(viewModel.presentedTips().map((tip) => tip.slug)).toEqual(['history']);
+    expect(viewModel.hasNoSearchMatches()).toBe(false);
+  });
+
+  it('says nothing matches, rather than that no tips exist, when the search finds none', () => {
+    viewModel.loadTips();
+    viewModel.searchTips('calculator');
+
+    expect(viewModel.presentedTips()).toEqual([]);
+    expect(viewModel.hasNoSearchMatches()).toBe(true);
+    expect(viewModel.isEmpty()).toBe(false);
   });
 });
