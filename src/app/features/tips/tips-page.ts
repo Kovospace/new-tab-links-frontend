@@ -22,4 +22,13 @@ export class TipsPage implements OnInit {
   ngOnInit(): void {
     this.viewModel.loadTips();
   }
+
+  /**
+   * Hands the search field's value to the view-model as the reader types.
+   *
+   * @param inputEvent the field's {@code input} event
+   */
+  protected onSearchInput(inputEvent: Event): void {
+    this.viewModel.searchTips((inputEvent.target as HTMLInputElement).value);
+  }
 }

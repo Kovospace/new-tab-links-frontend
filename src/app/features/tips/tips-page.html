@@ -6,6 +6,20 @@
   } @else if (viewModel.isEmpty()) {
     <p>{{ 'tips.empty' | translate }}</p>
   } @else {
+    <label>
+      {{ 'tips.searchLabel' | translate }}
+      <input
+        type="search"
+        [value]="viewModel.searchQuery()"
+        [attr.placeholder]="'tips.searchPlaceholder' | translate"
+        (input)="onSearchInput($event)"
+      />
+    </label>
+
+    @if (viewModel.hasNoSearchMatches()) {
+      <p role="status">{{ 'tips.noMatches' | translate }}</p>
+    }
+
     <ul>
       @for (tip of viewModel.presentedTips(); track tip.slug) {
         <li>

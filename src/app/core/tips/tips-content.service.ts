@@ -16,6 +16,8 @@ export interface TipSummary {
   readonly slug: string;
   /** The markdown's first heading. */
   readonly title: string;
+  /** The rest of the markdown as plain text — the words a reader sees — for the list's search. */
+  readonly text: string;
 }
 
 /**

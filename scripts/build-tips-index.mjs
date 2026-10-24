@@ -12,6 +12,10 @@
 // The title is the file's first "# " heading, and the list is ordered by it. A file without one is
 // refused, because the list would have nothing to show for it - better a failed build than a blank
 // entry. So is a slug that would not survive being an address.
+//
+// Each entry also carries the tip's body as plain text, which is what the list's search reads: the
+// browser searches every tip without fetching eighteen markdown files first. Image references,
+// link addresses, headings' hashes and emphasis are dropped, so only words a reader sees are matched.
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -27,6 +31,20 @@ function readTitle(markdown, file) {
   return heading.slice(2).trim();
 }
 
+function readSearchableText(markdown) {
+  return markdown
+    .split('\n')
+    .filter((line) => !line.startsWith('# '))
+    .join('\n')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/^\s*(?:#+|[-*+]|\d+\.|>)\s+/gm, '')
+    .replace(/[*_`~]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function indexLanguage(language) {
   const folder = join(TIPS_ROOT, language);
   return readdirSync(folder)
@@ -37,7 +55,8 @@ function indexLanguage(language) {
       if (!SLUG_PATTERN.test(slug)) {
         throw new Error(`${file}: a tip's file name must be lowercase words joined by hyphens`);
       }
-      return { slug, title: readTitle(readFileSync(file, 'utf8'), file) };
+      const markdown = readFileSync(file, 'utf8');
+      return { slug, title: readTitle(markdown, file), text: readSearchableText(markdown) };
     })
     .sort((first, second) => first.title.localeCompare(second.title, language));
 }

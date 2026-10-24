@@ -600,6 +600,9 @@
     "lead": "Podrobnejšie vysvetlenie tipov, ktoré rozšírenie zobrazuje na vašej novej karte.",
     "loading": "Načítava sa…",
     "empty": "Zatiaľ tu nie sú žiadne tipy.",
+    "searchLabel": "Hľadať v tipoch",
+    "searchPlaceholder": "Hľadať v názvoch a texte…",
+    "noMatches": "Vášmu hľadaniu nezodpovedá žiadny tip.",
     "notFound": "Na tejto adrese žiadny tip nie je.",
     "loadFailed": "Tip sa nepodarilo načítať. Skúste to o chvíľu znova.",
     "backToList": "Všetky tipy"
