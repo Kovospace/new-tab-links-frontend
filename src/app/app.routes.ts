@@ -48,6 +48,11 @@ const LOCALIZED_PAGE_ROUTES: Routes = [
     loadComponent: () => import('./features/tips/tip-page').then((module) => module.TipPage),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.faq,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.faq, 'seo.faq'),
+    loadComponent: () => import('./features/faq/faq-page').then((module) => module.FaqPage),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.comparison,
     data: pageMetadataFor(APPLICATION_ROUTE_PATHS.comparison, 'seo.comparison'),
     loadComponent: () =>

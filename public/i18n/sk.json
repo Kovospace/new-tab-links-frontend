@@ -34,6 +34,7 @@
     "back": "Späť",
     "skipToContent": "Preskočiť na obsah",
     "tips": "Tipy",
+    "faq": "Otázky",
     "comparison": "Porovnanie"
   },
   "footer": {
@@ -607,6 +608,10 @@
     "loadFailed": "Tip sa nepodarilo načítať. Skúste to o chvíľu znova.",
     "backToList": "Všetky tipy"
   },
+  "faq": {
+    "loading": "Načítava sa…",
+    "loadFailed": "Otázky sa nepodarilo načítať. Skúste to o chvíľu znova."
+  },
   "seo": {
     "titleFormat": "{page} · Tabilinks",
     "openGraphLocale": "sk_SK",
@@ -629,6 +634,10 @@
     "tips": {
       "title": "Tipy",
       "description": "Tipy, ako z Tabilinks vyťažiť viac: podrobnejšie vysvetlenie rád, ktoré rozšírenie zobrazuje na novej karte."
+    },
+    "faq": {
+      "title": "Často kladené otázky",
+      "description": "Odpovede na časté otázky o Tabilinks: koľko stojí, či potrebujete účet, v ktorých prehliadačoch funguje, synchronizácia a súkromie."
     },
     "comparison": {
       "title": "Porovnanie s inými rozšíreniami",

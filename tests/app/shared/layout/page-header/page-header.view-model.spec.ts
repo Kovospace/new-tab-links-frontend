@@ -43,6 +43,7 @@ describe('PageHeaderViewModel', () => {
       'nav.tour',
       'nav.download',
       'nav.tips',
+      'nav.faq',
       'nav.register',
       'nav.login',
     ]);
@@ -60,6 +61,7 @@ describe('PageHeaderViewModel', () => {
       'nav.tour': 'subset',
       'nav.download': 'subset',
       'nav.tips': 'subset',
+      'nav.faq': 'subset',
       'nav.register': 'subset',
       'nav.login': 'subset',
     });
@@ -78,6 +80,7 @@ describe('PageHeaderViewModel', () => {
       'nav.tour',
       'nav.download',
       'nav.tips',
+      'nav.faq',
       'nav.devices',
       'nav.account',
     ]);
