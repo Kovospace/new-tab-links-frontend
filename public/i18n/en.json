@@ -204,8 +204,8 @@
       "loginButton": "Log in"
     },
     "pairAction": {
-      "headingNormalLogin": "Pair the installed extension - standart account",
-      "headingGoogleLogin": "Pair the installed extension - Google-logged account",
+      "headingNormalLogin": "2a. Pair the installed extension - standart account",
+      "headingGoogleLogin": "2b. Pair the installed extension - Google-logged account",
       "tutorText1": "1. Once you are signed in you can reach the",
       "tutorText2": "section, where you can have a pairing code generated.",
       "tutorText3": "1. Sign in to the Chrome extension with your account details.",

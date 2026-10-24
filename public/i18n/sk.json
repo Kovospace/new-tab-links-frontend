@@ -204,8 +204,8 @@
       "loginButton": "Prihlásiť sa"
     },
     "pairAction": {
-      "headingNormalLogin": "Spárovanie inštalovaného rozšírenia - štandartný účet",
-      "headingGoogleLogin": "Spárovanie inštalovaného rozšírenia - prihlásenie Google účtom",
+      "headingNormalLogin": "2a. Spárovanie inštalovaného rozšírenia - štandartný účet",
+      "headingGoogleLogin": "2a. Spárovanie inštalovaného rozšírenia - prihlásenie Google účtom",
       "tutorText1": "1. Po prihlásení sa Vám sprístupní sekcia",
       "tutorText2": "kde si necháte vygenerovať párovací kód.",
       "tutorText3": "1. Prihláste sa v Chrome rozšírení svojimi údajmi k účtu.",
