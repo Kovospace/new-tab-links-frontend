@@ -610,6 +610,7 @@
     "backToList": "Všetky tipy"
   },
   "faq": {
+    "heading": "Často kladené otázky",
     "loading": "Načítava sa…",
     "loadFailed": "Otázky sa nepodarilo načítať. Skúste to o chvíľu znova."
   },

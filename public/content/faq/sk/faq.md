@@ -1,5 +1,3 @@
-# Často kladené otázky
-
 ## Čo je Tabilinks?
 
 Tabilinks je rozšírenie prehliadača, ktoré nahradí stránku novej karty vašimi vlastnými odkazmi, usporiadanými do skupín a podskupín. Nedávno zavreté karty a história prehliadania sú v paneli na pravom okraji tej istej stránky, na jeden pohyb myšou.
@@ -46,7 +44,10 @@ Sú to úrovne nad skupinami. Profil obsahuje pracovné priestory, pracovný pri
 
 ## Čím sa Tabilinks líši od iných rozšírení novej karty?
 
-Sústreďuje sa na jednu vec — synchronizované záložky a históriu — namiesto pridávania kalendárov, poznámok či počasia, a odkazy usporadúva v hlbšej hierarchii než väčšina ostatných.
+- **Skutočná hierarchia, nie dlaždice.** Väčšina rozšírení novej karty sú dlaždice rýchlej voľby v štýle Opery. Tabilinks usporadúva odkazy do profilov, pracovných priestorov, skupín a **podskupín**.
+- **Hromadné otváranie odkazov a zoskupovanie kariet.** Všetky odkazy podskupiny sa otvoria jedným klikom a podskupina môže zachytávať svoje odkazy do vlastnej skupiny kariet prehliadača.
+- **Jediný účel.** Synchronizované záložky a história, namiesto kalendárov, poznámok či počasia.
+- **Veľmi výhodná cena.** Bezplatná verzia je kompletná a premium stojí zlomok toho, čo si pýtajú rozšírenia s porovnateľnými funkciami.
 
 - [Porovnanie Tabilinks s inými rozšíreniami novej karty](/sk/compare)
 

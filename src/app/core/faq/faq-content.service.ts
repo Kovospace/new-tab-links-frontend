@@ -17,7 +17,10 @@ const FAQ_IMAGE_FOLDER = 'faq';
 
 /** The FAQ, ready for both of its readers. */
 export interface LoadedFaq {
-  /** The whole FAQ as HTML, for the page; its {@code #} title is the page's {@code <h1>}. */
+  /**
+   * The questions and answers as HTML, for the page. The file has no {@code #} title: the page's
+   * {@code <h1>} is a translation ({@code faq.heading}), and each {@code ##} question an {@code <h2>}.
+   */
   readonly html: string;
   /** The questions and plain-text answers, for the page's structured data. */
   readonly entries: readonly FaqEntry[];
