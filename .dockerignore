@@ -24,13 +24,15 @@ CLAUDE.md
 *.md
 
 # The local development stack: no use inside the image. scripts/ stays out too,
-# except the tips and home features indexes, the crawler files and the image versions the
-# build's prebuild hook runs.
+# except the tips, home features and changelog indexes, the crawler files and the image
+# versions the build's prebuild hook runs. A new script in prebuild must be listed here too, or the
+# image build fails with "Cannot find module".
 docker-compose.yml
 proxy.conf.json
 scripts/*
 !scripts/build-tips-index.mjs
 !scripts/build-home-features-index.mjs
+!scripts/build-changelog-index.mjs
 !scripts/build-crawler-files.mjs
 !scripts/build-image-versions.mjs
 
