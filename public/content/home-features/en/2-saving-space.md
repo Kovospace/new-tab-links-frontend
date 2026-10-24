@@ -2,10 +2,10 @@
 
 # Saves space
 
-- Bookmark bars or browser side panels can now go to retirement - they are now obsolete.
+- Bookmark bars and browser side panels can now retire - they are obsolete.
 
-- Gain more space for things that matters and things that web browsers are for - the webpages itself. 
+- Gain more space for the things that matter, and for what web browsers are for - the web pages themselves.
 
-- Another space-saver is grouping the links into tab groups too. Discover more about this functionality: 
+- Another space-saver is grouping links into tab groups. Discover more about this feature:
 
   - [Catch links from a subgroup into a tab group](../../tips/en/subgroup-links-into-tab-group.md)

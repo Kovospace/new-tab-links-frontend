@@ -2,10 +2,10 @@
 
 # Account only if you want one
 
-- **You can start using extension the second the installation finished**.
+- **You can start using the extension the moment the installation finishes**.
 
   - [Add to Chrome](https://tabilinks.app/download)
 
-- **Account** is only required if you want to **enable backup & synchronization** or for **validating PRO version**.
+- An **account** is only required if you want to **enable backup & synchronization** or to **validate the PRO version**.
 
-  - [Register / login, enable synchronization](https://tabilinks.app/download)
+  - [Register / log in, enable synchronization](https://tabilinks.app/download)

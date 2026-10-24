@@ -2,15 +2,17 @@
 
 # Šetrí čas
 
-Žiadne písanie adresy, preklikávanie sa cez menu prehliadača alebo hrabanie sa v priečinkoch na vrchnom paneli.  
-Po otvorení novej karty je to jeden klik na link ktorý vidíte.
+- **Vstavané záložky a história prehliadača sa ťažko hľadajú**, alebo je k nim dlhá cesta.
 
-- [Začíname - objavte Tabilinks](../../tips/sk/lets-begin.md)
+- S **Tabilinks** máte **záložky priamo pred sebou** a k nedávnym kartám a histórii prehliadania vás delí jediný pohyb myšou: doprava, a panel sa rozbalí.
 
-História ? Stačí zájsť myšou na pravý okraj obrazovky a odroluje sa zoznam posledných zavretých kariet.
+  - [Objavte históriu](../../tips/sk/discover-history.md)
 
-- [Objavte históriu](../../tips/sk/discover-history.md)
+- Aj **ukladanie môže byť jednoduchšie**
 
-A spomínali sme že napríklad všetky odkazy v podskupine je možné tiež otvoriť jedným klikom a prípadne aj v skupine karieť ?
+  - [Uloženie odkazu priamo zo stránky](../../tips/sk/saving-from-webpage.md)
 
-- [Otvoriť všetky linky v podskupine](../../tips/sk/open-all-subgroups-link.md)
+- Chcete otvoriť viac stránok naraz a zoskupiť ich karty?
+
+  - [Otvoriť všetky odkazy v podskupine naraz](../../tips/sk/open-all-subgroups-link.md)
+  - [Zachytávanie odkazov z podskupiny do skupiny kariet](../../tips/sk/subgroup-links-into-tab-group.md)

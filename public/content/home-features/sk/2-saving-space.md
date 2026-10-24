@@ -1,10 +1,11 @@
-# Šetrí miesto
-
 ![Bez panela záložiek zostane stránke viac miesta na výšku](../../../images/sk/home-features/saving-space/saving-space.svg)
 
-Mali ste záložky na vrchnom paneli prehliadača aby boli čo najviac poruke ? - 
-Tento panel môžete teraz s kľudom deaktivovať a získať pár pixelov vertikálne naviac. 
+# Šetrí miesto
 
-Ďaľšia fajn funkcia ktorá šetrí miesto, tentokrát na paneli otvorených kariet - je skupinkovanie kariet: 
-môžete osobitne pre jednotlivé podskupiny nastaviť či sa ich stránky majú alebo nemajú skupinkovať.
-- [Linky a skupina kariet](../../tips/sk/subgroup-links-into-tab-group.md)
+- Panel záložiek a bočné panely prehliadača môžu ísť do dôchodku - už ich nepotrebujete.
+
+- Získajte viac miesta pre to, na čom záleží, a pre to, na čo prehliadač slúži - samotné webové stránky.
+
+- Miesto šetrí aj zoskupovanie odkazov do skupín kariet. Viac o tejto funkcii:
+
+  - [Zachytávanie odkazov z podskupiny do skupiny kariet](../../tips/sk/subgroup-links-into-tab-group.md)

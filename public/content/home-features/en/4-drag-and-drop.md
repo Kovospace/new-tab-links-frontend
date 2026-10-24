@@ -2,14 +2,14 @@
 
 # Easy to use
 
-- **Drag & Drop** - All basic operations can be performed just by dragging by mouse.
+- **Drag & Drop** - All basic operations can be done just by dragging with the mouse.
 
   - [Use drag and drop](../../tips/en/use-drag-and-drop.md)
 
-- **Intuitive & minimal UI** - The most used functions are the easiest to reach
+- **Intuitive & minimal UI** - The most used functions are the easiest to reach.
 
 - **Single purpose** - **Synced bookmarks & history** is the goal of this extension.
-  
-    We will not be adding other fluff like calendar, notes, organizers, weather, calculators, ...
 
-    We do not want to be "Jack of all trades but master of none". 
+    We will not be adding other fluff like calendars, notes, organizers, weather, calculators...
+
+    We do not want to be a "jack of all trades, master of none".
