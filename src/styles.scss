@@ -457,7 +457,10 @@ form {
   }
 }
 
+// Rounded on every page. Only a section a page gives a background shows it - the login, register
+// and account panels - so the rest are unaffected.
 section {
   padding: 1.5em 1em;
   margin: 1em 0;
+  border-radius: 1em;
 }

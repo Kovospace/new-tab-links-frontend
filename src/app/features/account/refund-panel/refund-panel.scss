@@ -1,2 +1,5 @@
-// Refund panel. Unstyled for now: the visual identity is written by hand, page by
-// page, and this panel has not had its turn yet.
+// Refund panel: a dim blue section, like every panel of the account page but the danger one.
+
+.refund-panel {
+  background-color: var(--color-section-accent-dim);
+}

@@ -1,2 +1,6 @@
-// Cancel-subscription panel. Unstyled for now: the visual identity is written by hand,
-// page by page, and this panel has not had its turn yet.
+// Cancel-subscription panel: a dim blue section, like every panel of the account page but the
+// danger one.
+
+.cancel-subscription-panel {
+  background-color: var(--color-section-accent-dim);
+}

@@ -31,9 +31,12 @@ $narrow-screen-breakpoint: 533px;
   }
 }
 
+// The page's h1 and its section h2s. Their size is this rule's; the margin the global heading rules
+// give them is taken away so the <br>s around them keep deciding the spacing.
 .home-page__motto {
   font-size: 4em;
   font-weight: bold;
+  margin: 0;
 }
 
 .home-page__explanation {

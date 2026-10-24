@@ -10,7 +10,11 @@ import { LEGAL_OPERATOR } from '@app/core/legal/legal-operator';
 
 /** Enough of the real translation file to prove the shell is wired to it. */
 const ENGLISH_TRANSLATIONS = {
-  site: { title: 'Tabilinks', tagline: 'Your links, everywhere.' },
+  site: {
+    title: 'Tabilinks',
+    tagline: 'Your links, everywhere.',
+    motto: 'Your bookmarks & history.',
+  },
   nav: {
     home: 'Home',
     tour: 'Tour',
@@ -97,7 +101,7 @@ describe('App shell', () => {
 
   it('renders the routed home page inside the shell', () => {
     expect(renderedPage().querySelector('app-home-page h1')?.textContent).toContain(
-      'A new tab that finally does something useful',
+      'Your bookmarks & history.',
     );
   });
 

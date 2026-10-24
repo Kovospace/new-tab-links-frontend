@@ -39,14 +39,14 @@ describe('HomeFeaturesContentService', () => {
 
   afterEach(() => httpTestingController.verify());
 
-  it('renders every point in index order, its title as an h2', () => {
+  it('renders every point in index order, its title as an h3', () => {
     load('en');
     httpTestingController.expectOne('/content/home-features/index.json').flush(englishIndex);
     httpTestingController.expectOne('/content/home-features/en/1-groups.md').flush('# Groups');
     httpTestingController.expectOne('/content/home-features/en/2-sync.md').flush('# Sync');
 
     expect(rendered?.map((feature) => feature.slug)).toEqual(['groups', 'sync']);
-    expect(rendered?.[0].textHtml).toContain('<h2>Groups</h2>');
+    expect(rendered?.[0].textHtml).toContain('<h3>Groups</h3>');
     expect(rendered?.[0].pictureHtml).toBe('');
   });
 

@@ -11,7 +11,7 @@
     <app-profile-panel [currentDisplayName]="viewModel.currentDisplayName()" />
 
     @if (viewModel.heldPremiumNotice(); as heldPremiumNotice) {
-      <section>
+      <section class="account-page__held-premium-notice">
         <h1>{{ heldPremiumNotice.heading }}</h1>
         <p>{{ heldPremiumNotice.text }}</p>
       </section>

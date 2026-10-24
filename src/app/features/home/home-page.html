@@ -1,12 +1,14 @@
 <article class="home-page">
 
   <section>
-      <a class="home-page__title" href=""><em>Tabi</em>links</a>
+      <span class="home-page__title"><em>Tabi</em>links</span>
       <br /> <br />
-      <span class="home-page__motto">{{ 'site.motto' | translate }}</span>
-      <br /> <br />
-      <span class="home-page__motto">{{ 'site.motto2' | translate }}</span>
-      <br /> <br/>
+      <h1 class="home-page__motto">
+        {{ 'site.motto' | translate }}
+        <br /> <br />
+        {{ 'site.motto2' | translate }}
+      </h1>
+      <br />
       <span class="home-page__explanation">
         {{ 'site.explanation' | translate }} - <b>{{ 'site.explanation2' | translate }}</b>
       </span>
@@ -42,8 +44,8 @@
 
   <section>
     <br /> <br />
-    <span class="home-page__motto">{{ 'site.highlights' | translate }}</span>
-    <br /> <br /> <br /> <br /> <br />
+    <h2 class="home-page__motto">{{ 'site.highlights' | translate }}</h2>
+    <br /> <br /> <br /> <br />
     <ul>
       @for (presentedFeature of viewModel.presentedFeatures(); track presentedFeature.slug) {
         <li
@@ -64,14 +66,14 @@
 
   <section>
     <br><br>
-    <span class="home-page__motto">{{ 'site.findYourself' | translate }}</span>
-    <br /> <br /> <br /> <br />
+    <h2 class="home-page__motto">{{ 'site.findYourself' | translate }}</h2>
+    <br /> <br /> <br />
     <div class="home-page__reasons">
       @for (pitchSection of viewModel.presentedPitchSections(); track $index; let isFirst = $first) {
         @if (!isFirst) {
           <br>
         }
-        <h2>{{ pitchSection.heading }}</h2>
+        <h3>{{ pitchSection.heading }}</h3>
         <p class="home-page__lead">{{ pitchSection.lead }}</p>
         <ul>
           @for (point of pitchSection.points; track $index) {
@@ -87,10 +89,12 @@
   </section>
 
   <section>
-    <span class="home-page__motto">{{ 'site.buy1' | translate }}</span>
+    <h2 class="home-page__motto">
+      {{ 'site.buy1' | translate }}
+      <br>
+      {{ 'site.buy2' | translate }}
+    </h2>
     <br>
-    <span class="home-page__motto">{{ 'site.buy2' | translate }}</span>
-    <br><br>
     <span class="home-page__explanation">
       {{ 'site.buyReason' | translate }}
     </span>

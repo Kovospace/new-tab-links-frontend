@@ -1,0 +1,12 @@
+// The "by submitting you agree" line under a submit button. A block, so the space above it takes
+// effect: an inline element ignores a top margin.
+
+:host {
+  display: block;
+  margin-top: 0.25em;
+}
+
+// `reset.scss` takes the underline off every link; inside a sentence it is what says "link".
+a {
+  text-decoration: underline;
+}

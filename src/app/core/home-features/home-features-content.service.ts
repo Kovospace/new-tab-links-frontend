@@ -42,7 +42,10 @@ export interface RenderedHomeFeature {
   readonly slug: string;
   /** The point's picture as HTML; empty when the point has none. */
   readonly pictureHtml: string;
-  /** The rest of the point as HTML, its {@code #} title an {@code <h2>} under the page's own. */
+  /**
+   * The rest of the point as HTML, its {@code #} title an {@code <h3>}: under the page's
+   * {@code <h1>} and the "Highlights" {@code <h2>}.
+   */
   readonly textHtml: string;
   /** The side the picture asked for with {@code #left} or {@code #right}; {@code null} if none. */
   readonly picturePlacement: ImagePlacement | null;
@@ -105,7 +108,7 @@ export class HomeFeaturesContentService {
             languageCode: loaded.languageCode,
             imageFolder: `${HOME_FEATURES_IMAGE_FOLDER}/${feature.slug}`,
             markdownFolder: `${HOME_FEATURES_CONTENT_ROOT}/${loaded.languageCode}`,
-            headingLevelOffset: 1,
+            headingLevelOffset: 2,
             versionImageUrl: this.imageVersionStore.versionImageUrl,
           };
           const separated = separateHomeFeaturePicture(loaded.markdown);

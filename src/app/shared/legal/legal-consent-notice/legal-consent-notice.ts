@@ -76,6 +76,7 @@ function legalConsentNoticeWordings(
   selector: 'app-legal-consent-notice',
   imports: [RouterLink, TranslatePipe],
   templateUrl: './legal-consent-notice.html',
+  styleUrl: './legal-consent-notice.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LegalConsentNotice {
