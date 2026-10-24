@@ -125,6 +125,11 @@ function anonymousNavigationEntries(links: ApplicationRouteLinks): readonly Navi
       activeWhen: MATCHES_ITS_PAGES_BELOW,
     },
     {
+      labelTranslationKey: 'nav.changelog',
+      routerLink: links.changelog,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
       labelTranslationKey: 'nav.tips',
       routerLink: links.tips,
       activeWhen: MATCHES_ITS_PAGES_BELOW,
@@ -168,6 +173,11 @@ function signedInNavigationEntries(links: ApplicationRouteLinks): readonly Navig
     {
       labelTranslationKey: 'nav.download',
       routerLink: links.download,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
+      labelTranslationKey: 'nav.changelog',
+      routerLink: links.changelog,
       activeWhen: MATCHES_ITS_PAGES_BELOW,
     },
     {

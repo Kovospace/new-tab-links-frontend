@@ -25,6 +25,7 @@
     "home": "Domov",
     "tour": "Prehliadka",
     "download": "Inštalácia",
+    "changelog": "Novinky",
     "register": "Registrácia",
     "login": "Prihlásenie",
     "devices": "Moje zariadenia",
@@ -612,6 +613,17 @@
     "loading": "Načítava sa…",
     "loadFailed": "Otázky sa nepodarilo načítať. Skúste to o chvíľu znova."
   },
+  "changelog": {
+    "heading": "Prehľad zmien",
+    "loading": "Načítava sa…",
+    "empty": "Zatiaľ neboli zverejnené žiadne poznámky k vydaniam.",
+    "notFound": "Na tejto adrese žiadne vydanie nie je.",
+    "loadFailed": "Poznámky k vydaniu sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "backToList": "Všetky vydania",
+    "releasedOn": "Vydané {date}",
+    "readMore": "Celé poznámky k vydaniu",
+    "releaseTitle": "Verzia {version}"
+  },
   "seo": {
     "titleFormat": "{page} · Tabilinks",
     "openGraphLocale": "sk_SK",
@@ -630,6 +642,14 @@
     "download": {
       "title": "Inštalácia",
       "description": "Nainštalujte si rozšírenie Tabilinks pre Chrome a prepojte ho so svojím účtom. Vaše zoskupené odkazy budete mať na každej novej karte, na každom počítači."
+    },
+    "changelog": {
+      "title": "Prehľad zmien",
+      "description": "Každé vydanie Tabilinks: verzia, dátum vydania a najdôležitejšie zmeny, s úplnými poznámkami a snímkami obrazovky."
+    },
+    "release": {
+      "title": "Vydanie",
+      "description": "Poznámky k vydaniu verzie Tabilinks."
     },
     "tips": {
       "title": "Tipy",

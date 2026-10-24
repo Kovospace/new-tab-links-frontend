@@ -40,13 +40,17 @@ describe('routes', () => {
     expect(routesWithoutMetadata).toEqual([]);
   });
 
-  it('index exactly the pages the sitemap lists, plus each tip', () => {
+  it('index exactly the pages the sitemap lists, plus each tip and release', () => {
     const indexedPaths = pageRoutes
       .filter((route) => readPageMetadata(route.data ?? {})?.indexable)
       .map((route) => route.path);
 
     expect(indexedPaths.sort()).toEqual(
-      [...INDEXABLE_PAGE_PATHS, APPLICATION_ROUTE_PATHS.tip].sort(),
+      [
+        ...INDEXABLE_PAGE_PATHS,
+        APPLICATION_ROUTE_PATHS.tip,
+        APPLICATION_ROUTE_PATHS.release,
+      ].sort(),
     );
   });
 

@@ -19,6 +19,7 @@ const ENGLISH_TRANSLATIONS = {
     home: 'Home',
     tour: 'Tour',
     download: 'Download',
+    changelog: 'Changelog',
     tips: 'Tips',
     faq: 'FAQ',
     register: 'Register',
@@ -92,7 +93,7 @@ describe('App shell', () => {
     expect(renderedPage().querySelector('.home-page__title')?.textContent).toContain('Tabilinks');
   });
 
-  it('offers an anonymous visitor the seven public destinations', () => {
+  it('offers an anonymous visitor the eight public destinations', () => {
     const navigationLabels = Array.from(
       renderedPage().querySelectorAll('.page-header__navigation-link'),
     ).map((link) => link.textContent?.trim());
@@ -101,6 +102,7 @@ describe('App shell', () => {
       'Home',
       'Tour',
       'Download',
+      'Changelog',
       'Tips',
       'FAQ',
       'Register',

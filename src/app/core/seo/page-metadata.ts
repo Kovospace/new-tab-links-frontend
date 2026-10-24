@@ -58,12 +58,21 @@ export function readPageMetadata(
 }
 
 /**
+ * The indexable routes with a parameter, one page per piece of content, which the sitemap lists per
+ * content file rather than by route path.
+ */
+const INDEXABLE_CONTENT_ROUTE_PATHS: readonly string[] = [
+  APPLICATION_ROUTE_PATHS.tip,
+  APPLICATION_ROUTE_PATHS.release,
+];
+
+/**
  * Builds a route's page metadata.
  *
  * <p>Whether the page is indexable is looked up rather than declared, from the same list the
  * sitemap is written from ({@code core/seo/public-site.json}). A page cannot then be in the sitemap
- * while asking not to be indexed, or the reverse. A tip is the one indexable route not on that list,
- * because the sitemap lists each tip by its slug instead.</p>
+ * while asking not to be indexed, or the reverse. A tip and a release are the indexable routes not
+ * on that list, because the sitemap lists each one by its slug or version instead.</p>
  *
  * @param routePath the route's path, from {@code APPLICATION_ROUTE_PATHS}
  * @param translationKeyPrefix where the page's title and description live in {@code public/i18n/}
@@ -74,6 +83,6 @@ export function pageMetadataFor(
   translationKeyPrefix: string,
 ): PageMetadataRouteData {
   const indexable =
-    INDEXABLE_PAGE_PATHS.includes(routePath) || routePath === APPLICATION_ROUTE_PATHS.tip;
+    INDEXABLE_PAGE_PATHS.includes(routePath) || INDEXABLE_CONTENT_ROUTE_PATHS.includes(routePath);
   return { pageMetadata: { translationKeyPrefix, indexable } };
 }

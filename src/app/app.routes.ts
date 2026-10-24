@@ -38,6 +38,18 @@ const LOCALIZED_PAGE_ROUTES: Routes = [
       import('./features/download/download-page').then((module) => module.DownloadPage),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.changelog,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.changelog, 'seo.changelog'),
+    loadComponent: () =>
+      import('./features/changelog/changelog-page').then((module) => module.ChangelogPage),
+  },
+  {
+    path: APPLICATION_ROUTE_PATHS.release,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.release, 'seo.release'),
+    loadComponent: () =>
+      import('./features/changelog/release-page').then((module) => module.ReleasePage),
+  },
+  {
     path: APPLICATION_ROUTE_PATHS.tips,
     data: pageMetadataFor(APPLICATION_ROUTE_PATHS.tips, 'seo.tips'),
     loadComponent: () => import('./features/tips/tips-page').then((module) => module.TipsPage),

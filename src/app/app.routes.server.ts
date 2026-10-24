@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { localizeAddress } from './core/i18n/localized-address';
 import { SUPPORTED_LANGUAGE_CODES, SupportedLanguageCode } from './core/i18n/supported-language';
 import { APPLICATION_ROUTE_PATHS } from './core/routing/application-route-paths';
+import { ChangelogContentService } from './core/changelog/changelog-content.service';
 import { INDEXABLE_PAGE_PATHS } from './core/seo/public-site';
 import { TipsContentService } from './core/tips/tips-content.service';
 
@@ -54,6 +55,33 @@ function prerenderedTips(languageCode: SupportedLanguageCode): ServerRoute {
 }
 
 /**
+ * Renders every release in one language at build time, one page per version in the changelog index.
+ *
+ * <p>Every version in every language, for the same reason as {@link prerenderedTips}: a release not
+ * yet translated is shown in English, and its address has to be a file too.</p>
+ *
+ * @param languageCode the language to render the releases in
+ * @returns the server route
+ */
+function prerenderedReleases(languageCode: SupportedLanguageCode): ServerRoute {
+  return {
+    path: serverRoutePath(APPLICATION_ROUTE_PATHS.release, languageCode),
+    renderMode: RenderMode.Prerender,
+    async getPrerenderParams() {
+      const changelogIndex = await firstValueFrom(
+        inject(ChangelogContentService).loadChangelogIndex(),
+      );
+      const versions = new Set(
+        Object.values(changelogIndex).flatMap((releases) =>
+          (releases ?? []).map((release) => release.version),
+        ),
+      );
+      return [...versions].map((version) => ({ version }));
+    },
+  };
+}
+
+/**
  * Which pages are rendered to HTML when the image is built, and which only in the browser.
  *
  * <p>Every public page, in every language, is rendered at build time. Those are the pages a search
@@ -68,6 +96,7 @@ export const serverRoutes: ServerRoute[] = [
   ...SUPPORTED_LANGUAGE_CODES.flatMap((languageCode) => [
     ...INDEXABLE_PAGE_PATHS.map((routePath) => prerenderedPage(routePath, languageCode)),
     prerenderedTips(languageCode),
+    prerenderedReleases(languageCode),
   ]),
   { path: '**', renderMode: RenderMode.Client },
 ];

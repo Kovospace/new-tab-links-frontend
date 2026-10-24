@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 // Writes public/robots.txt and public/sitemap.xml for search engines.
 //
-// Generated, never edited. npm runs this before `start` and `build`, after the tips index, because
-// every tip is in the sitemap. Adding a tip therefore adds it to the sitemap, and adding an indexable
+// Generated, never edited. npm runs this before `start` and `build`, after the tips and changelog
+// indexes, because every tip and release is in the sitemap. Adding one therefore adds it to the
+// sitemap, and adding an indexable
 // page means adding its route path to src/app/core/seo/public-site.json.
 //
 //   src/app/core/seo/public-site.json   the public origin, the default language, the indexable paths
 //   public/i18n/<language>.json         one per language the site is translated into
 //   public/content/tips/index.json      the tips, written by build-tips-index.mjs just before this
+//   public/content/changelog/index.json the releases, written by build-changelog-index.mjs likewise
 //
 // Every public page has an address per language: the default language's bare (/tips), every other
 // one folder down (/sk/tips). Each sitemap entry names all of them as alternates, which is how a
-// search engine learns they are one page in several languages. A tip is listed only in the
+// search engine learns they are one page in several languages. A tip or release is listed only in the
 // languages it is written in; elsewhere the site shows the English text, which is not worth a
 // second address in the index.
 //
@@ -22,6 +24,7 @@ import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 
 const PUBLIC_SITE_FILE = 'src/app/core/seo/public-site.json';
 const TIPS_INDEX_FILE = 'public/content/tips/index.json';
+const CHANGELOG_INDEX_FILE = 'public/content/changelog/index.json';
 const TRANSLATIONS_FOLDER = 'public/i18n';
 const ROBOTS_FILE = 'public/robots.txt';
 const SITEMAP_FILE = 'public/sitemap.xml';
@@ -42,6 +45,7 @@ const { siteOrigin, defaultLanguageCode, indexablePagePaths } = JSON.parse(
   readFileSync(PUBLIC_SITE_FILE, 'utf8'),
 );
 const tipsIndex = JSON.parse(readFileSync(TIPS_INDEX_FILE, 'utf8'));
+const changelogIndex = JSON.parse(readFileSync(CHANGELOG_INDEX_FILE, 'utf8'));
 const languageCodes = readdirSync(TRANSLATIONS_FOLDER)
   .filter((name) => name.endsWith('.json'))
   .map((name) => name.slice(0, -'.json'.length))
@@ -58,17 +62,26 @@ function pageEntries() {
   return indexablePagePaths.map((routePath) => ({ routePath, languageCodes }));
 }
 
-function tipEntries() {
+function contentEntries(contentIndex, routeFolder, slugOf) {
   const languagesBySlug = new Map();
-  for (const [languageCode, tips] of Object.entries(tipsIndex)) {
-    for (const { slug } of tips) {
+  for (const [languageCode, items] of Object.entries(contentIndex)) {
+    for (const item of items) {
+      const slug = slugOf(item);
       languagesBySlug.set(slug, [...(languagesBySlug.get(slug) ?? []), languageCode]);
     }
   }
   return [...languagesBySlug.keys()].sort().map((slug) => ({
-    routePath: `tips/${slug}`,
+    routePath: `${routeFolder}/${slug}`,
     languageCodes: languageCodes.filter((code) => languagesBySlug.get(slug).includes(code)),
   }));
+}
+
+function tipEntries() {
+  return contentEntries(tipsIndex, 'tips', (tip) => tip.slug);
+}
+
+function releaseEntries() {
+  return contentEntries(changelogIndex, 'changelog', (release) => release.version);
 }
 
 function alternateLinks({ routePath, languageCodes: pageLanguageCodes }) {
@@ -92,7 +105,7 @@ function sitemapEntries(entry) {
   ]);
 }
 
-const entries = [...pageEntries(), ...tipEntries()];
+const entries = [...pageEntries(), ...tipEntries(), ...releaseEntries()];
 const addressCount = entries.reduce((count, entry) => count + entry.languageCodes.length, 0);
 
 writeFileSync(
