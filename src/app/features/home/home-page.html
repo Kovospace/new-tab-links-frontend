@@ -68,7 +68,7 @@
   <section>
     <br /> <br />
     <span class="home-page__motto">{{ 'site.highlights' | translate }}</span>
-    <br /> <br /> <br /> <br />
+    <br /> <br /> <br /> <br /> <br />
     <ul>
       @for (presentedFeature of viewModel.presentedFeatures(); track presentedFeature.slug) {
         <li
@@ -88,24 +88,35 @@
   </section>
 
   <section>
-    @for (pitchSection of viewModel.presentedPitchSections(); track $index; let isFirst = $first) {
-      @if (!isFirst) {
-        <br>
-      }
-      <h2>{{ pitchSection.heading }}</h2>
-      <p class="home-page__lead">{{ pitchSection.lead }}</p>
-      <ul>
-        @for (point of pitchSection.points; track $index) {
-          <li class="home-page__point">{{ point }}</li>
+    <br><br>
+    <span class="home-page__motto">{{ 'site.findYourself' | translate }}</span>
+    <br /> <br /> <br /> <br />
+    <div class="home-page__reasons">
+      @for (pitchSection of viewModel.presentedPitchSections(); track $index; let isFirst = $first) {
+        @if (!isFirst) {
+          <br>
         }
-      </ul>
-    }
-    <br>
-    <p class="home-page__lead">
-      <a [routerLink]="viewModel.comparisonLink()" class="button">{{ 'home.comparisonLink' | translate }}</a>
-    </p>
+        <h2>{{ pitchSection.heading }}</h2>
+        <p class="home-page__lead">{{ pitchSection.lead }}</p>
+        <ul>
+          @for (point of pitchSection.points; track $index) {
+            <li class="home-page__point">{{ point }}</li>
+          }
+        </ul>
+      }
+      <br>
+      <p class="home-page__lead">
+        <a [routerLink]="viewModel.comparisonLink()" class="button">{{ 'home.comparisonLink' | translate }}</a>
+      </p>
+    </div>
   </section>
 
-  <app-plan-offers />
+  <section>
+    <span class="home-page__motto">{{ 'site.buy1' | translate }}</span>
+    <br>
+    <span class="home-page__motto">{{ 'site.buy2' | translate }}</span>
+    <br /> <br />
+    <app-plan-offers />
+  </section>
 
 </article>

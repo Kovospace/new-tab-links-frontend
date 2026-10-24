@@ -135,9 +135,9 @@ $feature-picture-max-width: 32em;
   padding: 1.5em;
   border-radius: 1em;
 
-  &:nth-child(odd) {
+  //&:nth-child(odd) {
     background-color: var(--color-section-accent-dim);
-  }
+  //}
 }
 
 // The view-model decides the side: the one the picture asked for with #left or #right, otherwise
@@ -161,6 +161,10 @@ $feature-picture-max-width: 32em;
   flex: 0 1 $feature-picture-max-width + 1em;
   max-width: 50%;
   text-align: center;
+}
+
+.home-page__reasons {
+  text-align: left;
 }
 
 // After the side rules above, which it has to override. In a column both halves take the full
