@@ -1,9 +1,13 @@
-<article>
-  @if (viewModel.isLoading()) {
-    <i role="status">{{ 'faq.loading' | translate }}</i>
-  } @else if (viewModel.failureMessage()) {
-    <p role="alert">{{ viewModel.failureMessage() }}</p>
-  } @else {
-    <app-rendered-markdown [html]="viewModel.renderedHtml()" />
-  }
+<article class="faq">
+  <section>
+    <h1>{{ 'faq.heading' | translate }}</h1>
+
+    @if (viewModel.isLoading()) {
+      <i role="status">{{ 'faq.loading' | translate }}</i>
+    } @else if (viewModel.failureMessage()) {
+      <p role="alert">{{ viewModel.failureMessage() }}</p>
+    } @else {
+      <app-rendered-markdown [html]="viewModel.renderedHtml()" />
+    }
+  </section>
 </article>

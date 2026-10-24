@@ -1,5 +1,3 @@
-# Frequently asked questions
-
 ## What is Tabilinks?
 
 Tabilinks is a browser extension that replaces the new tab page with your own links, organized into groups and subgroups. Recently closed tabs and your browsing history sit in a panel on the right edge of the same page, one mouse movement away.
@@ -46,7 +44,10 @@ Yes, with one click, and the opened tabs can be gathered into a browser tab grou
 
 ## How is Tabilinks different from other new tab extensions?
 
-It focuses on one thing — synchronized bookmarks and history — instead of adding calendars, notes or weather widgets, and it organizes links in a deeper hierarchy than most.
+- **A real hierarchy, not tiles.** Most new tab extensions are Opera-style speed dial tiles. Tabilinks organizes links into profiles, workspaces, groups and **subgroups**.
+- **Bulk link opening and tab grouping.** All links of a subgroup open with one click, and a subgroup can catch its links into a browser tab group of its own.
+- **One purpose.** Synchronized bookmarks and history, instead of calendars, notes or weather widgets.
+- **Very affordable.** The free version is complete, and premium costs a fraction of what extensions with a comparable feature set charge.
 
 - [Compare Tabilinks with other new tab extensions](/compare)
 

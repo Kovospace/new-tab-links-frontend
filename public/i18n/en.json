@@ -610,6 +610,7 @@
     "backToList": "All tips"
   },
   "faq": {
+    "heading": "Frequently asked questions",
     "loading": "Loading…",
     "loadFailed": "The questions could not be loaded. Try again in a moment."
   },
