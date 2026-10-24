@@ -41,9 +41,9 @@ body {
 
 input,
 select {
-  border: 0.25em solid var(--color-ui-element);
+  border: 0.125em solid var(--color-ui-element);
   background-color: var(--color-panel);
-  border-radius: 0.5em;
+  border-radius: 0.375em;
   padding: 0.25em 0.5em;
   font-size: 1.25em;
   transition: border-color var(--duration-fast) var(--easing-standard);
