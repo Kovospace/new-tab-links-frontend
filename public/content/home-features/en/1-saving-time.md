@@ -2,15 +2,17 @@
 
 # Saves time
 
-No typing addresses, clicking through the browser's menus or digging through folders on the bookmarks bar.
-Open a new tab and it is one click on the link you can see.
+- Browser's **built-in bookmarks and history are hard to find** or long way to reach them.
 
-- [Let's begin - discover Tabilinks](../../tips/en/lets-begin.md)
+- With **Tabilinks** your **bookmarks are right in front of You** and recent tabs and browsing history requires one mouse movement to the right to expand the panel.
 
-History? Move the mouse to the right edge of the screen and a list of recently closed tabs rolls out.
+  - [Discover history](../../tips/en/discover-history.md)
 
-- [Discover history](../../tips/en/discover-history.md)
+- Even **saving can be easier**
 
-And did we mention that all the links in a subgroup can be opened with one click too - even into a tab group?
+  - [Saving a link from the webpage](../../tips/en/saving-from-webpage.md)
 
-- [Open all links in subgroup at once](../../tips/en/open-all-subgroups-link.md)
+- Open multiple pages at once and group the tabs ? 
+
+  - [Open all links in subgroup at once](../../tips/en/open-all-subgroups-link.md)
+  - [Catch links from a subgroup into a tab group](../../tips/en/subgroup-links-into-tab-group.md)

@@ -1,11 +1,11 @@
-# Saves space
-
 ![Without the bookmarks bar, the page gets more room in height](../../../images/en/home-features/saving-space/saving-space.svg)
 
-Did you keep bookmarks on the browser's bookmarks bar so they would always be close at hand? - 
-You can now switch that bar off with a clear conscience and win back a few pixels of height.
+# Saves space
 
-Another great functionality that saves space - now on open tabs panel - is the browser's tab grouping:
-You can set for each of the subgroups separately if it's pages (links) should be catched into groups 
-when opened automatically or not.  
-- [Links & tab groups](../../tips/en/subgroup-links-into-tab-group.md)
+- Bookmark bars or browser side panels can now go to retirement - they are now obsolete.
+
+- Gain more space for things that matters and things that web browsers are for - the webpages itself. 
+
+- Another space-saver is grouping the links into tab groups too. Discover more about this functionality: 
+
+  - [Catch links from a subgroup into a tab group](../../tips/en/subgroup-links-into-tab-group.md)

@@ -49,6 +49,10 @@ $narrow-screen-breakpoint: 533px;
     margin-top: var(--markdown-heading-2-offset, 0);
   }
 
+  p {
+    line-height: 1.125em;
+  }
+
   a {
     //margin-top: var(--markdown-link-offset, 1.5em);
     display: inline-block;
@@ -124,6 +128,12 @@ $narrow-screen-breakpoint: 533px;
 
   li + li {
     margin-top: var(--markdown-item-spacing, 0.25em);
+  }
+
+  li > ul,
+  li > ol {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
 
   table {

@@ -91,7 +91,6 @@ $feature-picture-max-width: 32em;
 
 .home-page__feature {
   margin-top: 3em;
-  font-size: 1.125em;
   // Inherited by the point's paragraphs, which this component's scoped rules cannot reach. How
   // the point's markdown looks is RenderedMarkdown's; adjust it here with its --markdown-*
   // properties, never with a rule for the markdown's elements.
@@ -129,6 +128,7 @@ $feature-picture-max-width: 32em;
 
 .home-page__feature-text {
   flex: 1 1 0;
+  font-size: 1.25em;
 }
 
 // As wide as the picture and no wider, the text taking everything else. Never more than half the
