@@ -34,6 +34,7 @@
     "back": "Back",
     "skipToContent": "Skip to content",
     "tips": "Tips",
+    "faq": "FAQ",
     "comparison": "Comparison"
   },
   "footer": {
@@ -607,6 +608,10 @@
     "loadFailed": "This tip could not be loaded. Please try again in a moment.",
     "backToList": "All tips"
   },
+  "faq": {
+    "loading": "Loading…",
+    "loadFailed": "The questions could not be loaded. Try again in a moment."
+  },
   "seo": {
     "titleFormat": "{page} · Tabilinks",
     "openGraphLocale": "en_US",
@@ -629,6 +634,10 @@
     "tips": {
       "title": "Tips",
       "description": "Tips for getting more out of Tabilinks: the longer story behind the hints the extension shows on your new tab page."
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "description": "Answers to common questions about Tabilinks: what it costs, whether you need an account, which browsers it works in, synchronization and privacy."
     },
     "comparison": {
       "title": "Compared with other new tab extensions",

@@ -130,6 +130,11 @@ function anonymousNavigationEntries(links: ApplicationRouteLinks): readonly Navi
       activeWhen: MATCHES_ITS_PAGES_BELOW,
     },
     {
+      labelTranslationKey: 'nav.faq',
+      routerLink: links.faq,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
       labelTranslationKey: 'nav.register',
       routerLink: links.register,
       activeWhen: MATCHES_ITS_PAGES_BELOW,
@@ -168,6 +173,11 @@ function signedInNavigationEntries(links: ApplicationRouteLinks): readonly Navig
     {
       labelTranslationKey: 'nav.tips',
       routerLink: links.tips,
+      activeWhen: MATCHES_ITS_PAGES_BELOW,
+    },
+    {
+      labelTranslationKey: 'nav.faq',
+      routerLink: links.faq,
       activeWhen: MATCHES_ITS_PAGES_BELOW,
     },
     {

@@ -20,6 +20,7 @@ const ENGLISH_TRANSLATIONS = {
     tour: 'Tour',
     download: 'Download',
     tips: 'Tips',
+    faq: 'FAQ',
     register: 'Register',
     login: 'Login',
     skipToContent: 'Skip to content',
@@ -91,12 +92,20 @@ describe('App shell', () => {
     expect(renderedPage().querySelector('.home-page__title')?.textContent).toContain('Tabilinks');
   });
 
-  it('offers an anonymous visitor the six public destinations', () => {
+  it('offers an anonymous visitor the seven public destinations', () => {
     const navigationLabels = Array.from(
       renderedPage().querySelectorAll('.page-header__navigation-link'),
     ).map((link) => link.textContent?.trim());
 
-    expect(navigationLabels).toEqual(['Home', 'Tour', 'Download', 'Tips', 'Register', 'Login']);
+    expect(navigationLabels).toEqual([
+      'Home',
+      'Tour',
+      'Download',
+      'Tips',
+      'FAQ',
+      'Register',
+      'Login',
+    ]);
   });
 
   it('renders the routed home page inside the shell', () => {

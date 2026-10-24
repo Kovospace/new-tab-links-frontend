@@ -53,6 +53,7 @@ const PUBLIC_SITEMAP_ENTRIES: readonly UnlinkedSitemapEntry[] = [
   { labelTranslationKey: 'nav.tour', routeName: 'tour' },
   { labelTranslationKey: 'nav.download', routeName: 'download' },
   { labelTranslationKey: 'nav.tips', routeName: 'tips' },
+  { labelTranslationKey: 'nav.faq', routeName: 'faq' },
   { labelTranslationKey: 'nav.comparison', routeName: 'comparison' },
 ];
 
