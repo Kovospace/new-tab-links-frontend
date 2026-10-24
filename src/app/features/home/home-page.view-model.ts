@@ -50,7 +50,7 @@ export interface PresentedPitchSection {
  * State behind the home page.
  *
  * <p>The page is a presentation; what it decides itself is only which selling points to show. The
- * demo slideshow and the offers are components of their own, each with its own state.</p>
+ * light-and-dark comparison and the offers are components of their own, each with its own state.</p>
  */
 @Injectable()
 export class HomePageViewModel {

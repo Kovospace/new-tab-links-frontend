@@ -24,7 +24,6 @@
   transform: scale(1.2);
 }
 
-// The switcher sits on the accent-coloured top bar, where an accent border would vanish.
 .language-switcher__option--active {
   border-color: var(--color-accent);
 }

@@ -10,8 +10,15 @@
   },
   "site": {
     "title": "Tabilinks",
-    "motto": "Záložky, história a obľúbené stránky ihneď na novej karte.",
-    "motto2": "Konečne užitočne využitý priestor novej karty.",
+    "motto": "Vaše záložky a história.",
+    "motto2": "Usporiadané a po ruke.",
+    "explanation": "Najpoužívanejšie funkcie prehliadača na jednej z najmenej využitých a najviac prehliadaných obrazoviek",
+    "explanation2": "Nová karta",
+    "highlights": "Hlavné prednosti",
+    "findYourself": "Nájdite sa medzi používateľmi Tabilinks",
+    "buy1": "Bezplatná verzia stačí veľkej väčšine,",
+    "buy2": "PRO pre naozaj náročných",
+    "buyReason": "Odomkni zostávajúce limity za cenu dvoch pív alebo káv",
     "tagline": "Všetky Vaše odkazy a história na každej novej karte, synchronizované na každom počítači a na každom prehliadači ktorý používate. Nič sa nestratí, všetko máte so sebou."
   },
   "nav": {
@@ -120,11 +127,6 @@
         "alreadyOnPremium": "Už máte plnú verziu"
       },
       "fairUseNotice": "* Platia zásady primeraného používania - limity také veľkorysé, že ich takmer nikto nikdy nedosiahne."
-    },
-    "demo": {
-      "slideshowLabel": "Snímky obrazovky rozšírenia",
-      "slideAlternativeText": "Snímka {number} z {count} novej karty Tabilinks",
-      "showSlide": "Zobraziť snímku {number} z {count}"
     },
     "comparisonLink": "Pozrite sa, ako si Tabilinks stojí oproti iným rozšíreniam pre novú kartu"
   },

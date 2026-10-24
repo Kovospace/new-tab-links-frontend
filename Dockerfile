@@ -49,9 +49,8 @@ RUN npm ci
 COPY angular.json tsconfig*.json ./
 COPY public ./public
 COPY src ./src
-# `npm run build` first runs scripts/build-tips-index.mjs and scripts/build-demo-index.mjs
-# (the prebuild hook), which list the tip markdown into public/content/tips/index.json and the
-# home page's numbered demo screenshots into public/content/demo/index.json, and
+# `npm run build` first runs scripts/build-tips-index.mjs (the prebuild hook), which lists the
+# tip markdown into public/content/tips/index.json, and
 # scripts/build-crawler-files.mjs, which writes public/robots.txt and public/sitemap.xml and
 # reads src/app/core/seo/public-site.json - copied above with the rest of src/.
 COPY scripts ./scripts

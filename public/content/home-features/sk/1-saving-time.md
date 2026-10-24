@@ -1,6 +1,6 @@
-# Šetrí čas
+![Bez Tabilinks veľa klikania a času, s Tabilinks jeden klik](../../../images/sk/home-features/saving-time/saving-time.svg#left)
 
-![Bez Tabilinks veľa klikania a času, s Tabilinks jeden klik](../../../images/sk/home-features/saving-time/saving-time.svg)
+# Šetrí čas
 
 Žiadne písanie adresy, preklikávanie sa cez menu prehliadača alebo hrabanie sa v priečinkoch na vrchnom paneli.  
 Po otvorení novej karty je to jeden klik na link ktorý vidíte.

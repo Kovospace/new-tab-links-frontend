@@ -7,7 +7,7 @@ import { TranslationService } from './translation.service';
 /**
  * A path naming the 1x copy of a set of densities: {@code <name>_1x.<ext>}. The _2x and _3x copies
  * sit beside it under the same name — the image-maintenance tool derives all three from one _3x
- * export, exactly as it does for the markdown images and the demo slides.
+ * export, exactly as it does for the markdown images.
  */
 const SINGLE_DENSITY_IMAGE_PATH = /^(.*)_1x(\.[^./]+)$/;
 

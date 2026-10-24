@@ -70,8 +70,8 @@ Only report, never act on:
 `public/images/share/` (link previews; several crawlers still refuse WebP), favicons,
 `apple-touch-icon.png`, `public/flags/`. GIFs are left alone (they may be animated).
 
-The demo slides (`images/<language>/demo/`) are listed by `scripts/build-demo-index.mjs`, so they
-have no references to rewrite. Each slide is `<n>_1x.webp` (1280x800), `<n>_2x.webp` and
+The demo screenshots (`images/<language>/demo/`) are referenced by nothing yet: they are kept for
+the tour page, so they have no references to rewrite and are not reported as unreferenced. Each is `<n>_1x.webp` (1280x800), `<n>_2x.webp` and
 `<n>_3x.webp`; the owner drops in `<n>_3x.png` (3840x2400) and `convert` makes the rest. Check the
 `_1x` files come out 1280x800 (`magick identify`) and report any that do not.
 

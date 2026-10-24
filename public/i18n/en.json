@@ -18,6 +18,7 @@
     "findYourself": "Find Yourself a Tabilinks user",
     "buy1": "Free suits the vast majority,",
     "buy2": "PRO for really demanding ones",
+    "buyReason": "Lift the remaining limits for price of a beer or a coffee",
     "tagline": "All Your links and history, synchronized on every new tab, on every machine and on every browser You are using. Nothing get lost, You have everything with You."
   },
   "nav": {
@@ -126,11 +127,6 @@
         "alreadyOnPremium": "Already on premium"
       },
       "fairUseNotice": "* Subject to our fair use policy - limits generous enough that almost nobody will ever reach them."
-    },
-    "demo": {
-      "slideshowLabel": "Screenshots of the extension",
-      "slideAlternativeText": "Screenshot {number} of {count} of the Tabilinks new tab page",
-      "showSlide": "Show screenshot {number} of {count}"
     },
     "comparisonLink": "See how Tabilinks compares with other new tab extensions"
   },

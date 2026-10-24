@@ -1,5 +1,3 @@
-// Styling is deliberately left to be written by hand; these are the hooks to write it against.
-
 // A Sass variable: custom properties are invalid in media queries.
 $narrow-screen-breakpoint: 533px;
 
@@ -31,17 +29,6 @@ $narrow-screen-breakpoint: 533px;
     height: 0.125em;
     background-color: var(--color-accent);
   }
-
-  //@media (max-width: $mobile-menu-breakpoint) {
-  //
-  //  em {
-  //    background-color: var(--color-panel);
-  //  }
-  //
-  //  &::after {
-  //    background-color: var(--color-panel);
-  //  }
-  //}
 }
 
 .home-page__motto {
@@ -57,7 +44,6 @@ $narrow-screen-breakpoint: 533px;
   max-width: 75vw;
 }
 
-
 .home-page__actions {
   font-size: 1.5em;
 }
@@ -69,12 +55,6 @@ $narrow-screen-breakpoint: 533px;
   cursor: not-allowed;
 }
 
-.home-page__tagline {
-  line-height: 1.25em;
-  font-size: 1.25em;
-  margin-bottom: 0.5em;
-}
-
 .home-page__lead {
   line-height: 1.25em;
   font-size: 1.25em;
@@ -83,7 +63,6 @@ $narrow-screen-breakpoint: 533px;
 
 .home-page__demo {
   --theme-showcase-max-height: 80vh;
-  margin: 0;
   padding: 0 1em;
 }
 
@@ -102,14 +81,13 @@ $narrow-screen-breakpoint: 533px;
   }
 }
 
-
 // How wide a point's picture is drawn at most. The pictures are SVGs with a viewBox and no width of
 // their own, so they fill whatever they are given: the picture's column is this wide, plus the 1em
 // of margin RenderedMarkdown puts around an image, rather than half the row.
 $feature-picture-max-width: 32em;
 
 .home-page__feature {
-  margin-top: 4.25em;
+  margin-top: 3em;
   font-size: 1.125em;
   // Inherited by the point's paragraphs, which this component's scoped rules cannot reach. How
   // the point's markdown looks is RenderedMarkdown's; adjust it here with its --markdown-*
@@ -121,9 +99,7 @@ $feature-picture-max-width: 32em;
     margin-top: 0;
   }
 
-  --markdown-link-offset: 0;
   --markdown-image-max-width: #{$feature-picture-max-width};
-  --markdown-floated-image-max-width: #{$feature-picture-max-width};
 
   // The picture on one side, the text on the other, both centred on each other vertically. The
   // two halves share the width; a point without a picture is its text alone, at full width.
@@ -131,13 +107,10 @@ $feature-picture-max-width: 32em;
   align-items: center;
   gap: 2em;
 
-  // Every point is padded, not just the tinted ones, so the text of all of them lines up.
+  // Each point is a dim blue panel of its own.
   padding: 1.5em;
   border-radius: 1em;
-
-  //&:nth-child(odd) {
-    background-color: var(--color-section-accent-dim);
-  //}
+  background-color: var(--color-section-accent-dim);
 }
 
 // The view-model decides the side: the one the picture asked for with #left or #right, otherwise

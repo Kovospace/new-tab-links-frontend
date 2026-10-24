@@ -11,9 +11,7 @@ import { ThemeShowcase } from './theme-showcase/theme-showcase';
  *
  * <p>Four parts: the headline with its two calls to action, the light-and-dark comparison, the
  * selling points, and the offers - the comparison and the offers components of their own.</p>
- *
- * <p>The demo slideshow ({@code demo-slideshow/}) is switched off, not deleted: the comparison
- * took its place, and putting it back is one element in the template.</p>
+
  */
 @Component({
   selector: 'app-home-page',

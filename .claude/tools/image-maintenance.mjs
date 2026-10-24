@@ -18,12 +18,12 @@
 //              resolved from the file, or an absolute /images/… path. HTML comments do not count.
 //   code       src/**/*.{html,ts} — '<path>' | localizedImage and buildLocalizedImageUrl('<path>'),
 //              which must exist in EVERY language, and quoted '/images/…' literals.
-// The demo slides are not referenced by name: scripts/build-demo-index.mjs lists their folder.
+// images/<language>/demo/ is referenced by nothing yet: the screenshots of the removed home page
+// slideshow, kept for the tour page. It is left out of the unreferenced list until that page uses it.
 //
 // Densities: an image named <name>_<N>x.<png|jpg> with N > 1 is a high-density original. Before
 // encoding, `convert` derives every missing lower density from it — <name>_1x … <name>_<N-1>x,
 // scaled to k/N of its size with Lanczos — so dropping in one _3x export yields _1x, _2x and _3x.
-// The demo slides use this: _1x is the 1280x800 slide, _2x and _3x feed its srcset.
 // Markdown uses it too: an image written as <name>_1x.<ext> is rendered with a srcset of its _2x
 // and _3x, so write the _1x name in the markdown and drop in the _3x export.
 // Templates the same: '<name>_1x.<ext>' | localizedImageSrcset names its _2x and _3x, so a _1x
