@@ -1,1 +1,20 @@
 // Styling is deliberately left to be written by hand; this file is wired up and ready for it.
+.changelog {
+
+  // A release's most important changes, drawn like a bulleted list in rendered markdown (the
+  // defaults in rendered-markdown.scss), so the list and a release's own page read alike.
+  // reset.scss takes every list marker away, and a marker set on the <li> itself beats one it
+  // would inherit, so the bullet goes on the items.
+  ul {
+    margin-left: 2em;
+    margin-block: 1em;
+
+    > li {
+      list-style: circle outside;
+    }
+
+    li + li {
+      margin-top: 0.25em;
+    }
+  }
+}

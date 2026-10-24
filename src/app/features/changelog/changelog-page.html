@@ -1,4 +1,4 @@
-<article>
+<article class="changelog">
   <h1>{{ 'changelog.heading' | translate }}</h1>
 
   @if (viewModel.isLoading()) {
@@ -17,7 +17,8 @@
             <li>{{ highlight }}</li>
           }
         </ul>
-        <a [routerLink]="release.routerLink">{{ 'changelog.readMore' | translate }}</a>
+        <br>
+        <a [routerLink]="release.routerLink"  class="button">{{ 'changelog.readMore' | translate }}</a>
       </section>
     }
   }

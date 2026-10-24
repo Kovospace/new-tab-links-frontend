@@ -6,6 +6,7 @@
 //
 //   --markdown-heading-1-offset    space above an <h1>                    0
 //   --markdown-heading-2-offset    space above an <h2>                    0
+//   --markdown-heading-3-offset    space above an <h3>                    0
 //   --markdown-link-offset         margin-top of a link                   1.5em
 //   --markdown-list-indent         how far a list is indented             2em
 //   --markdown-list-spacing        space above and below a list           1em
@@ -47,6 +48,10 @@ $narrow-screen-breakpoint: 533px;
 
   h2 {
     margin-top: var(--markdown-heading-2-offset, 0);
+  }
+
+  h3 {
+    margin-top: var(--markdown-heading-3-offset, 0);
   }
 
   p {
