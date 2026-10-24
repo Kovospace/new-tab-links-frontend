@@ -1,8 +1,6 @@
 # Objavte prémiové funkcie
 
-Objavte niektoré výhody platenej verzie, ktoré na domovskej stránke nespomíname.
-
-Štandardné výhody sú:
+Čo vám dáva platená verzia:
 
 - Neobmedzený\* počet odkazov
 - Neobmedzený\* počet pracovných priestorov
@@ -13,10 +11,6 @@ Objavte niektoré výhody platenej verzie, ktoré na domovskej stránke nespomí
 - Žiadny reklamný pruh
 
 _\* Platia [Zásady primeraného používania](/fair-use)._
-
-Ďalšie funkcie a možnosti, ktoré sme nespomenuli:
-
-- Zmena pozadia
 
 Plnú verziu je možné aktivovať v nastaveniach používateľského účtu: 
 
