@@ -136,13 +136,19 @@ Multi-stage: `node:22.22.1-alpine` builds, `nginxinc/nginx-unprivileged:1.29-alp
   but a plain `docker build` has to work too, so the mode is set with an explicit `RUN chmod`
   inside a short `USER root` block.
 
-## Two nginx traps already hit here
+## Three nginx traps already hit here
 
 - **`add_header` is replaced, not merged.** A location block that declares any `add_header` of its
   own discards every inherited one — so the security headers would silently vanish from exactly
   the responses that set `Cache-Control`. They live in `docker/nginx/security-headers.conf` and
   are `include`d into every location that adds a header of its own. Verified by curling each
   location and checking the headers survive.
+- **A Cache-Control that lets a response be kept never carries `always`.** `always` adds the
+  header to error responses too, so a 404 was kept for as long as a success would have been: the
+  extension asked for a background picture before it was deployed and that browser saw it as
+  missing for a week (Kovospace/new-tab-links-extension#127). Without `always`, nginx sends it on
+  2xx and 3xx only. `no-store` and `no-cache` are safe on an error and keep `always`, as do the
+  security headers.
 - **The browser-only routes are load-bearing for the mailed links.** Public pages are rendered at
   build time (`outputMode: "static"`, `src/app/app.routes.server.ts`) into `<path>/index.html`;
   `index.html` is now the *home page*, and the shell for everything else is `index.csr.html`.
