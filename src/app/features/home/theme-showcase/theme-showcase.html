@@ -1,8 +1,9 @@
 <div class="theme-showcase">
+  @let shownScreen = viewModel.shownScreen();
   <img
     class="theme-showcase__screenshot"
-    [src]="'theme-showcase/light_1x.webp' | localizedImage"
-    [srcset]="'theme-showcase/light_1x.webp' | localizedImageSrcset"
+    [src]="shownScreen.lightScreenshotPath | localizedImage"
+    [srcset]="shownScreen.lightScreenshotPath | localizedImageSrcset"
     [width]="screenshotWidthPixels"
     [height]="screenshotHeightPixels"
     [alt]="'home.themeShowcase.lightAlt' | translate"
@@ -10,8 +11,8 @@
   />
   <img
     class="theme-showcase__screenshot theme-showcase__screenshot--dark"
-    [src]="'theme-showcase/dark_1x.webp' | localizedImage"
-    [srcset]="'theme-showcase/dark_1x.webp' | localizedImageSrcset"
+    [src]="shownScreen.darkScreenshotPath | localizedImage"
+    [srcset]="shownScreen.darkScreenshotPath | localizedImageSrcset"
     [width]="screenshotWidthPixels"
     [height]="screenshotHeightPixels"
     [alt]="'home.themeShowcase.darkAlt' | translate"
@@ -39,4 +40,20 @@
     [attr.aria-label]="'home.themeShowcase.sliderLabel' | translate"
     (input)="onSliderInput($event)"
   />
+</div>
+
+<div class="theme-showcase__screen-choices">
+  @for (screen of viewModel.screens; track screen.screenNumber) {
+    <button
+      type="button"
+      [class.theme-showcase__screen-choice--shown]="viewModel.isScreenShown(screen)"
+      [attr.aria-pressed]="viewModel.isScreenShown(screen)"
+      [attr.aria-label]="
+        'home.themeShowcase.screenLabel' | translate: { number: screen.screenNumber }
+      "
+      (click)="viewModel.showScreen(screen)"
+    >
+      {{ screen.screenNumber }}
+    </button>
+  }
 </div>

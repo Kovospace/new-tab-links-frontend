@@ -95,3 +95,15 @@
   outline: 0.25em solid var(--color-focus-ring);
   outline-offset: 0.25em;
 }
+
+// One button per screen, under the frame. The shown screen's button wears the selected colour.
+.theme-showcase__screen-choices {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5em;
+}
+
+.theme-showcase__screen-choice--shown,
+.theme-showcase__screen-choice--shown:hover {
+  background-color: var(--color-ui-element-selected);
+}

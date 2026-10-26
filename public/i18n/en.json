@@ -61,7 +61,8 @@
       "darkLabel": "Dark",
       "lightAlt": "Tabilinks on the new tab in the light theme",
       "darkAlt": "The same new tab in the dark theme",
-      "sliderLabel": "Compare the light and the dark theme"
+      "sliderLabel": "Compare the light and the dark theme",
+      "screenLabel": "Show screen {number}"
     },
     "heading": "A new tab that finally does something useful!",
     "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, in profiles, arranged into workspaces and groups of your own.",

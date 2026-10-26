@@ -61,7 +61,8 @@
       "darkLabel": "Tmavá",
       "lightAlt": "Tabilinks na novej karte vo svetlej téme",
       "darkAlt": "Tá istá nová karta v tmavej téme",
-      "sliderLabel": "Porovnať svetlú a tmavú tému"
+      "sliderLabel": "Porovnať svetlú a tmavú tému",
+      "screenLabel": "Zobraziť obrazovku {number}"
     },
     "heading": "Nová karta, ktorá konečne k niečomu je !",
     "leadParagraph": "Tabilinks nahradí prázdnu nevyužívanú novú kartu odkazmi, ktoré naozaj otvárate a používate, v profiloch, usporiadanými do pracovných priestorov a skupín podľa Vás.",

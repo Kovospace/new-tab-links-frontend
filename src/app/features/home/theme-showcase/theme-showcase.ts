@@ -15,6 +15,8 @@ import {
  * <p>The dragging is an invisible range input stretched over the whole picture, so it works with a
  * mouse, a finger and the arrow keys, and announces itself to a screen reader, without a line of
  * pointer handling here.</p>
+ *
+ * <p>Under the picture, one button per screen of the new tab switches which pair is compared.</p>
  */
 @Component({
   selector: 'app-theme-showcase',
