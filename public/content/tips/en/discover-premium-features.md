@@ -1,8 +1,6 @@
 # Discover premium features
 
-Discover some benefits of the paid version not mentioned on the home page.
-
-Standard benefits are:
+What the paid version gives you:
 
 - Unlimited\* number of links
 - Unlimited\* number of workspaces
@@ -13,10 +11,6 @@ Standard benefits are:
 - No advertisement bar
 
 _\* Subject to the [Fair Use Policy](/fair-use)._
-
-Other features and options not mentioned:
-
-- Change background
 
 The full version can be activated in your account settings:
 
