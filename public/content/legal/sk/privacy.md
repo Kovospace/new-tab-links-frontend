@@ -26,9 +26,12 @@ nových kariet, ktorý sa pripočíta k dennému súčtu a nedá sa spojiť s va
 - Bočný panel na novej karte zobrazuje karty otvorené vo vašom prehliadači; tento zoznam sa číta
 z prehliadača pri vykreslení panela a nikde sa neukladá ani neodosiela. 
 - Nedávno zatvorené karty sa zaznamenávajú predvolene, história prehliadania len ak ju zapnete; oboje sa uchováva v
-úložisku vášho prehliadača a oboje sa dá vypnúť v Nastaveniach → Súkromie, čím sa zaznamenané
+úložisku vášho prehliadača a oboje sa dá vypnúť v Nastaveniach → Synchronizácia a súkromie, čím sa zaznamenané
 údaje aj vymažú. 
 - Okná v režime inkognito sa nezaznamenávajú, pokiaľ tam rozšírenie nepovolíte.
+- Obrázok na pozadí, ktorý si nahráte, zostáva v úložisku vášho prehliadača a nikdy sa k nám
+neposiela, ani keď máte účet. Vstavané pozadie sa stiahne z tabilinks.app, keď si ho vyberiete;
+požiadavka o vás nenesie nič.
 
 ## Čo spracúvame, ak máte účet
 
@@ -101,7 +104,7 @@ opísané v ich zásadách.
   po uplynutí lehoty alebo po použití.
 - Denné štatistiky neobsahujú osobné údaje a uchovávame ich bez obmedzenia.
 - Nedávno zatvorené karty a história prehliadania sa priebežne obmieňajú: najstaršie záznamy sa
-  mažú, ako pribúdajú nové. Vypnutím ktoréhokoľvek v Nastaveniach → Súkromie sa vymaže hneď, na
+  mažú, ako pribúdajú nové. Vypnutím ktoréhokoľvek v Nastaveniach → Synchronizácia a súkromie sa vymaže hneď, na
   všetkých zariadeniach aj na našich serveroch.
 - Faktúry a záznamy o platbách uchováva Creem ako predávajúci tak dlho, ako vyžadujú daňové
   predpisy.

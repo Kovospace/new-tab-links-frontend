@@ -9,16 +9,14 @@ Moving the mouse to the very right edge of the page (over the panel) unrolls it 
 
 ![The side panel unrolled](../../../images/en/tips/discover-history/panel-otvoreny_1x.webp)
 
-Moving the mouse away from the side panel, however, closes it again.
+Moving the mouse away from the side panel, however, closes it again. If you would rather it stayed, there are two ways:
 
-You can prevent that by opening the side panel with its button.
+- **"Keep open"** - the checkbox in the panel's head, or the same setting in Settings → "UI and behavior", keeps the panel open beside your links all the time.
+- **"Closing the side panel takes a click"** - in Settings → "UI and behavior". Once the mouse has opened the panel, it stays open until you open something in it or click outside it.
 
-The panel then stays open until you click somewhere outside it.
+The search field under the cards finds closed tabs and visited pages by their title or address, and the history is grouped by day - click a day's heading to fold or unfold it.
 
-![Where the side panel button is](../../../images/en/tips/discover-history/panel-tlacidlo-lokacia_1x.webp)
-
-![The side panel button](../../../images/en/tips/discover-history/panel-tlacidlo_1x.webp)
-![The side panel button, switched on](../../../images/en/tips/discover-history/panel-tlacidlo-zapnute_1x.webp)
+Clicking a row opens the page in this tab, just as a link on the page does. The "⇉" button at the end of the row opens it in a new tab instead.
 
 Of course this part is synchronized too (unless you have decided otherwise), so it shows the closed tabs and visited pages from all your installations.
 

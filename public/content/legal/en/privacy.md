@@ -26,9 +26,12 @@ opened new tabs, which is added to a daily total and cannot be linked to you.
 - The side panel on the new tab page lists the tabs open in your browser; that list is read from
 the browser when the panel is drawn and is never stored or sent anywhere. 
 - Recently closed tabs are recorded by default, and browsing history only if you turn it on; both are kept in your
-browser's storage, and both can be turned off in Settings → Privacy, which also deletes what was
+browser's storage, and both can be turned off in Settings → Sync & privacy, which also deletes what was
 recorded. 
 - Incognito windows are not recorded unless you allow the extension there.
+- A background picture you upload stays in your browser's storage and is never sent to us, not
+even when you have an account. A built-in background is downloaded from tabilinks.app when you
+choose it; the request carries nothing about you.
 
 ## What we process when you have an account
 
@@ -100,7 +103,7 @@ described in their policies.
   expire or are used.
 - Daily statistics contain no personal data and are kept indefinitely.
 - Recently closed tabs and browsing history roll: the oldest entries are deleted as new ones
-  arrive. Turning either off in Settings → Privacy deletes it at once, on every device and on
+  arrive. Turning either off in Settings → Sync & privacy deletes it at once, on every device and on
   our servers.
 - Invoices and payment records are kept by Creem, as the seller, for as long as tax law requires.
 
