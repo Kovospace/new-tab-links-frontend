@@ -2,7 +2,7 @@
 
 # Your Tabilinks is yours
 
-We want you to feel at home here, and Tabilinks to feel like your own. You are going to see this page often, so we want it to be a pleasant place to be.
+- We want you to feel at home here, and Tabilinks to feel like your own. You are going to see this page often, so we want it to be a pleasant place to be.
 
 - **Choose your theme** - light or dark, or let it follow your system, and flat or the see-through **glass** style.
 

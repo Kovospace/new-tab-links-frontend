@@ -2,7 +2,7 @@
 
 # Váš Tabilinks je váš
 
-Chceme, aby ste sa tu cítili ako doma a aby bol Tabilinks naozaj váš. Túto stránku budete vídať často, preto chceme, aby to bolo príjemné miesto.
+- Chceme, aby ste sa tu cítili ako doma a aby bol Tabilinks naozaj váš. Túto stránku budete vídať často, preto chceme, aby to bolo príjemné miesto.
 
 - **Vyberte si vzhľad** - svetlý alebo tmavý, prípadne podľa systému, a plochý alebo priehľadný **sklenený** štýl.
 
