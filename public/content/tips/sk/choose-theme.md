@@ -8,4 +8,15 @@ Rozšírenie sa môže vykresliť svetlé alebo tmavé. Vyberiete si v nastaveni
 
 Zmena sa prejaví hneď, vo všetkých otvorených nových kartách.
 
-Toto nastavenie sa nesynchronizuje a je uložené vždy pre konkrétny prehliadač.
+## Plochý alebo sklenený
+
+Hneď pod ním „Štýl témy“ určuje, ako sa vykreslia skupiny, panely a ponuky:
+
+- **Aero** – čiastočne priehľadné, rozmazávajú obrázok na pozadí za sebou, ako matné sklo. Toto je predvolená možnosť.
+- **Plochý** – plné plochy.
+
+Oba štýly fungujú so svetlým aj tmavým vzhľadom, takže máte na výber štyri kombinácie.
+
+Tieto nastavenia sa nesynchronizujú a sú uložené vždy pre konkrétny prehliadač.
+
+![Porovnanie vzhľadov](../../../images/sk/tips/choose-theme/1_1x.webp)

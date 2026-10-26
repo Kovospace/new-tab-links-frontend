@@ -287,6 +287,12 @@ probes only when it is set, and `NEWTABLINKS_BACKEND_BASE_URL` pointing at the b
 - Commit only when the user asks; confirm the current branch first.
 - `gh` is installed and authenticated as **K0V0** over SSH, so a PR can be opened directly.
   Opening one is still the user's call to make, like any push.
+- **The task board's last columns** (GitHub Project #3, "Tabilinks devel"): a website card goes
+  to **Merged** when its PR merges and to **Done** once the site is deployed with it - the
+  **Deployed** column is not used for the website, it would mean the same as Done. (Extension
+  cards do use it: Deployed = uploaded for store review, Done = review passed.) The board's
+  "item closed → Done" automation fires when a PR's `Closes #N` closes the issue on merge, so a
+  card it moved early has to be set back to Merged until the deployment is live.
 
 ## Claude config in this repo
 

@@ -9,16 +9,14 @@ Pohyb myši na úplne pravý okraj stránky (nad panel) spôsobí odrolovanie to
 
 ![panel-otvoreny_1x.webp](../../../images/sk/tips/discover-history/panel-otvoreny_1x.webp)
 
-Pohyb myši mimo ponuky bočného panela ale spôsobí jej opätovné zavretie. 
+Pohyb myši mimo bočného panela ho ale opäť zavrie. Ak chcete, aby zostal otvorený, máte dve možnosti:
 
-Predísť tomuto správaniu je možné otvorením bočného panelu pomocou jeho tlačidla. 
+- **„Nechať otvorený“** - zaškrtávacie políčko v hlavičke panela alebo rovnaké nastavenie v Nastaveniach → „Vzhľad a správanie“ nechá panel stále otvorený vedľa vašich odkazov.
+- **„Bočný panel sa zatvára kliknutím“** - v Nastaveniach → „Vzhľad a správanie“. Keď panel otvorí myš, zostane otvorený, kým v ňom niečo neotvoríte alebo nekliknete mimo neho.
 
-Panel zostane otvorený až po dobu kým nie je zaznamenaný klik mimo jeho oblasť. 
+Vyhľadávacie pole pod kartami nájde zatvorené karty a navštívené stránky podľa názvu alebo adresy a história je zoskupená po dňoch - kliknutím na nadpis dňa ho zbalíte alebo rozbalíte.
 
-![panel-tlacidlo-lokacia_1x.webp](../../../images/sk/tips/discover-history/panel-tlacidlo-lokacia_1x.webp)
-
-![panel-tlacidlo_1x.webp](../../../images/sk/tips/discover-history/panel-tlacidlo_1x.webp)
-![panel-tlacidlo-zapnute_1x.webp](../../../images/sk/tips/discover-history/panel-tlacidlo-zapnute_1x.webp)
+Kliknutie na riadok otvorí stránku v tejto karte, rovnako ako odkaz na stránke. Tlačidlo „⇉“ na konci riadka ju namiesto toho otvorí na novej karte.
 
 Samozrejme aj táto časť je synchronizovaná (ak používateľ neurčil inak) a vidno tam zavreté karty a navštívené stránky zo všetkých inštalácií.
 
