@@ -101,9 +101,23 @@
   display: flex;
   justify-content: center;
   margin-top: 0.5em;
+  background-color: var(--color-ui-element);
+  font-size: 2em;
+}
+
+.theme-showcase__screen-choices:hover {
+  background-color: var(--color-ui-element-hover);
 }
 
 .theme-showcase__screen-choice--shown,
 .theme-showcase__screen-choice--shown:hover {
   background-color: var(--color-ui-element-selected);
+}
+
+.theme-showcase__screen-choice--shown {
+  background-color: var(--color-ui-element-selected);
+}
+
+.theme-showcase__screen-choice--shown:hover {
+  background-color: var(--color-ui-element-selected-hover);
 }
