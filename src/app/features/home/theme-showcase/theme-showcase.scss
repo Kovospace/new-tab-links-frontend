@@ -101,23 +101,18 @@
   display: flex;
   justify-content: center;
   margin-top: 0.5em;
-  background-color: var(--color-ui-element);
   font-size: 2em;
 }
 
-.theme-showcase__screen-choices:hover {
-  background-color: var(--color-ui-element-hover);
-}
-
-.theme-showcase__screen-choice--shown,
-.theme-showcase__screen-choice--shown:hover {
-  background-color: var(--color-ui-element-selected);
+.theme-showcase__screen-choices > button {
+  border-radius: 100%;
+  transition:
+    background-color 0.25s ease-in-out,
+    color 0.25s ease-in-out,
+    transform 0.25s ease-in-out;
 }
 
 .theme-showcase__screen-choice--shown {
-  background-color: var(--color-ui-element-selected);
+  transform: scale(1.25);
 }
 
-.theme-showcase__screen-choice--shown:hover {
-  background-color: var(--color-ui-element-selected-hover);
-}
