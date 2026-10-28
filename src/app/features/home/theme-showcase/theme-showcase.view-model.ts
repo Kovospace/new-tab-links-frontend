@@ -37,6 +37,26 @@ export const THEME_SHOWCASE_SCREENS: readonly ThemeShowcaseScreen[] = [
     lightScreenshotPath: 'theme-showcase/2-light_1x.webp',
     darkScreenshotPath: 'theme-showcase/2-dark_1x.webp',
   },
+  {
+    screenNumber: 3,
+    lightScreenshotPath: 'theme-showcase/3-light_1x.webp',
+    darkScreenshotPath: 'theme-showcase/3-dark_1x.webp',
+  },
+  {
+    screenNumber: 4,
+    lightScreenshotPath: 'theme-showcase/4-light_1x.webp',
+    darkScreenshotPath: 'theme-showcase/4-dark_1x.webp',
+  },
+  {
+    screenNumber: 5,
+    lightScreenshotPath: 'theme-showcase/5-light_1x.webp',
+    darkScreenshotPath: 'theme-showcase/5-dark_1x.webp',
+  },
+  {
+    screenNumber: 6,
+    lightScreenshotPath: 'theme-showcase/6-light_1x.webp',
+    darkScreenshotPath: 'theme-showcase/6-dark_1x.webp',
+  },
 ];
 
 /**
