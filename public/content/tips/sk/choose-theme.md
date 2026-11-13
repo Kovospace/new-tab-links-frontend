@@ -19,4 +19,6 @@ Oba štýly fungujú so svetlým aj tmavým vzhľadom, takže máte na výber š
 
 Tieto nastavenia sa nesynchronizujú a sú uložené vždy pre konkrétny prehliadač.
 
-![Porovnanie vzhľadov](../../../images/sk/tips/choose-theme/1_1x.webp)
+![Plochý štýl, svetlý a tmavý](../../../images/sk/tips/choose-theme/1_1x.webp)
+
+![Štýl Aero, svetlý a tmavý](../../../images/sk/tips/choose-theme/2_1x.webp)

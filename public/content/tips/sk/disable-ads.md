@@ -10,5 +10,5 @@ Plnú verziu je možné zakúpiť tu:
 
 - [Nastavenia účtu](https://tabilinks.app/account)
 
-![odstran-reklamu_1x.webp](../../../images/sk/tips/disable-ads/odstran-reklamu_1x.webp)
-![odstran-reklamu-2_1x.webp](../../../images/sk/tips/disable-ads/odstran-reklamu-2_1x.webp)
+![Reklamný pruh na novej karte](../../../images/sk/tips/disable-ads/odstran-reklamu_1x.webp)
+![Nová karta bez reklamného pruhu](../../../images/sk/tips/disable-ads/odstran-reklamu-2_1x.webp)
