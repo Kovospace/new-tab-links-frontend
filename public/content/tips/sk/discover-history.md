@@ -5,9 +5,9 @@ Pohyb myši na úplne pravý okraj stránky (nad panel) spôsobí odrolovanie to
 - história naposledy zavretých kariet
 - história navštívených stránok
 
-![panel-zrolovany_1x.webp](../../../images/sk/tips/discover-history/panel-zrolovany_1x.webp)
+![Bočný panel zrolovaný](../../../images/sk/tips/discover-history/panel-zrolovany_1x.webp)
 
-![panel-otvoreny_1x.webp](../../../images/sk/tips/discover-history/panel-otvoreny_1x.webp)
+![Bočný panel rozvinutý](../../../images/sk/tips/discover-history/panel-otvoreny_1x.webp)
 
 Pohyb myši mimo bočného panela ho ale opäť zavrie. Ak chcete, aby zostal otvorený, máte dve možnosti:
 
@@ -24,6 +24,6 @@ Momentálne otvorené karty sa nesynchronizujú a sú zobrazené v poradí ktor�
 
 Pre pridanie niektorej stránky do kolekcie stačí potom použiť tlačidlo "+" alebo jednoducho využiť "ťahaj a pusť".
 
-![panel-pridat-link_1x.webp](../../../images/sk/tips/discover-history/panel-pridat-link_1x.webp)
+![Pridanie stránky z histórie tlačidlom +](../../../images/sk/tips/discover-history/panel-pridat-link_1x.webp)
 
 Stránky, ktoré už boli uložené do nejakej kolekcie budú označené zelenou fajkou.

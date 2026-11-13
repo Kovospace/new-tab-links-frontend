@@ -10,4 +10,6 @@ In the Aero theme style - the default - groups, panels and menus are partly tran
 
 ![The background setting](../../../images/en/tips/change-background/pozadie_nastavenia_1x.webp)
 
+![A picture of your own in the background library](../../../images/en/tips/change-background/pozadie_vlastne_1x.webp)
+
 ![A new tab with a custom background](../../../images/en/tips/change-background/pozadie_priklad_1x.webp)

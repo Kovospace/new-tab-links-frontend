@@ -10,5 +10,7 @@ V štýle témy Aero - predvolenom - sú skupiny, panely a ponuky čiastočne pr
 
 ![Nastavenie pozadia](../../../images/sk/tips/change-background/pozadie_nastavenia_1x.webp)
 
-![Nastavenie pozadia](../../../images/sk/tips/change-background/pozadie_priklad_1x.webp)
+![Vlastný obrázok v knižnici pozadí](../../../images/sk/tips/change-background/pozadie_vlastne_1x.webp)
+
+![Nová karta s pozadím](../../../images/sk/tips/change-background/pozadie_priklad_1x.webp)
 
