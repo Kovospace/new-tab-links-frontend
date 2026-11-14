@@ -7,7 +7,7 @@ Začnite písať a vyhľadávací riadok vám najprv ponúkne to, čo už máte,
 - vaše **zatvorené karty** a **históriu**,
 - a nakoniec **vyhľadať na webe** to, čo ste napísali.
 
-![Po napísaní „hudba“ ponúkne najprv odkazy zo skupiny Hudba, potom históriu a web](../../../images/sk/tips/use-searchbar/searchbar-suggestions_1x.webp)
+![Po napísaní „hudba“ ponúkne najprv odkazy zo skupiny Hudba, potom vyhľadávanie na webe](../../../images/sk/tips/use-searchbar/searchbar-suggestions_1x.webp)
 
 ![Návrhy pod vyhľadávacím riadkom: pri každom odkaze je, kde je uložený](../../../images/sk/tips/use-searchbar/searchbar-suggestions-detail_1x.webp)
 
