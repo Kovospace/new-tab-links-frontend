@@ -1,13 +1,13 @@
-# Objavte pracovné priestory
+# Objavte plochy
 
-Objavte pracovné priestory a začnite ich používať.
+Objavte plochy a začnite ich používať.
 
-Pracovný priestor je niečo ako „hlavná téma“ či nadskupina pre aktuálne prehliadanie internetu
+Plocha je niečo ako „hlavná téma“ či nadskupina pre aktuálne prehliadanie internetu
 alebo jeho súvislý úsek.
 
-![Pracovné priestory vľavo hore na novej karte](../../../images/sk/tips/discover-workspaces/pracovne-plochy-lokacia_1x.webp)
+![Plochy vľavo hore na novej karte](../../../images/sk/tips/discover-workspaces/pracovne-plochy-lokacia_1x.webp)
 
-![Prepínač pracovných priestorov s tlačidlom na pridanie nového](../../../images/sk/tips/discover-workspaces/pracovne-plochy_1x.webp)
+![Prepínač plôch s tlačidlom na pridanie novej](../../../images/sk/tips/discover-workspaces/pracovne-plochy_1x.webp)
 
 Predstavte si, že máte viacero koníčkov a záujmov, napríklad:
 
@@ -15,7 +15,7 @@ Predstavte si, že máte viacero koníčkov a záujmov, napríklad:
 - Hudba / kapela
 - Vývoj softvéru
 
-Potom si môžete vytvoriť pracovné priestory „Garáž“, „Hudba“ a „Vývoj“ a v nich skupiny
+Potom si môžete vytvoriť plochy „Garáž“, „Hudba“ a „Vývoj“ a v nich skupiny
 a podskupiny, napríklad:
 
 Garáž:

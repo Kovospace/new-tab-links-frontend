@@ -33,8 +33,8 @@ Aj odkazy majú vlastné kontextové menu, ktoré otvoríte pravým tlačidlom m
 ### Profily
 - [Objavte profily a ich využitie](discover-profiles.md)
 
-### Pracovné priestory
-- [Objavte pracovné priestory a ich využitie](discover-workspaces.md)
+### Plochy
+- [Objavte plochy a ich využitie](discover-workspaces.md)
 
 ### Skupiny a podskupiny linkov
 - [Zrolovanie podskupiny](roll-the-subgroup.md)

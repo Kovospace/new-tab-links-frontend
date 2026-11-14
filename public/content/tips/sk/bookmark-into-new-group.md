@@ -4,8 +4,8 @@ Keď ukladáte stránku cez okno záložiek - tlačidlom rozšírenia v hornej l
 
 - Na konci zoznamu **skupín** vyberte **„Nová skupina…“** a napíšte jej názov. Stránka sa uloží do novej skupiny naraz.
 - Na konci zoznamu **podskupín** urobí to isté **„Nová podskupina…“** pre podskupinu zvolenej skupiny.
-- Pracovný priestor, ktorý ešte nemá žiadnu skupinu, sa otvorí rovno na „Nová skupina…“ s názvom **„Nezaradené“**, ak ho nezmeníte - stránka má teda vždy kam ísť.
-- Ak profil nemá vôbec žiadny pracovný priestor, okno sa spýta aj na jeho názov.
+- Plocha, ktorá ešte nemá žiadnu skupinu, sa otvorí rovno na „Nová skupina…“ s názvom **„Nezaradené“**, ak ho nezmeníte - stránka má teda vždy kam ísť.
+- Ak profil nemá vôbec žiadnu plochu, okno sa spýta aj na jej názov.
 
 ![Uloženie stránky do novej skupiny: vybraná „Nová skupina…“ a jej názov](../../../images/sk/tips/bookmark-into-new-group/nova-skupina_1x.webp)
 

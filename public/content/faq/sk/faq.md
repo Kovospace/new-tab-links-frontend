@@ -4,7 +4,7 @@ Tabilinks je rozšírenie prehliadača, ktoré nahradí stránku novej karty va�
 
 ## Je Tabilinks zadarmo?
 
-Áno. Bezplatná verzia je úplná a väčšine ľudí stačí: 1 profil, 2 pracovné priestory a až 5 synchronizovaných inštalácií. Prémiová verzia, platená ročne alebo raz navždy, tieto limity ruší, pamätá si viac zavretých kariet a navštívených stránok a skryje reklamný pruh.
+Áno. Bezplatná verzia je úplná a väčšine ľudí stačí: 1 profil, 2 plochy a až 5 synchronizovaných inštalácií. Prémiová verzia, platená ročne alebo raz navždy, tieto limity ruší, pamätá si viac zavretých kariet a navštívených stránok a skryje reklamný pruh.
 
 - [Objavte prémiové funkcie](../../tips/sk/discover-premium-features.md)
 
@@ -28,11 +28,11 @@ Zaregistrujte sa a prihláste na webe, potom každú inštaláciu rozšírenia p
 
 - [Nastavenia sledovania / synchronizácie](../../tips/sk/setup-privacy.md)
 
-## Čo sú profily a pracovné priestory?
+## Čo sú profily a plochy?
 
-Sú to úrovne nad skupinami. Profil obsahuje pracovné priestory, pracovný priestor skupiny, skupina podskupiny a v podskupinách sú odkazy. Pomocou nich oddelíte napríklad prácu a domov, alebo rôzne projekty.
+Sú to úrovne nad skupinami. Profil obsahuje plochy, plocha skupiny, skupina podskupiny a v podskupinách sú odkazy. Pomocou nich oddelíte napríklad prácu a domov, alebo rôzne projekty.
 
-- [Pracovné priestory](../../tips/sk/discover-workspaces.md)
+- [Plochy](../../tips/sk/discover-workspaces.md)
 - [Profily](../../tips/sk/discover-profiles.md)
 
 ## Môžem otvoriť všetky odkazy podskupiny naraz?
@@ -44,7 +44,7 @@ Sú to úrovne nad skupinami. Profil obsahuje pracovné priestory, pracovný pri
 
 ## Čím sa Tabilinks líši od iných rozšírení novej karty?
 
-- **Skutočná hierarchia, nie dlaždice.** Väčšina rozšírení novej karty sú dlaždice rýchlej voľby v štýle Opery. Tabilinks usporadúva odkazy do profilov, pracovných priestorov, skupín a **podskupín**.
+- **Skutočná hierarchia, nie dlaždice.** Väčšina rozšírení novej karty sú dlaždice rýchlej voľby v štýle Opery. Tabilinks usporadúva odkazy do profilov, plôch, skupín a **podskupín**.
 - **Hromadné otváranie odkazov a zoskupovanie kariet.** Všetky odkazy podskupiny sa otvoria jedným klikom a podskupina môže zachytávať svoje odkazy do vlastnej skupiny kariet prehliadača.
 - **Jediný účel.** Synchronizované záložky a história, namiesto kalendárov, poznámok či počasia.
 - **Veľmi výhodná cena.** Bezplatná verzia je kompletná a premium stojí zlomok toho, čo si pýtajú rozšírenia s porovnateľnými funkciami.
