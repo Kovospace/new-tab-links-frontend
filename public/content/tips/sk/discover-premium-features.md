@@ -12,6 +12,8 @@
 
 _\* Platia [Zásady primeraného používania](/fair-use)._
 
+![„Prejsť na prémiovú verziu“ v ponuke aplikácie](../../../images/sk/tips/discover-premium-features/premium-menu_1x.webp)
+
 Plnú verziu je možné aktivovať v nastaveniach používateľského účtu: 
 
 - [Nastavenia užívateľského účtu](/account)

@@ -11,4 +11,4 @@ An example of quick saving - you fill in nothing, the link is saved straight int
 
 The standard save dialog, opened by the keyboard shortcut or by the extension's button in the browser's top bar:
 
-![The standard save dialog](../../../images/sk/tips/saving-from-webpage/2_1x.webp)
+![The standard save dialog](../../../images/en/tips/saving-from-webpage/2_1x.webp)

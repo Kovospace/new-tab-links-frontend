@@ -7,8 +7,12 @@ Keď ukladáte stránku cez okno záložiek - tlačidlom rozšírenia v hornej l
 - Pracovný priestor, ktorý ešte nemá žiadnu skupinu, sa otvorí rovno na „Nová skupina…“ s názvom **„Nezaradené“**, ak ho nezmeníte - stránka má teda vždy kam ísť.
 - Ak profil nemá vôbec žiadny pracovný priestor, okno sa spýta aj na jeho názov.
 
+![Uloženie stránky do novej skupiny: vybraná „Nová skupina…“ a jej názov](../../../images/sk/tips/bookmark-into-new-group/nova-skupina_1x.webp)
+
 Nová skupina je obyčajná skupina: neskôr ju môžete premenovať, presunúť alebo do nej presúvať odkazy ako do ktorejkoľvek inej.
 
 To isté okno sa otvorí aj tlačidlom „+“ pri zatvorenej karte alebo stránke v histórii, takže aj to, čo tam nájdete, môžete roztriediť do novej skupiny.
+
+![Tlačidlo „+“ pri zatvorenej karte otvorí to isté okno](../../../images/sk/tips/bookmark-into-new-group/panel-ulozit_1x.webp)
 
 - [Uložiť práve prezeranú stránku](saving-from-webpage.md)

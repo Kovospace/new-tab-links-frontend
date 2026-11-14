@@ -12,6 +12,8 @@ What the paid version gives you:
 
 _\* Subject to the [Fair Use Policy](/fair-use)._
 
+!["Upgrade to premium" in the application menu](../../../images/en/tips/discover-premium-features/premium-menu_1x.webp)
+
 The full version can be activated in your account settings:
 
 - [Account settings](/account)
