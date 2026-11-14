@@ -56,6 +56,12 @@ from here:
 | the backend | **`backend-developer`** | `new-tab-links-backend/.claude/agents/developer.md` |
 | the extension | **`extension-developer`** | `new-tab-links-extension/.claude/agents/backend-sync.md` |
 | the cluster | **`devops-engineer`** | `kovostack-infra-gitops/.claude/agents/devops-engineer.md` |
+| screenshots of the extension | **`screenshot-maker`** | `new-tab-links-extension/.claude/agents/screenshot-maker.md` |
+
+`screenshot-maker` renders the extension's screens with Playwright, per extension version, and
+copies the newest pictures into `public/images/<lang>/…` as `_3x` PNGs. Tell it what you want -
+`all`, or `tips` (or named tip slugs), `demo`, `theme-showcase`, `home-features`, `install`,
+`tour` - then run `image-maintainer` on what it copied.
 
 This repo has one too — **`frontend-developer`** — which is how the other three reach *you*. Each
 resolves its own checkout and never edits the calling one. A newly added agent file is only
