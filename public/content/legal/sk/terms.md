@@ -32,7 +32,7 @@ prečo.
 
 ## 4. Bezplatný a prémiový plán
 
-- Bezplatný plán je zadarmo, má limity (napríklad na počet odkazov, pracovných priestorov,
+- Bezplatný plán je zadarmo, má limity (napríklad na počet odkazov, plôch,
   profilov a synchronizovaných inštalácií) a na novej karte zobrazuje malý banner.
 - **Prémium** tieto limity aj banner odstraňuje; to, čo označuje ako neobmedzené, podlieha
   [Zásadám primeraného používania](/fair-use). Ponúka sa ako **ročné predplatné** alebo

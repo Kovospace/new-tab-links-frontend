@@ -2,7 +2,7 @@
 
 Začnite písať a vyhľadávací riadok vám najprv ponúkne to, čo už máte, skôr ako čokoľvek pôjde na web:
 
-- vaše **uložené odkazy** zo všetkých pracovných priestorov profilu - podľa názvu a adresy, ale aj podľa **skupiny** a **pracovného priestoru**, v ktorom sú uložené, takže keď napíšete názov skupiny alebo pracovného priestoru, ponúkne jeho odkazy,
+- vaše **uložené odkazy** zo všetkých plôch profilu - podľa názvu a adresy, ale aj podľa **skupiny** a **plochy**, v ktorej sú uložené, takže keď napíšete názov skupiny alebo plochy, ponúkne jej odkazy,
 - **otvorené karty** tohto prehliadača,
 - vaše **zatvorené karty** a **históriu**,
 - a nakoniec **vyhľadať na webe** to, čo ste napísali.

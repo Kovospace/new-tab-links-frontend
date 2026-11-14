@@ -65,7 +65,7 @@
       "screenLabel": "Zobraziť obrazovku {number}"
     },
     "heading": "Nová karta, ktorá konečne k niečomu je !",
-    "leadParagraph": "Tabilinks nahradí prázdnu nevyužívanú novú kartu odkazmi, ktoré naozaj otvárate a používate, v profiloch, usporiadanými do pracovných priestorov a skupín podľa Vás.",
+    "leadParagraph": "Tabilinks nahradí prázdnu nevyužívanú novú kartu odkazmi, ktoré naozaj otvárate a používate, v profiloch, usporiadanými do plôch a skupín podľa Vás.",
     "leadParagraph2": "Zaznamená taktiež históriu zavretých kariet.",
     "pitchSections": {
       "audience": {
@@ -86,7 +86,7 @@
         "heading": "V čom sme lepší od konkurencie ?",
         "lead": "Oproti iným rozšíreniam s rovnakým alebo podobným zameraním pre novú kartu:",
         "points": [
-          "Flexibilná logická hierarchia organizácie obsahu aj pre náročného používateľa - Užívateľ > Profil > Pracovný priestor > Skupina > Podskupina > Link",
+          "Flexibilná logická hierarchia organizácie obsahu aj pre náročného používateľa - Užívateľ > Profil > Plocha > Skupina > Podskupina > Link",
           "Dostačujúca a plnohodnotná verzia zadarmo pre veľkú väčšinu používateľov",
           "Veľmi prívetivá cena pre profesionálnych používateľov",
           "Synchronizácia medzi zariadeniami aj rôznymi prehliadačmi - aj história zavretých kariet a navštívených stránok (ak povolené)",
@@ -116,7 +116,7 @@
       "yes": "ÁNO",
       "no": "NIE",
       "linksCount": "Počet odkazov",
-      "workspacesCount": "Pracovné plochy",
+      "workspacesCount": "Plochy",
       "profilesCount": "Profily",
       "closedTabsCount": "História zatvorených kariet",
       "browsingHistoryCount": "História prehliadania (navštívené stránky)",
@@ -141,7 +141,7 @@
     "columns": {
       "extension": "Rozšírenie",
       "profiles": "Profily",
-      "workspaces": "Pracovné priestory",
+      "workspaces": "Plochy",
       "groups": "Skupiny",
       "subgroups": "Podskupiny",
       "synchronisation": "Synchronizácia",
@@ -158,9 +158,9 @@
     "freeLimits": {
       "none": "Bez obmedzení",
       "unknown": "Nezistené",
-      "tabilinks": "1 profil, 2 pracovné priestory, 5 synchronizovaných inštalácií",
+      "tabilinks": "1 profil, 2 plochy, 5 synchronizovaných inštalácií",
       "oneLicence": "1 licencia",
-      "twoWorkspacesLimitedLinks": "2 pracovné priestory, obmedzený počet odkazov",
+      "twoWorkspacesLimitedLinks": "2 plochy, obmedzený počet odkazov",
       "noSynchronisation": "Bez synchronizácie",
       "everSyncFreeAccount": "15 000 synchronizovaných položiek (záložky a dlaždice zo všetkých prehliadačov), 500 „súkromných dlaždíc“"
     },
@@ -213,7 +213,7 @@
       "tutorText2": "kde si necháte vygenerovať párovací kód.",
       "tutorText3": "1. Prihláste sa v Chrome rozšírení svojimi údajmi k účtu.",
       "tutorText4": "2. Vyplňte svoje údaje.",
-      "tutorText5": "3. Po úspešnom prihlásení sa spustí synchronizácia Vašich lokálne vytvorených profilov, pracovných plôch, skupín a linkov.",
+      "tutorText5": "3. Po úspešnom prihlásení sa spustí synchronizácia Vašich lokálne vytvorených profilov, plôch, skupín a linkov.",
       "tutorText6": "Kontrolu prihlásenia a odhlásenie sa je možné vykonať z menu.",
       "tutorText7": "Keďže registrácia a prihlásovanie ku Google účtu prebieha bez vytvárania hesla na tejto platforme, bude postup párovania mierne odlišný.",
       "tutorText8": "Tento postup párovania je ale možné použiť aj pre štandartné účty.",
@@ -351,7 +351,7 @@
       "backToDevices": "Späť na moje zariadenia",
       "noReport": "Toto zariadenie ešte nenahlásilo, čo obsahuje. Rozšírenia to hlásia po synchronizácii; prehliadač, v ktorom ste sa prihlásili len na web, to nehlási nikdy.",
       "reportedAt": "Nahlásené {date}",
-      "columnWorkspace": "Pracovný priestor",
+      "columnWorkspace": "Plocha",
       "columnSync": "Synchronizácia",
       "columnGroups": "Skupiny",
       "columnLinks": "Odkazy"
@@ -380,7 +380,7 @@
     "changePasswordAction": "Zmeniť heslo",
     "passwordSuccess": "Heslo bolo nastavené. Všetky zariadenia boli odhlásené.",
     "dangerHeading": "Zmazanie účtu",
-    "dangerLead": "Zmaže váš účet a všetky odkazy, skupiny a pracovné priestory, ktoré vlastní. Nedá sa to vrátiť.",
+    "dangerLead": "Zmaže váš účet a všetky odkazy, skupiny a plochy, ktoré vlastní. Nedá sa to vrátiť.",
     "deleteAction": "Zmazať môj účet",
     "deleteConfirmPrompt": "Zmazanie je nezvratné. Potvrďte, ak chcete pokračovať.",
     "deleteConfirmAction": "Áno, zmazať všetko",
@@ -553,7 +553,7 @@
     },
     "delete": {
       "heading": "Zmazať tento účet?",
-      "warning": "Zmazaním účtu {username} sa zmažú aj všetky jeho pracovné plochy, skupiny, podskupiny a odkazy. Toto sa nedá vrátiť. Ak ho chcete len pozastaviť, nastavte mu stav Zakázaný.",
+      "warning": "Zmazaním účtu {username} sa zmažú aj všetky jeho plochy, skupiny, podskupiny a odkazy. Toto sa nedá vrátiť. Ak ho chcete len pozastaviť, nastavte mu stav Zakázaný.",
       "confirmAction": "Áno, zmazať natrvalo"
     },
     "cancelAction": "Zrušiť",
@@ -635,7 +635,7 @@
     },
     "tour": {
       "title": "Prehliadka",
-      "description": "Prehliadka Tabilinks: profily, pracovné priestory, skupiny a odkazy na novej karte, záložky a história vedľa nich, synchronizované na každý počítač."
+      "description": "Prehliadka Tabilinks: profily, plochy, skupiny a odkazy na novej karte, záložky a história vedľa nich, synchronizované na každý počítač."
     },
     "home": {
       "title": "Vaše odkazy na každej novej karte",
@@ -663,7 +663,7 @@
     },
     "comparison": {
       "title": "Porovnanie s inými rozšíreniami",
-      "description": "Profily, pracovné priestory, skupiny, podskupiny, synchronizácia, obmedzenia bezplatnej verzie a ceny Tabilinks a iných rozšírení pre novú kartu v Chrome, vedľa seba."
+      "description": "Profily, plochy, skupiny, podskupiny, synchronizácia, obmedzenia bezplatnej verzie a ceny Tabilinks a iných rozšírení pre novú kartu v Chrome, vedľa seba."
     },
     "tip": {
       "title": "Tip",
@@ -683,7 +683,7 @@
     },
     "fairUse": {
       "title": "Zásady primeraného používania",
-      "description": "Limity primeraného používania za neobmedzenými odkazmi, pracovnými priestormi a profilmi Tabilinks."
+      "description": "Limity primeraného používania za neobmedzenými odkazmi, plochami a profilmi Tabilinks."
     },
     "cookies": {
       "title": "Cookies",

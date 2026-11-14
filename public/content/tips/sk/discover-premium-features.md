@@ -3,7 +3,7 @@
 Čo vám dáva platená verzia:
 
 - Neobmedzený\* počet odkazov
-- Neobmedzený\* počet pracovných priestorov
+- Neobmedzený\* počet plôch
 - Neobmedzený\* počet profilov
 - Neobmedzený\* počet synchronizovaných zariadení
 - 500 zapamätaných zavretých kariet (oproti 25)
