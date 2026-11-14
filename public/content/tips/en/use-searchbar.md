@@ -2,10 +2,14 @@
 
 Start typing and the search bar first suggests what you already have, before anything goes to the web:
 
-- your **saved links**, from every workspace of the profile,
+- your **saved links**, from every workspace of the profile - matched by their title and address, and also by the **group** and **workspace** they are kept in, so typing a group's or a workspace's name lists its links,
 - the **tabs open** in this browser,
 - your **closed tabs** and **history**,
 - and last, **search the web** for what you typed.
+
+![Typing "music" lists the links of the Music group first, then the history and the web](../../../images/en/tips/use-searchbar/searchbar-suggestions_1x.webp)
+
+![The suggestions under the search bar: each link says where it is kept](../../../images/en/tips/use-searchbar/searchbar-suggestions-detail_1x.webp)
 
 Your own links come first, and a title starting with what you typed beats one that only contains it. Use the arrow keys to move through the list; Enter opens the highlighted entry - the first one unless you move. A saved link, a closed tab or a page from the history opens in this tab; an open tab is switched to.
 
