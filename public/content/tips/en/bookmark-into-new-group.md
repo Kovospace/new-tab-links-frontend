@@ -7,8 +7,12 @@ When you save a page with the bookmarking window - the extension's button in the
 - A workspace with no group yet opens on "New group…" straight away, named **"Ungrouped"** unless you change it - so a page always has somewhere to go.
 - If the profile has no workspace at all, the window asks for the workspace's name as well.
 
+![Saving a page into a new group: "New group…" chosen and named](../../../images/en/tips/bookmark-into-new-group/nova-skupina_1x.webp)
+
 The new group is an ordinary group: rename it, move it or drag links into it later, like any other.
 
 The same window opens from the "+" next to a closed tab or a page in the history, so you can sort what you find there into a new group too.
+
+![The "+" next to a closed tab opens the same window](../../../images/en/tips/bookmark-into-new-group/panel-ulozit_1x.webp)
 
 - [Save the page you are viewing](saving-from-webpage.md)
