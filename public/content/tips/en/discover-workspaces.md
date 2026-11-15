@@ -1,13 +1,13 @@
-# Discover workspaces
+# Discover spaces
 
-Discover workspaces and start using them.
+Discover spaces and start using them.
 
-A workspace is something like a "main topic" or a supergroup for your current internet browsing,
+A space is something like a "main topic" or a supergroup for your current internet browsing,
 or a continuous stretch of it.
 
-![Workspaces at the top left of the new tab](../../../images/en/tips/discover-workspaces/pracovne-plochy-lokacia_1x.webp)
+![Spaces at the top left of the new tab](../../../images/en/tips/discover-workspaces/pracovne-plochy-lokacia_1x.webp)
 
-![The workspace switcher with the button to add a new one](../../../images/en/tips/discover-workspaces/pracovne-plochy_1x.webp)
+![The space switcher with the button to add a new one](../../../images/en/tips/discover-workspaces/pracovne-plochy_1x.webp)
 
 Imagine you have several hobbies and interests, for example:
 
@@ -15,7 +15,7 @@ Imagine you have several hobbies and interests, for example:
 - Music / band
 - Software development
 
-Then you can create the workspaces "Garage", "Music" and "Development", and in them groups
+Then you can create the spaces "Garage", "Music" and "Development", and in them groups
 and subgroups, for example:
 
 Garage:

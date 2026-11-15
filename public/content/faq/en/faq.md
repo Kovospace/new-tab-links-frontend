@@ -4,7 +4,7 @@ Tabilinks is a browser extension that replaces the new tab page with your own li
 
 ## Is Tabilinks free?
 
-Yes. The free version is complete and enough for most people: 1 profile, 2 workspaces and up to 5 synchronized installations. The premium version, paid yearly or once for life, removes those limits, remembers more closed tabs and visited pages, and hides the advertisement bar.
+Yes. The free version is complete and enough for most people: 1 profile, 2 spaces and up to 5 synchronized installations. The premium version, paid yearly or once for life, removes those limits, remembers more closed tabs and visited pages, and hides the advertisement bar.
 
 - [Discover premium features](../../tips/en/discover-premium-features.md)
 
@@ -28,11 +28,11 @@ Yes. Tracking of closed tabs and visited pages can be turned off completely, or 
 
 - [Tracking / Sync settings](../../tips/en/setup-privacy.md)
 
-## What are profiles and workspaces?
+## What are profiles and spaces?
 
-They are the levels above groups. A profile holds workspaces, a workspace holds groups, a group holds subgroups and the subgroups hold links. Use them to keep apart, for example, work and home, or different projects.
+They are the levels above groups. A profile holds spaces, a space holds groups, a group holds subgroups and the subgroups hold links. Use them to keep apart, for example, work and home, or different projects.
 
-- [Discover workspaces](../../tips/en/discover-workspaces.md)
+- [Discover spaces](../../tips/en/discover-workspaces.md)
 - [Discover profiles](../../tips/en/discover-profiles.md)
 
 ## Can I open all links of a subgroup at once?
@@ -44,7 +44,7 @@ Yes, with one click, and the opened tabs can be gathered into a browser tab grou
 
 ## How is Tabilinks different from other new tab extensions?
 
-- **A real hierarchy, not tiles.** Most new tab extensions are Opera-style speed dial tiles. Tabilinks organizes links into profiles, workspaces, groups and **subgroups**.
+- **A real hierarchy, not tiles.** Most new tab extensions are Opera-style speed dial tiles. Tabilinks organizes links into profiles, spaces, groups and **subgroups**.
 - **Bulk link opening and tab grouping.** All links of a subgroup open with one click, and a subgroup can catch its links into a browser tab group of its own.
 - **One purpose.** Synchronized bookmarks and history, instead of calendars, notes or weather widgets.
 - **Very affordable.** The free version is complete, and premium costs a fraction of what extensions with a comparable feature set charge.

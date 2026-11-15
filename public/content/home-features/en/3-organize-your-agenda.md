@@ -1,4 +1,4 @@
-![A profile holds workspaces, a workspace holds groups of links](../../../images/en/home-features/workspaces-and-profiles/workspaces-and-profiles.svg)
+![A profile holds spaces, a space holds groups of links](../../../images/en/home-features/workspaces-and-profiles/workspaces-and-profiles.svg)
 
 # Organize your agenda
 
@@ -6,7 +6,7 @@
 
 - The hierarchy is designed to reflect how people organize things in real life.
 
-  - [Workspaces](../../tips/en/discover-workspaces.md)
+  - [Spaces](../../tips/en/discover-workspaces.md)
   - [Profiles](../../tips/en/discover-profiles.md)
   - [What is a group]()
 
