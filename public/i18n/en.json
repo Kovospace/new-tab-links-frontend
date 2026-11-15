@@ -65,7 +65,7 @@
       "screenLabel": "Show screen {number}"
     },
     "heading": "A new tab that finally does something useful!",
-    "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, in profiles, arranged into workspaces and groups of your own.",
+    "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, in profiles, arranged into spaces and groups of your own.",
     "leadParagraph2": "It also keeps a history of your closed tabs.",
     "pitchSections": {
       "audience": {
@@ -86,7 +86,7 @@
         "heading": "What makes us better than the competition?",
         "lead": "Compared with other new tab extensions with the same or a similar focus:",
         "points": [
-          "A flexible, logical hierarchy for organising content, even for the most demanding user - User > Profile > Workspace > Group > Subgroup > Link",
+          "A flexible, logical hierarchy for organising content, even for the most demanding user - User > Profile > Space > Group > Subgroup > Link",
           "A free version that is complete and enough for the vast majority of users",
           "A very friendly price for professional users",
           "Synchronisation across devices and different browsers - including the history of closed tabs and visited pages (if enabled)",
@@ -116,7 +116,7 @@
       "yes": "YES",
       "no": "NO",
       "linksCount": "Number of links",
-      "workspacesCount": "Workspaces",
+      "workspacesCount": "Spaces",
       "profilesCount": "Profiles",
       "closedTabsCount": "Closed tabs history",
       "browsingHistoryCount": "Browsing history (visited pages)",
@@ -141,7 +141,7 @@
     "columns": {
       "extension": "Extension",
       "profiles": "Profiles",
-      "workspaces": "Workspaces",
+      "workspaces": "Spaces",
       "groups": "Groups",
       "subgroups": "Subgroups",
       "synchronisation": "Synchronisation",
@@ -158,9 +158,9 @@
     "freeLimits": {
       "none": "No limits",
       "unknown": "Not found",
-      "tabilinks": "1 profile, 2 workspaces, 5 synchronised installations",
+      "tabilinks": "1 profile, 2 spaces, 5 synchronised installations",
       "oneLicence": "1 licence",
-      "twoWorkspacesLimitedLinks": "2 workspaces, a limited number of links",
+      "twoWorkspacesLimitedLinks": "2 spaces, a limited number of links",
       "noSynchronisation": "No synchronisation",
       "everSyncFreeAccount": "15,000 synchronised items (bookmarks and dials, across all browsers), 500 \"private dials\""
     },
@@ -213,7 +213,7 @@
       "tutorText2": "section, where you can have a pairing code generated.",
       "tutorText3": "1. Sign in to the Chrome extension with your account details.",
       "tutorText4": "2. Fill in your details.",
-      "tutorText5": "3. Once you are signed in, the profiles, workspaces, groups and links you created locally start synchronising.",
+      "tutorText5": "3. Once you are signed in, the profiles, spaces, groups and links you created locally start synchronising.",
       "tutorText6": "You can check that you are signed in, and sign out again, from the menu.",
       "tutorText7": "Because registering and signing in with a Google account never creates a password on this platform, pairing works a little differently.",
       "tutorText8": "This way of pairing works for ordinary accounts too.",
@@ -351,7 +351,7 @@
       "backToDevices": "Back to my devices",
       "noReport": "This device has not reported what it holds yet. Extensions report after they synchronise; a browser where you only signed in to the website never does.",
       "reportedAt": "Reported {date}",
-      "columnWorkspace": "Workspace",
+      "columnWorkspace": "Space",
       "columnSync": "Synchronisation",
       "columnGroups": "Groups",
       "columnLinks": "Links"
@@ -380,7 +380,7 @@
     "changePasswordAction": "Change password",
     "passwordSuccess": "Your password was set. Every device has been signed out.",
     "dangerHeading": "Delete account",
-    "dangerLead": "This deletes your account and every link, group and workspace it owns. It cannot be undone.",
+    "dangerLead": "This deletes your account and every link, group and space it owns. It cannot be undone.",
     "deleteAction": "Delete my account",
     "deleteConfirmPrompt": "Deleting is permanent. Confirm to continue.",
     "deleteConfirmAction": "Yes, delete everything",
@@ -553,7 +553,7 @@
     },
     "delete": {
       "heading": "Delete this account?",
-      "warning": "Deleting {username} also deletes every workspace, group, subgroup and link it owns. This cannot be undone. To suspend the account instead, set its status to Disabled.",
+      "warning": "Deleting {username} also deletes every space, group, subgroup and link it owns. This cannot be undone. To suspend the account instead, set its status to Disabled.",
       "confirmAction": "Yes, delete it permanently"
     },
     "cancelAction": "Cancel",
@@ -635,7 +635,7 @@
     },
     "tour": {
       "title": "Tour",
-      "description": "A walkthrough of Tabilinks: profiles, workspaces, groups and links on your new tab page, bookmarks and history beside them, synced to every machine."
+      "description": "A walkthrough of Tabilinks: profiles, spaces, groups and links on your new tab page, bookmarks and history beside them, synced to every machine."
     },
     "home": {
       "title": "Your links on every new tab",
@@ -663,7 +663,7 @@
     },
     "comparison": {
       "title": "Compared with other new tab extensions",
-      "description": "Profiles, workspaces, groups, subgroups, synchronisation, free version limits and prices of Tabilinks and other Chrome new tab extensions, side by side."
+      "description": "Profiles, spaces, groups, subgroups, synchronisation, free version limits and prices of Tabilinks and other Chrome new tab extensions, side by side."
     },
     "tip": {
       "title": "Tip",
@@ -683,7 +683,7 @@
     },
     "fairUse": {
       "title": "Fair Use Policy",
-      "description": "The fair use limits behind the unlimited links, workspaces and profiles of Tabilinks."
+      "description": "The fair use limits behind the unlimited links, spaces and profiles of Tabilinks."
     },
     "cookies": {
       "title": "Cookies",

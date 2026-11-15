@@ -2,7 +2,7 @@
 
 Start typing and the search bar first suggests what you already have, before anything goes to the web:
 
-- your **saved links**, from every workspace of the profile - matched by their title and address, and also by the **group** and **workspace** they are kept in, so typing a group's or a workspace's name lists its links,
+- your **saved links**, from every space of the profile - matched by their title and address, and also by the **group** and **space** they are kept in, so typing a group's or a space's name lists its links,
 - the **tabs open** in this browser,
 - your **closed tabs** and **history**,
 - and last, **search the web** for what you typed.

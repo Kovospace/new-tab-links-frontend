@@ -34,8 +34,8 @@ Links have a context menu of their own too, opened with a right click.
 ### Profiles
 - [Discover profiles and what they are for](discover-profiles.md)
 
-### Workspaces
-- [Discover workspaces and what they are for](discover-workspaces.md)
+### Spaces
+- [Discover spaces and what they are for](discover-workspaces.md)
 
 ### Link groups and subgroups
 - [Roll up a subgroup](roll-the-subgroup.md)

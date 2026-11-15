@@ -4,8 +4,8 @@ When you save a page with the bookmarking window - the extension's button in the
 
 - At the end of the **group** list, choose **"New group…"** and type its name. The page is saved into the new group in one go.
 - At the end of the **subgroup** list, **"New subgroup…"** does the same for a subgroup of the chosen group.
-- A workspace with no group yet opens on "New group…" straight away, named **"Ungrouped"** unless you change it - so a page always has somewhere to go.
-- If the profile has no workspace at all, the window asks for the workspace's name as well.
+- A space with no group yet opens on "New group…" straight away, named **"Ungrouped"** unless you change it - so a page always has somewhere to go.
+- If the profile has no space at all, the window asks for the space's name as well.
 
 ![Saving a page into a new group: "New group…" chosen and named](../../../images/en/tips/bookmark-into-new-group/nova-skupina_1x.webp)
 

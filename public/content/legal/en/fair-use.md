@@ -4,7 +4,7 @@
 
 ## Why there is a policy at all
 
-Premium promises an unlimited number of links, workspaces, profiles and synchronised
+Premium promises an unlimited number of links, spaces, profiles and synchronised
 installations, and for the people it is
 made for - someone organising the links they actually use - that promise holds. The limits below
 exist only so that the service cannot be used as bulk storage, filled by a script, or loaded in a
@@ -18,22 +18,22 @@ are using Tabilinks the way it is meant to be used, you can stop reading here.
 | What | Limit |
 |---|---|
 | Profiles per account | 50 |
-| Workspaces in one profile | 50 |
-| Groups in one workspace | 25 |
+| Spaces in one profile | 50 |
+| Groups in one space | 25 |
 | Subgroups in one group | 25 |
-| Links in one workspace | 500 |
+| Links in one space | 500 |
 | Closed tabs kept in the history | 500 |
 | Visited pages kept in the browsing history | 1000 |
 | Synchronised installations | 100 |
 
 The limits on groups, subgroups and links apply on every plan, the free one included. The free
-plan has its own, lower limits on profiles, workspaces, installations, the closed tabs history and
+plan has its own, lower limits on profiles, spaces, installations, the closed tabs history and
 the browsing history, shown on the [home page](/).
 
 ## What happens when you reach one
 
 You cannot add another item of that kind where the limit was reached until you remove one: a full
-workspace takes no more links, but your other workspaces are not affected. Nothing you already
+space takes no more links, but your other spaces are not affected. Nothing you already
 have is deleted or changed. The closed tabs history keeps the 500 most recent tabs and the
 browsing history the 1000 most recently visited pages; older ones make room for newer ones.
 

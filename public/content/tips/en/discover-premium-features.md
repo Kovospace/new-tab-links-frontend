@@ -3,7 +3,7 @@
 What the paid version gives you:
 
 - Unlimited\* number of links
-- Unlimited\* number of workspaces
+- Unlimited\* number of spaces
 - Unlimited\* number of profiles
 - Unlimited\* number of devices to sync
 - 500 remembered closed tabs (instead of 25)
