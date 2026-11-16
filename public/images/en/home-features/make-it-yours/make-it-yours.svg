@@ -25,11 +25,11 @@
     </g>
     <g id="group-content">
       <line x1="14" y1="22" x2="80" y2="22" stroke-width="5" stroke-linecap="round"/>
-      <circle cx="22" cy="54" r="7" fill="#004fff" stroke="none"/>
+      <circle cx="22" cy="54" r="7" fill="#e0a100" stroke="none"/>
       <line x1="36" y1="54" x2="110" y2="54" stroke-width="4" stroke-linecap="round"/>
-      <circle cx="22" cy="84" r="7" fill="#004fff" stroke="none"/>
+      <circle cx="22" cy="84" r="7" fill="#e0a100" stroke="none"/>
       <line x1="36" y1="84" x2="96" y2="84" stroke-width="4" stroke-linecap="round"/>
-      <circle cx="22" cy="114" r="7" fill="#004fff" stroke="none"/>
+      <circle cx="22" cy="114" r="7" fill="#e0a100" stroke="none"/>
       <line x1="36" y1="114" x2="104" y2="114" stroke-width="4" stroke-linecap="round"/>
     </g>
     <g id="groups">
@@ -90,7 +90,7 @@
     <g clip-path="url(#tile)">
       <use href="#picture" transform="scale(0.2167 0.2788)"/>
     </g>
-    <rect width="104" height="58" rx="8" fill="none" stroke="#4a82ff" stroke-width="4"/>
+    <rect width="104" height="58" rx="8" fill="none" stroke="#f5b800" stroke-width="4"/>
   </g>
 
   <!-- another one -->
@@ -122,7 +122,7 @@
   </g>
 
   <!-- the choice, and where it went -->
-  <path d="M566 53 C548 53 540 70 532 84" fill="none" stroke="#4a82ff" stroke-width="4"
+  <path d="M566 53 C548 53 540 70 532 84" fill="none" stroke="#f5b800" stroke-width="4"
         stroke-linecap="round" stroke-dasharray="2 10"/>
   <use href="#pointer" x="640" y="46"/>
 </svg>
