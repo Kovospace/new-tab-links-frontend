@@ -73,6 +73,14 @@ function describeControlErrors(
       max: validationErrors['maxlength'].requiredLength as number,
     });
   }
+  if (validationErrors['wholeNumber']) {
+    return translationService.translate('form.wholeNumber');
+  }
+  if (validationErrors['min']) {
+    return translationService.translate('form.tooSmall', {
+      min: validationErrors['min'].min as number,
+    });
+  }
   if (validationErrors['pattern']) {
     return translationService.translate('form.usernamePattern');
   }

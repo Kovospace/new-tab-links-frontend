@@ -11,6 +11,7 @@ import { PremiumPricingStore } from '@app/core/billing/premium-pricing.store';
 import { PremiumStanding } from '@app/core/billing/premium-standing';
 import { PremiumStandingService } from '@app/core/billing/premium-standing.service';
 import { TranslationService } from '@app/core/i18n/translation.service';
+import { COMPILED_PLAN_LIMITS } from '@app/core/plan-limits/compiled-plan-limits';
 import {
   PlanOffersViewModel,
   PresentedOfferAction,
@@ -138,6 +139,23 @@ describe('PlanOffersViewModel', () => {
       'home.downloads.browsingHistoryCount',
     );
     expect(columns[1].action).toEqual(offers().subscription);
+  });
+
+  it('shows the published Fair Use histories in the premium columns, the free ones unchanged', () => {
+    TestBed.tick();
+    TestBed.inject(HttpTestingController)
+      .expectOne((request) => request.url.endsWith('/api/v1/plan-limits'))
+      .flush({
+        free: COMPILED_PLAN_LIMITS.free,
+        fairUse: { ...COMPILED_PLAN_LIMITS.fairUse, closedTabs: 800, browsingHistory: 2000 },
+      });
+
+    const valueOf = (column: number, label: string): string | undefined =>
+      viewModel.presentedOffers()[column].features.find((feature) => feature.label === label)
+        ?.value;
+    expect(valueOf(1, 'home.downloads.closedTabsCount')).toBe('800');
+    expect(valueOf(2, 'home.downloads.browsingHistoryCount')).toBe('2000');
+    expect(valueOf(0, 'home.downloads.closedTabsCount')).toBe('25');
   });
 
   it('forgets the standing the moment the visitor signs out', () => {

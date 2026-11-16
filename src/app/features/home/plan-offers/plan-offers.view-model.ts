@@ -1,5 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Params } from '@angular/router';
+import { PlanLimitName, PlanLimits } from '../../../core/api/models/plan-limits.model';
 import { PremiumPlan } from '../../../core/api/models/subscription.model';
 import { AuthenticationSessionStore } from '../../../core/auth/authentication-session.store';
 import {
@@ -9,6 +10,7 @@ import {
 import { PremiumStanding } from '../../../core/billing/premium-standing';
 import { PremiumStandingService } from '../../../core/billing/premium-standing.service';
 import { TranslationService } from '../../../core/i18n/translation.service';
+import { PublishedPlanLimitsStore } from '../../../core/plan-limits/published-plan-limits.store';
 import {
   APPLICATION_ROUTE_LINKS,
   APPLICATION_ROUTE_QUERY_PARAMETERS,
@@ -59,13 +61,21 @@ export interface PresentedPlanOffer {
 }
 
 /**
+ * How much of one counted thing a column shows: a translation key, a plain number, or the Fair Use
+ * limit of that name as the backend currently publishes it.
+ */
+type PlanFeatureAmount = string | { readonly fairUseLimit: PlanLimitName };
+
+/**
  * How much of each counted thing the free plan gives, and the premium plans, as shown in the
  * columns. Translation keys for the words, plain numbers otherwise.
  *
  * <p>The figures are the published plan limits (the Fair Use Policy page); "unlimited*" marks a
- * premium promise the policy caps.</p>
+ * premium promise the policy caps. The free plan's numbers are fixed; the premium columns' are the
+ * Fair Use limits, which the operator can change, so they are read from
+ * {@link PublishedPlanLimitsStore} rather than written here.</p>
  */
-const FREE_PLAN_FEATURES: readonly [string, string][] = [
+const FREE_PLAN_FEATURES: readonly [string, PlanFeatureAmount][] = [
   ['home.downloads.linksCount', 'home.downloads.unlimitedAmountUnderFairUse'],
   ['home.downloads.devicesCount', '5'],
   ['home.downloads.workspacesCount', '2'],
@@ -76,13 +86,13 @@ const FREE_PLAN_FEATURES: readonly [string, string][] = [
 ];
 
 /** The same lines for both premium plans, which differ only in how they are paid. */
-const PREMIUM_PLAN_FEATURES: readonly [string, string][] = [
+const PREMIUM_PLAN_FEATURES: readonly [string, PlanFeatureAmount][] = [
   ['home.downloads.linksCount', 'home.downloads.unlimitedAmountUnderFairUse'],
   ['home.downloads.devicesCount', 'home.downloads.unlimitedAmountUnderFairUse'],
   ['home.downloads.workspacesCount', 'home.downloads.unlimitedAmountUnderFairUse'],
   ['home.downloads.profilesCount', 'home.downloads.unlimitedAmountUnderFairUse'],
-  ['home.downloads.closedTabsCount', '500'],
-  ['home.downloads.browsingHistoryCount', '1000'],
+  ['home.downloads.closedTabsCount', { fairUseLimit: 'closedTabs' }],
+  ['home.downloads.browsingHistoryCount', { fairUseLimit: 'browsingHistory' }],
   ['home.downloads.ads', 'home.downloads.yes'],
 ];
 
@@ -100,6 +110,7 @@ export class PlanOffersViewModel {
   private readonly translationService = inject(TranslationService);
   private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
   private readonly premiumPricingStore = inject(PremiumPricingStore);
+  private readonly publishedPlanLimitsStore = inject(PublishedPlanLimitsStore);
 
   /** The standing as last loaded; {@code UNKNOWN} until then. */
   private readonly loadedPremiumStanding = signal<PremiumStanding>('UNKNOWN');
@@ -240,7 +251,7 @@ export class PlanOffersViewModel {
    * @param variant which offer it is
    * @param heading its heading, finished
    * @param billingNote how it is billed, finished; empty for none
-   * @param features its lines, as translation keys or plain figures
+   * @param features its lines, as translation keys, plain figures or Fair Use limits
    * @param action the button under it
    * @returns the column, ready to bind
    */
@@ -248,9 +259,10 @@ export class PlanOffersViewModel {
     variant: PlanOfferVariant,
     heading: string,
     billingNote: string,
-    features: readonly [string, string][],
+    features: readonly [string, PlanFeatureAmount][],
     action: PresentedOfferAction,
   ): PresentedPlanOffer {
+    const fairUseLimits = this.publishedPlanLimitsStore.fairUseLimits();
     return {
       variant,
       variantClass: `plan-offer-card--${variant}`,
@@ -258,10 +270,24 @@ export class PlanOffersViewModel {
       billingNote,
       features: features.map(([labelKey, value]) => ({
         label: this.translationService.translate(labelKey),
-        value: /^\d+$/.test(value) ? value : this.translationService.translate(value),
+        value: this.presentAmount(value, fairUseLimits),
       })),
       action,
     };
+  }
+
+  /**
+   * Words how much of something a column offers.
+   *
+   * @param amount a translation key, a plain number, or a Fair Use limit
+   * @param fairUseLimits the Fair Use limits in force
+   * @returns the finished text
+   */
+  private presentAmount(amount: PlanFeatureAmount, fairUseLimits: PlanLimits): string {
+    if (typeof amount !== 'string') {
+      return String(fairUseLimits[amount.fairUseLimit]);
+    }
+    return /^\d+$/.test(amount) ? amount : this.translationService.translate(amount);
   }
 
   /**

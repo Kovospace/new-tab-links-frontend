@@ -77,6 +77,10 @@ describe('App shell', () => {
     httpTestingController
       .expectOne((request) => request.url.endsWith('/api/v1/payments/offers'))
       .flush({ suggestedCurrency: 'EUR', offers: [] });
+    // The offers ask for the published plan limits once rendered; failing keeps the compiled ones.
+    httpTestingController
+      .expectOne((request) => request.url.endsWith('/api/v1/plan-limits'))
+      .flush('', { status: 503, statusText: 'Service Unavailable' });
   });
 
   afterEach(() => httpTestingController.verify());

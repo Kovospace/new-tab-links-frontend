@@ -8,7 +8,7 @@ import { TranslationService } from '@app/core/i18n/translation.service';
 import { AdminHeaderViewModel } from '@app/features/admin/admin-header/admin-header.view-model';
 
 /**
- * The header every operator page shares: both pages linked, the one on screen marked, sign-out.
+ * The header every operator page shares: every page linked, the one on screen marked, sign-out.
  */
 describe('AdminHeaderViewModel', () => {
   let currentUrl: string;
@@ -44,12 +44,17 @@ describe('AdminHeaderViewModel', () => {
     navigateByUrl.mockClear();
   });
 
-  it('links both operator pages and marks the one on screen', () => {
+  it('links every operator page and marks the one on screen', () => {
     currentUrl = '/admin/metrics?month=2026-09';
 
     expect(createViewModel().presentedLinks()).toEqual([
       { routerLink: '/admin/users', label: 'admin.navigation.accounts', isCurrentPage: false },
       { routerLink: '/admin/metrics', label: 'admin.navigation.statistics', isCurrentPage: true },
+      {
+        routerLink: '/admin/fair-use-limits',
+        label: 'admin.navigation.fairUseLimits',
+        isCurrentPage: false,
+      },
     ]);
   });
 
@@ -60,7 +65,7 @@ describe('AdminHeaderViewModel', () => {
       createViewModel()
         .presentedLinks()
         .map((link) => link.isCurrentPage),
-    ).toEqual([true, false]);
+    ).toEqual([true, false, false]);
   });
 
   it('signs the operator out and returns to the sign-in', () => {

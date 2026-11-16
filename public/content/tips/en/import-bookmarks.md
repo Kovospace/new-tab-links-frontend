@@ -18,7 +18,7 @@ Bookmarklets - bookmarks whose address starts with `javascript:` - are skipped.
 
 ## Limits
 
-A space holds 25 groups, 25 subgroups in a group and 500 links. If the ticked folders would go over any of these, the dialog says which, and "Import" stays disabled until you untick enough.
+A space holds {fairUseGroupsPerWorkspace} groups, {fairUseSubgroupsPerGroup} subgroups in a group and {fairUseLinksPerWorkspace} links. If the ticked folders would go over any of these, the dialog says which, and "Import" stays disabled until you untick enough.
 
 ## Privacy
 

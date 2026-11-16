@@ -43,6 +43,20 @@ export class AdminUserService {
   }
 
   /**
+   * Reads one account.
+   *
+   * @param userId identifier of the account
+   * @returns the account
+   */
+  loadAccount(userId: string): Observable<AdminUser> {
+    return this.backendApiClient.get<AdminUser>(
+      API_ENDPOINT_PATHS.admin.user(userId),
+      undefined,
+      this.asTheOperator(),
+    );
+  }
+
+  /**
    * Creates an account without going through registration.
    *
    * @param newAccount the account to create

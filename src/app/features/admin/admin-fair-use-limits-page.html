@@ -1,0 +1,86 @@
+<article>
+  <app-admin-header />
+
+  <section>
+    <h1>{{ 'admin.fairUseLimits.heading' | translate }}</h1>
+    <p>{{ 'admin.fairUseLimits.lead' | translate }}</p>
+
+    <app-form-feedback
+      [failureMessage]="viewModel.submissionFailure()"
+      [successMessage]="viewModel.submissionSuccess()"
+      [validationMessages]="viewModel.backendValidationMessages()"
+    />
+
+    @if (viewModel.isLoading()) {
+      <p>{{ 'admin.fairUseLimits.loading' | translate }}</p>
+    } @else if (viewModel.hasLoadedLimits()) {
+      <form [formGroup]="viewModel.limitsForm" (ngSubmit)="viewModel.submitLimits()">
+        @for (field of viewModel.limitFields(); track field.limitName) {
+          <label [for]="field.inputId">
+            <span>{{ field.label }}</span>
+            <input
+              type="number"
+              min="1"
+              step="1"
+              [id]="field.inputId"
+              [formControlName]="field.limitName"
+              autocomplete="off"
+            />
+            @if (viewModel.fieldValidationMessages()[field.limitName]; as validationMessage) {
+              <em>{{ validationMessage }}</em>
+            }
+          </label>
+        }
+        <button type="submit" [disabled]="viewModel.isSubmitting()">
+          @if (viewModel.isSubmitting()) {
+            {{ 'form.submitting' | translate }}
+          } @else {
+            {{ 'admin.fairUseLimits.saveAction' | translate }}
+          }
+        </button>
+      </form>
+    }
+
+    @if (viewModel.isConfirmingDecrease()) {
+      <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
+        <section
+          class="modal__panel modal__panel--danger"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="admin-fair-use-decrease-heading"
+          aria-describedby="admin-fair-use-decrease-warning"
+        >
+          <h2 id="admin-fair-use-decrease-heading">
+            {{ 'admin.fairUseDecrease.heading' | translate }}
+          </h2>
+          <p id="admin-fair-use-decrease-warning">
+            {{ 'admin.fairUseDecrease.globalLead' | translate }}
+          </p>
+          <ul>
+            @for (decrease of viewModel.pendingDecreases(); track decrease.limitName) {
+              <li>
+                <strong>{{ decrease.change }}</strong>
+                {{ decrease.consequence }}
+              </li>
+            }
+          </ul>
+          @if (viewModel.decreaseDeletesData()) {
+            <p>
+              <strong>{{ 'admin.fairUseDecrease.irreversible' | translate }}</strong>
+            </p>
+          }
+          <button
+            type="button"
+            [disabled]="viewModel.isSubmitting()"
+            (click)="viewModel.confirmDecrease()"
+          >
+            {{ 'admin.fairUseDecrease.confirmAction' | translate }}
+          </button>
+          <button type="button" (click)="viewModel.cancelDecrease()">
+            {{ 'admin.cancelAction' | translate }}
+          </button>
+        </section>
+      </div>
+    }
+  </section>
+</article>

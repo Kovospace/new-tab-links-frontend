@@ -1,0 +1,22 @@
+{
+  "free": {
+    "profiles": 1,
+    "workspacesPerProfile": 2,
+    "groupsPerWorkspace": 25,
+    "subgroupsPerGroup": 25,
+    "linksPerWorkspace": 500,
+    "closedTabs": 25,
+    "browsingHistory": 50,
+    "devices": 5
+  },
+  "fairUse": {
+    "profiles": 50,
+    "workspacesPerProfile": 50,
+    "groupsPerWorkspace": 25,
+    "subgroupsPerGroup": 25,
+    "linksPerWorkspace": 500,
+    "closedTabs": 500,
+    "browsingHistory": 1000,
+    "devices": 100
+  }
+}

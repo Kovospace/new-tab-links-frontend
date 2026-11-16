@@ -17,14 +17,14 @@ Tabilinks používate tak, ako je zamýšľané, môžete tu prestať čítať.
 
 | Čo | Limit |
 |---|---|
-| Profily na účet | 50 |
-| Plochy v jednom profile | 50 |
-| Skupiny na jednej ploche | 25 |
-| Podskupiny v jednej skupine | 25 |
-| Odkazy na jednej ploche | 500 |
-| Zatvorené karty uchovávané v histórii | 500 |
-| Navštívené stránky uchovávané v histórii prehliadania | 1000 |
-| Synchronizované inštalácie | 100 |
+| Profily na účet | {fairUseProfiles} |
+| Plochy v jednom profile | {fairUseWorkspacesPerProfile} |
+| Skupiny na jednej ploche | {fairUseGroupsPerWorkspace} |
+| Podskupiny v jednej skupine | {fairUseSubgroupsPerGroup} |
+| Odkazy na jednej ploche | {fairUseLinksPerWorkspace} |
+| Zatvorené karty uchovávané v histórii | {fairUseClosedTabs} |
+| Navštívené stránky uchovávané v histórii prehliadania | {fairUseBrowsingHistory} |
+| Synchronizované inštalácie | {fairUseDevices} |
 
 Limity skupín, podskupín a odkazov platia pre každý plán vrátane bezplatného. Bezplatný plán má
 vlastné, nižšie limity na profily, plochy, inštalácie, históriu zatvorených kariet a
@@ -34,8 +34,8 @@ históriu prehliadania, uvedené na [úvodnej stránke](/).
 
 Ďalšiu položku daného druhu tam, kde ste limit dosiahli, nepridáte, kým niektorú neodstránite:
 na plnú plochu už nepridáte odkaz, ostatných plôch sa to však
-netýka. Nič, čo už máte, sa nezmaže ani nezmení. História zatvorených kariet uchováva 500
-najnovších kariet a história prehliadania 1000 naposledy navštívených stránok; staršie uvoľnia
+netýka. Nič, čo už máte, sa nezmaže ani nezmení. História zatvorených kariet uchováva {fairUseClosedTabs}
+najnovších kariet a história prehliadania {fairUseBrowsingHistory} naposledy navštívených stránok; staršie uvoľnia
 miesto novším.
 
 Dáta sa nad limit môžu dostať aj tak - napríklad keď k jednému účtu pripojíte dve inštalácie,

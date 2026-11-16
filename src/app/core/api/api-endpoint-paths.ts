@@ -123,7 +123,28 @@ export const API_ENDPOINT_PATHS = {
     userPassword: (userId: string): string => `/api/v1/admin/users/${userId}/password`,
     /** One usage metric, day by day, for one month: {@code ?metric=…&month=YYYY-MM}. */
     usageMetrics: '/api/v1/admin/metrics',
+    /** The Fair Use limits every account is held to; {@code GET} reads them, {@code PUT} replaces. */
+    fairUseLimits: '/api/v1/admin/fair-use-limits',
+    /**
+     * Builds the path of one account's raised Fair Use limits.
+     *
+     * <p>{@code GET} reads them beside the global values, {@code PUT} replaces them and
+     * {@code DELETE} removes them, leaving the account on the global limits.</p>
+     *
+     * @param userId identifier of the account
+     * @returns the path of that account's Fair Use limits
+     */
+    userFairUseLimits: (userId: string): string => `/api/v1/admin/users/${userId}/fair-use-limits`,
   },
+
+  /**
+   * The numbers every plan is held to, free and Fair Use, as the backend enforces them.
+   *
+   * <p>Public and unauthenticated, read once per visit so the site's published numbers follow
+   * what the operator set rather than what was compiled in. See {@code PublishedPlanLimitsStore}.
+   * </p>
+   */
+  planLimits: '/api/v1/plan-limits',
 
   /**
    * Anonymous usage counts.

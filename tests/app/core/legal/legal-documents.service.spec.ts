@@ -7,6 +7,7 @@ import {
   fillLegalDocumentPlaceholders,
 } from '@app/core/legal/legal-documents.service';
 import { LEGAL_OPERATOR } from '@app/core/legal/legal-operator';
+import { COMPILED_PLAN_LIMITS } from '@app/core/plan-limits/compiled-plan-limits';
 
 /**
  * The legal documents: the operator's details written once and filled into every document, and a
@@ -64,6 +65,28 @@ describe('LegalDocumentsService', () => {
     expect(filled).toBe(
       `${LEGAL_OPERATOR.name} ${LEGAL_OPERATOR.registrationNumber} ${LEGAL_OPERATOR.address}`,
     );
+  });
+
+  it('fills the Fair Use limits in force, and again when they change', () => {
+    service.loadRenderedLegalDocument('fair-use', 'en').subscribe((html) => (rendered = html));
+    httpTestingController
+      .expectOne('/content/legal/en/fair-use.md')
+      .flush('Links in one space: {fairUseLinksPerWorkspace}.');
+
+    expect(rendered).toContain('Links in one space: 500.');
+
+    TestBed.tick();
+    httpTestingController
+      .expectOne((request) => request.url.endsWith('/api/v1/plan-limits'))
+      .flush({
+        free: COMPILED_PLAN_LIMITS.free,
+        fairUse: { ...COMPILED_PLAN_LIMITS.fairUse, linksPerWorkspace: 900 },
+      });
+    expect(rendered).toContain('Links in one space: 900.');
+  });
+
+  it('fills the compiled Fair Use limits when given none', () => {
+    expect(fillLegalDocumentPlaceholders('{fairUseBrowsingHistory}')).toBe('1000');
   });
 
   it('leaves an unknown placeholder as written, so a typo shows on the page', () => {

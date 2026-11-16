@@ -251,6 +251,24 @@ export const routes: Routes = [
       import('./features/admin/admin-metrics-page').then((module) => module.AdminMetricsPage),
   },
   {
+    path: APPLICATION_ROUTE_PATHS.adminUserDetail,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.adminUserDetail, 'seo.adminUserDetail'),
+    canActivate: [requiresAdminSession],
+    loadComponent: () =>
+      import('./features/admin/admin-user-detail-page').then(
+        (module) => module.AdminUserDetailPage,
+      ),
+  },
+  {
+    path: APPLICATION_ROUTE_PATHS.adminFairUseLimits,
+    data: pageMetadataFor(APPLICATION_ROUTE_PATHS.adminFairUseLimits, 'seo.adminFairUseLimits'),
+    canActivate: [requiresAdminSession],
+    loadComponent: () =>
+      import('./features/admin/admin-fair-use-limits-page').then(
+        (module) => module.AdminFairUseLimitsPage,
+      ),
+  },
+  {
     path: '**',
     data: pageMetadataFor('**', 'seo.notFound'),
     loadComponent: () =>

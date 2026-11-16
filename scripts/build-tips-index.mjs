@@ -16,12 +16,25 @@
 // Each entry also carries the tip's body as plain text, which is what the list's search reads: the
 // browser searches every tip without fetching eighteen markdown files first. Image references,
 // link addresses, headings' hashes and emphasis are dropped, so only words a reader sees are matched.
+// A Fair Use placeholder ({fairUseClosedTabs}) is searched as the number it stands for when the site
+// was built, from src/app/core/plan-limits/compiled-plan-limits.json - the page itself shows the
+// number in force, which the operator may have changed since.
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const TIPS_ROOT = 'public/content/tips';
 const INDEX_FILE = join(TIPS_ROOT, 'index.json');
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const COMPILED_FAIR_USE_LIMITS = JSON.parse(
+  readFileSync('src/app/core/plan-limits/compiled-plan-limits.json', 'utf8'),
+).fairUse;
+
+function fillFairUsePlaceholders(markdown) {
+  return markdown.replace(/\{fairUse(\w+)\}/g, (placeholder, name) => {
+    const value = COMPILED_FAIR_USE_LIMITS[name.charAt(0).toLowerCase() + name.slice(1)];
+    return value === undefined ? placeholder : String(value);
+  });
+}
 
 function readTitle(markdown, file) {
   const heading = markdown.split('\n').find((line) => line.startsWith('# '));
@@ -32,7 +45,7 @@ function readTitle(markdown, file) {
 }
 
 function readSearchableText(markdown) {
-  return markdown
+  return fillFairUsePlaceholders(markdown)
     .split('\n')
     .filter((line) => !line.startsWith('# '))
     .join('\n')

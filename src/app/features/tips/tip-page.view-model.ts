@@ -1,10 +1,12 @@
 import { Injectable, computed, effect, inject } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, catchError, map, of, startWith, switchMap } from 'rxjs';
+import { Observable, catchError, combineLatest, map, of, startWith, switchMap } from 'rxjs';
 import { SupportedLanguageCode } from '../../core/i18n/supported-language';
 import { TranslationService } from '../../core/i18n/translation.service';
 import { ImageVersionStore } from '../../core/images/image-version.store';
+import { fillFairUsePlaceholders } from '../../core/plan-limits/plan-limit-placeholders';
+import { PublishedPlanLimitsStore } from '../../core/plan-limits/published-plan-limits.store';
 import { LocalizedRouteLinks } from '../../core/routing/localized-route-links';
 import { LoadedPageDescription } from '../../core/seo/page-metadata';
 import { PageMetadataService } from '../../core/seo/page-metadata.service';
@@ -40,6 +42,7 @@ export class TipPageViewModel {
   private readonly pageMetadataService = inject(PageMetadataService);
   private readonly localizedRouteLinks = inject(LocalizedRouteLinks);
   private readonly imageVersionStore = inject(ImageVersionStore);
+  private readonly publishedPlanLimitsStore = inject(PublishedPlanLimitsStore);
 
   /** The tip the address names. */
   private readonly slug = toSignal(
@@ -101,24 +104,33 @@ export class TipPageViewModel {
   }
 
   /**
-   * Fetches and renders one tip.
+   * Fetches and renders one tip, with the Fair Use limits in force written into it.
+   *
+   * <p>A tip that names a limit ({@code {fairUseClosedTabs}}) is rendered again, without being
+   * fetched again, once the published limits replace the compiled ones.</p>
    *
    * @param slug the tip's address below {@code /tips}
    * @param languageCode the reader's language
    * @returns the page state once the tip is in, or why it is not
    */
   private loadTip(slug: string, languageCode: SupportedLanguageCode): Observable<TipPageState> {
-    return this.tipsContentService.loadTipMarkdown(slug, languageCode).pipe(
-      map((loaded): TipPageState => ({
-        kind: 'SHOWN',
-        html: renderTipMarkdown(
-          loaded.markdown,
-          loaded.languageCode,
-          slug,
-          this.imageVersionStore.versionImageUrl,
-        ),
-        pageDescription: describeTipMarkdown(loaded.markdown),
-      })),
+    return combineLatest([
+      this.tipsContentService.loadTipMarkdown(slug, languageCode),
+      this.publishedPlanLimitsStore.fairUseLimits$,
+    ]).pipe(
+      map(([loaded, fairUseLimits]): TipPageState => {
+        const markdown = fillFairUsePlaceholders(loaded.markdown, fairUseLimits);
+        return {
+          kind: 'SHOWN',
+          html: renderTipMarkdown(
+            markdown,
+            loaded.languageCode,
+            slug,
+            this.imageVersionStore.versionImageUrl,
+          ),
+          pageDescription: describeTipMarkdown(markdown),
+        };
+      }),
       catchError((failure: unknown) =>
         of<TipPageState>({ kind: failure instanceof TipNotFoundError ? 'NOT_FOUND' : 'FAILED' }),
       ),
