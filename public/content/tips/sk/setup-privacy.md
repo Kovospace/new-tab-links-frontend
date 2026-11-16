@@ -12,4 +12,6 @@ Všetko o tom, čo sa zaznamenáva a čo opúšťa váš prehliadač, nájdete n
 
 História sa teda môže zaznamenávať a pritom nikdy neopustiť prehliadač: zapnite zaznamenávanie a vypnite jeho synchronizáciu.
 
-Práve otvorené karty sa nikdy neukladajú ani neodosielajú. Bez účtu sa na naše servery dostane len anonymný denný počet otvorených nových kariet.
+Práve otvorené karty sa nikdy neukladajú ani neodosielajú. Bez účtu sa z toho, ako rozšírenie používate, na naše servery dostane len anonymný denný počet otvorených nových kariet.
+
+Import záložiek z prehliadača je na vás: rozšírenie si prístup k nim vyžiada, až keď import spustíte, a prečíta ich vo vašom prehliadači.

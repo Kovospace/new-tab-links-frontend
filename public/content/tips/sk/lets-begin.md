@@ -1,19 +1,20 @@
 # Začíname
 
-Takto môže vyzerať nová karta, keď ju po úspešnej inštalácii otvoríte prvýkrát:
+Hneď po inštalácii sa nová karta otvorí rovno vo vašej prvej ploche, „Moja plocha“. Je zatiaľ prázdna, a tak ponúka niekoľko spôsobov, ako ju naplniť:
 
-![Obrazovka pri prvom spustení](../../../images/sk/tips/lets-begin/1_1x.webp)
+![Vaša prvá plocha so spôsobmi, ako ju naplniť](../../../images/sk/tips/lets-begin/1_1x.webp)
 
-Predpokladajme, že rozšírenie spúšťate prvýkrát, a tak si môžeme načítať ukážkové odkazy.
+- **Vytvoriť novú skupinu** - začnite vlastnou skupinou a pridajte do nej odkazy.
+- **Importovať záložky z prehliadača** - z každého priečinka, ktorý zaškrtnete, bude skupina a z jeho podpriečinkov podskupiny. Prehliadač vás o prístup k záložkám požiada až v tejto chvíli.
+- **Prihlásiť sa / nastaviť synchronizáciu** - ak už Tabilinks používate inde, prineste si odkazy zo svojho účtu. Zvoľte „Mám meno a heslo“ alebo „Mám kód na synchronizáciu“.
 
-Odteraz uvidíte takéto odkazy vždy, keď otvoríte novú kartu.
+Odvtedy uvidíte svoje odkazy vždy, keď otvoríte novú kartu.
 
-![Nová karta s ukážkovými odkazmi](../../../images/sk/tips/lets-begin/2_1x.webp)
+![Nová karta so skupinami odkazov](../../../images/sk/tips/lets-begin/2_1x.webp)
 
-Panel s ikonami na pravom okraji sú Vaše otvorené karty, história zavretých kariet a história navštívených stránok.
+Panel vľavo obsahuje vaše otvorené karty, históriu zavretých kariet a históriu navštívených stránok a od začiatku je otvorený vedľa vašich odkazov.
 
-Presuňte myš na tento okraj a chvíľu ju tam podržte (predvolene 0,3 sekundy, túto hodnotu si neskôr môžete zmeniť v nastaveniach)
-a panel sa rozbalí.
+Ak chcete viac miesta, odškrtnite v hlavičke panela „Nechať otvorený“: panel sa zbalí do pásu ikon pozdĺž ľavého okraja. Keď na ňom chvíľu podržíte myš (predvolene 0,3 sekundy, túto hodnotu si môžete zmeniť v nastaveniach), panel sa znova rozbalí.
 
 ![Nová karta s rozbalenou históriou zavretých kariet](../../../images/sk/tips/lets-begin/3_1x.webp)
 
@@ -29,6 +30,8 @@ Aj odkazy majú vlastné kontextové menu, ktoré otvoríte pravým tlačidlom m
 
 ### Manipulácia s položkami:
 - [Na usporiadanie a presun položiek je možné použiť Drag and Drop](use-drag-and-drop.md)
+- [Uložiť práve prezeranú stránku](saving-from-webpage.md)
+- [Objav históriu](discover-history.md)
 
 ### Profily
 - [Objavte profily a ich využitie](discover-profiles.md)
@@ -43,8 +46,3 @@ Aj odkazy majú vlastné kontextové menu, ktoré otvoríte pravým tlačidlom m
 
 ### Nastavenia
 - [Je všetko veľké alebo malé ?](set-size.md)
-
-
-
-
-

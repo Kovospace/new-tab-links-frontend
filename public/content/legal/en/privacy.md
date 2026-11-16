@@ -31,7 +31,12 @@ recorded.
 - Incognito windows are not recorded unless you allow the extension there.
 - A background picture you upload stays in your browser's storage and is never sent to us, not
 even when you have an account. A built-in background is downloaded from tabilinks.app when you
-choose it; the request carries nothing about you.
+choose it, and a fresh installation downloads one to start with; the request carries nothing about
+you.
+- Importing your browser's bookmarks is optional. The extension asks for permission to read them
+only when you choose to import them, reads them in your browser, and turns the folders you pick into
+groups and links. Your bookmarks are never sent to us; links made from them are synchronised like any
+other link, and only if you synchronise.
 
 ## What we process when you have an account
 
@@ -43,7 +48,7 @@ choose it; the request carries nothing about you.
 | Your devices: a device name and the browser name, when each was last used | To keep each installation signed in and to let you see and sign out your devices | Contract, Art. 6(1)(b) |
 | What each installation of the extension holds: the names of its profiles and spaces, how many groups, subgroups and links each space has, and whether it synchronises - including data that does not synchronise. Never a link, its address or a group name | To show you on the website, device by device, what synchronises and what stays on the device over a limit | Contract, Art. 6(1)(b) |
 | Sign-in tokens, activation and reset codes | Stored only as hashes, to keep you signed in and to confirm emailed links | Contract, Art. 6(1)(b) |
-| Your synchronised content: spaces, profiles, groups, links, their titles and descriptions; recently closed tabs (address, title, icon address, device name, time closed) unless you turned them off; and, only if you turned it on, your browsing history - the most recent visited pages (address, title, icon address, device name, time visited), at most 50 on a free account and 1000 on premium. The tabs currently open in your browser are never sent | The synchronisation and backup you use the account for | Contract, Art. 6(1)(b) |
+| Your synchronised content: spaces, profiles and their settings, groups, links, their titles and descriptions, and which links you marked as favorites; recently closed tabs (address, title, icon address, device name, time closed) unless you turned them off; and, only if you turned it on, your browsing history - the most recent visited pages (address, title, icon address, device name, time visited), at most 50 on a free account and 1000 on premium. The tabs currently open in your browser are never sent | The synchronisation and backup you use the account for | Contract, Art. 6(1)(b) |
 | Premium status: plan, paid-until date, amount and currency charged, and the payment provider's customer, order and subscription identifiers | To give you the premium features you paid for | Contract, Art. 6(1)(b) |
 | A count of failed sign-in attempts | To protect your account from password guessing | Legitimate interest, Art. 6(1)(f) |
 

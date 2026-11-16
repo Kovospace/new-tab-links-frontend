@@ -4,7 +4,7 @@
 
 - The browser's **built-in bookmarks and history are hard to find**, or a long way to reach.
 
-- With **Tabilinks**, your **bookmarks are right in front of you**, and recent tabs and browsing history are one mouse movement away: move to the right to expand the panel.
+- With **Tabilinks**, your **bookmarks are right in front of you**, and recent tabs and browsing history are in a panel on the left, open beside your links - or, if you fold it away, one mouse movement to the left.
 
   - [Discover history](../../tips/en/discover-history.md)
 

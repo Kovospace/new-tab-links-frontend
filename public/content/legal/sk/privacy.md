@@ -30,8 +30,12 @@ z prehliadača pri vykreslení panela a nikde sa neukladá ani neodosiela.
 údaje aj vymažú. 
 - Okná v režime inkognito sa nezaznamenávajú, pokiaľ tam rozšírenie nepovolíte.
 - Obrázok na pozadí, ktorý si nahráte, zostáva v úložisku vášho prehliadača a nikdy sa k nám
-neposiela, ani keď máte účet. Vstavané pozadie sa stiahne z tabilinks.app, keď si ho vyberiete;
-požiadavka o vás nenesie nič.
+neposiela, ani keď máte účet. Vstavané pozadie sa stiahne z tabilinks.app, keď si ho vyberiete, a
+nová inštalácia si jedno stiahne na začiatok; požiadavka o vás nenesie nič.
+- Import záložiek z prehliadača je dobrovoľný. Rozšírenie si povolenie na ich čítanie vyžiada, až
+keď sa ich rozhodnete importovať, prečíta ich vo vašom prehliadači a z priečinkov, ktoré vyberiete,
+vytvorí skupiny a odkazy. Vaše záložky sa k nám nikdy neposielajú; odkazy z nich vytvorené sa
+synchronizujú ako každý iný odkaz, a len ak synchronizáciu používate.
 
 ## Čo spracúvame, ak máte účet
 
@@ -43,7 +47,7 @@ požiadavka o vás nenesie nič.
 | Vaše zariadenia: názov zariadenia a prehliadača, kedy bolo naposledy použité | Aby každá inštalácia zostala prihlásená a aby ste mohli svoje zariadenia vidieť a odhlásiť | Zmluva, čl. 6 ods. 1 písm. b) |
 | Čo obsahuje každá inštalácia rozšírenia: názvy jej profilov a plôch, koľko skupín, podskupín a odkazov má každá plocha a či sa synchronizuje - vrátane dát, ktoré sa nesynchronizujú. Nikdy nie odkaz, jeho adresa ani názov skupiny | Aby sme vám na webe ukázali pre každé zariadenie, čo sa synchronizuje a čo zostáva na zariadení nad limitom | Zmluva, čl. 6 ods. 1 písm. b) |
 | Prihlasovacie tokeny, aktivačné a obnovovacie kódy | Uložené iba ako hash, na udržanie prihlásenia a overenie odkazov z e-mailov | Zmluva, čl. 6 ods. 1 písm. b) |
-| Synchronizovaný obsah: plochy, profily, skupiny, odkazy, ich názvy a popisy; nedávno zatvorené karty (adresa, názov, adresa ikony, názov zariadenia, čas zatvorenia), pokiaľ ste ich nevypli; a len ak ste ju zapli, vaša história prehliadania - naposledy navštívené stránky (adresa, názov, adresa ikony, názov zariadenia, čas návštevy), najviac 50 pri bezplatnom účte a 1000 pri premium. Karty práve otvorené vo vašom prehliadači sa nikdy neodosielajú | Synchronizácia a záloha, na ktoré účet používate | Zmluva, čl. 6 ods. 1 písm. b) |
+| Synchronizovaný obsah: plochy, profily a ich nastavenia, skupiny, odkazy, ich názvy a popisy a ktoré odkazy ste označili ako obľúbené; nedávno zatvorené karty (adresa, názov, adresa ikony, názov zariadenia, čas zatvorenia), pokiaľ ste ich nevypli; a len ak ste ju zapli, vaša história prehliadania - naposledy navštívené stránky (adresa, názov, adresa ikony, názov zariadenia, čas návštevy), najviac 50 pri bezplatnom účte a 1000 pri premium. Karty práve otvorené vo vašom prehliadači sa nikdy neodosielajú | Synchronizácia a záloha, na ktoré účet používate | Zmluva, čl. 6 ods. 1 písm. b) |
 | Stav prémia: plán, dátum platnosti, zaplatená suma a mena, identifikátory zákazníka, objednávky a predplatného u platobného poskytovateľa | Aby ste dostali prémiové funkcie, za ktoré ste zaplatili | Zmluva, čl. 6 ods. 1 písm. b) |
 | Počet neúspešných pokusov o prihlásenie | Ochrana účtu pred hádaním hesla | Oprávnený záujem, čl. 6 ods. 1 písm. f) |
 

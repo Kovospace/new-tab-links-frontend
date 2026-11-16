@@ -4,7 +4,7 @@
 
 - **Vstavané záložky a história prehliadača sa ťažko hľadajú**, alebo je k nim dlhá cesta.
 
-- S **Tabilinks** máte **záložky priamo pred sebou** a k nedávnym kartám a histórii prehliadania vás delí jediný pohyb myšou: doprava, a panel sa rozbalí.
+- S **Tabilinks** máte **záložky priamo pred sebou** a nedávne karty a história prehliadania sú v paneli vľavo, otvorenom vedľa vašich odkazov - alebo, ak ho zbalíte, jediný pohyb myšou doľava.
 
   - [Objavte históriu](../../tips/sk/discover-history.md)
 
