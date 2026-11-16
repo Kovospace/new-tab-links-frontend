@@ -11,7 +11,7 @@ $narrow-screen-breakpoint: 533px;
   position: relative;
 
   em {
-    color: var(--color-text);
+    color: var(--color-accent-text);
     background-color: var(--color-accent);
     padding: 0 0.125em;
     border-top-left-radius: 0.25em;
@@ -45,6 +45,10 @@ $narrow-screen-breakpoint: 533px;
   font-size: 2em;
   color: var(--color-text-muted);
   max-width: 75vw;
+}
+
+.home-page__explanation b {
+  font-weight: bold;
 }
 
 .home-page__actions {
@@ -109,7 +113,7 @@ $feature-picture-max-width: 32em;
   align-items: center;
   gap: 2em;
 
-  // Each point is a dim blue panel of its own.
+  // Each point is a dim accent panel of its own.
   padding: 1.5em;
   border-radius: 1em;
   background-color: var(--color-section-accent-dim);

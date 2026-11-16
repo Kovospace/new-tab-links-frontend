@@ -44,6 +44,7 @@ $narrow-screen-breakpoint: 533px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  color: var(--color-accent-text);
   background-color: var(--color-accent);
   border-radius: 0.5em;
   overflow: hidden;
@@ -55,10 +56,13 @@ $narrow-screen-breakpoint: 533px;
 }
 
 .page-header__navigation-item {
-  transition: background-color var(--duration-fast) var(--easing-standard);
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
 }
 
 .page-header__navigation-item:hover {
+  color: var(--color-accent-text-hover);
   background-color: var(--color-accent-hover);
 }
 

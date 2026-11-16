@@ -62,12 +62,16 @@ $narrow-screen-breakpoint: 533px;
     //margin-top: var(--markdown-link-offset, 1.5em);
     display: inline-block;
     padding: 0.125em 0.25em;
+    color: var(--color-accent-text);
     background-color: var(--color-accent);
     border-radius: 0.25em;
-    transition: background-color var(--duration-fast) var(--easing-standard);
+    transition:
+      background-color var(--duration-fast) var(--easing-standard),
+      color var(--duration-fast) var(--easing-standard);
 
     &:hover {
       //text-decoration: underline;
+      color: var(--color-accent-text-hover);
       background-color: var(--color-accent-hover);
     }
   }
@@ -146,6 +150,7 @@ $narrow-screen-breakpoint: 533px;
   }
 
   thead {
+    color: var(--color-accent-text);
     background-color: var(--color-accent);
     font-weight: bold;
   }

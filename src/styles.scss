@@ -206,20 +206,27 @@ option {
   // the option that is already selected must still light up, or the one row under the pointer
   // would be the only row that does not answer.
   option:checked {
+    color: var(--color-accent-text);
     background-color: var(--color-ui-element-selected);
   }
 
   // What was asked for, and the one place it can be honoured. `:focus` is here with `:hover`
   // because the list is navigated by keyboard as well, and the two must look the same.
   option:hover {
+    color: var(--color-accent-text-hover);
     background-color: var(--color-ui-element-accented-hover);
   }
 }
 
 button:not(.language-switcher__option),
 .button {
+  // The accent is yellow, so the label on it is dark; the danger variant below takes the page's
+  // own text colour back.
+  color: var(--color-accent-text);
   background-color: var(--color-ui-element-accented);
-  transition: background-color var(--duration-fast) var(--easing-standard);
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
   cursor: pointer;
   font-size: 1.25em;
   font-weight: bold;
@@ -239,10 +246,12 @@ button:not(.language-switcher__option),
   margin: 0.25em 0;
 
   &:hover {
+    color: var(--color-accent-text-hover);
     background-color: var(--color-ui-element-accented-hover);
   }
 
   &.danger {
+    color: var(--color-text);
     background-color: var(--color-ui-element-danger);
 
     &:hover {
