@@ -2,7 +2,7 @@
 
 Right-click the page you are on - or a link on it - and open the **Tabilinks** entry. It offers three ways to keep it:
 
-- **Flash save** - keeps it at once, with no questions, in a group called "Flash save" in the space you have open. The group is made the first time you use it. The keyboard shortcut is **Alt+Shift+F**.
+- **Flash save** - keeps it at once, with no questions, in a group called "Flash save" in the space you have open. The group is made the first time you use it. The keyboard shortcut is **Alt+Shift+F**. More in [Flash save: keep a page in one click](flash-save.md)
 - **Add bookmark…** - opens the save window, where you choose the name, the space, the group and the subgroup.
 - **Save to group** - choose a group or a subgroup of the open space right in the menu, and the page is saved there, with nothing to fill in.
 

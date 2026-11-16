@@ -2,7 +2,7 @@
 
 Kliknite pravým tlačidlom na stránku, na ktorej práve ste - alebo na odkaz na nej - a otvorte položku **Tabilinks**. Ponúka tri spôsoby, ako si ju ponechať:
 
-- **Rýchle uloženie** - uloží ju hneď, bez otázok, do skupiny „Rýchle uloženie“ v ploche, ktorú máte otvorenú. Skupina sa vytvorí pri prvom použití. Klávesová skratka je **Alt+Shift+F**.
+- **Rýchle uloženie** - uloží ju hneď, bez otázok, do skupiny „Rýchle uloženie“ v ploche, ktorú máte otvorenú. Skupina sa vytvorí pri prvom použití. Klávesová skratka je **Alt+Shift+F**. Viac v tipe [Rýchle uloženie: stránka jedným kliknutím](flash-save.md)
 - **Pridať záložku…** - otvorí ukladacie okno, v ktorom zvolíte názov, plochu, skupinu aj podskupinu.
 - **Uložiť do skupiny** - skupinu alebo podskupinu otvorenej plochy vyberiete priamo v ponuke a stránka sa tam uloží bez vypĺňania.
 

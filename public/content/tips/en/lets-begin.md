@@ -31,6 +31,9 @@ Links have a context menu of their own too, opened with a right click.
 ### Working with items
 - [Use drag and drop to arrange and move items](use-drag-and-drop.md)
 - [Save the page you are viewing](saving-from-webpage.md)
+- [Flash save: keep a page in one click](flash-save.md)
+- [Mark your favorites](favorites.md)
+- [Import your bookmarks from the browser](import-bookmarks.md)
 - [Discover history](discover-history.md)
 
 ### Profiles
@@ -43,6 +46,8 @@ Links have a context menu of their own too, opened with a right click.
 - [Roll up a subgroup](roll-the-subgroup.md)
 - [Open all links from a subgroup at once](open-all-subgroups-link.md)
 - [Catch links from a subgroup into a tab group](subgroup-links-into-tab-group.md)
+- [Resize a group and sort its links](resize-and-sort-groups.md)
 
 ### Settings
 - [Is everything too big or too small?](set-size.md)
+- [Choose your accent colour](accent-colour.md)

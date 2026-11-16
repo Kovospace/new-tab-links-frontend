@@ -30,4 +30,4 @@ Pre pridanie niektorej stránky do kolekcie stačí potom použiť tlačidlo "+"
 
 Stránky, ktoré už boli uložené do nejakej kolekcie budú označené zelenou fajkou.
 
-Keď máte zapnuté Obľúbené, každý riadok má aj krúžok. Ak je stránka v otvorenej ploche už uložená ako odkaz, krúžok ju označí ako obľúbenú; ak nie je, otvorí ukladacie okno s už zaškrtnutým „Obľúbený“.
+Keď máte zapnuté Obľúbené, každý riadok má aj krúžok. Ak je stránka v otvorenej ploche už uložená ako odkaz, krúžok ju označí ako obľúbenú; ak nie je, otvorí ukladacie okno s už zaškrtnutým „Obľúbený“. Viac v tipe [Označte si obľúbené](favorites.md)

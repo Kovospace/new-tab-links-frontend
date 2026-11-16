@@ -31,6 +31,9 @@ Aj odkazy majú vlastné kontextové menu, ktoré otvoríte pravým tlačidlom m
 ### Manipulácia s položkami:
 - [Na usporiadanie a presun položiek je možné použiť Drag and Drop](use-drag-and-drop.md)
 - [Uložiť práve prezeranú stránku](saving-from-webpage.md)
+- [Rýchle uloženie: stránka jedným kliknutím](flash-save.md)
+- [Označte si obľúbené](favorites.md)
+- [Importujte záložky z prehliadača](import-bookmarks.md)
 - [Objav históriu](discover-history.md)
 
 ### Profily
@@ -43,6 +46,8 @@ Aj odkazy majú vlastné kontextové menu, ktoré otvoríte pravým tlačidlom m
 - [Zrolovanie podskupiny](roll-the-subgroup.md)
 - [Otvoriť všetky linky z podskupiny naraz](open-all-subgroups-link.md)
 - [Zachytávať linky z podskupiny do skupiny kariet](subgroup-links-into-tab-group.md)
+- [Zmeňte veľkosť skupiny a zoraďte jej odkazy](resize-and-sort-groups.md)
 
 ### Nastavenia
 - [Je všetko veľké alebo malé ?](set-size.md)
+- [Vyberte si farbu zvýraznenia](accent-colour.md)

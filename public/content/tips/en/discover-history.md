@@ -30,4 +30,4 @@ To add a page to your collection, use the "+" button or simply drag and drop it.
 
 Pages already saved in some collection are marked with a green check mark.
 
-With Favorites turned on, each row also has a circle. If the page is already a link in the open space, the circle marks it as a favorite; if it is not, it opens the save window with "Favorite" already ticked.
+With Favorites turned on, each row also has a circle. If the page is already a link in the open space, the circle marks it as a favorite; if it is not, it opens the save window with "Favorite" already ticked. More in [Mark your favorites](favorites.md)
