@@ -78,20 +78,20 @@
     <path d="M510 205 H535 Q545 205 545 195 V175 Q545 160 560 160 H600 Q615 160 615 175 V195 Q615 205 625 205 H650"
           fill="none" stroke="#666" stroke-width="4" stroke-linejoin="round"/>
     <line x1="510" y1="220" x2="650" y2="220" stroke="#666" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="580" cy="183" r="16" fill="#004fff"/>
-    <g stroke="#fff" stroke-width="4" stroke-linecap="round">
+    <circle cx="580" cy="183" r="16" fill="#e0a100"/>
+    <g stroke="#111" stroke-width="4" stroke-linecap="round">
       <line x1="572" y1="183" x2="588" y2="183"/><line x1="580" y1="175" x2="580" y2="191"/>
     </g>
 
     <!-- arrow -->
-    <g stroke="#4a82ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <g stroke="#f5b800" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
       <line x1="665" y1="183" x2="720" y2="183"/>
       <polyline points="708,172 721,183 708,194"/>
     </g>
 
     <!-- the one click -->
     <use href="#pointer" x="760" y="170" fill="#fff" stroke="#000"/>
-    <use href="#burst" x="760" y="170" stroke="#4a82ff"/>
+    <use href="#burst" x="760" y="170" stroke="#f5b800"/>
 
     <!-- a moment: 30 degrees -->
     <g transform="translate(850 310)">

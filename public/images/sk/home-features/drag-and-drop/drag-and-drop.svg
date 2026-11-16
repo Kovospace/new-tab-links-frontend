@@ -4,7 +4,7 @@
     <!-- One link tile: favicon and its name; top-left corner at 0,0. -->
     <g id="tile">
       <rect width="70" height="40" rx="8" fill="#000" stroke="#666" stroke-width="3"/>
-      <circle cx="16" cy="20" r="6" fill="#004fff"/>
+      <circle cx="16" cy="20" r="6" fill="#e0a100"/>
       <line x1="28" y1="20" x2="58" y2="20" stroke="#666" stroke-width="4" stroke-linecap="round"/>
     </g>
     <!-- Mouse pointer, tip at 0,0. -->
@@ -12,7 +12,7 @@
           fill="#fff" stroke="#000" stroke-linejoin="round" stroke-width="2.5"/>
     <marker id="arrowhead" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="16" markerHeight="16"
             markerUnits="userSpaceOnUse" orient="auto">
-      <polyline points="1,1 7,6 1,11" fill="none" stroke="#4a82ff" stroke-width="2.5"
+      <polyline points="1,1 7,6 1,11" fill="none" stroke="#f5b800" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
   </defs>
@@ -42,11 +42,11 @@
   <rect x="245" y="177" width="70" height="40" rx="8" fill="none" stroke="#666" stroke-width="3"
         stroke-dasharray="6 6"/>
   <!-- where it will be dropped -->
-  <rect x="555" y="177" width="70" height="40" rx="8" fill="#004fff" fill-opacity="0.15"
-        stroke="#4a82ff" stroke-width="3" stroke-dasharray="6 6"/>
+  <rect x="555" y="177" width="70" height="40" rx="8" fill="#e0a100" fill-opacity="0.15"
+        stroke="#f5b800" stroke-width="3" stroke-dasharray="6 6"/>
 
   <!-- ===== Its way across ===== -->
-  <g stroke="#4a82ff" stroke-width="4" stroke-linecap="round" fill="none">
+  <g stroke="#f5b800" stroke-width="4" stroke-linecap="round" fill="none">
     <path d="M322 197 C355 192 372 165 390 145" stroke-dasharray="2 10"/>
     <path d="M482 132 C515 140 530 165 545 190" stroke-dasharray="2 10" marker-end="url(#arrowhead)"/>
   </g>
@@ -54,8 +54,8 @@
   <!-- ===== The link being dragged: lifted and tilted ===== -->
   <g transform="translate(435 125) rotate(-8)">
     <rect x="-29" y="-12" width="70" height="40" rx="8" fill="#000" opacity="0.7"/>
-    <rect x="-35" y="-20" width="70" height="40" rx="8" fill="#000" stroke="#4a82ff" stroke-width="4"/>
-    <circle cx="-19" cy="0" r="6" fill="#004fff"/>
+    <rect x="-35" y="-20" width="70" height="40" rx="8" fill="#000" stroke="#f5b800" stroke-width="4"/>
+    <circle cx="-19" cy="0" r="6" fill="#e0a100"/>
     <line x1="-7" y1="0" x2="23" y2="0" stroke="#666" stroke-width="4" stroke-linecap="round"/>
   </g>
   <use href="#pointer" x="445" y="128"/>

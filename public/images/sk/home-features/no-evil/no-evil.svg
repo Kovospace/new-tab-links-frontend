@@ -44,7 +44,7 @@
   <rect x="605" y="95" width="150" height="65" fill="#111" stroke="#666" stroke-width="4"/>
   <path d="M590 105 L680 45 L770 105" fill="none" stroke="#666" stroke-width="4"
         stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="680" cy="78" r="10" fill="#004fff"/>
+  <circle cx="680" cy="78" r="10" fill="#e0a100"/>
   <g stroke="#666" stroke-width="3" fill="none">
     <rect x="630" y="112" width="100" height="48"/>
     <line x1="630" y1="124" x2="730" y2="124"/>
@@ -53,7 +53,7 @@
   </g>
 
   <!-- the extension talking only to it, privately -->
-  <line x1="680" y1="208" x2="680" y2="170" stroke="#4a82ff" stroke-width="4" stroke-linecap="round"
+  <line x1="680" y1="208" x2="680" y2="170" stroke="#f5b800" stroke-width="4" stroke-linecap="round"
         stroke-dasharray="2 10"/>
   <use href="#window" x="600" y="215"/>
   <g transform="translate(730 188)">
