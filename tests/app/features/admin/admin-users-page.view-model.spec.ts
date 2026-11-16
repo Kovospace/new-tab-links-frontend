@@ -20,6 +20,7 @@ describe('AdminUsersPageViewModel premium', () => {
     id: string,
     premiumSource: AdminPremiumSource | null,
     premiumUntil: string | null = null,
+    fairUseOverride = false,
   ): AdminUser => ({
     id,
     username: id,
@@ -31,6 +32,7 @@ describe('AdminUsersPageViewModel premium', () => {
     premiumSource,
     premiumUntil,
     failedLoginAttempts: 0,
+    fairUseOverride,
     createdAt: '2026-09-27T10:00:00Z',
     updatedAt: '2026-09-27T10:00:00Z',
   });
@@ -40,7 +42,7 @@ describe('AdminUsersPageViewModel premium', () => {
     account('lifetime', 'LIFETIME'),
     account('subscriber', 'SUBSCRIPTION', '2027-01-01T00:00:00Z'),
     account('granted', 'GRANT'),
-    account('granted-year', 'GRANT', '2027-10-04T10:00:00Z'),
+    account('granted-year', 'GRANT', '2027-10-04T10:00:00Z', true),
   ];
 
   beforeEach(() => {
@@ -72,6 +74,25 @@ describe('AdminUsersPageViewModel premium', () => {
       'admin.premium.SUBSCRIPTION',
       'admin.premium.GRANT',
       'admin.premium.GRANT_UNTIL',
+    ]);
+  });
+
+  it('links every row to its account page and marks raised Fair Use limits', () => {
+    const presented = viewModel.accounts();
+
+    expect(presented.map((row) => row.detailLink)).toEqual([
+      '/admin/users/free',
+      '/admin/users/lifetime',
+      '/admin/users/subscriber',
+      '/admin/users/granted',
+      '/admin/users/granted-year',
+    ]);
+    expect(presented.map((row) => row.fairUseLabel)).toEqual([
+      'admin.users.fairUseGlobal',
+      'admin.users.fairUseGlobal',
+      'admin.users.fairUseGlobal',
+      'admin.users.fairUseGlobal',
+      'admin.users.fairUseRaised',
     ]);
   });
 

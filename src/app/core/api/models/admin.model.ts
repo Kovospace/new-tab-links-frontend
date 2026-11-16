@@ -54,6 +54,8 @@ export interface AdminUser {
    */
   readonly premiumUntil: string | null;
   readonly failedLoginAttempts: number;
+  /** Whether the operator raised any of this account's Fair Use limits above the global ones. */
+  readonly fairUseOverride: boolean;
   readonly createdAt: string;
   readonly updatedAt: string;
 }

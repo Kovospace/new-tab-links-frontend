@@ -67,8 +67,15 @@ export const APPLICATION_ROUTE_PATHS = {
   admin: 'admin',
   /** The operator's account list, behind {@code requiresAdminSession}. */
   adminUsers: 'admin/users',
+  /**
+   * One account, for the operator: its raised Fair Use limits. Linked from the account list,
+   * behind {@code requiresAdminSession}.
+   */
+  adminUserDetail: 'admin/users/:userId',
   /** The operator's usage statistics, behind {@code requiresAdminSession}. */
   adminMetrics: 'admin/metrics',
+  /** The global Fair Use limits, behind {@code requiresAdminSession}. */
+  adminFairUseLimits: 'admin/fair-use-limits',
 } as const;
 
 /**
@@ -99,6 +106,7 @@ export const APPLICATION_ROUTE_LINKS = {
   admin: `/${APPLICATION_ROUTE_PATHS.admin}`,
   adminUsers: `/${APPLICATION_ROUTE_PATHS.adminUsers}`,
   adminMetrics: `/${APPLICATION_ROUTE_PATHS.adminMetrics}`,
+  adminFairUseLimits: `/${APPLICATION_ROUTE_PATHS.adminFairUseLimits}`,
 } as const;
 
 /**
@@ -111,6 +119,16 @@ export const APPLICATION_ROUTE_LINKS = {
  */
 export function buildDeviceDetailLink(deviceId: string): string {
   return `${APPLICATION_ROUTE_LINKS.devices}/${encodeURIComponent(deviceId)}`;
+}
+
+/**
+ * Builds the link of one account's page in the operator's area.
+ *
+ * @param userId identifier of the account
+ * @returns such as {@code /admin/users/3f2a…}
+ */
+export function buildAdminUserDetailLink(userId: string): string {
+  return `${APPLICATION_ROUTE_LINKS.adminUsers}/${encodeURIComponent(userId)}`;
 }
 
 /**

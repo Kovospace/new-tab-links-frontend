@@ -6,8 +6,8 @@
 - Neobmedzený\* počet plôch
 - Neobmedzený\* počet profilov
 - Neobmedzený\* počet synchronizovaných zariadení
-- 500 zapamätaných zavretých kariet (oproti 25)
-- 1000 zapamätaných navštívených stránok (oproti 50)
+- {fairUseClosedTabs} zapamätaných zavretých kariet (oproti 25)
+- {fairUseBrowsingHistory} zapamätaných navštívených stránok (oproti 50)
 - Žiadny reklamný pruh
 
 _\* Platia [Zásady primeraného používania](/fair-use)._

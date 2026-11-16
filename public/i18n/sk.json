@@ -471,7 +471,9 @@
     "tooShort": "Vyžaduje sa aspoň {min} znakov.",
     "tooLong": "Najviac {max} znakov.",
     "usernamePattern": "Nepovolené znaky",
-    "passwordMismatch": "Heslá sa nezhodujú."
+    "passwordMismatch": "Heslá sa nezhodujú.",
+    "wholeNumber": "Zadajte celé číslo.",
+    "tooSmall": "Hodnota musí byť aspoň {min}."
   },
   "errors": {
     "generic": "Niečo sa pokazilo. Skúste to znova.",
@@ -511,7 +513,9 @@
       "passwordSaved": "Heslo bolo nastavené. Majiteľovi účtu sme to neoznámili.",
       "accountUnlocked": "Počítadlo neúspešných prihlásení bolo vynulované.",
       "accountDeleted": "Účet a všetko, čo mu patrilo, boli zmazané.",
-      "accountCreated": "Účet bol vytvorený."
+      "accountCreated": "Účet bol vytvorený.",
+      "fairUseRaised": "Zvýšené",
+      "fairUseGlobal": "Globálne"
     },
     "field": {
       "username": "Používateľské meno",
@@ -524,7 +528,8 @@
       "failedAttempts": "Neúspešné prihlásenia",
       "createdAt": "Vytvorený",
       "actions": "Akcie",
-      "premiumPaidHint": "Zaplatené cez Creem. Tu sa odobrať nedá: vráťte platbu alebo zrušte predplatné v administrácii Creem."
+      "premiumPaidHint": "Zaplatené cez Creem. Tu sa odobrať nedá: vráťte platbu alebo zrušte predplatné v administrácii Creem.",
+      "fairUse": "Limity primeraného používania"
     },
     "status": {
       "PENDING_ACTIVATION": "Čaká na aktiváciu",
@@ -559,7 +564,8 @@
     "cancelAction": "Zrušiť",
     "navigation": {
       "accounts": "Účty",
-      "statistics": "Štatistiky"
+      "statistics": "Štatistiky",
+      "fairUseLimits": "Limity primeraného používania"
     },
     "metrics": {
       "heading": "Štatistiky",
@@ -581,6 +587,56 @@
       "NONE": "Nepridelená",
       "ONE_YEAR": "Pridelená na jeden rok",
       "LIFETIME": "Pridelená doživotne"
+    },
+    "fairUseLimit": {
+      "profiles": "Profily na účet",
+      "workspacesPerProfile": "Plochy v jednom profile",
+      "groupsPerWorkspace": "Skupiny na jednej ploche",
+      "subgroupsPerGroup": "Podskupiny v jednej skupine",
+      "linksPerWorkspace": "Odkazy na jednej ploche",
+      "closedTabs": "Zatvorené karty uchovávané v histórii",
+      "browsingHistory": "Navštívené stránky uchovávané v histórii prehliadania",
+      "devices": "Synchronizované inštalácie"
+    },
+    "fairUseLimits": {
+      "heading": "Limity primeraného používania",
+      "lead": "Limity, ktoré podľa zásad primeraného používania platia pre každý účet: hranice za „neobmedzeným“ prémiom a limity skupín, podskupín a odkazov každého plánu. Vlastné limity bezplatného plánu sa tu nenastavujú. Stránka zásad primeraného používania a ponuky na úvodnej stránke ukážu tieto čísla hneď po uložení.",
+      "loading": "Načítavame limity…",
+      "saveAction": "Uložiť limity",
+      "saved": "Limity primeraného používania boli uložené."
+    },
+    "fairUseDecrease": {
+      "heading": "Znížiť tieto limity?",
+      "globalLead": "Týmto sa znížia limity pre všetky účty. Účty, ktoré už majú viac, ako je nová hodnota, to zasiahne takto:",
+      "userLead": "Týmto sa zníži, čo platí pre tento účet. Ak už má viac, ako je nová hodnota:",
+      "change": "{limit}: {from} → {to}.",
+      "consequence": {
+        "entriesDeleted": "Záznamy nad novou hranicou sa pri najbližšej synchronizácii z účtu zmažú, najstaršie ako prvé.",
+        "stopsSynchronising": "Položky nad novým limitom sa prestanú synchronizovať. Zostanú na zariadení, ktoré ich má, a nezmažú sa.",
+        "spaceStopsSynchronising": "Plocha, ktorá má viac, ako je nový limit, sa prestane synchronizovať celá. Nič z nej sa nezmaže."
+      },
+      "irreversible": "Zmazané zatvorené karty a navštívené stránky sa nedajú obnoviť, ani opätovným zvýšením limitu.",
+      "confirmAction": "Áno, znížiť limity"
+    },
+    "userDetail": {
+      "loading": "Načítavame účet…",
+      "heading": "Účet {username}",
+      "summary": "{email} · {displayName}",
+      "limitsHeading": "Zvýšené limity primeraného používania",
+      "limitsLead": "Výnimka môže limit iba zvýšiť nad globálnu hodnotu. Prázdne pole znamená, že platí globálna hodnota. Výnimky nevypršia.",
+      "freePlanNotice": "Tento účet nemá prémium. Kým ho nemá, platia preň nižšie limity bezplatného plánu na profily, plochy, inštalácie a obe histórie, bez ohľadu na to, čo sa tu zvýši.",
+      "column": {
+        "limit": "Limit",
+        "global": "Globálne",
+        "override": "Výnimka",
+        "effective": "Platí"
+      },
+      "overrideHint": "Prázdne pole znamená, že pre účet platí globálna hodnota. „Platí“ ukazuje naposledy uložený stav.",
+      "noteLabel": "Prečo boli limity zvýšené (najviac 500 znakov)",
+      "saveAction": "Uložiť výnimky",
+      "removeAction": "Odstrániť všetky výnimky",
+      "saved": "Výnimky boli uložené.",
+      "removed": "Výnimky boli odstránené. Pre účet opäť platia globálne limity."
     }
   },
   "purchaseThankYou": {
@@ -731,6 +787,12 @@
     },
     "notFound": {
       "title": "Stránka sa nenašla"
+    },
+    "adminUserDetail": {
+      "title": "Účet · Administrácia"
+    },
+    "adminFairUseLimits": {
+      "title": "Limity primeraného používania · Administrácia"
     }
   }
 }

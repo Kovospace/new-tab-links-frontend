@@ -18,7 +18,7 @@ Bookmarklety - záložky, ktorých adresa začína `javascript:` - sa preskočia
 
 ## Limity
 
-Plocha pojme 25 skupín, 25 podskupín v skupine a 500 odkazov. Ak by zaškrtnuté priečinky niektorý z týchto limitov prekročili, dialóg povie ktorý a „Importovať“ zostane neaktívne, kým ich neodškrtnete dosť.
+Plocha pojme {fairUseGroupsPerWorkspace} skupín, {fairUseSubgroupsPerGroup} podskupín v skupine a {fairUseLinksPerWorkspace} odkazov. Ak by zaškrtnuté priečinky niektorý z týchto limitov prekročili, dialóg povie ktorý a „Importovať“ zostane neaktívne, kým ich neodškrtnete dosť.
 
 ## Súkromie
 

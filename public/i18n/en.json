@@ -471,7 +471,9 @@
     "tooShort": "This needs at least {min} characters.",
     "tooLong": "This may be at most {max} characters.",
     "usernamePattern": "Not allowed characters used",
-    "passwordMismatch": "The two passwords do not match."
+    "passwordMismatch": "The two passwords do not match.",
+    "wholeNumber": "Enter a whole number.",
+    "tooSmall": "This has to be at least {min}."
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -511,7 +513,9 @@
       "passwordSaved": "The password was set. Its owner has not been told.",
       "accountUnlocked": "The failed sign-in counter was cleared.",
       "accountDeleted": "The account and everything it owned were deleted.",
-      "accountCreated": "The account was created."
+      "accountCreated": "The account was created.",
+      "fairUseRaised": "Raised",
+      "fairUseGlobal": "Global"
     },
     "field": {
       "username": "Username",
@@ -524,7 +528,8 @@
       "failedAttempts": "Failed sign-ins",
       "createdAt": "Created",
       "actions": "Actions",
-      "premiumPaidHint": "Paid through Creem. It cannot be taken away here: refund or cancel it in the Creem dashboard."
+      "premiumPaidHint": "Paid through Creem. It cannot be taken away here: refund or cancel it in the Creem dashboard.",
+      "fairUse": "Fair Use limits"
     },
     "status": {
       "PENDING_ACTIVATION": "Awaiting activation",
@@ -559,7 +564,8 @@
     "cancelAction": "Cancel",
     "navigation": {
       "accounts": "Accounts",
-      "statistics": "Statistics"
+      "statistics": "Statistics",
+      "fairUseLimits": "Fair Use limits"
     },
     "metrics": {
       "heading": "Statistics",
@@ -581,6 +587,56 @@
       "NONE": "Not granted",
       "ONE_YEAR": "Granted for one year",
       "LIFETIME": "Granted for life"
+    },
+    "fairUseLimit": {
+      "profiles": "Profiles per account",
+      "workspacesPerProfile": "Spaces in one profile",
+      "groupsPerWorkspace": "Groups in one space",
+      "subgroupsPerGroup": "Subgroups in one group",
+      "linksPerWorkspace": "Links in one space",
+      "closedTabs": "Closed tabs kept in the history",
+      "browsingHistory": "Visited pages kept in the browsing history",
+      "devices": "Synchronised installations"
+    },
+    "fairUseLimits": {
+      "heading": "Fair Use limits",
+      "lead": "The limits every account is held to under the Fair Use Policy: the caps behind premium's \"unlimited\", and the groups, subgroups and links limits of every plan. The free plan's own limits are not set here. The Fair Use Policy page and the offers on the home page show these numbers as soon as they are saved.",
+      "loading": "Loading the limits…",
+      "saveAction": "Save the limits",
+      "saved": "The Fair Use limits were saved."
+    },
+    "fairUseDecrease": {
+      "heading": "Lower these limits?",
+      "globalLead": "This lowers limits for every account. Accounts that already hold more than the new value are affected as follows:",
+      "userLead": "This lowers what this account is held to. If it already holds more than the new value:",
+      "change": "{limit}: {from} → {to}.",
+      "consequence": {
+        "entriesDeleted": "Entries above the new cap are deleted from the account on its next synchronisation, oldest first.",
+        "stopsSynchronising": "Items over the new limit stop synchronising. They stay on the device that holds them and are not deleted.",
+        "spaceStopsSynchronising": "A space holding more than the new limit stops synchronising as a whole. Nothing in it is deleted."
+      },
+      "irreversible": "Deleted closed tabs and visited pages cannot be restored, not even by raising the limit again.",
+      "confirmAction": "Yes, lower the limits"
+    },
+    "userDetail": {
+      "loading": "Loading the account…",
+      "heading": "Account {username}",
+      "summary": "{email} · {displayName}",
+      "limitsHeading": "Raised Fair Use limits",
+      "limitsLead": "An override can only raise a limit above the global value. Leave a field empty to follow the global value. Overrides do not expire.",
+      "freePlanNotice": "This account does not hold premium. Until it does, the free plan's lower limits on profiles, spaces, installations and both histories stay in force, whatever is raised here.",
+      "column": {
+        "limit": "Limit",
+        "global": "Global",
+        "override": "Override",
+        "effective": "In force"
+      },
+      "overrideHint": "Empty means the account follows the global value. \"In force\" shows what was last saved.",
+      "noteLabel": "Why the limits were raised (at most 500 characters)",
+      "saveAction": "Save the overrides",
+      "removeAction": "Remove all overrides",
+      "saved": "The overrides were saved.",
+      "removed": "The overrides were removed. The account follows the global limits again."
     }
   },
   "purchaseThankYou": {
@@ -731,6 +787,12 @@
     },
     "notFound": {
       "title": "Page not found"
+    },
+    "adminUserDetail": {
+      "title": "Account · Administration"
+    },
+    "adminFairUseLimits": {
+      "title": "Fair Use limits · Administration"
     }
   }
 }

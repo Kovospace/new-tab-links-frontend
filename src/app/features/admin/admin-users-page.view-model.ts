@@ -9,6 +9,7 @@ import {
   UserAccountStatus,
 } from '../../core/api/models/admin.model';
 import { REGISTRATION_FIELD_CONSTRAINTS } from '../../core/api/models/registration.model';
+import { buildAdminUserDetailLink } from '../../core/routing/application-route-paths';
 import { formatInstantForDisplay } from '../../shared/formatting/instant-formatter';
 import { AbstractFormViewModel } from '../../shared/forms/abstract-form.view-model';
 
@@ -52,6 +53,10 @@ export interface PresentedAccount {
   readonly hasFailedAttempts: boolean;
   /** Whether the account has no password and can only sign in through a provider. */
   readonly signsInThroughProviderOnly: boolean;
+  /** Where the account's own page is: its raised Fair Use limits. */
+  readonly detailLink: string;
+  /** "Raised" when the operator raised any of its Fair Use limits, "Global" otherwise. */
+  readonly fairUseLabel: string;
 }
 
 /**
@@ -406,6 +411,10 @@ export class AdminUsersPageViewModel extends AbstractFormViewModel {
       failedLoginAttempts: account.failedLoginAttempts,
       hasFailedAttempts: account.failedLoginAttempts > 0,
       signsInThroughProviderOnly: !account.hasPassword,
+      detailLink: buildAdminUserDetailLink(account.id),
+      fairUseLabel: this.translationService.translate(
+        account.fairUseOverride ? 'admin.users.fairUseRaised' : 'admin.users.fairUseGlobal',
+      ),
     };
   }
 
