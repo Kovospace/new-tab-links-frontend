@@ -92,11 +92,24 @@
   --color-text-muted: #bbb;
   --color-background: #000;
 
-  // The one colour the site is recognised by, and its readable counterpart for text placed on it.
-  --color-accent: #004fff;
-  --color-accent-darker: #003fc9;
-  --color-accent-hover: #4a82ff;
-  --color-accent-selected: #fff;
+  // The one colour the site is recognised by - Tabilinks yellow, the extension's "amber" accent
+  // (its `__variables.css`), so the site and the new tab page wear the same colour.
+  //
+  // Yellow is light, so whatever is drawn ON it takes dark text: `--color-accent-text` at rest
+  // and `--color-accent-text-hover` under the pointer, which is the extension's own pairing. The
+  // bar is the extension's too - 4.5:1 at rest, 3:1 under the pointer:
+  //
+  //   #111 on #e0a100  8.33:1      #000 on #f5b800  11.74:1      #111 on #b88300 (darker)  5.65:1
+  //
+  // As a colour of its own on this page (borders, the select arrow, chart bars) it stands against
+  // black and near-black, where it measures 9.27:1 on #000 and 8.33:1 on #111. There is no light
+  // surface on the site yet; yellow as text or a thin line on white would fail (2.27:1), and
+  // the shade to reach for then is #8a6200 (5.49:1 on #fff).
+  --color-accent: #e0a100;
+  --color-accent-darker: #b88300;
+  --color-accent-hover: #f5b800;
+  --color-accent-text: #111;
+  --color-accent-text-hover: #000;
   --color-accent-danger: #FF2D32;
   --color-accent-danger-hover: #ff4a4e;
   --color-accent2: #009d15;
@@ -110,15 +123,15 @@
   // for use with "live" ui elements like buttons, forms, menu items
   --color-ui-element: #666;
   --color-ui-element-hover: #888;
-  --color-ui-element-accented: #004fff;
-  --color-ui-element-accented-hover: #4a82ff;
-  --color-ui-element-selected: #004fff;
+  --color-ui-element-accented: #e0a100;
+  --color-ui-element-accented-hover: #f5b800;
+  --color-ui-element-selected: #e0a100;
   --color-ui-element-danger: #FF2D32;
   --color-ui-element-danger-hover: #ff4a4e;
 
   --color-section-even: #111;
   // A band of the accent so dim it reads as a tint of the page rather than as colour.
-  --color-section-accent-dim: #050e26;
+  --color-section-accent-dim: #241a00;
   --color-section-even-danger: #701011;
 
   // State. Kept apart from the accent because they carry meaning rather than identity, and
@@ -127,8 +140,9 @@
 
   // The ring drawn around a focused control. `reset.scss` leaves the browser's own ring in place;
   // wherever a component opts out of it, it draws this one instead. Lighter than `--color-accent`
-  // so it stays legible both against the page and against a border already carrying the accent.
-  --color-focus-ring: #4a82ff;
+  // so it stays legible both against the page and against a border already carrying the accent
+  // (14.25:1 on #000).
+  --color-focus-ring: #ffcf40;
 
   // -------------------------------------------------------------------------------------------
   // Typography
