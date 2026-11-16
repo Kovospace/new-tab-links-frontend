@@ -1,6 +1,6 @@
 # Uložte stránku do skupiny, ktorá ešte neexistuje
 
-Keď ukladáte stránku cez okno záložiek - tlačidlom rozšírenia v hornej lište prehliadača, klávesovou skratkou alebo položkou „Vybrať miesto…“ v ponuke pravého tlačidla - skupinu nemusíte vytvárať vopred.
+Keď ukladáte stránku cez okno záložiek - tlačidlom rozšírenia v hornej lište prehliadača, jeho klávesovou skratkou alebo položkou „Pridať záložku…“ v položke Tabilinks ponuky pravého tlačidla - skupinu nemusíte vytvárať vopred.
 
 - Na konci zoznamu **skupín** vyberte **„Nová skupina…“** a napíšte jej názov. Stránka sa uloží do novej skupiny naraz.
 - Na konci zoznamu **podskupín** urobí to isté **„Nová podskupina…“** pre podskupinu zvolenej skupiny.

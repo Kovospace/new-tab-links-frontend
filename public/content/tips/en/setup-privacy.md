@@ -12,4 +12,6 @@ Everything about what is recorded and what leaves your browser is in one place: 
 
 So a history can be recorded and still never leave the browser: turn recording on and its synchronization off.
 
-The tabs open right now are never stored or sent anywhere. Without an account, nothing but an anonymous daily count of opened new tabs reaches our servers.
+The tabs open right now are never stored or sent anywhere. Without an account, the only thing about your use that reaches our servers is an anonymous daily count of opened new tabs.
+
+Importing bookmarks from the browser is up to you: the extension asks for access to them only when you start an import, and reads them in your browser.

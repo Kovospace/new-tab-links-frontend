@@ -1,6 +1,6 @@
 ## Čo je Tabilinks?
 
-Tabilinks je rozšírenie prehliadača, ktoré nahradí stránku novej karty vašimi vlastnými odkazmi, usporiadanými do skupín a podskupín. Nedávno zavreté karty a história prehliadania sú v paneli na pravom okraji tej istej stránky, na jeden pohyb myšou.
+Tabilinks je rozšírenie prehliadača, ktoré nahradí stránku novej karty vašimi vlastnými odkazmi, usporiadanými do skupín a podskupín. Nedávno zavreté karty a história prehliadania sú v paneli na ľavej strane tej istej stránky, vedľa vašich odkazov.
 
 ## Je Tabilinks zadarmo?
 
@@ -18,7 +18,7 @@ Tabilinks sa distribuuje cez Chrome Web Store, takže funguje v Google Chrome a 
 
 ## Ako synchronizujem odkazy medzi počítačmi?
 
-Zaregistrujte sa a prihláste na webe, potom každú inštaláciu rozšírenia prepojte so svojím účtom párovacím kódom zo zoznamu zariadení. Všetky prepojené inštalácie potom zobrazujú rovnaké odkazy.
+Zaregistrujte sa na webe a potom v každej inštalácii rozšírenia zvoľte „Prihlásiť sa“: prihláste sa menom a heslom alebo zadajte párovací kód zo zoznamu zariadení na webe. Všetky prepojené inštalácie potom zobrazujú rovnaké odkazy.
 
 - [Registrácia / prihlásenie, zapnutie synchronizácie](/sk/download)
 

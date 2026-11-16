@@ -1,6 +1,6 @@
 # Save a page into a group that does not exist yet
 
-When you save a page with the bookmarking window - the extension's button in the browser's top bar, the keyboard shortcut, or "Choose a place…" in the right-click menu - you do not have to make the group first.
+When you save a page with the bookmarking window - the extension's button in the browser's top bar, its keyboard shortcut, or "Add bookmark…" in the right-click menu's Tabilinks entry - you do not have to make the group first.
 
 - At the end of the **group** list, choose **"New group…"** and type its name. The page is saved into the new group in one go.
 - At the end of the **subgroup** list, **"New subgroup…"** does the same for a subgroup of the chosen group.

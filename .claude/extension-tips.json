@@ -1,4 +1,9 @@
 {
+  "accent-colour": {
+    "status": "pull-request",
+    "url": "https://github.com/Kovospace/new-tab-links-extension/pull/208",
+    "recorded": "2026-11-16"
+  },
   "bookmark-into-new-group": {
     "status": "pull-request",
     "url": "https://github.com/Kovospace/new-tab-links-extension/pull/144",
@@ -36,9 +41,24 @@
     "status": "in-extension",
     "recorded": "2026-10-11"
   },
+  "favorites": {
+    "status": "pull-request",
+    "url": "https://github.com/Kovospace/new-tab-links-extension/pull/208",
+    "recorded": "2026-11-16"
+  },
+  "flash-save": {
+    "status": "pull-request",
+    "url": "https://github.com/Kovospace/new-tab-links-extension/pull/208",
+    "recorded": "2026-11-16"
+  },
   "hide-tips": {
     "status": "in-extension",
     "recorded": "2026-10-11"
+  },
+  "import-bookmarks": {
+    "status": "pull-request",
+    "url": "https://github.com/Kovospace/new-tab-links-extension/pull/208",
+    "recorded": "2026-11-16"
   },
   "lets-begin": {
     "status": "pull-request",
@@ -48,6 +68,11 @@
   "open-all-subgroups-link": {
     "status": "in-extension",
     "recorded": "2026-10-11"
+  },
+  "resize-and-sort-groups": {
+    "status": "pull-request",
+    "url": "https://github.com/Kovospace/new-tab-links-extension/pull/208",
+    "recorded": "2026-11-16"
   },
   "roll-the-subgroup": {
     "status": "in-extension",
@@ -60,6 +85,11 @@
   "set-size": {
     "status": "in-extension",
     "recorded": "2026-10-11"
+  },
+  "setup-privacy": {
+    "status": "pull-request",
+    "url": "https://github.com/Kovospace/new-tab-links-extension/pull/208",
+    "recorded": "2026-11-16"
   },
   "subgroup-links-into-tab-group": {
     "status": "in-extension",

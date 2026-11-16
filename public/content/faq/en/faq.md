@@ -1,6 +1,6 @@
 ## What is Tabilinks?
 
-Tabilinks is a browser extension that replaces the new tab page with your own links, organized into groups and subgroups. Recently closed tabs and your browsing history sit in a panel on the right edge of the same page, one mouse movement away.
+Tabilinks is a browser extension that replaces the new tab page with your own links, organized into groups and subgroups. Recently closed tabs and your browsing history sit in a panel on the left of the same page, beside your links.
 
 ## Is Tabilinks free?
 
@@ -18,7 +18,7 @@ Tabilinks is distributed through the Chrome Web Store, so it works in Google Chr
 
 ## How do I synchronize links between computers?
 
-Register and sign in on the website, then connect each installation of the extension to your account with the pairing code from your device list. Every connected installation then shows the same links.
+Register on the website, then in each installation of the extension choose "Log in": sign in with your username and password, or enter the pairing code from your device list on the website. Every connected installation then shows the same links.
 
 - [Register / log in, enable synchronization](/download)
 
