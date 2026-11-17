@@ -4,7 +4,7 @@
 
 ## Prečo vôbec nejaké zásady
 
-Prémium sľubuje neobmedzený počet odkazov, pracovných priestorov, profilov a synchronizovaných
+Prémium sľubuje neobmedzený počet odkazov, plôch, profilov a synchronizovaných
 inštalácií a pre ľudí, pre
 ktorých je určené - pre niekoho, kto si usporadúva odkazy, ktoré naozaj používa - tento sľub platí.
 Limity nižšie existujú len preto, aby sa služba nedala použiť ako hromadné úložisko, plniť
@@ -17,25 +17,25 @@ Tabilinks používate tak, ako je zamýšľané, môžete tu prestať čítať.
 
 | Čo | Limit |
 |---|---|
-| Profily na účet | 50 |
-| Pracovné priestory v jednom profile | 50 |
-| Skupiny v jednom pracovnom priestore | 25 |
-| Podskupiny v jednej skupine | 25 |
-| Odkazy v jednom pracovnom priestore | 500 |
-| Zatvorené karty uchovávané v histórii | 500 |
-| Navštívené stránky uchovávané v histórii prehliadania | 1000 |
-| Synchronizované inštalácie | 100 |
+| Profily na účet | {fairUseProfiles} |
+| Plochy v jednom profile | {fairUseWorkspacesPerProfile} |
+| Skupiny na jednej ploche | {fairUseGroupsPerWorkspace} |
+| Podskupiny v jednej skupine | {fairUseSubgroupsPerGroup} |
+| Odkazy na jednej ploche | {fairUseLinksPerWorkspace} |
+| Zatvorené karty uchovávané v histórii | {fairUseClosedTabs} |
+| Navštívené stránky uchovávané v histórii prehliadania | {fairUseBrowsingHistory} |
+| Synchronizované inštalácie | {fairUseDevices} |
 
 Limity skupín, podskupín a odkazov platia pre každý plán vrátane bezplatného. Bezplatný plán má
-vlastné, nižšie limity na profily, pracovné priestory, inštalácie, históriu zatvorených kariet a
+vlastné, nižšie limity na profily, plochy, inštalácie, históriu zatvorených kariet a
 históriu prehliadania, uvedené na [úvodnej stránke](/).
 
 ## Čo sa stane, keď limit dosiahnete
 
 Ďalšiu položku daného druhu tam, kde ste limit dosiahli, nepridáte, kým niektorú neodstránite:
-do plného pracovného priestoru už nepridáte odkaz, ostatných pracovných priestorov sa to však
-netýka. Nič, čo už máte, sa nezmaže ani nezmení. História zatvorených kariet uchováva 500
-najnovších kariet a história prehliadania 1000 naposledy navštívených stránok; staršie uvoľnia
+na plnú plochu už nepridáte odkaz, ostatných plôch sa to však
+netýka. Nič, čo už máte, sa nezmaže ani nezmení. História zatvorených kariet uchováva {fairUseClosedTabs}
+najnovších kariet a história prehliadania {fairUseBrowsingHistory} naposledy navštívených stránok; staršie uvoľnia
 miesto novším.
 
 Dáta sa nad limit môžu dostať aj tak - napríklad keď k jednému účtu pripojíte dve inštalácie,

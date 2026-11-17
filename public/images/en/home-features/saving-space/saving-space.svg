@@ -12,7 +12,7 @@
     <!-- One link tile: favicon and its name; top-left corner at 0,0. -->
     <g id="tile">
       <rect width="70" height="40" rx="8" fill="#000" stroke="#666" stroke-width="3"/>
-      <circle cx="16" cy="20" r="6" fill="#004fff"/>
+      <circle cx="16" cy="20" r="6" fill="#e0a100"/>
       <line x1="28" y1="20" x2="58" y2="20" stroke="#666" stroke-width="4" stroke-linecap="round"/>
     </g>
     <!-- A group of links as Tabilinks shows it: a heading and a row of tiles. -->

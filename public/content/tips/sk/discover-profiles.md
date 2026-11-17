@@ -10,10 +10,10 @@ Príklad takého nastavenia:
 
 - Profil: Práca
   <br>
-  Pracovné priestory: „Vývojové prostredie“, „Testovanie“, „Produkcia“, „Zákazník 1“, „Zákazník 2“, ...
+  Plochy: „Vývojové prostredie“, „Testovanie“, „Produkcia“, „Zákazník 1“, „Zákazník 2“, ...
 - Profil: Doma
   <br>
-  Pracovné priestory: „Vývoj“, „Garáž“, „Kapela“, „Rybárčenie“, ...
+  Plochy: „Vývoj“, „Garáž“, „Kapela“, „Rybárčenie“, ...
 
 Aktuálny profil vidíte vpravo hore na novej karte:
 
@@ -34,4 +34,4 @@ importujete či spravujete:
 
 ![Správca profilov](../../../images/sk/tips/discover-profiles/profil-manage_1x.webp)
 
-Ďalší tip / lekcia o pracovných priestoroch: [Objavte pracovné priestory](discover-workspaces.md)
+Ďalší tip / lekcia o plochách: [Objavte plochy](discover-workspaces.md)

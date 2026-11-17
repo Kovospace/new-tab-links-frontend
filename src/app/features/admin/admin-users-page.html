@@ -136,6 +136,11 @@
             </th>
             <th scope="col">
               <div class="admin-page__column-header-content">
+                {{ 'admin.field.fairUse' | translate }}
+              </div>
+            </th>
+            <th scope="col">
+              <div class="admin-page__column-header-content">
                 {{ 'admin.field.failedAttempts' | translate }}
               </div>
             </th>
@@ -155,7 +160,9 @@
           @for (account of viewModel.accounts(); track account.id) {
             <tr class="admin-page__row">
               <td>
-                <div class="admin-page__cell-content">{{ account.username }}</div>
+                <div class="admin-page__cell-content">
+                  <a [routerLink]="account.detailLink">{{ account.username }}</a>
+                </div>
               </td>
               <td>
                 <div class="admin-page__cell-content">{{ account.email }}</div>
@@ -168,6 +175,11 @@
               </td>
               <td>
                 <div class="admin-page__cell-content">{{ account.premiumLabel }}</div>
+              </td>
+              <td>
+                <div class="admin-page__cell-content">
+                  <a [routerLink]="account.detailLink">{{ account.fairUseLabel }}</a>
+                </div>
               </td>
               <td>
                 <div class="admin-page__cell-content">{{ account.failedLoginAttempts }}</div>

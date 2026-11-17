@@ -4,8 +4,8 @@ Renews once a year. Cancel whenever you like, and you keep premium until the yea
 
 ### What you get
 
-- **Unlimited links** in your workspaces
-- **Unlimited workspaces**, instead of 2 on the free plan
+- **Unlimited links** in your spaces
+- **Unlimited spaces**, instead of 2 on the free plan
 - **Unlimited profiles**, instead of 1
 - **Unlimited synchronised installations**, instead of 5. Your links follow you to every computer and browser.
 - **500 closed tabs** in the history, instead of 25

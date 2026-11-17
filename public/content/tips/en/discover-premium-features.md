@@ -3,14 +3,16 @@
 What the paid version gives you:
 
 - Unlimited\* number of links
-- Unlimited\* number of workspaces
+- Unlimited\* number of spaces
 - Unlimited\* number of profiles
 - Unlimited\* number of devices to sync
-- 500 remembered closed tabs (instead of 25)
-- 1000 remembered visited pages (instead of 50)
+- {fairUseClosedTabs} remembered closed tabs (instead of 25)
+- {fairUseBrowsingHistory} remembered visited pages (instead of 50)
 - No advertisement bar
 
 _\* Subject to the [Fair Use Policy](/fair-use)._
+
+!["Upgrade to premium" in the application menu](../../../images/en/tips/discover-premium-features/premium-menu_1x.webp)
 
 The full version can be activated in your account settings:
 

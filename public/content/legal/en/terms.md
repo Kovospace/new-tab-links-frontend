@@ -31,7 +31,7 @@ suspend or close an account that does, after telling you why where the law allow
 
 ## 4. Free and premium plans
 
-- The free plan is free of charge, has limits (for example on the number of links, workspaces,
+- The free plan is free of charge, has limits (for example on the number of links, spaces,
   profiles and synchronised installations) and shows a small banner on the new tab page.
 - **Premium** removes those limits and the banner; what it calls unlimited is subject to the
   [Fair Use Policy](/fair-use). It is offered as a **yearly subscription** or a

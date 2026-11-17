@@ -8,8 +8,8 @@ Toto nastavenie sa nesynchronizuje a je uložené vždy pre konkrétny prehliada
 
 Príklad 100 % veľkosť:
 
-![100% velkosť](../../../images/sk/tips/set-size/velkost-100_1x.webp)
+![100% veľkosť](../../../images/sk/tips/set-size/velkost-100_1x.webp)
 
 Príklad 75% veľkosť:
 
-![75% velkosť](../../../images/sk/tips/set-size/velkost-75_1x.webp)
+![75% veľkosť](../../../images/sk/tips/set-size/velkost-75_1x.webp)

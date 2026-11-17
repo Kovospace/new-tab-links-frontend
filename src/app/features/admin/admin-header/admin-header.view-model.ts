@@ -35,6 +35,7 @@ export class AdminHeaderViewModel {
   readonly presentedLinks = computed<readonly PresentedAdminLink[]>(() => [
     this.presentLink(APPLICATION_ROUTE_LINKS.adminUsers, 'admin.navigation.accounts'),
     this.presentLink(APPLICATION_ROUTE_LINKS.adminMetrics, 'admin.navigation.statistics'),
+    this.presentLink(APPLICATION_ROUTE_LINKS.adminFairUseLimits, 'admin.navigation.fairUseLimits'),
   ]);
 
   /** When the operator's session expires, as finished text. */

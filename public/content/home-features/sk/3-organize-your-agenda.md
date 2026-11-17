@@ -1,4 +1,4 @@
-![Profil obsahuje pracovné priestory, pracovný priestor skupiny odkazov](../../../images/sk/home-features/workspaces-and-profiles/workspaces-and-profiles.svg)
+![Profil obsahuje plochy, plocha skupiny odkazov](../../../images/sk/home-features/workspaces-and-profiles/workspaces-and-profiles.svg)
 
 # Usporiadajte si svoju agendu
 
@@ -6,7 +6,7 @@
 
 - Hierarchia je navrhnutá tak, aby zodpovedala tomu, ako si ľudia veci usporadúvajú v skutočnom živote.
 
-  - [Pracovné priestory](../../tips/sk/discover-workspaces.md)
+  - [Plochy](../../tips/sk/discover-workspaces.md)
   - [Profily](../../tips/sk/discover-profiles.md)
   - [Čo je skupina]()
 

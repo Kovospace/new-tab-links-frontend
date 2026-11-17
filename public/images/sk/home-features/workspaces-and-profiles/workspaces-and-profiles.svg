@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="20.5 22 847.5 256" role="img" aria-labelledby="title">
-  <title id="title">Profil obsahuje pracovné priestory, pracovný priestor skupiny odkazov</title>
+  <title id="title">Profil obsahuje plochy, plocha skupiny odkazov</title>
   <defs>
     <!-- One link tile: favicon and its name; top-left corner at 0,0. -->
     <g id="tile">
       <rect width="70" height="40" rx="8" fill="#000" stroke="#666" stroke-width="3"/>
-      <circle cx="16" cy="20" r="6" fill="#004fff"/>
+      <circle cx="16" cy="20" r="6" fill="#e0a100"/>
       <line x1="28" y1="20" x2="58" y2="20" stroke="#666" stroke-width="4" stroke-linecap="round"/>
     </g>
     <!-- A group of links: a heading and a row of three tiles. -->
@@ -22,17 +22,17 @@
     </g>
     <marker id="arrowhead" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="16" markerHeight="16"
             markerUnits="userSpaceOnUse" orient="auto">
-      <polyline points="1,1 7,6 1,11" fill="none" stroke="#4a82ff" stroke-width="2.5"
+      <polyline points="1,1 7,6 1,11" fill="none" stroke="#f5b800" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
   </defs>
 
   <!-- ===== Profiles: work is the current one, home waits ===== -->
   <g transform="translate(70 105)">
-    <circle r="32" fill="#004fff"/>
+    <circle r="32" fill="#e0a100"/>
     <!-- briefcase -->
-    <path d="M-7 -9 V-13 H7 V-9" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
-    <rect x="-15" y="-9" width="30" height="21" rx="4" fill="#fff"/>
+    <path d="M-7 -9 V-13 H7 V-9" fill="none" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <rect x="-15" y="-9" width="30" height="21" rx="4" fill="#111"/>
     <line x1="48" x2="98" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
   </g>
   <g transform="translate(70 195)">
@@ -44,7 +44,7 @@
   </g>
 
   <!-- ===== The current profile's workspaces ===== -->
-  <g stroke="#4a82ff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 10" fill="none">
+  <g stroke="#f5b800" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 10" fill="none">
     <path d="M178 105 C220 105 220 80 255 80"/>
     <path d="M178 105 C220 105 220 150 255 150"/>
     <path d="M178 105 C220 105 220 220 255 220"/>
@@ -53,12 +53,12 @@
   <use href="#workspace" x="260" y="127"/>
   <use href="#workspace" x="260" y="197"/>
   <!-- the open one -->
-  <rect x="260" y="127" width="180" height="46" rx="10" fill="none" stroke="#4a82ff" stroke-width="4"/>
-  <rect x="274" y="141" width="18" height="18" rx="4" fill="#004fff"/>
+  <rect x="260" y="127" width="180" height="46" rx="10" fill="none" stroke="#f5b800" stroke-width="4"/>
+  <rect x="274" y="141" width="18" height="18" rx="4" fill="#e0a100"/>
   <line x1="306" y1="150" x2="400" y2="150" stroke="#bbb" stroke-width="4" stroke-linecap="round"/>
 
   <!-- ===== The open workspace's groups of links ===== -->
-  <line x1="452" y1="150" x2="526" y2="150" stroke="#4a82ff" stroke-width="4" stroke-linecap="round"
+  <line x1="452" y1="150" x2="526" y2="150" stroke="#f5b800" stroke-width="4" stroke-linecap="round"
         stroke-dasharray="2 10" marker-end="url(#arrowhead)"/>
   <rect x="540" y="40" width="310" height="220" rx="18" fill="#111" stroke="#666" stroke-width="4"/>
   <use href="#group" x="570" y="73"/>

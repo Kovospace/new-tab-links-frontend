@@ -1,0 +1,128 @@
+<article>
+  <app-admin-header />
+
+  <section>
+    <app-form-feedback
+      [failureMessage]="viewModel.submissionFailure()"
+      [successMessage]="viewModel.submissionSuccess()"
+      [validationMessages]="viewModel.backendValidationMessages()"
+    />
+
+    @if (viewModel.isLoading()) {
+      <p>{{ 'admin.userDetail.loading' | translate }}</p>
+    } @else if (viewModel.hasLoaded()) {
+      <h1>{{ viewModel.heading() }}</h1>
+      <p>{{ viewModel.accountSummary() }}</p>
+
+      <section>
+        <h2>{{ 'admin.userDetail.limitsHeading' | translate }}</h2>
+        <p>{{ 'admin.userDetail.limitsLead' | translate }}</p>
+        @if (viewModel.freePlanNotice()) {
+          <p role="note">{{ viewModel.freePlanNotice() }}</p>
+        }
+
+        <form [formGroup]="viewModel.limitsForm" (ngSubmit)="viewModel.submitOverrides()">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">{{ 'admin.userDetail.column.limit' | translate }}</th>
+                <th scope="col">{{ 'admin.userDetail.column.global' | translate }}</th>
+                <th scope="col">{{ 'admin.userDetail.column.override' | translate }}</th>
+                <th scope="col">{{ 'admin.userDetail.column.effective' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of viewModel.limitRows(); track row.limitName) {
+                <tr>
+                  <th scope="row">
+                    <label [for]="row.inputId">{{ row.label }}</label>
+                  </th>
+                  <td>{{ row.globalValue }}</td>
+                  <td>
+                    <input
+                      type="number"
+                      step="1"
+                      [min]="row.minimum"
+                      [placeholder]="row.globalValue"
+                      [id]="row.inputId"
+                      [formControlName]="row.limitName"
+                      autocomplete="off"
+                    />
+                    @if (viewModel.fieldValidationMessages()[row.limitName]; as validationMessage) {
+                      <em>{{ validationMessage }}</em>
+                    }
+                  </td>
+                  <td>{{ row.effectiveValue }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+          <small>{{ 'admin.userDetail.overrideHint' | translate }}</small>
+
+          <label>
+            <span>{{ 'admin.userDetail.noteLabel' | translate }}</span>
+            <textarea formControlName="note" [attr.maxlength]="viewModel.noteMaxLength"></textarea>
+            @if (viewModel.fieldValidationMessages()['note']; as validationMessage) {
+              <em>{{ validationMessage }}</em>
+            }
+          </label>
+
+          <button type="submit" [disabled]="viewModel.isSubmitting()">
+            {{ 'admin.userDetail.saveAction' | translate }}
+          </button>
+          @if (viewModel.hasOverrides()) {
+            <button
+              type="button"
+              [disabled]="viewModel.isSubmitting()"
+              (click)="viewModel.removeOverrides()"
+            >
+              {{ 'admin.userDetail.removeAction' | translate }}
+            </button>
+          }
+        </form>
+      </section>
+    }
+
+    @if (viewModel.isConfirmingDecrease()) {
+      <div class="modal" animate.enter="modal--opening" animate.leave="modal--closing">
+        <section
+          class="modal__panel modal__panel--danger"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="admin-user-decrease-heading"
+          aria-describedby="admin-user-decrease-warning"
+        >
+          <h2 id="admin-user-decrease-heading">
+            {{ 'admin.fairUseDecrease.heading' | translate }}
+          </h2>
+          <p id="admin-user-decrease-warning">
+            {{ 'admin.fairUseDecrease.userLead' | translate }}
+          </p>
+          <ul>
+            @for (decrease of viewModel.pendingDecreases(); track decrease.limitName) {
+              <li>
+                <strong>{{ decrease.change }}</strong>
+                {{ decrease.consequence }}
+              </li>
+            }
+          </ul>
+          @if (viewModel.decreaseDeletesData()) {
+            <p>
+              <strong>{{ 'admin.fairUseDecrease.irreversible' | translate }}</strong>
+            </p>
+          }
+          <button
+            type="button"
+            [disabled]="viewModel.isSubmitting()"
+            (click)="viewModel.confirmDecrease()"
+          >
+            {{ 'admin.fairUseDecrease.confirmAction' | translate }}
+          </button>
+          <button type="button" (click)="viewModel.cancelDecrease()">
+            {{ 'admin.cancelAction' | translate }}
+          </button>
+        </section>
+      </div>
+    }
+  </section>
+</article>

@@ -58,12 +58,14 @@
 }
 
 .plan-offer-card--free {
+  color: var(--color-accent-text);
   background-color: var(--color-accent);
 
   .plan-offer-card__call-to-action {
     background-color: var(--color-accent-darker);
 
     &:hover {
+      color: var(--color-accent-text-hover);
       background-color: var(--color-accent);
     }
   }

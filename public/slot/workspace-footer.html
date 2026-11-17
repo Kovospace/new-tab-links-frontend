@@ -1,13 +1,22 @@
 <!doctype html>
 <!--
-  The ad slot at the foot of the extension's workspace (new-tab-links-extension frames it at
-  728 x 64 on every new tab). Static on purpose - not an Angular route - because it loads with every
-  tab a user opens and so must be tiny: inline CSS, a few lines of script, no framework.
+  The premium slot at the foot of the extension's workspace (new-tab-links-extension frames it at
+  728 x 64 on every new tab, narrower on a narrow window). Static on purpose - not an Angular route -
+  because it loads with every tab a user opens and so must be tiny: inline CSS, a few lines of
+  script, no framework, no request beyond this file.
 
-  What it shows can change here without an extension release: our own promotion today, an ad
-  network's snippet later (see AD NETWORK SNIPPET below).
+  What it shows can change here without an extension release: a personal note and a button today
+  (#180 in the extension's repo - a note, not a banner), an ad network's snippet later (see AD
+  NETWORK SNIPPET below). Its wording lives in this file rather than in public/i18n/, because the
+  page loads nothing else.
 
   - Language by ?lang= : en (default) or sk.
+  - Theme by ?theme= : light or dark; without it, the system's (prefers-color-scheme).
+  - Button colour by ?accent= : six hex digits, no '#' (?accent=4338ca); anything else is the
+    default blue. The text on it is dark or light, whichever contrasts more.
+  - Looks like the extension: its palette (light-dark() pairs of the same values), its corner
+    radius, its sans-serif. No frame of its own - the extension's bar around the iframe is the
+    frame - and no background either: the bar shows through, aero's translucency included.
   - No analytics, no visitor signal, no cookies: a new tab is not a website visit.
   - Every link opens a new tab; the frame is sandboxed with allow-popups and
     allow-popups-to-escape-sandbox, so the account page opens normally.
@@ -24,42 +33,96 @@
     <meta name="robots" content="noindex" />
     <title>Tabilinks</title>
     <style>
+      /*
+        The extension's palette, as its __variables.css has it. color-scheme picks the half of each
+        pair: both by default, so the system decides; one of them when ?theme= says so.
+
+        Transparent, so the extension's bar is the background. Chrome paints an opaque canvas
+        instead when this page's colour scheme differs from the iframe element's - an extension
+        forcing dark on a light system, until it passes ?theme= - and then the note is a light
+        card in a dark bar, still legible.
+      */
+      :root {
+        color-scheme: light dark;
+        --slot-text-color: light-dark(#000, #eee);
+        --slot-accent-background: #0036ff;
+        --slot-accent-background-hover: #0072ff;
+        --slot-accent-text: #eee;
+        --slot-accent-text-hover: #fff;
+        --slot-corner-radius: 0.675em;
+      }
+
+      :root[data-theme='light'] {
+        color-scheme: light;
+      }
+
+      :root[data-theme='dark'] {
+        color-scheme: dark;
+      }
+
       html,
       body {
         margin: 0;
         width: 100%;
         height: 100%;
         overflow: hidden;
-        background: #222;
-        color: #eee;
-        font: 15px/1.3 Arial, Helvetica, sans-serif;
+        background: transparent;
+        color: var(--slot-text-color);
+        font: 12px/1.3 sans-serif;
       }
 
       .slot {
         box-sizing: border-box;
         display: flex;
         align-items: center;
-        justify-content: center;
+        gap: 14px;
         width: 100%;
         height: 100%;
-        padding: 0 16px;
+        padding: 4px 10px 4px 14px;
       }
 
-      .slot__promotion {
-        color: #eee;
-        text-decoration: none;
-        white-space: nowrap;
+      /*
+        Three lines of 12px is all 64px holds with room to breathe, and the note is longer than
+        that at any width: what does not fit ends in an ellipsis, and the whole of it is the
+        element's title, so resting the pointer on it reads the rest. A screen reader gets all of
+        it anyway - the clamp hides nothing from the accessibility tree.
+      */
+      .slot__message {
+        flex: 1 1 auto;
+        min-width: 0;
+        margin: 0;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
         overflow: hidden;
-        text-overflow: ellipsis;
       }
 
-      .slot__promotion strong {
-        color: #09f;
+      /* Never shrinks and never wraps: the call to action is always whole on the right. */
+      .slot__button {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 0.6em 1.1em;
+        border-radius: var(--slot-corner-radius);
+        background-color: var(--slot-accent-background);
+        color: var(--slot-accent-text);
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: none;
+        transition:
+          background-color 0.15s ease,
+          color 0.15s ease;
       }
 
-      .slot__promotion:hover span,
-      .slot__promotion:focus-visible span {
-        text-decoration: underline;
+      .slot__button:hover,
+      .slot__button:focus-visible {
+        background-color: var(--slot-accent-background-hover);
+        color: var(--slot-accent-text-hover);
+      }
+
+      .slot__button:focus-visible {
+        outline: 2px solid var(--slot-text-color);
+        outline-offset: 2px;
       }
     </style>
   </head>
@@ -67,38 +130,102 @@
     <div class="slot">
       <!-- ===== AD NETWORK SNIPPET =====================================================
            An ad network's snippet (EthicalAds or Carbon - both allow our own promotion on the
-           same page) goes here, beside or in place of the promotion below. Links it renders
+           same page) goes here, beside or in place of the note below. Links it renders
            must open in a new tab as well. Once it has rendered its ad - or immediately, if the
            network offers no such event - send 'tabilinks-ad-slot-ready' as at the foot of this
            file, and stop sending it from there.
            ================================================================================ -->
 
+      <p class="slot__message" id="premium-message"></p>
       <a
-        class="slot__promotion"
+        class="slot__button"
+        id="premium-button"
         href="https://tabilinks.app/account"
         target="_blank"
         rel="noopener"
-      >
-        <strong id="promotion-lead">Go premium:</strong>
-        <span id="promotion-text">remove this and support development</span>
-      </a>
+      ></a>
     </div>
 
     <script>
       (function () {
         var wording = {
-          en: { lead: 'Go premium:', text: 'remove this and support development' },
-          sk: { lead: 'Prejdite na prémium:', text: 'odstráňte toto a podporte vývoj' },
+          en: {
+            message:
+              'The number of spaces, profiles and synced devices is unlimited in the PRO version. ' +
+              'You may never reach the limits, but your support means a lot to us. ' +
+              'The cost of a beer or a coffee will help us cover the infrastructure costs of ' +
+              'developing and bringing you new outstanding features. ' +
+              'We are an independent indie developer group with a strong distaste for corporate ' +
+              'evil, greed and shady business practices.',
+            button: 'Get PRO',
+          },
+          sk: {
+            message:
+              'Vo verzii PRO je počet plôch, profilov a synchronizovaných zariadení neobmedzený. ' +
+              'Na limity možno nikdy nenarazíte, no vaša podpora pre nás znamená veľa. ' +
+              'Cena jedného piva či kávy nám pomôže pokryť náklady na infraštruktúru, vývoj ' +
+              'a nové skvelé funkcie, ktoré vám prinesieme. ' +
+              'Sme nezávislá skupina indie vývojárov a firemné zlo, chamtivosť a pochybné ' +
+              'obchodné praktiky nám poriadne idú proti srsti.',
+            button: 'Získať PRO',
+          },
         };
 
-        var requestedLanguage = new URLSearchParams(location.search).get('lang');
+        var parameters = new URLSearchParams(location.search);
+        var root = document.documentElement;
+
+        /** The requested language when we have its wording, English otherwise. */
+        var requestedLanguage = parameters.get('lang');
         var language = Object.prototype.hasOwnProperty.call(wording, requestedLanguage)
           ? requestedLanguage
           : 'en';
 
-        document.documentElement.lang = language;
-        document.getElementById('promotion-lead').textContent = wording[language].lead;
-        document.getElementById('promotion-text').textContent = wording[language].text;
+        /** Only the two named themes narrow the colour scheme; anything else follows the system. */
+        var requestedTheme = parameters.get('theme');
+        if (requestedTheme === 'light' || requestedTheme === 'dark') {
+          root.setAttribute('data-theme', requestedTheme);
+        }
+
+        /**
+         * WCAG relative luminance of six hex digits, for choosing the text on the button.
+         * @param {string} hexDigits validated, without '#'
+         * @returns {number} 0 (black) to 1 (white)
+         */
+        function relativeLuminance(hexDigits) {
+          var channels = [0, 2, 4].map(function (offset) {
+            var value = parseInt(hexDigits.substr(offset, 2), 16) / 255;
+            return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+          });
+          return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+        }
+
+        /**
+         * A requested accent, strictly six hex digits, becomes the button's colour; its hover is
+         * the same colour lightened, as the extension's own accents are. The text is the
+         * extension's light pair (#eee, #fff) unless dark (#111, #000) contrasts more - its amber.
+         */
+        var requestedAccent = parameters.get('accent');
+        if (requestedAccent !== null && /^[0-9a-fA-F]{6}$/.test(requestedAccent)) {
+          var accent = '#' + requestedAccent;
+          var luminance = relativeLuminance(requestedAccent);
+          var contrastWithLightText = (0.855 + 0.05) / (luminance + 0.05);
+          var contrastWithDarkText = (luminance + 0.05) / (0.0056 + 0.05);
+          var darkText = contrastWithDarkText > contrastWithLightText;
+
+          root.style.setProperty('--slot-accent-background', accent);
+          root.style.setProperty(
+            '--slot-accent-background-hover',
+            'color-mix(in oklab, ' + accent + ', #fff 18%)',
+          );
+          root.style.setProperty('--slot-accent-text', darkText ? '#111' : '#eee');
+          root.style.setProperty('--slot-accent-text-hover', darkText ? '#000' : '#fff');
+        }
+
+        var message = document.getElementById('premium-message');
+        root.lang = language;
+        message.textContent = wording[language].message;
+        message.title = wording[language].message;
+        document.getElementById('premium-button').textContent = wording[language].button;
 
         // Drawn: tell the extension it may show the frame. The exact string is the contract.
         window.parent.postMessage('tabilinks-ad-slot-ready', '*');

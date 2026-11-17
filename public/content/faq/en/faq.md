@@ -1,10 +1,10 @@
 ## What is Tabilinks?
 
-Tabilinks is a browser extension that replaces the new tab page with your own links, organized into groups and subgroups. Recently closed tabs and your browsing history sit in a panel on the right edge of the same page, one mouse movement away.
+Tabilinks is a browser extension that replaces the new tab page with your own links, organized into groups and subgroups. Recently closed tabs and your browsing history sit in a panel on the left of the same page, beside your links.
 
 ## Is Tabilinks free?
 
-Yes. The free version is complete and enough for most people: 1 profile, 2 workspaces and up to 5 synchronized installations. The premium version, paid yearly or once for life, removes those limits, remembers more closed tabs and visited pages, and hides the advertisement bar.
+Yes. The free version is complete and enough for most people: 1 profile, 2 spaces and up to 5 synchronized installations. The premium version, paid yearly or once for life, removes those limits, remembers more closed tabs and visited pages, and hides the advertisement bar.
 
 - [Discover premium features](../../tips/en/discover-premium-features.md)
 
@@ -18,7 +18,7 @@ Tabilinks is distributed through the Chrome Web Store, so it works in Google Chr
 
 ## How do I synchronize links between computers?
 
-Register and sign in on the website, then connect each installation of the extension to your account with the pairing code from your device list. Every connected installation then shows the same links.
+Register on the website, then in each installation of the extension choose "Log in": sign in with your username and password, or enter the pairing code from your device list on the website. Every connected installation then shows the same links.
 
 - [Register / log in, enable synchronization](/download)
 
@@ -28,11 +28,11 @@ Yes. Tracking of closed tabs and visited pages can be turned off completely, or 
 
 - [Tracking / Sync settings](../../tips/en/setup-privacy.md)
 
-## What are profiles and workspaces?
+## What are profiles and spaces?
 
-They are the levels above groups. A profile holds workspaces, a workspace holds groups, a group holds subgroups and the subgroups hold links. Use them to keep apart, for example, work and home, or different projects.
+They are the levels above groups. A profile holds spaces, a space holds groups, a group holds subgroups and the subgroups hold links. Use them to keep apart, for example, work and home, or different projects.
 
-- [Discover workspaces](../../tips/en/discover-workspaces.md)
+- [Discover spaces](../../tips/en/discover-workspaces.md)
 - [Discover profiles](../../tips/en/discover-profiles.md)
 
 ## Can I open all links of a subgroup at once?
@@ -44,7 +44,7 @@ Yes, with one click, and the opened tabs can be gathered into a browser tab grou
 
 ## How is Tabilinks different from other new tab extensions?
 
-- **A real hierarchy, not tiles.** Most new tab extensions are Opera-style speed dial tiles. Tabilinks organizes links into profiles, workspaces, groups and **subgroups**.
+- **A real hierarchy, not tiles.** Most new tab extensions are Opera-style speed dial tiles. Tabilinks organizes links into profiles, spaces, groups and **subgroups**.
 - **Bulk link opening and tab grouping.** All links of a subgroup open with one click, and a subgroup can catch its links into a browser tab group of its own.
 - **One purpose.** Synchronized bookmarks and history, instead of calendars, notes or weather widgets.
 - **Very affordable.** The free version is complete, and premium costs a fraction of what extensions with a comparable feature set charge.

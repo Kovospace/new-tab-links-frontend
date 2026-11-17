@@ -1,9 +1,13 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, combineLatest, map } from 'rxjs';
+import { PlanLimits } from '../api/models/plan-limits.model';
 import { LocalizedMarkdownService } from '../content/localized-markdown.service';
 import { renderSiteMarkdown } from '../content/site-markdown-renderer';
 import { SupportedLanguageCode } from '../i18n/supported-language';
 import { ImageVersionStore } from '../images/image-version.store';
+import { COMPILED_PLAN_LIMITS } from '../plan-limits/compiled-plan-limits';
+import { fairUsePlaceholderValues } from '../plan-limits/plan-limit-placeholders';
+import { PublishedPlanLimitsStore } from '../plan-limits/published-plan-limits.store';
 import { LEGAL_DOCUMENTS_EFFECTIVE_DATE, LEGAL_OPERATOR } from './legal-operator';
 
 /**
@@ -19,10 +23,12 @@ const LEGAL_IMAGE_FOLDER = 'legal';
 export type LegalDocumentName = 'privacy' | 'cookies' | 'terms' | 'refunds' | 'fair-use';
 
 /**
- * The placeholders a legal document may use, and what each is replaced with.
+ * The fixed placeholders a legal document may use, and what each is replaced with.
  *
  * <p>The operator's details are written once, in {@link LEGAL_OPERATOR}, rather than into eight
- * markdown files where one of them would sooner or later be missed.</p>
+ * markdown files where one of them would sooner or later be missed. The Fair Use limits
+ * ({@code {fairUseLinksPerWorkspace}} and the rest) are placeholders too, but not fixed ones: the
+ * operator changes them, so they are filled from {@link PublishedPlanLimitsStore}.</p>
  */
 const LEGAL_DOCUMENT_PLACEHOLDERS: Readonly<Record<string, string>> = {
   operatorName: LEGAL_OPERATOR.name,
@@ -44,10 +50,14 @@ const LEGAL_DOCUMENT_PLACEHOLDERS: Readonly<Record<string, string>> = {
 export class LegalDocumentsService {
   private readonly localizedMarkdownService = inject(LocalizedMarkdownService);
   private readonly imageVersionStore = inject(ImageVersionStore);
+  private readonly publishedPlanLimitsStore = inject(PublishedPlanLimitsStore);
 
   /**
    * Fetches one document in the reader's language, or in English until it is translated, with
-   * the operator's details filled in.
+   * the operator's details and the Fair Use limits filled in.
+   *
+   * <p>Emits again, without fetching again, when the published limits arrive, so the Fair Use
+   * Policy pre-rendered with the compiled numbers ends up showing the ones in force.</p>
    *
    * @param documentName which document
    * @param languageCode the reader's language
@@ -57,18 +67,23 @@ export class LegalDocumentsService {
     documentName: LegalDocumentName,
     languageCode: SupportedLanguageCode,
   ): Observable<string> {
-    return this.localizedMarkdownService
-      .loadMarkdown(LEGAL_CONTENT_ROOT, `${documentName}.md`, languageCode)
-      .pipe(
-        map((loaded) =>
-          renderSiteMarkdown(fillLegalDocumentPlaceholders(loaded.markdown), {
-            languageCode: loaded.languageCode,
-            imageFolder: LEGAL_IMAGE_FOLDER,
-            markdownFolder: `${LEGAL_CONTENT_ROOT}/${loaded.languageCode}`,
-            versionImageUrl: this.imageVersionStore.versionImageUrl,
-          }),
-        ),
-      );
+    return combineLatest([
+      this.localizedMarkdownService.loadMarkdown(
+        LEGAL_CONTENT_ROOT,
+        `${documentName}.md`,
+        languageCode,
+      ),
+      this.publishedPlanLimitsStore.fairUseLimits$,
+    ]).pipe(
+      map(([loaded, fairUseLimits]) =>
+        renderSiteMarkdown(fillLegalDocumentPlaceholders(loaded.markdown, fairUseLimits), {
+          languageCode: loaded.languageCode,
+          imageFolder: LEGAL_IMAGE_FOLDER,
+          markdownFolder: `${LEGAL_CONTENT_ROOT}/${loaded.languageCode}`,
+          versionImageUrl: this.imageVersionStore.versionImageUrl,
+        }),
+      ),
+    );
   }
 }
 
@@ -78,11 +93,19 @@ export class LegalDocumentsService {
  * <p>An unknown one is left as written, so a typo shows on the page instead of vanishing.</p>
  *
  * @param markdown the document as written
- * @returns the document with the operator's details in place
+ * @param fairUseLimits the Fair Use limits to print; the compiled ones unless told otherwise
+ * @returns the document with the operator's details and the limits in place
  */
-export function fillLegalDocumentPlaceholders(markdown: string): string {
+export function fillLegalDocumentPlaceholders(
+  markdown: string,
+  fairUseLimits: PlanLimits = COMPILED_PLAN_LIMITS.fairUse,
+): string {
+  const placeholders = {
+    ...LEGAL_DOCUMENT_PLACEHOLDERS,
+    ...fairUsePlaceholderValues(fairUseLimits),
+  };
   return markdown.replace(
     /\{(\w+)\}/g,
-    (placeholder, name: string) => LEGAL_DOCUMENT_PLACEHOLDERS[name] ?? placeholder,
+    (placeholder, name: string) => placeholders[name] ?? placeholder,
   );
 }

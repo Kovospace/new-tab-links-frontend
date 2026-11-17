@@ -2,12 +2,16 @@
 
 Everything about what is recorded and what leaves your browser is in one place: the extension settings, section **"Sync & privacy"**.
 
+![Settings, "Sync & privacy"](../../../images/en/tips/setup-privacy/nastavenia-sukromie_1x.webp)
+
 - **Synchronise this browser** – while you are signed in, this browser's links, settings and the lists below are synchronized with your account. Turn it off and you stay signed in, premium still applies, but nothing is sent or received. It is set per browser.
 - **Record closed tabs** – keeps the list of tabs you close in the side panel. On by default. Turning it off deletes the list, here and on your account.
   - **Synchronise closed tabs** – share them with your other devices, or keep them on this browser alone.
-- **Record browsing history** – keeps the pages you visit in the side panel: the most recent 50, or 1000 with premium. Off until you turn it on. Turning it off deletes the history, here and on your account.
+- **Record browsing history** – keeps the pages you visit in the side panel: the most recent 50, or {fairUseBrowsingHistory} with premium. Off until you turn it on. Turning it off deletes the history, here and on your account.
   - **Synchronise browsing history** – share it with your other devices, or keep it on this browser alone.
 
 So a history can be recorded and still never leave the browser: turn recording on and its synchronization off.
 
-The tabs open right now are never stored or sent anywhere. Without an account, nothing but an anonymous daily count of opened new tabs reaches our servers.
+The tabs open right now are never stored or sent anywhere. Without an account, the only thing about your use that reaches our servers is an anonymous daily count of opened new tabs.
+
+Importing bookmarks from the browser is up to you: the extension asks for access to them only when you start an import, and reads them in your browser.

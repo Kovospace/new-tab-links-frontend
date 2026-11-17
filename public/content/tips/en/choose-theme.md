@@ -19,4 +19,6 @@ Both work with either theme, so there are four combinations to choose from.
 
 These settings are not synchronized; they are remembered only in the browser where you set them.
 
-![Themes comparation](../../../images/en/tips/choose-theme/1_1x.webp)
+![Flat theme style, light and dark](../../../images/en/tips/choose-theme/1_1x.webp)
+
+![Aero theme style, light and dark](../../../images/en/tips/choose-theme/2_1x.webp)

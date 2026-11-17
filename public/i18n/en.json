@@ -12,8 +12,8 @@
     "title": "Tabilinks",
     "motto": "Your bookmarks & history.",
     "motto2": "Organized & accessible.",
-    "explanation": "Your most used functions of web browser in one of the most underutilized and overlooked screens",
-    "explanation2": "The new tab",
+    "explanation": "The new tab",
+    "explanation2": "The most common, yet overlooked and unused, screen of every browser can now have a purpose.",
     "highlights": "Highlights",
     "findYourself": "Find Yourself a Tabilinks user",
     "buy1": "Free suits the vast majority,",
@@ -65,7 +65,7 @@
       "screenLabel": "Show screen {number}"
     },
     "heading": "A new tab that finally does something useful!",
-    "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, in profiles, arranged into workspaces and groups of your own.",
+    "leadParagraph": "Tabilinks replaces the unused empty new tab page with the links you actually open and use, in profiles, arranged into spaces and groups of your own.",
     "leadParagraph2": "It also keeps a history of your closed tabs.",
     "pitchSections": {
       "audience": {
@@ -86,7 +86,7 @@
         "heading": "What makes us better than the competition?",
         "lead": "Compared with other new tab extensions with the same or a similar focus:",
         "points": [
-          "A flexible, logical hierarchy for organising content, even for the most demanding user - User > Profile > Workspace > Group > Subgroup > Link",
+          "A flexible, logical hierarchy for organising content, even for the most demanding user - User > Profile > Space > Group > Subgroup > Link",
           "A free version that is complete and enough for the vast majority of users",
           "A very friendly price for professional users",
           "Synchronisation across devices and different browsers - including the history of closed tabs and visited pages (if enabled)",
@@ -116,7 +116,7 @@
       "yes": "YES",
       "no": "NO",
       "linksCount": "Number of links",
-      "workspacesCount": "Workspaces",
+      "workspacesCount": "Spaces",
       "profilesCount": "Profiles",
       "closedTabsCount": "Closed tabs history",
       "browsingHistoryCount": "Browsing history (visited pages)",
@@ -141,7 +141,7 @@
     "columns": {
       "extension": "Extension",
       "profiles": "Profiles",
-      "workspaces": "Workspaces",
+      "workspaces": "Spaces",
       "groups": "Groups",
       "subgroups": "Subgroups",
       "synchronisation": "Synchronisation",
@@ -158,9 +158,9 @@
     "freeLimits": {
       "none": "No limits",
       "unknown": "Not found",
-      "tabilinks": "1 profile, 2 workspaces, 5 synchronised installations",
+      "tabilinks": "1 profile, 2 spaces, 5 synchronised installations",
       "oneLicence": "1 licence",
-      "twoWorkspacesLimitedLinks": "2 workspaces, a limited number of links",
+      "twoWorkspacesLimitedLinks": "2 spaces, a limited number of links",
       "noSynchronisation": "No synchronisation",
       "everSyncFreeAccount": "15,000 synchronised items (bookmarks and dials, across all browsers), 500 \"private dials\""
     },
@@ -174,7 +174,7 @@
       "tabilinksWithoutPrice": "Free; premium is optional"
     },
     "notes": {
-      "tabilinksWithoutAccount": "Works without an account too: no registration, and nothing reaches our servers until you sign in.",
+      "tabilinksWithoutAccount": "Works without an account too: no registration, and nothing of yours reaches our servers until you sign in.",
       "requiresRegistration": "Cannot be used without registering first.",
       "workspacesCalledGrupa": "Called \"Grupa\" in the extension.",
       "groupsCalledSections": "Called \"sections\" in the extension.",
@@ -211,14 +211,14 @@
       "headingGoogleLogin": "2b. Pair the installed extension - Google-logged account",
       "tutorText1": "1. Once you are signed in you can reach the",
       "tutorText2": "section, where you can have a pairing code generated.",
-      "tutorText3": "1. Sign in to the Chrome extension with your account details.",
+      "tutorText3": "1. In the Chrome extension choose \"Log in\", then \"I have a username and password\".",
       "tutorText4": "2. Fill in your details.",
-      "tutorText5": "3. Once you are signed in, the profiles, workspaces, groups and links you created locally start synchronising.",
+      "tutorText5": "3. Once you are signed in, the profiles, spaces, groups and links you created locally start synchronising.",
       "tutorText6": "You can check that you are signed in, and sign out again, from the menu.",
       "tutorText7": "Because registering and signing in with a Google account never creates a password on this platform, pairing works a little differently.",
       "tutorText8": "This way of pairing works for ordinary accounts too.",
       "tutorText9": "If you have already signed out of this site, sign in again.",
-      "tutorText10": "2. Enter the connect code in the Chrome extension.",
+      "tutorText10": "2. In the Chrome extension choose \"Log in\", then \"I have a sync code\", and enter the connect code.",
       "tutorText11": "3. Done",
       "devicesButton": "My Devices",
       "standartLoginMenuAlt": "The extension's profile menu, offering log in, register and enter sync code, with the pointer on log in",
@@ -351,7 +351,7 @@
       "backToDevices": "Back to my devices",
       "noReport": "This device has not reported what it holds yet. Extensions report after they synchronise; a browser where you only signed in to the website never does.",
       "reportedAt": "Reported {date}",
-      "columnWorkspace": "Workspace",
+      "columnWorkspace": "Space",
       "columnSync": "Synchronisation",
       "columnGroups": "Groups",
       "columnLinks": "Links"
@@ -380,7 +380,7 @@
     "changePasswordAction": "Change password",
     "passwordSuccess": "Your password was set. Every device has been signed out.",
     "dangerHeading": "Delete account",
-    "dangerLead": "This deletes your account and every link, group and workspace it owns. It cannot be undone.",
+    "dangerLead": "This deletes your account and every link, group and space it owns. It cannot be undone.",
     "deleteAction": "Delete my account",
     "deleteConfirmPrompt": "Deleting is permanent. Confirm to continue.",
     "deleteConfirmAction": "Yes, delete everything",
@@ -471,7 +471,9 @@
     "tooShort": "This needs at least {min} characters.",
     "tooLong": "This may be at most {max} characters.",
     "usernamePattern": "Not allowed characters used",
-    "passwordMismatch": "The two passwords do not match."
+    "passwordMismatch": "The two passwords do not match.",
+    "wholeNumber": "Enter a whole number.",
+    "tooSmall": "This has to be at least {min}."
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -511,7 +513,9 @@
       "passwordSaved": "The password was set. Its owner has not been told.",
       "accountUnlocked": "The failed sign-in counter was cleared.",
       "accountDeleted": "The account and everything it owned were deleted.",
-      "accountCreated": "The account was created."
+      "accountCreated": "The account was created.",
+      "fairUseRaised": "Raised",
+      "fairUseGlobal": "Global"
     },
     "field": {
       "username": "Username",
@@ -524,7 +528,8 @@
       "failedAttempts": "Failed sign-ins",
       "createdAt": "Created",
       "actions": "Actions",
-      "premiumPaidHint": "Paid through Creem. It cannot be taken away here: refund or cancel it in the Creem dashboard."
+      "premiumPaidHint": "Paid through Creem. It cannot be taken away here: refund or cancel it in the Creem dashboard.",
+      "fairUse": "Fair Use limits"
     },
     "status": {
       "PENDING_ACTIVATION": "Awaiting activation",
@@ -553,13 +558,14 @@
     },
     "delete": {
       "heading": "Delete this account?",
-      "warning": "Deleting {username} also deletes every workspace, group, subgroup and link it owns. This cannot be undone. To suspend the account instead, set its status to Disabled.",
+      "warning": "Deleting {username} also deletes every space, group, subgroup and link it owns. This cannot be undone. To suspend the account instead, set its status to Disabled.",
       "confirmAction": "Yes, delete it permanently"
     },
     "cancelAction": "Cancel",
     "navigation": {
       "accounts": "Accounts",
-      "statistics": "Statistics"
+      "statistics": "Statistics",
+      "fairUseLimits": "Fair Use limits"
     },
     "metrics": {
       "heading": "Statistics",
@@ -581,6 +587,56 @@
       "NONE": "Not granted",
       "ONE_YEAR": "Granted for one year",
       "LIFETIME": "Granted for life"
+    },
+    "fairUseLimit": {
+      "profiles": "Profiles per account",
+      "workspacesPerProfile": "Spaces in one profile",
+      "groupsPerWorkspace": "Groups in one space",
+      "subgroupsPerGroup": "Subgroups in one group",
+      "linksPerWorkspace": "Links in one space",
+      "closedTabs": "Closed tabs kept in the history",
+      "browsingHistory": "Visited pages kept in the browsing history",
+      "devices": "Synchronised installations"
+    },
+    "fairUseLimits": {
+      "heading": "Fair Use limits",
+      "lead": "The limits every account is held to under the Fair Use Policy: the caps behind premium's \"unlimited\", and the groups, subgroups and links limits of every plan. The free plan's own limits are not set here. The Fair Use Policy page and the offers on the home page show these numbers as soon as they are saved.",
+      "loading": "Loading the limits…",
+      "saveAction": "Save the limits",
+      "saved": "The Fair Use limits were saved."
+    },
+    "fairUseDecrease": {
+      "heading": "Lower these limits?",
+      "globalLead": "This lowers limits for every account. Accounts that already hold more than the new value are affected as follows:",
+      "userLead": "This lowers what this account is held to. If it already holds more than the new value:",
+      "change": "{limit}: {from} → {to}.",
+      "consequence": {
+        "entriesDeleted": "Entries above the new cap are deleted from the account on its next synchronisation, oldest first.",
+        "stopsSynchronising": "Items over the new limit stop synchronising. They stay on the device that holds them and are not deleted.",
+        "spaceStopsSynchronising": "A space holding more than the new limit stops synchronising as a whole. Nothing in it is deleted."
+      },
+      "irreversible": "Deleted closed tabs and visited pages cannot be restored, not even by raising the limit again.",
+      "confirmAction": "Yes, lower the limits"
+    },
+    "userDetail": {
+      "loading": "Loading the account…",
+      "heading": "Account {username}",
+      "summary": "{email} · {displayName}",
+      "limitsHeading": "Raised Fair Use limits",
+      "limitsLead": "An override can only raise a limit above the global value. Leave a field empty to follow the global value. Overrides do not expire.",
+      "freePlanNotice": "This account does not hold premium. Until it does, the free plan's lower limits on profiles, spaces, installations and both histories stay in force, whatever is raised here.",
+      "column": {
+        "limit": "Limit",
+        "global": "Global",
+        "override": "Override",
+        "effective": "In force"
+      },
+      "overrideHint": "Empty means the account follows the global value. \"In force\" shows what was last saved.",
+      "noteLabel": "Why the limits were raised (at most 500 characters)",
+      "saveAction": "Save the overrides",
+      "removeAction": "Remove all overrides",
+      "saved": "The overrides were saved.",
+      "removed": "The overrides were removed. The account follows the global limits again."
     }
   },
   "purchaseThankYou": {
@@ -635,7 +691,7 @@
     },
     "tour": {
       "title": "Tour",
-      "description": "A walkthrough of Tabilinks: profiles, workspaces, groups and links on your new tab page, bookmarks and history beside them, synced to every machine."
+      "description": "A walkthrough of Tabilinks: profiles, spaces, groups and links on your new tab page, bookmarks and history beside them, synced to every machine."
     },
     "home": {
       "title": "Your links on every new tab",
@@ -663,7 +719,7 @@
     },
     "comparison": {
       "title": "Compared with other new tab extensions",
-      "description": "Profiles, workspaces, groups, subgroups, synchronisation, free version limits and prices of Tabilinks and other Chrome new tab extensions, side by side."
+      "description": "Profiles, spaces, groups, subgroups, synchronisation, free version limits and prices of Tabilinks and other Chrome new tab extensions, side by side."
     },
     "tip": {
       "title": "Tip",
@@ -683,7 +739,7 @@
     },
     "fairUse": {
       "title": "Fair Use Policy",
-      "description": "The fair use limits behind the unlimited links, workspaces and profiles of Tabilinks."
+      "description": "The fair use limits behind the unlimited links, spaces and profiles of Tabilinks."
     },
     "cookies": {
       "title": "Cookies",
@@ -731,6 +787,12 @@
     },
     "notFound": {
       "title": "Page not found"
+    },
+    "adminUserDetail": {
+      "title": "Account · Administration"
+    },
+    "adminFairUseLimits": {
+      "title": "Fair Use limits · Administration"
     }
   }
 }

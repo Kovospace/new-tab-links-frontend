@@ -10,10 +10,10 @@ An example of such a setup:
 
 - Profile: Work
   <br>
-  Workspaces: "Development environment", "Testing", "Production", "Customer 1", "Customer 2", ...
+  Spaces: "Development environment", "Testing", "Production", "Customer 1", "Customer 2", ...
 - Profile: Home
   <br>
-  Workspaces: "Development", "Garage", "Band", "Fishing", ...
+  Spaces: "Development", "Garage", "Band", "Fishing", ...
 
 You can see the current profile at the top right of the new tab:
 
@@ -34,4 +34,4 @@ manage profiles:
 
 ![The profile manager](../../../images/en/tips/discover-profiles/profil-manage_1x.webp)
 
-Next tip / lesson, about workspaces: [Discover workspaces](discover-workspaces.md)
+Next tip / lesson, about spaces: [Discover spaces](discover-workspaces.md)
