@@ -32,6 +32,12 @@ html {
 
   min-height: 100%;
   height: 100%;
+
+  // The page is what scrolls, so the space for its scrollbar is kept here even on a page short
+  // enough not to need one. Without it the layout shifts sideways between a short page and a
+  // long one. Nothing else may set `overflow-y: scroll` for this: on an element that only grows
+  // with its content it draws a second, permanently inactive scrollbar.
+  scrollbar-gutter: stable;
 }
 
 body {
