@@ -1,16 +1,16 @@
 # Choose your accent colour
 
-The accent colour is the one that says "this is active" - it colours active and highlighted buttons, the chosen tab and the field you are typing in. It is blue unless you pick another.
+The accent colour is the one that says "this is active" - it colours active and highlighted buttons, the chosen tab and the field you are typing in. It is amber - Tabilinks' own colour - unless you pick another.
 
 Choose it in Settings → "UI and behavior" → **"Accent colour"**, from seven swatches:
 
-- **Blue** - the default
+- **Amber** - the default, drawn with dark text on it, so it stays readable
+- **Blue**
 - **Indigo**
 - **Violet**
 - **Magenta**
 - **Teal**
 - **Orange**
-- **Amber** - drawn with dark text on it, so it stays readable
 
 The change applies straight away.
 

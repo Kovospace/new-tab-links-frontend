@@ -1,12 +1,14 @@
 # Let's begin
 
-Right after installation, a new tab opens straight into your first space, "My space". It is still empty, so it offers a few ways to fill it:
+Right after installation, a new tab opens straight into your first space, "My space". It is still empty, so it welcomes you with "Welcome to Tabilinks!" and a few ways to fill it:
 
 ![Your first space, with the ways to fill it](../../../images/en/tips/lets-begin/1_1x.webp)
 
-- **Create new group** - start with a group of your own and add links to it.
+- **Create first group** - start with a group of your own and add links to it.
 - **Import bookmarks from the browser** - each folder you tick becomes a group, and its subfolders become subgroups. The browser asks you to allow access to your bookmarks only at this moment.
 - **Log in / set up sync** - if you already use Tabilinks elsewhere, bring your links from your account. Choose "I have a username and password" or "I have a sync code".
+- **Import links from a backup file** - bring back the links you exported from Tabilinks earlier.
+- **Load example groups and links** - fill the space with a few groups of well-known sites, to see how everything looks and works. They stay on this browser only and are never synchronised, and they are removed when you log in, unless you have changed them.
 
 From then on, your links are what you will see every time you open a new tab.
 

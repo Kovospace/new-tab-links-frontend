@@ -1,16 +1,16 @@
 # Vyberte si farbu zvýraznenia
 
-Farba zvýraznenia je tá, ktorá hovorí „toto je aktívne“ - zafarbí aktívne a zvýraznené tlačidlá, zvolenú kartu a pole, do ktorého práve píšete. Je modrá, kým si nevyberiete inú.
+Farba zvýraznenia je tá, ktorá hovorí „toto je aktívne“ - zafarbí aktívne a zvýraznené tlačidlá, zvolenú kartu a pole, do ktorého práve píšete. Predvolene je jantárová, vlastná farba Tabilinks, a môžete si vybrať inú.
 
 Vyberiete ju v Nastaveniach → „Vzhľad a správanie“ → **„Farba zvýraznenia“**, zo siedmich vzoriek:
 
-- **Modrá** - predvolená
+- **Jantárová** - predvolená, s tmavým textom, aby zostala čitateľná
+- **Modrá**
 - **Indigová**
 - **Fialová**
 - **Purpurová**
 - **Tyrkysová**
 - **Oranžová**
-- **Jantárová** - s tmavým textom, aby zostala čitateľná
 
 Zmena sa prejaví hneď.
 
