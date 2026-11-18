@@ -36,6 +36,13 @@ nová inštalácia si jedno stiahne na začiatok; požiadavka o vás nenesie ni�
 keď sa ich rozhodnete importovať, prečíta ich vo vašom prehliadači a z priečinkov, ktoré vyberiete,
 vytvorí skupiny a odkazy. Vaše záložky sa k nám nikdy neposielajú; odkazy z nich vytvorené sa
 synchronizujú ako každý iný odkaz, a len ak synchronizáciu používate.
+- Súbor so zálohou, ktorý importujete, sa prečíta vo vašom prehliadači a nikdy sa k nám neposiela.
+Ukážkové odkazy ponúknuté pri prvom spustení sú súčasťou rozšírenia a zostávajú vo vašom
+prehliadači; nikdy sa nesynchronizujú.
+- Na zobrazenie ikony odkazu rozšírenie použije ikonu, ktorú už má váš prehliadač. Ak ju nemá,
+vyžiada si ju od webovej stránky toho odkazu - tak, ako to robí prehliadač, keď ju navštívite -, takže
+tá stránka uvidí bežnú požiadavku z vášho prehliadača. Ikona sa uchová vo vašom prehliadači; nič
+o nej sa k nám neposiela.
 
 ## Čo spracúvame, ak máte účet
 
