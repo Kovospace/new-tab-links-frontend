@@ -37,6 +37,12 @@ you.
 only when you choose to import them, reads them in your browser, and turns the folders you pick into
 groups and links. Your bookmarks are never sent to us; links made from them are synchronised like any
 other link, and only if you synchronise.
+- A backup file you import is read in your browser and never sent to us. The example links offered
+on the first start are part of the extension and stay in your browser; they are never synchronised.
+- To show a link's icon, the extension uses the icon your browser already has. When it has none, the
+extension asks that link's own website for its icon - as your browser does when you visit it - so
+that website sees an ordinary request from your browser. The icon is kept in your browser; nothing
+about it is sent to us.
 
 ## What we process when you have an account
 

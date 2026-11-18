@@ -4,6 +4,8 @@ Našli ste niečo, čo stojí za to si ponechať, ale nemáte čas rozhodovať, 
 
 Kliknite pravým tlačidlom na ktorúkoľvek stránku - alebo na odkaz na nej - otvorte položku **Tabilinks** a zvoľte **Rýchle uloženie**. Stránka sa uloží hneď, bez otázok, do skupiny „Rýchle uloženie“ v ploche, ktorú máte otvorenú. Skupina sa vytvorí pri prvom použití a ikona rozšírenia na lište ukáže fajku na znak, že stránka je uložená.
 
+![Nová karta so skupinou „Rýchle uloženie“ s niekoľkými uloženými stránkami](../../../images/sk/tips/flash-save/3_1x.webp)
+
 ## Bez myši
 
 **Alt+Shift+F** urobí to isté so stránkou, na ktorej práve ste, celkom bez ponuky. Skratku si môžete zmeniť na stránke prehliadača chrome://extensions/shortcuts.
@@ -14,6 +16,8 @@ V Nastaveniach → „Vzhľad a správanie“ určuje „Akcie v kontextovej pon
 
 - **Štandardné** - položka Tabilinks s Rýchlym uložením, Pridaním záložky… a Uložením do skupiny.
 - **Rýchle zbieranie odkazov** - len „Tabilinks: Rýchle uloženie“, priamo v ponuke, jedným kliknutím.
+
+![Nastavenia, Vzhľad a správanie, zvolené „Rýchle zbieranie odkazov“](../../../images/sk/tips/flash-save/4_1x.webp)
 
 ## Keď nie je miesto
 
@@ -26,12 +30,9 @@ Skupina „Rýchle uloženie“ je obyčajná skupina. Jej odkazy zoradíte voľ
 Zvyšok ponuky pravého tlačidla - uloženie s názvom alebo priamo do vybranej skupiny - nájdete v tipe [Uložiť práve prezeranú stránku](saving-from-webpage.md)
 
 <!--
-Obrázky, ktoré má tento tip dostať (svetlý vzhľad, anglicky aj slovensky):
-1. flash-save/1 - webová stránka s otvorenou ponukou pravého tlačidla prehliadača, v podponuke Tabilinks zvýraznené „Rýchle uloženie“.
-2. flash-save/2 - lišta s ikonou rozšírenia, ktorá po rýchlom uložení ukazuje fajku.
-3. flash-save/3 - nová karta so skupinou „Rýchle uloženie“ a niekoľkými uloženými stránkami.
-4. flash-save/4 - Nastavenia v sekcii „Vzhľad a správanie“, „Akcie v kontextovej ponuke prehliadača“ prepnuté na „Rýchle zbieranie odkazov“.
-5. flash-save/5 - ponuka pravého tlačidla v rýchlom režime s jedinou položkou „Tabilinks: Rýchle uloženie“.
-Navrhované súbory: 1_1x.webp až 5_1x.webp v images/LANG/tips/flash-save/
-Obrázky 1, 2 a 5 ukazujú ponuky a lištu prehliadača, ktoré snímka stránky nemusí zachytiť.
+Still to be pictured by hand (the browser's own menus and toolbar, which a page screenshot cannot capture):
+1. flash-save/1 - a web page with the browser's right-click menu open, the Tabilinks submenu showing "Flash save" highlighted.
+2. flash-save/2 - the toolbar with the extension's icon showing the tick after a flash save.
+5. flash-save/5 - the right-click menu in fast-paced mode, with the single "Tabilinks: Flash save" entry.
+Suggested files: 1_1x.webp, 2_1x.webp and 5_1x.webp in images/LANG/tips/flash-save/
 -->
