@@ -1,12 +1,14 @@
 # Začíname
 
-Hneď po inštalácii sa nová karta otvorí rovno vo vašej prvej ploche, „Moja plocha“. Je zatiaľ prázdna, a tak ponúka niekoľko spôsobov, ako ju naplniť:
+Hneď po inštalácii sa nová karta otvorí rovno vo vašej prvej ploche, „Moja plocha“. Je zatiaľ prázdna, a tak vás privíta nápisom „Vitajte v Tabilinks!“ a niekoľkými spôsobmi, ako ju naplniť:
 
 ![Vaša prvá plocha so spôsobmi, ako ju naplniť](../../../images/sk/tips/lets-begin/1_1x.webp)
 
-- **Vytvoriť novú skupinu** - začnite vlastnou skupinou a pridajte do nej odkazy.
+- **Vytvoriť prvú skupinu** - začnite vlastnou skupinou a pridajte do nej odkazy.
 - **Importovať záložky z prehliadača** - z každého priečinka, ktorý zaškrtnete, bude skupina a z jeho podpriečinkov podskupiny. Prehliadač vás o prístup k záložkám požiada až v tejto chvíli.
 - **Prihlásiť sa / nastaviť synchronizáciu** - ak už Tabilinks používate inde, prineste si odkazy zo svojho účtu. Zvoľte „Mám meno a heslo“ alebo „Mám kód na synchronizáciu“.
+- **Importovať odkazy zo zálohy** - vráťte si odkazy, ktoré ste z Tabilinks predtým exportovali.
+- **Načítať ukážkové skupiny a odkazy** - naplňte plochu niekoľkými skupinami známych stránok a pozrite sa, ako všetko vyzerá a funguje. Zostanú len v tomto prehliadači, nikdy sa nesynchronizujú a po prihlásení sa odstránia, ak ste ich nezmenili.
 
 Odvtedy uvidíte svoje odkazy vždy, keď otvoríte novú kartu.
 
